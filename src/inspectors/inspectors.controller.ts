@@ -13,6 +13,8 @@ import { AggregatePaginateResult } from 'mongoose';
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { RolesGuard } from 'src/common/guards/roles.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { Role } from 'src/common/enums/role.enum';
 
 import { InspectorsService } from './inspectors.service';
 import { Inspector } from './schemas/inspector.schema';
@@ -35,6 +37,7 @@ export class InspectorsController {
   }
 
   @Get()
+  @Roles(Role.ReadInspector)
   @ApiBearerAuth('JWT Guard')
   @UseGuards(AccessTokenGuard, RolesGuard)
   @ApiOperation({ summary: 'Get all inspectors' })
@@ -44,6 +47,7 @@ export class InspectorsController {
   }
 
   @Get(':id')
+  @Roles(Role.ReadInspector)
   @ApiBearerAuth('JWT Guard')
   @UseGuards(AccessTokenGuard, RolesGuard)
   @ApiOperation({ summary: 'Get a inspector by ID' })
@@ -55,6 +59,7 @@ export class InspectorsController {
   }
 
   @Put(':id')
+  @Roles(Role.UpdateInspector)
   @ApiBearerAuth('JWT Guard')
   @UseGuards(AccessTokenGuard, RolesGuard)
   @ApiOperation({ summary: 'Update a inspector by ID' })
@@ -66,6 +71,7 @@ export class InspectorsController {
   }
 
   @Delete(':id')
+  @Roles(Role.DeleteInspector)
   @ApiBearerAuth('JWT Guard')
   @UseGuards(AccessTokenGuard, RolesGuard)
   @ApiOperation({ summary: 'Delete a inspector by ID' })

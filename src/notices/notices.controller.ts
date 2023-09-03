@@ -12,6 +12,8 @@ import {
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { RolesGuard } from 'src/common/guards/roles.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { Role } from 'src/common/enums/role.enum';
 
 import { NoticesService } from './notices.service';
 import { Notice } from './schemas/notice.schema';
@@ -27,6 +29,7 @@ export class NoticesController {
   constructor(private readonly noticesService: NoticesService) {}
 
   @Post()
+  @Roles(Role.CreateNotice)
   @ApiOperation({ summary: 'Create a new notice' })
   @ApiCreatedResponse({ description: 'Notice created successfully', type: NoticeDto })
   @ApiConflictResponse({ description: 'A notice with the same name already exists' })
@@ -36,6 +39,7 @@ export class NoticesController {
   }
 
   @Get()
+  @Roles(Role.ReadNotice)
   @ApiOperation({ summary: 'Get all notices' })
   @ApiOkResponse({ description: 'Success', type: [NoticeDto] })
   async findAll(): Promise<Notice[]> {
@@ -43,6 +47,7 @@ export class NoticesController {
   }
 
   @Get(':id')
+  @Roles(Role.ReadNotice)
   @ApiOperation({ summary: 'Get a notice by ID' })
   @ApiOkResponse({ description: 'Success', type: NoticeDto })
   @ApiNotFoundResponse({ description: 'Notice not found' })
@@ -52,6 +57,7 @@ export class NoticesController {
   }
 
   @Put(':id')
+  @Roles(Role.UpdateNotice)
   @ApiOperation({ summary: 'Update a notice by ID' })
   @ApiOkResponse({ description: 'Notice updated successfully', type: NoticeDto })
   @ApiNotFoundResponse({ description: 'Notice not found' })
@@ -62,6 +68,7 @@ export class NoticesController {
   }
 
   @Delete(':id')
+  @Roles(Role.DeleteNotice)
   @ApiOperation({ summary: 'Delete a notice by ID' })
   @ApiOkResponse({ description: 'Notice deleted successfully', type: NoticeDto })
   @ApiNotFoundResponse({ description: 'Notice not found' })

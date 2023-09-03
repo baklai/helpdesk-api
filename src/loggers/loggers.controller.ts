@@ -3,6 +3,8 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { RolesGuard } from 'src/common/guards/roles.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { Role } from 'src/common/enums/role.enum';
 
 import { LoggersService } from './loggers.service';
 import { CreateLoggerDto } from './dto/create-logger.dto';
@@ -16,26 +18,31 @@ export class LoggersController {
   constructor(private readonly loggerService: LoggersService) {}
 
   @Post()
+  @Roles(Role.CreateLogger)
   create(@Body() createLoggerDto: CreateLoggerDto) {
     return this.loggerService.create(createLoggerDto);
   }
 
   @Get()
+  @Roles(Role.ReadLogger)
   findAll() {
     return this.loggerService.findAll();
   }
 
   @Get(':id')
+  @Roles(Role.ReadLogger)
   findOneById(@Param('id') id: string) {
     return this.loggerService.findOneById(+id);
   }
 
   @Patch(':id')
+  @Roles(Role.UpdateLogger)
   updateOneById(@Param('id') id: string, @Body() updateLoggerDto: UpdateLoggerDto) {
     return this.loggerService.updateOneById(+id, updateLoggerDto);
   }
 
   @Delete(':id')
+  @Roles(Role.DeleteLogger)
   removeOneById(@Param('id') id: string) {
     return this.loggerService.removeOneById(+id);
   }

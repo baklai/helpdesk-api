@@ -12,6 +12,8 @@ import {
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { RolesGuard } from 'src/common/guards/roles.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { Role } from 'src/common/enums/role.enum';
 
 import { LocationsService } from './locations.service';
 import { Location } from './schemas/location.schema';
@@ -27,6 +29,7 @@ export class LocationsController {
   constructor(private readonly locationsService: LocationsService) {}
 
   @Post()
+  @Roles(Role.CreateLocation)
   @ApiOperation({ summary: 'Create a new location' })
   @ApiCreatedResponse({ description: 'Location created successfully', type: LocationDto })
   @ApiConflictResponse({ description: 'A location with the same name already exists' })
@@ -36,6 +39,7 @@ export class LocationsController {
   }
 
   @Get()
+  @Roles(Role.ReadLocation)
   @ApiOperation({ summary: 'Get all locations' })
   @ApiOkResponse({ description: 'Success', type: [LocationDto] })
   async findAll(): Promise<Location[]> {
@@ -43,6 +47,7 @@ export class LocationsController {
   }
 
   @Get(':id')
+  @Roles(Role.ReadLocation)
   @ApiOperation({ summary: 'Get a location by ID' })
   @ApiOkResponse({ description: 'Success', type: LocationDto })
   @ApiNotFoundResponse({ description: 'Location not found' })
@@ -52,6 +57,7 @@ export class LocationsController {
   }
 
   @Put(':id')
+  @Roles(Role.UpdateLocation)
   @ApiOperation({ summary: 'Update a location by ID' })
   @ApiOkResponse({ description: 'Location updated successfully', type: LocationDto })
   @ApiNotFoundResponse({ description: 'Location not found' })
@@ -62,6 +68,7 @@ export class LocationsController {
   }
 
   @Delete(':id')
+  @Roles(Role.DeleteLocation)
   @ApiOperation({ summary: 'Delete a location by ID' })
   @ApiOkResponse({ description: 'Location deleted successfully', type: LocationDto })
   @ApiNotFoundResponse({ description: 'Location not found' })

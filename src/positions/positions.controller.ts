@@ -12,6 +12,8 @@ import {
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { RolesGuard } from 'src/common/guards/roles.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { Role } from 'src/common/enums/role.enum';
 
 import { PositionsService } from './positions.service';
 import { Position } from './schemas/position.schema';
@@ -27,6 +29,7 @@ export class PositionsController {
   constructor(private readonly positionsService: PositionsService) {}
 
   @Post()
+  @Roles(Role.CreatePosition)
   @ApiOperation({ summary: 'Create a new position' })
   @ApiCreatedResponse({ description: 'Position created successfully', type: PositionDto })
   @ApiConflictResponse({ description: 'A position with the same name already exists' })
@@ -36,6 +39,7 @@ export class PositionsController {
   }
 
   @Get()
+  @Roles(Role.ReadPosition)
   @ApiOperation({ summary: 'Get all positions' })
   @ApiOkResponse({ description: 'Success', type: [PositionDto] })
   async findAll(): Promise<Position[]> {
@@ -43,6 +47,7 @@ export class PositionsController {
   }
 
   @Get(':id')
+  @Roles(Role.ReadPosition)
   @ApiOperation({ summary: 'Get a position by ID' })
   @ApiOkResponse({ description: 'Success', type: PositionDto })
   @ApiNotFoundResponse({ description: 'Position not found' })
@@ -52,6 +57,7 @@ export class PositionsController {
   }
 
   @Put(':id')
+  @Roles(Role.UpdatePosition)
   @ApiOperation({ summary: 'Update a position by ID' })
   @ApiOkResponse({ description: 'Position updated successfully', type: PositionDto })
   @ApiNotFoundResponse({ description: 'Position not found' })
@@ -62,6 +68,7 @@ export class PositionsController {
   }
 
   @Delete(':id')
+  @Roles(Role.DeletePosition)
   @ApiOperation({ summary: 'Delete a position by ID' })
   @ApiOkResponse({ description: 'Position deleted successfully', type: PositionDto })
   @ApiNotFoundResponse({ description: 'Position not found' })

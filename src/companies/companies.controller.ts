@@ -12,6 +12,8 @@ import {
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { RolesGuard } from 'src/common/guards/roles.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { Role } from 'src/common/enums/role.enum';
 
 import { CompaniesService } from './companies.service';
 import { Company } from './schemas/company.schema';
@@ -27,6 +29,7 @@ export class CompaniesController {
   constructor(private readonly companiesService: CompaniesService) {}
 
   @Post()
+  @Roles(Role.CreateCompany)
   @ApiOperation({ summary: 'Create a new company' })
   @ApiCreatedResponse({ description: 'Company created successfully', type: CompanyDto })
   @ApiConflictResponse({ description: 'A company with the same name already exists' })
@@ -36,6 +39,7 @@ export class CompaniesController {
   }
 
   @Get()
+  @Roles(Role.ReadCompany)
   @ApiOperation({ summary: 'Get all companies' })
   @ApiOkResponse({ description: 'Success', type: [CompanyDto] })
   async findAll(): Promise<Company[]> {
@@ -43,6 +47,7 @@ export class CompaniesController {
   }
 
   @Get(':id')
+  @Roles(Role.ReadCompany)
   @ApiOperation({ summary: 'Get a company by ID' })
   @ApiOkResponse({ description: 'Success', type: CompanyDto })
   @ApiNotFoundResponse({ description: 'Company not found' })
@@ -52,6 +57,7 @@ export class CompaniesController {
   }
 
   @Put(':id')
+  @Roles(Role.UpdateCompany)
   @ApiOperation({ summary: 'Update a company by ID' })
   @ApiOkResponse({ description: 'Company updated successfully', type: CompanyDto })
   @ApiNotFoundResponse({ description: 'Company not found' })
@@ -62,6 +68,7 @@ export class CompaniesController {
   }
 
   @Delete(':id')
+  @Roles(Role.DeleteCompany)
   @ApiOperation({ summary: 'Delete a company by ID' })
   @ApiOkResponse({ description: 'Company deleted successfully', type: CompanyDto })
   @ApiNotFoundResponse({ description: 'Company not found' })

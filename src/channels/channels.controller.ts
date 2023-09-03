@@ -13,6 +13,8 @@ import { PaginateResult } from 'mongoose';
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { RolesGuard } from 'src/common/guards/roles.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { Role } from 'src/common/enums/role.enum';
 
 import { ChannelsService } from './channels.service';
 import { Channel } from './schemas/channel.schema';
@@ -29,6 +31,7 @@ export class ChannelsController {
   constructor(private readonly channelService: ChannelsService) {}
 
   @Post()
+  @Roles(Role.CreateChannel)
   @ApiOperation({ summary: 'Create a new channel' })
   @ApiCreatedResponse({ description: 'Channel created successfully', type: ChannelDto })
   @ApiBadRequestResponse({ description: 'Bad request' })
@@ -37,6 +40,7 @@ export class ChannelsController {
   }
 
   @Get()
+  @Roles(Role.ReadChannel)
   @UseGuards(AccessTokenGuard, RolesGuard)
   @ApiOperation({ summary: 'Get all channels' })
   @ApiOkResponse({ description: 'Success', type: PaginateChannelDto })
@@ -45,6 +49,7 @@ export class ChannelsController {
   }
 
   @Get(':id')
+  @Roles(Role.ReadChannel)
   @ApiOperation({ summary: 'Get a channel by ID' })
   @ApiOkResponse({ description: 'Success', type: ChannelDto })
   @ApiNotFoundResponse({ description: 'Channel not found' })
@@ -54,6 +59,7 @@ export class ChannelsController {
   }
 
   @Put(':id')
+  @Roles(Role.UpdateChannel)
   @ApiOperation({ summary: 'Update a channel by ID' })
   @ApiOkResponse({ description: 'Channel updated successfully', type: ChannelDto })
   @ApiNotFoundResponse({ description: 'Channel not found' })
@@ -63,6 +69,7 @@ export class ChannelsController {
   }
 
   @Delete(':id')
+  @Roles(Role.DeleteChannel)
   @ApiOperation({ summary: 'Delete a channel by ID' })
   @ApiOkResponse({ description: 'Channel deleted successfully', type: ChannelDto })
   @ApiNotFoundResponse({ description: 'Channel not found' })

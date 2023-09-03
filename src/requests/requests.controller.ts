@@ -14,6 +14,8 @@ import { PaginateResult } from 'mongoose';
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { RolesGuard } from 'src/common/guards/roles.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { Role } from 'src/common/enums/role.enum';
 
 import { RequestsService } from './requests.service';
 import { Request } from './schemas/request.schema';
@@ -30,6 +32,7 @@ export class RequestsController {
   constructor(private readonly requestsService: RequestsService) {}
 
   @Post()
+  @Roles(Role.CreateRequest)
   @ApiOperation({ summary: 'Create a new request' })
   @ApiCreatedResponse({ description: 'Request created successfully', type: RequestDto })
   @ApiBadRequestResponse({ description: 'Bad request' })
@@ -38,6 +41,7 @@ export class RequestsController {
   }
 
   @Get()
+  @Roles(Role.ReadRequest)
   @ApiOperation({ summary: 'Get all requests' })
   @ApiOkResponse({ description: 'Success', type: PaginateRequestDto })
   async findAll(@Query() query: PaginateQueryDto): Promise<PaginateResult<Request>> {
@@ -45,6 +49,7 @@ export class RequestsController {
   }
 
   @Get(':id')
+  @Roles(Role.ReadRequest)
   @ApiOperation({ summary: 'Get a request by ID' })
   @ApiOkResponse({ description: 'Success', type: RequestDto })
   @ApiNotFoundResponse({ description: 'Request not found' })
@@ -54,6 +59,7 @@ export class RequestsController {
   }
 
   @Put(':id')
+  @Roles(Role.UpdateRequest)
   @ApiOperation({ summary: 'Update a request by ID' })
   @ApiOkResponse({ description: 'Request updated successfully', type: RequestDto })
   @ApiNotFoundResponse({ description: 'Request not found' })
@@ -64,6 +70,7 @@ export class RequestsController {
   }
 
   @Delete(':id')
+  @Roles(Role.DeleteRequest)
   @ApiOperation({ summary: 'Delete a request by ID' })
   @ApiOkResponse({ description: 'Request deleted successfully', type: RequestDto })
   @ApiNotFoundResponse({ description: 'Request not found' })
