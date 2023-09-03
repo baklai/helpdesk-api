@@ -1,13 +1,15 @@
 import { Controller, Get, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
-import { StatisticsService } from './statistics.service';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+
+import { StatisticsService } from './statistics.service';
 
 @ApiTags('Statistics')
 @Controller('statistics')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard)
+@UseGuards(AccessTokenGuard, RolesGuard)
 export class StatisticsController {
   constructor(private readonly statisticsService: StatisticsService) {}
 

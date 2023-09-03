@@ -8,19 +8,30 @@ import {
   ApiOperation
 } from '@nestjs/swagger';
 
-import { AuthService } from './auth.service';
 import { User } from 'src/users/schemas/user.schema';
 import { UserDto } from 'src/users/dto/user.dto';
-import { AuthDto } from './dto/auth.dto';
-import { TokensDto } from './dto/tokens.dto';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { RefreshTokenGuard } from 'src/common/guards/refreshToken.guard';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+
+import { AuthService } from './auth.service';
+import { AuthDto } from './dto/auth.dto';
+import { TokensDto } from './dto/tokens.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  @Get('me')
+  @ApiBearerAuth('JWT Guard')
+  @UseGuards(AccessTokenGuard, RolesGuard)
+  @ApiOperation({ summary: 'Retrieve user information' })
+  @ApiOkResponse({ description: 'Success', type: UserDto })
+  me(@Request() req: Record<string, any>): Promise<User> {
+    return this.authService.me(req.user.id);
+  }
 
   @Post('signin')
   @HttpCode(HttpStatus.OK)
@@ -55,15 +66,6 @@ export class AuthController {
   @UseGuards(AccessTokenGuard)
   @ApiOperation({ summary: 'Sign out and invalidate the access token' })
   signout(@Req() req: Record<string, any>) {
-    this.authService.signout(req.user['id']);
-  }
-
-  @Get('me')
-  @ApiBearerAuth('JWT Guard')
-  @UseGuards(AccessTokenGuard)
-  @ApiOperation({ summary: 'Retrieve user information' })
-  @ApiOkResponse({ description: 'Success', type: UserDto })
-  me(@Request() req: Record<string, any>): Promise<User> {
-    return this.authService.me(req.user.id);
+    return this.authService.signout(req.user['id']);
   }
 }

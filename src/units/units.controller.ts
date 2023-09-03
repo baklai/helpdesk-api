@@ -10,17 +10,19 @@ import {
   ApiTags
 } from '@nestjs/swagger';
 
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+
 import { UnitsService } from './units.service';
 import { Unit } from './schemas/unit.schema';
 import { UnitDto } from './dto/unit.dto';
 import { CreateUnitDto } from './dto/create-unit.dto';
 import { UpdateUnitDto } from './dto/update-unit.dto';
-import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 @ApiTags('Units')
 @Controller('units')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard)
+@UseGuards(AccessTokenGuard, RolesGuard)
 export class UnitsController {
   constructor(private readonly unitsService: UnitsService) {}
 

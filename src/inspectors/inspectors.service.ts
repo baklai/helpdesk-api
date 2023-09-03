@@ -2,11 +2,12 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import { InjectModel } from '@nestjs/mongoose';
 import { Types, AggregatePaginateModel, AggregatePaginateResult, Model } from 'mongoose';
 
-import { Inspector } from './schemas/inspector.schema';
 import { Sysfilter } from 'src/sysfilters/schemas/sysfilter.schema';
+import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
+
+import { Inspector } from './schemas/inspector.schema';
 import { CreateInspectorDto } from './dto/create-inspector.dto';
 import { UpdateInspectorDto } from './dto/update-inspector.dto';
-import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 
 @Injectable()
 export class InspectorsService {

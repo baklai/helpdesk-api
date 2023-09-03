@@ -6,6 +6,9 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 type JwtPayload = {
   id: string;
   login: string;
+  isActive: boolean;
+  isAdmin: boolean;
+  scope: string[];
 };
 
 @Injectable()

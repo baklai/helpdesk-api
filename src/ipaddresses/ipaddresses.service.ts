@@ -3,10 +3,11 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Types, PaginateModel, PaginateResult } from 'mongoose';
 import { Netmask } from 'netmask';
 
+import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
+
 import { Ipaddress } from './schemas/ipaddress.schema';
 import { CreateIpaddressDto } from './dto/create-ipaddress.dto';
 import { UpdateIpaddressDto } from './dto/update-ipaddress.dto';
-import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 
 @Injectable()
 export class IpaddressesService {

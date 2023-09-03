@@ -11,19 +11,21 @@ import {
 } from '@nestjs/swagger';
 import { PaginateResult } from 'mongoose';
 
+import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+
 import { UsersService } from './users.service';
 import { User } from './schemas/user.schema';
 import { UserDto } from './dto/user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PaginateUserDto } from './dto/paginate-user.dto';
-import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
-import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 @ApiTags('Users')
 @Controller('users')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard)
+@UseGuards(AccessTokenGuard, RolesGuard)
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 

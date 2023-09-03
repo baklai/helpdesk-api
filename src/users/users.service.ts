@@ -2,10 +2,11 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectModel } from '@nestjs/mongoose';
 import { Types, PaginateModel, PaginateResult } from 'mongoose';
 
+import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
+
 import { User } from './schemas/user.schema';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 
 @Injectable()
 export class UsersService {

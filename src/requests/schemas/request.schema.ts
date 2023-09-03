@@ -1,13 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 
-import { User } from '../../users/schemas/user.schema';
-import { Location } from '../../locations/schemas/location.schema';
-import { Position } from '../../positions/schemas/position.schema';
-import { Company } from '../../companies/schemas/company.schema';
-import { Branch } from '../../branches/schemas/branch.schema';
-import { Enterprise } from '../../enterprises/schemas/enterprise.schema';
-import { Department } from '../../departments/schemas/department.schema';
+import { User } from 'src/users/schemas/user.schema';
+import { Location } from 'src/locations/schemas/location.schema';
+import { Position } from 'src/positions/schemas/position.schema';
+import { Company } from 'src/companies/schemas/company.schema';
+import { Branch } from 'src/branches/schemas/branch.schema';
+import { Enterprise } from 'src/enterprises/schemas/enterprise.schema';
+import { Department } from 'src/departments/schemas/department.schema';
 
 export type RequestDocument = HydratedDocument<Request>;
 

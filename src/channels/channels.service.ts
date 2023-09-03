@@ -2,10 +2,11 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import { InjectModel } from '@nestjs/mongoose';
 import { Types, PaginateModel, PaginateResult } from 'mongoose';
 
+import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
+
 import { Channel } from './schemas/channel.schema';
 import { CreateChannelDto } from './dto/create-channel.dto';
 import { UpdateChannelDto } from './dto/update-channel.dto';
-import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 
 @Injectable()
 export class ChannelsService {

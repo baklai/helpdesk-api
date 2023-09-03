@@ -2,9 +2,12 @@ import { Controller, Get, Query, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { pingResponse } from 'pingman';
 import { Request } from 'express';
+
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+
 import { SystoolsService } from './systools.service';
 import { QueryDto } from './dto/query-systool.dto';
-import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 @ApiTags('System tools')
 @Controller('systools')
@@ -13,7 +16,7 @@ export class SystoolsController {
 
   @Get('/rdp')
   @ApiBearerAuth('JWT Guard')
-  @UseGuards(AccessTokenGuard)
+  @UseGuards(AccessTokenGuard, RolesGuard)
   @ApiOperation({ summary: 'Generate an RDP (Remote Desktop Protocol) link' })
   onLinkRDP(@Query() query: QueryDto): Buffer {
     return this.systoolsService.linkRDP(query);
@@ -21,7 +24,7 @@ export class SystoolsController {
 
   @Get('/vnc')
   @ApiBearerAuth('JWT Guard')
-  @UseGuards(AccessTokenGuard)
+  @UseGuards(AccessTokenGuard, RolesGuard)
   @ApiOperation({ summary: 'Generate a VNC (Virtual Network Computing) link' })
   onLinkVNC(@Query() query: QueryDto): Buffer {
     return this.systoolsService.linkVNC(query);
@@ -29,7 +32,7 @@ export class SystoolsController {
 
   @Get('/ping')
   @ApiBearerAuth('JWT Guard')
-  @UseGuards(AccessTokenGuard)
+  @UseGuards(AccessTokenGuard, RolesGuard)
   @ApiOperation({ summary: 'Generate a ping link' })
   onLinkPing(@Query() query: QueryDto): Buffer {
     return this.systoolsService.linkPing(query);
@@ -37,7 +40,7 @@ export class SystoolsController {
 
   @Get('/ping-online')
   @ApiBearerAuth('JWT Guard')
-  @UseGuards(AccessTokenGuard)
+  @UseGuards(AccessTokenGuard, RolesGuard)
   @ApiOperation({ summary: 'Execute a ping command and return the response' })
   onCommandPing(@Query() query: QueryDto): Promise<pingResponse> {
     return this.systoolsService.commandPing(query);

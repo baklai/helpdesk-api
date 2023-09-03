@@ -10,17 +10,19 @@ import {
   ApiTags
 } from '@nestjs/swagger';
 
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+
 import { EnterprisesService } from './enterprises.service';
 import { Enterprise } from './schemas/enterprise.schema';
 import { EnterpriseDto } from './dto/enterprise.dto';
 import { CreateEnterpriseDto } from './dto/create-enterprise.dto';
 import { UpdateEnterpriseDto } from './dto/update-enterprise.dto';
-import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 @ApiTags('Enterprises')
 @Controller('enterprises')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard)
+@UseGuards(AccessTokenGuard, RolesGuard)
 export class EnterprisesController {
   constructor(private readonly enterprisesService: EnterprisesService) {}
 

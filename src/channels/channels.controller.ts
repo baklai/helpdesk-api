@@ -10,19 +10,21 @@ import {
 } from '@nestjs/swagger';
 import { PaginateResult } from 'mongoose';
 
+import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+
 import { ChannelsService } from './channels.service';
 import { Channel } from './schemas/channel.schema';
 import { ChannelDto } from './dto/channel.dto';
 import { CreateChannelDto } from './dto/create-channel.dto';
 import { UpdateChannelDto } from './dto/update-channel.dto';
 import { PaginateChannelDto } from './dto/paginate-chennel.dto';
-import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
-import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 @ApiTags('Channels')
 @Controller('channels')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard)
+@UseGuards(AccessTokenGuard, RolesGuard)
 export class ChannelsController {
   constructor(private readonly channelService: ChannelsService) {}
 
@@ -35,7 +37,7 @@ export class ChannelsController {
   }
 
   @Get()
-  @UseGuards(AccessTokenGuard)
+  @UseGuards(AccessTokenGuard, RolesGuard)
   @ApiOperation({ summary: 'Get all channels' })
   @ApiOkResponse({ description: 'Success', type: PaginateChannelDto })
   async findAll(@Query() query: PaginateQueryDto): Promise<PaginateResult<Channel>> {

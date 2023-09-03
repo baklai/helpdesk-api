@@ -1,8 +1,9 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDate, IsDefined, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-import { EventType } from '../schemas/event.schema';
 import { MongoSchemaDto } from 'src/common/dto/mongosee-schema.dto';
+
+import { EventType } from '../schemas/event.schema';
 
 export class EventDto extends MongoSchemaDto {
   @ApiProperty({ description: 'The title of the event', example: 'Meeting with Team' })

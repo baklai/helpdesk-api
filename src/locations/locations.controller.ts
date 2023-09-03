@@ -10,17 +10,19 @@ import {
   ApiTags
 } from '@nestjs/swagger';
 
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+
 import { LocationsService } from './locations.service';
 import { Location } from './schemas/location.schema';
 import { LocationDto } from './dto/location.dto';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
-import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 @ApiTags('Locations')
 @Controller('locations')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard)
+@UseGuards(AccessTokenGuard, RolesGuard)
 export class LocationsController {
   constructor(private readonly locationsService: LocationsService) {}
 

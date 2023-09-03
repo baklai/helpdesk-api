@@ -1,10 +1,9 @@
 import {
+  UnauthorizedException,
   BadRequestException,
   ConflictException,
-  ForbiddenException,
-  Injectable,
   NotFoundException,
-  UnauthorizedException
+  Injectable
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
@@ -13,10 +12,11 @@ import { Model, Types } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 
 import { User } from 'src/users/schemas/user.schema';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
+
 import { RefreshToken } from './schemas/refreshToken.schema';
 import { AuthDto } from './dto/auth.dto';
 import { TokensDto } from './dto/tokens.dto';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -50,7 +50,7 @@ export class AuthService {
     if (!passwordMatches) {
       throw new BadRequestException('The password is incorrect');
     }
-    const tokens = await this.generateTokens(user.id, user.login);
+    const tokens = await this.generateTokens(user.id, user.login, user.scope);
 
     await this.updateRefreshToken(user.id, tokens.refreshToken);
 
@@ -85,15 +85,15 @@ export class AuthService {
     if (!refreshTokenMatches) {
       throw new UnauthorizedException();
     }
-    const tokens = await this.generateTokens(user.id, user.login);
+    const tokens = await this.generateTokens(user.id, user.login, user.scope);
     await this.updateRefreshToken(user.id, tokens.refreshToken);
     return tokens;
   }
 
-  async generateTokens(id: string, login: string) {
+  async generateTokens(id: string, login: string, scope: string[]) {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
-        { id, login },
+        { id, login, scope },
         {
           secret: this.configService.get('jwtAccessSecret'),
           expiresIn: this.configService.get('jwtAccessExpiresIn')

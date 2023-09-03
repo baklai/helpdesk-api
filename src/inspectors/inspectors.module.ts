@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { Inspector, InspectorSchema } from './schemas/inspector.schema';
 import { Sysfilter, SysfilterSchema } from 'src/sysfilters/schemas/sysfilter.schema';
+
+import { Inspector, InspectorSchema } from './schemas/inspector.schema';
 import { InspectorsController } from './inspectors.controller';
 import { InspectorsService } from './inspectors.service';
 

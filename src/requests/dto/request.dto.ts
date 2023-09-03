@@ -1,8 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsDate, IsDefined, IsIP, IsMongoId, IsNotEmpty, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsDate, IsDefined, IsIP, IsMongoId, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 import { MongoSchemaDto } from 'src/common/dto/mongosee-schema.dto';
-
 import { UserDto } from 'src/users/dto/user.dto';
 import { CompanyDto } from 'src/companies/dto/company.dto';
 import { BranchDto } from 'src/branches/dto/branch.dto';

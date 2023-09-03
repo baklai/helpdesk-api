@@ -11,19 +11,21 @@ import {
 } from '@nestjs/swagger';
 import { PaginateResult } from 'mongoose';
 
+import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+
 import { RequestsService } from './requests.service';
 import { Request } from './schemas/request.schema';
 import { RequestDto } from './dto/request.dto';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
 import { PaginateRequestDto } from './dto/paginate-request.dto';
-import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
-import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 @ApiTags('Requests')
 @Controller('requests')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard)
+@UseGuards(AccessTokenGuard, RolesGuard)
 export class RequestsController {
   constructor(private readonly requestsService: RequestsService) {}
 

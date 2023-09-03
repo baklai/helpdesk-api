@@ -10,14 +10,16 @@ import {
 } from '@nestjs/swagger';
 import { AggregatePaginateResult } from 'mongoose';
 
+import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+
 import { InspectorsService } from './inspectors.service';
 import { Inspector } from './schemas/inspector.schema';
 import { InspectorDto } from './dto/inspector.dto';
 import { CreateInspectorDto } from './dto/create-inspector.dto';
 import { UpdateInspectorDto } from './dto/update-inspector.dto';
 import { PaginateInspectorDto } from './dto/paginate-inspector.dto';
-import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
-import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 @ApiTags('Inspectors')
 @Controller('inspectors')
@@ -34,7 +36,7 @@ export class InspectorsController {
 
   @Get()
   @ApiBearerAuth('JWT Guard')
-  @UseGuards(AccessTokenGuard)
+  @UseGuards(AccessTokenGuard, RolesGuard)
   @ApiOperation({ summary: 'Get all inspectors' })
   @ApiOkResponse({ description: 'Success', type: PaginateInspectorDto })
   async findAll(@Query() query: PaginateQueryDto): Promise<AggregatePaginateResult<Inspector>> {
@@ -43,7 +45,7 @@ export class InspectorsController {
 
   @Get(':id')
   @ApiBearerAuth('JWT Guard')
-  @UseGuards(AccessTokenGuard)
+  @UseGuards(AccessTokenGuard, RolesGuard)
   @ApiOperation({ summary: 'Get a inspector by ID' })
   @ApiOkResponse({ description: 'Success', type: InspectorDto })
   @ApiNotFoundResponse({ description: 'Inspector not found' })
@@ -54,7 +56,7 @@ export class InspectorsController {
 
   @Put(':id')
   @ApiBearerAuth('JWT Guard')
-  @UseGuards(AccessTokenGuard)
+  @UseGuards(AccessTokenGuard, RolesGuard)
   @ApiOperation({ summary: 'Update a inspector by ID' })
   @ApiOkResponse({ description: 'Inspector updated successfully', type: InspectorDto })
   @ApiNotFoundResponse({ description: 'Inspector not found' })
@@ -65,7 +67,7 @@ export class InspectorsController {
 
   @Delete(':id')
   @ApiBearerAuth('JWT Guard')
-  @UseGuards(AccessTokenGuard)
+  @UseGuards(AccessTokenGuard, RolesGuard)
   @ApiOperation({ summary: 'Delete a inspector by ID' })
   @ApiOkResponse({ description: 'Inspector deleted successfully', type: InspectorDto })
   @ApiNotFoundResponse({ description: 'Inspector not found' })

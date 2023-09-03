@@ -13,7 +13,6 @@ import {
 } from 'class-validator';
 
 import { MongoSchemaDto } from 'src/common/dto/mongosee-schema.dto';
-
 import { BranchDto } from 'src/branches/dto/branch.dto';
 import { CompanyDto } from 'src/companies/dto/company.dto';
 import { DepartmentDto } from 'src/departments/dto/department.dto';

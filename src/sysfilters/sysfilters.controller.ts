@@ -9,18 +9,20 @@ import {
   ApiTags
 } from '@nestjs/swagger';
 
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+
 import { SysfiltersService } from './sysfilters.service';
 import { Sysfilter } from './schemas/sysfilter.schema';
 import { SysfilterDto } from './dto/sysfilter.dto';
 import { CreateSysfilterDto } from './dto/create-sysfilter.dto';
 import { UpdateSysfilterDto } from './dto/update-sysfilter.dto';
 import { QuerySysfilterDto } from './dto/query-sysfilter.dto';
-import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 @ApiTags('System filters')
 @Controller('sysfilters')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard)
+@UseGuards(AccessTokenGuard, RolesGuard)
 export class SysfiltersController {
   constructor(private readonly filtersService: SysfiltersService) {}
 

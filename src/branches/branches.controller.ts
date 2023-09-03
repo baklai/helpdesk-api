@@ -1,32 +1,34 @@
 import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  ApiBearerAuth,
+  ApiNotFoundResponse,
   ApiConflictResponse,
   ApiCreatedResponse,
-  ApiNotFoundResponse,
   ApiOkResponse,
+  ApiBearerAuth,
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
+
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { Role } from 'src/common/enums/role.enum';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 import { BranchesService } from './branches.service';
 import { Branch } from './schemas/branch.schema';
 import { BranchDto } from './dto/branch.dto';
 import { CreateBranchDto } from './dto/create-branch.dto';
 import { UpdateBranchDto } from './dto/update-branch.dto';
-import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { Roles } from 'src/common/guards/roles.decorator';
 
 @ApiTags('Branches')
 @Controller('branches')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard)
+@UseGuards(AccessTokenGuard, RolesGuard)
 export class BranchesController {
   constructor(private readonly branchesService: BranchesService) {}
 
   @Post()
-  @Roles(['create:branch'])
   @ApiOperation({ summary: 'Create a new branch' })
   @ApiCreatedResponse({ description: 'Branch created successfully', type: BranchDto })
   @ApiConflictResponse({ description: 'A branch with the same name already exists' })
@@ -36,7 +38,7 @@ export class BranchesController {
   }
 
   @Get()
-  @Roles(['read:branch'])
+  @Roles(Role.Read)
   @ApiOperation({ summary: 'Get all branches' })
   @ApiOkResponse({ description: 'Success', type: [BranchDto] })
   async findAll(): Promise<Branch[]> {
@@ -44,7 +46,6 @@ export class BranchesController {
   }
 
   @Get(':id')
-  @Roles(['read:branch'])
   @ApiOperation({ summary: 'Get a branch by ID' })
   @ApiOkResponse({ description: 'Success', type: BranchDto })
   @ApiNotFoundResponse({ description: 'Branch not found' })
@@ -54,7 +55,6 @@ export class BranchesController {
   }
 
   @Put(':id')
-  @Roles(['update:branch'])
   @ApiOperation({ summary: 'Update a branch by ID' })
   @ApiOkResponse({ description: 'Branch updated successfully', type: BranchDto })
   @ApiNotFoundResponse({ description: 'Branch not found' })
@@ -65,7 +65,6 @@ export class BranchesController {
   }
 
   @Delete(':id')
-  @Roles(['delete:branch'])
   @ApiOperation({ summary: 'Delete a branch by ID' })
   @ApiOkResponse({ description: 'Branch deleted successfully', type: BranchDto })
   @ApiNotFoundResponse({ description: 'Branch not found' })

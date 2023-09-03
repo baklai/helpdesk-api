@@ -11,19 +11,21 @@ import {
 import { PaginateResult } from 'mongoose';
 import { isIP } from 'net';
 
+import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+
 import { IpaddressesService } from './ipaddresses.service';
 import { Ipaddress } from './schemas/ipaddress.schema';
 import { IpaddressDto } from './dto/ipaddress.dto';
 import { CreateIpaddressDto } from './dto/create-ipaddress.dto';
 import { UpdateIpaddressDto } from './dto/update-ipaddress.dto';
 import { PaginateIpaddressDto } from './dto/paginate-ipaddress.dto';
-import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
-import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 @ApiTags('IPAddresses')
 @Controller('ipaddresses')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard)
+@UseGuards(AccessTokenGuard, RolesGuard)
 export class IpaddressesController {
   constructor(private readonly ipaddressService: IpaddressesService) {}
 

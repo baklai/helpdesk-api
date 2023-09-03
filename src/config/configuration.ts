@@ -12,7 +12,6 @@ const FILE_HOSTING_PATH = null;
 export default () => ({
   host: process.env.HOST || HOST,
   port: parseInt(process.env.PORT, 10) || PORT,
-
   mongoURI: process.env.MONGO_URI || MONGO_URI,
   bcryptSalt: parseInt(process.env.BCRYPT_SALT, 10) || BCRYPT_SALT,
   HDPublicToken: process.env.HD_PUBLIC_TOKEN || HD_PUBLIC_TOKEN,

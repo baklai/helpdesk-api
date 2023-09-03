@@ -1,9 +1,9 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDefined, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-import { FilterType, FilterStatus } from '../schemas/sysfilter.schema';
-
 import { MongoSchemaDto } from 'src/common/dto/mongosee-schema.dto';
+
+import { FilterType, FilterStatus } from '../schemas/sysfilter.schema';
 
 export class SysfilterDto extends MongoSchemaDto {
   @ApiProperty({
