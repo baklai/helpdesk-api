@@ -50,7 +50,7 @@ export class AuthService {
     if (!passwordMatches) {
       throw new BadRequestException('The password is incorrect');
     }
-    const tokens = await this.generateTokens(user.id, user.login, user.scope);
+    const tokens = await this.generateTokens(user.id, user.login, user.isActive, user.isAdmin, user.scope);
 
     await this.updateRefreshToken(user.id, tokens.refreshToken);
 
@@ -85,15 +85,15 @@ export class AuthService {
     if (!refreshTokenMatches) {
       throw new UnauthorizedException();
     }
-    const tokens = await this.generateTokens(user.id, user.login, user.scope);
+    const tokens = await this.generateTokens(user.id, user.login, user.isActive, user.isAdmin, user.scope);
     await this.updateRefreshToken(user.id, tokens.refreshToken);
     return tokens;
   }
 
-  async generateTokens(id: string, login: string, scope: string[]) {
+  async generateTokens(id: string, login: string, isActive: boolean, isAdmin: boolean, scope: string[]) {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
-        { id, login, scope },
+        { id, login, isActive, isAdmin, scope },
         {
           secret: this.configService.get('jwtAccessSecret'),
           expiresIn: this.configService.get('jwtAccessExpiresIn')
