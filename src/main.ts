@@ -50,7 +50,9 @@ async function bootstrap() {
     )
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup(GLOBAL_PREFIX, app, document);
+  SwaggerModule.setup(GLOBAL_PREFIX, app, document, {
+    customSiteTitle: 'API Helpdesk | Swagger'
+  });
 
   await app.listen(3000);
 
