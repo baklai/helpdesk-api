@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsDefined, IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class AuthDto {
-  @ApiProperty({ description: 'The login of the user', example: 'JohnDoe' })
+  @ApiProperty({ description: 'The login of the user', example: 'helpdesk' })
   @IsString()
   @IsDefined({ message: 'Login must be defined' })
   @IsNotEmpty({ message: 'Login must not be empty' })
@@ -10,7 +10,7 @@ export class AuthDto {
 
   @ApiProperty({
     description: 'The password of the user (minimum 6 characters)',
-    example: 'vJaPk2eg9UaN'
+    example: 'h1e2l3p4d5e6s7k8'
   })
   @IsString()
   @MinLength(6, { message: 'Password must be at least 6 characters' })
