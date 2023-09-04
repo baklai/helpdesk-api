@@ -29,7 +29,7 @@ export class EventsController {
   constructor(private readonly eventService: EventsService) {}
 
   @Post()
-  @Roles(Role.CreateEvent)
+  @Roles(Role.EventCreate)
   @ApiOperation({ summary: 'Create a new event' })
   @ApiCreatedResponse({ description: 'Event created successfully', type: EventDto })
   @ApiBadRequestResponse({ description: 'Bad request' })
@@ -38,7 +38,7 @@ export class EventsController {
   }
 
   @Get()
-  @Roles(Role.ReadEvent)
+  @Roles(Role.EventRead)
   @ApiOperation({ summary: 'Get all events' })
   @ApiOkResponse({ description: 'Success', type: [EventDto] })
   async findAll(@Query() query: QueryEventDto): Promise<Event[]> {
@@ -46,7 +46,7 @@ export class EventsController {
   }
 
   @Get(':id')
-  @Roles(Role.ReadEvent)
+  @Roles(Role.EventRead)
   @ApiOperation({ summary: 'Get an event by ID' })
   @ApiOkResponse({ description: 'Success', type: EventDto })
   @ApiNotFoundResponse({ description: 'Event not found' })
@@ -56,7 +56,7 @@ export class EventsController {
   }
 
   @Put(':id')
-  @Roles(Role.UpdateEvent)
+  @Roles(Role.EventUpdate)
   @ApiOperation({ summary: 'Update an event by ID' })
   @ApiOkResponse({ description: 'Event updated successfully', type: EventDto })
   @ApiNotFoundResponse({ description: 'Event not found' })
@@ -66,7 +66,7 @@ export class EventsController {
   }
 
   @Delete(':id')
-  @Roles(Role.DeleteEvent)
+  @Roles(Role.EventDelete)
   @ApiOperation({ summary: 'Delete an event by ID' })
   @ApiOkResponse({ description: 'Event deleted successfully', type: EventDto })
   @ApiNotFoundResponse({ description: 'Event not found' })

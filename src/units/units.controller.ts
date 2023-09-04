@@ -29,7 +29,7 @@ export class UnitsController {
   constructor(private readonly unitsService: UnitsService) {}
 
   @Post()
-  @Roles(Role.CreateUnit)
+  @Roles(Role.UnitCreate)
   @ApiOperation({ summary: 'Create a new unit' })
   @ApiCreatedResponse({ description: 'Unit created successfully', type: UnitDto })
   @ApiConflictResponse({ description: 'A unit with the same name already exists' })
@@ -39,7 +39,7 @@ export class UnitsController {
   }
 
   @Get()
-  @Roles(Role.ReadUnit)
+  @Roles(Role.UnitRead)
   @ApiOperation({ summary: 'Get all units' })
   @ApiOkResponse({ description: 'Success', type: [UnitDto] })
   async findAll(): Promise<Unit[]> {
@@ -47,7 +47,7 @@ export class UnitsController {
   }
 
   @Get(':id')
-  @Roles(Role.ReadUnit)
+  @Roles(Role.UnitRead)
   @ApiOperation({ summary: 'Get a unit by ID' })
   @ApiOkResponse({ description: 'Success', type: UnitDto })
   @ApiNotFoundResponse({ description: 'Unit not found' })
@@ -57,7 +57,7 @@ export class UnitsController {
   }
 
   @Put(':id')
-  @Roles(Role.UpdateUnit)
+  @Roles(Role.UnitUpdate)
   @ApiOperation({ summary: 'Update a unit by ID' })
   @ApiOkResponse({ description: 'Unit updated successfully', type: UnitDto })
   @ApiNotFoundResponse({ description: 'Unit not found' })
@@ -68,7 +68,7 @@ export class UnitsController {
   }
 
   @Delete(':id')
-  @Roles(Role.DeleteUnit)
+  @Roles(Role.UnitDelete)
   @ApiOperation({ summary: 'Delete a unit by ID' })
   @ApiOkResponse({ description: 'Unit deleted successfully', type: UnitDto })
   @ApiNotFoundResponse({ description: 'Unit not found' })

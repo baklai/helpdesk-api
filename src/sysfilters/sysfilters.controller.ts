@@ -29,7 +29,7 @@ export class SysfiltersController {
   constructor(private readonly filtersService: SysfiltersService) {}
 
   @Post()
-  @Roles(Role.CreateFilter)
+  @Roles(Role.FilterCreate)
   @ApiOperation({ summary: 'Create a new filter' })
   @ApiCreatedResponse({ description: 'Filter created successfully', type: SysfilterDto })
   @ApiBadRequestResponse({ description: 'Bad request' })
@@ -38,7 +38,7 @@ export class SysfiltersController {
   }
 
   @Get()
-  @Roles(Role.ReadFilter)
+  @Roles(Role.FilterRead)
   @ApiOperation({ summary: 'Get all filters' })
   @ApiOkResponse({ description: 'Success', type: [SysfilterDto] })
   async findAll(@Query() query: QuerySysfilterDto): Promise<Sysfilter[]> {
@@ -46,7 +46,7 @@ export class SysfiltersController {
   }
 
   @Get(':id')
-  @Roles(Role.ReadFilter)
+  @Roles(Role.FilterRead)
   @ApiOperation({ summary: 'Get a filter by ID' })
   @ApiOkResponse({ description: 'Success', type: SysfilterDto })
   @ApiNotFoundResponse({ description: 'Filter not found' })
@@ -56,7 +56,7 @@ export class SysfiltersController {
   }
 
   @Put(':id')
-  @Roles(Role.UpdateFilter)
+  @Roles(Role.FilterUpdate)
   @ApiOperation({ summary: 'Update a filter by ID' })
   @ApiOkResponse({ description: 'Filter updated successfully', type: SysfilterDto })
   @ApiNotFoundResponse({ description: 'Filter not found' })
@@ -66,7 +66,7 @@ export class SysfiltersController {
   }
 
   @Delete(':id')
-  @Roles(Role.DeleteFilter)
+  @Roles(Role.FilterDelete)
   @ApiOperation({ summary: 'Delete a filter by ID' })
   @ApiOkResponse({ description: 'Filter deleted successfully', type: SysfilterDto })
   @ApiNotFoundResponse({ description: 'Filter not found' })

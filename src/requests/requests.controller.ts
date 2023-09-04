@@ -32,7 +32,7 @@ export class RequestsController {
   constructor(private readonly requestsService: RequestsService) {}
 
   @Post()
-  @Roles(Role.CreateRequest)
+  @Roles(Role.RequestCreate)
   @ApiOperation({ summary: 'Create a new request' })
   @ApiCreatedResponse({ description: 'Request created successfully', type: RequestDto })
   @ApiBadRequestResponse({ description: 'Bad request' })
@@ -41,7 +41,7 @@ export class RequestsController {
   }
 
   @Get()
-  @Roles(Role.ReadRequest)
+  @Roles(Role.RequestRead)
   @ApiOperation({ summary: 'Get all requests' })
   @ApiOkResponse({ description: 'Success', type: PaginateRequestDto })
   async findAll(@Query() query: PaginateQueryDto): Promise<PaginateResult<Request>> {
@@ -49,7 +49,7 @@ export class RequestsController {
   }
 
   @Get(':id')
-  @Roles(Role.ReadRequest)
+  @Roles(Role.RequestRead)
   @ApiOperation({ summary: 'Get a request by ID' })
   @ApiOkResponse({ description: 'Success', type: RequestDto })
   @ApiNotFoundResponse({ description: 'Request not found' })
@@ -59,7 +59,7 @@ export class RequestsController {
   }
 
   @Put(':id')
-  @Roles(Role.UpdateRequest)
+  @Roles(Role.RequestUpdate)
   @ApiOperation({ summary: 'Update a request by ID' })
   @ApiOkResponse({ description: 'Request updated successfully', type: RequestDto })
   @ApiNotFoundResponse({ description: 'Request not found' })
@@ -70,7 +70,7 @@ export class RequestsController {
   }
 
   @Delete(':id')
-  @Roles(Role.DeleteRequest)
+  @Roles(Role.RequestDelete)
   @ApiOperation({ summary: 'Delete a request by ID' })
   @ApiOkResponse({ description: 'Request deleted successfully', type: RequestDto })
   @ApiNotFoundResponse({ description: 'Request not found' })

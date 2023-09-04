@@ -37,7 +37,7 @@ export class InspectorsController {
   }
 
   @Get()
-  @Roles(Role.ReadInspector)
+  @Roles(Role.InspectorRead)
   @ApiBearerAuth('JWT Guard')
   @UseGuards(AccessTokenGuard, RolesGuard)
   @ApiOperation({ summary: 'Get all inspectors' })
@@ -47,7 +47,7 @@ export class InspectorsController {
   }
 
   @Get(':id')
-  @Roles(Role.ReadInspector)
+  @Roles(Role.InspectorRead)
   @ApiBearerAuth('JWT Guard')
   @UseGuards(AccessTokenGuard, RolesGuard)
   @ApiOperation({ summary: 'Get a inspector by ID' })
@@ -59,7 +59,7 @@ export class InspectorsController {
   }
 
   @Put(':id')
-  @Roles(Role.UpdateInspector)
+  @Roles(Role.InspectorUpdate)
   @ApiBearerAuth('JWT Guard')
   @UseGuards(AccessTokenGuard, RolesGuard)
   @ApiOperation({ summary: 'Update a inspector by ID' })
@@ -71,7 +71,7 @@ export class InspectorsController {
   }
 
   @Delete(':id')
-  @Roles(Role.DeleteInspector)
+  @Roles(Role.InspectorDelete)
   @ApiBearerAuth('JWT Guard')
   @UseGuards(AccessTokenGuard, RolesGuard)
   @ApiOperation({ summary: 'Delete a inspector by ID' })

@@ -16,6 +16,7 @@ import {
 } from 'class-validator';
 
 import { MongoSchemaDto } from 'src/common/dto/mongosee-schema.dto';
+import { Role } from 'src/common/enums/role.enum';
 
 export class UserDto extends MongoSchemaDto {
   @ApiProperty({ description: 'The login of the user', example: 'JohnDoe' })
@@ -79,12 +80,32 @@ export class UserDto extends MongoSchemaDto {
 
   @ApiPropertyOptional({
     description: "The user's scope",
-    example: ['create', 'read', 'update', 'delete']
+    example: [
+      Role.BranchRead,
+      Role.ChannelRead,
+      Role.CompanyRead,
+      Role.DepartmentRead,
+      Role.EnterpriseRead,
+      Role.EventRead,
+      Role.InspectorRead,
+      Role.IpaddressRead,
+      Role.LoggerRead,
+      Role.NoticeRead,
+      Role.PositionRead,
+      Role.RequestRead,
+      Role.FilterRead,
+      Role.UnitRead,
+      Role.UserRead,
+      Role.StatisticNetworkRead,
+      Role.StatisticRequestRead,
+      Role.StatisticInspectorRead,
+      Role.StatisticDashboardRead
+    ]
   })
   @IsArray()
   @IsString({ each: true })
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly scope?: string[];
+  readonly scope?: Role;
 }

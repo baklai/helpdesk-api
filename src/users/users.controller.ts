@@ -32,7 +32,7 @@ export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Post()
-  @Roles(Role.CreateUser)
+  @Roles(Role.UserCreate)
   @ApiOperation({ summary: 'Create a new user' })
   @ApiCreatedResponse({ description: 'User created successfully', type: UserDto })
   @ApiConflictResponse({ description: 'A user with the same login already exists' })
@@ -42,7 +42,7 @@ export class UsersController {
   }
 
   @Get()
-  @Roles(Role.ReadUser)
+  @Roles(Role.UserRead)
   @ApiOperation({ summary: 'Get all users' })
   @ApiOkResponse({ description: 'Success', type: PaginateUserDto })
   async findAll(@Query() query: PaginateQueryDto): Promise<PaginateResult<User>> {
@@ -50,7 +50,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  @Roles(Role.ReadUser)
+  @Roles(Role.UserRead)
   @ApiOperation({ summary: 'Get a user by ID' })
   @ApiOkResponse({ description: 'Success', type: UserDto })
   @ApiNotFoundResponse({ description: 'User not found' })
@@ -60,7 +60,7 @@ export class UsersController {
   }
 
   @Put(':id')
-  @Roles(Role.UpdateUser)
+  @Roles(Role.UserUpdate)
   @ApiOperation({ summary: 'Update a user by ID' })
   @ApiOkResponse({ description: 'User updated successfully', type: UserDto })
   @ApiNotFoundResponse({ description: 'User not found' })
@@ -70,7 +70,7 @@ export class UsersController {
   }
 
   @Delete(':id')
-  @Roles(Role.DeleteUser)
+  @Roles(Role.UserDelete)
   @ApiOperation({ summary: 'Delete a user by ID' })
   @ApiOkResponse({ description: 'User deleted successfully', type: UserDto })
   @ApiNotFoundResponse({ description: 'User not found' })

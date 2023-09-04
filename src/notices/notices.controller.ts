@@ -29,7 +29,7 @@ export class NoticesController {
   constructor(private readonly noticesService: NoticesService) {}
 
   @Post()
-  @Roles(Role.CreateNotice)
+  @Roles(Role.NoticeCreate)
   @ApiOperation({ summary: 'Create a new notice' })
   @ApiCreatedResponse({ description: 'Notice created successfully', type: NoticeDto })
   @ApiConflictResponse({ description: 'A notice with the same name already exists' })
@@ -39,7 +39,7 @@ export class NoticesController {
   }
 
   @Get()
-  @Roles(Role.ReadNotice)
+  @Roles(Role.NoticeRead)
   @ApiOperation({ summary: 'Get all notices' })
   @ApiOkResponse({ description: 'Success', type: [NoticeDto] })
   async findAll(): Promise<Notice[]> {
@@ -47,7 +47,7 @@ export class NoticesController {
   }
 
   @Get(':id')
-  @Roles(Role.ReadNotice)
+  @Roles(Role.NoticeRead)
   @ApiOperation({ summary: 'Get a notice by ID' })
   @ApiOkResponse({ description: 'Success', type: NoticeDto })
   @ApiNotFoundResponse({ description: 'Notice not found' })
@@ -57,7 +57,7 @@ export class NoticesController {
   }
 
   @Put(':id')
-  @Roles(Role.UpdateNotice)
+  @Roles(Role.NoticeUpdate)
   @ApiOperation({ summary: 'Update a notice by ID' })
   @ApiOkResponse({ description: 'Notice updated successfully', type: NoticeDto })
   @ApiNotFoundResponse({ description: 'Notice not found' })
@@ -68,7 +68,7 @@ export class NoticesController {
   }
 
   @Delete(':id')
-  @Roles(Role.DeleteNotice)
+  @Roles(Role.NoticeDelete)
   @ApiOperation({ summary: 'Delete a notice by ID' })
   @ApiOkResponse({ description: 'Notice deleted successfully', type: NoticeDto })
   @ApiNotFoundResponse({ description: 'Notice not found' })

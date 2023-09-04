@@ -29,7 +29,7 @@ export class PositionsController {
   constructor(private readonly positionsService: PositionsService) {}
 
   @Post()
-  @Roles(Role.CreatePosition)
+  @Roles(Role.PositionCreate)
   @ApiOperation({ summary: 'Create a new position' })
   @ApiCreatedResponse({ description: 'Position created successfully', type: PositionDto })
   @ApiConflictResponse({ description: 'A position with the same name already exists' })
@@ -39,7 +39,7 @@ export class PositionsController {
   }
 
   @Get()
-  @Roles(Role.ReadPosition)
+  @Roles(Role.PositionRead)
   @ApiOperation({ summary: 'Get all positions' })
   @ApiOkResponse({ description: 'Success', type: [PositionDto] })
   async findAll(): Promise<Position[]> {
@@ -47,7 +47,7 @@ export class PositionsController {
   }
 
   @Get(':id')
-  @Roles(Role.ReadPosition)
+  @Roles(Role.PositionRead)
   @ApiOperation({ summary: 'Get a position by ID' })
   @ApiOkResponse({ description: 'Success', type: PositionDto })
   @ApiNotFoundResponse({ description: 'Position not found' })
@@ -57,7 +57,7 @@ export class PositionsController {
   }
 
   @Put(':id')
-  @Roles(Role.UpdatePosition)
+  @Roles(Role.PositionUpdate)
   @ApiOperation({ summary: 'Update a position by ID' })
   @ApiOkResponse({ description: 'Position updated successfully', type: PositionDto })
   @ApiNotFoundResponse({ description: 'Position not found' })
@@ -68,7 +68,7 @@ export class PositionsController {
   }
 
   @Delete(':id')
-  @Roles(Role.DeletePosition)
+  @Roles(Role.PositionDelete)
   @ApiOperation({ summary: 'Delete a position by ID' })
   @ApiOkResponse({ description: 'Position deleted successfully', type: PositionDto })
   @ApiNotFoundResponse({ description: 'Position not found' })

@@ -29,7 +29,7 @@ export class LocationsController {
   constructor(private readonly locationsService: LocationsService) {}
 
   @Post()
-  @Roles(Role.CreateLocation)
+  @Roles(Role.LocationCreate)
   @ApiOperation({ summary: 'Create a new location' })
   @ApiCreatedResponse({ description: 'Location created successfully', type: LocationDto })
   @ApiConflictResponse({ description: 'A location with the same name already exists' })
@@ -39,7 +39,7 @@ export class LocationsController {
   }
 
   @Get()
-  @Roles(Role.ReadLocation)
+  @Roles(Role.LocationRead)
   @ApiOperation({ summary: 'Get all locations' })
   @ApiOkResponse({ description: 'Success', type: [LocationDto] })
   async findAll(): Promise<Location[]> {
@@ -47,7 +47,7 @@ export class LocationsController {
   }
 
   @Get(':id')
-  @Roles(Role.ReadLocation)
+  @Roles(Role.LocationRead)
   @ApiOperation({ summary: 'Get a location by ID' })
   @ApiOkResponse({ description: 'Success', type: LocationDto })
   @ApiNotFoundResponse({ description: 'Location not found' })
@@ -57,7 +57,7 @@ export class LocationsController {
   }
 
   @Put(':id')
-  @Roles(Role.UpdateLocation)
+  @Roles(Role.LocationUpdate)
   @ApiOperation({ summary: 'Update a location by ID' })
   @ApiOkResponse({ description: 'Location updated successfully', type: LocationDto })
   @ApiNotFoundResponse({ description: 'Location not found' })
@@ -68,7 +68,7 @@ export class LocationsController {
   }
 
   @Delete(':id')
-  @Roles(Role.DeleteLocation)
+  @Roles(Role.LocationDelete)
   @ApiOperation({ summary: 'Delete a location by ID' })
   @ApiOkResponse({ description: 'Location deleted successfully', type: LocationDto })
   @ApiNotFoundResponse({ description: 'Location not found' })

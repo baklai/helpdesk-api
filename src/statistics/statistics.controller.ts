@@ -16,7 +16,7 @@ export class StatisticsController {
   constructor(private readonly statisticsService: StatisticsService) {}
 
   @Get('network')
-  @Roles(Role.StatisticNetwork)
+  @Roles(Role.StatisticNetworkRead)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Retrieve network statistics' })
   async network() {
@@ -24,7 +24,7 @@ export class StatisticsController {
   }
 
   @Get('request')
-  @Roles(Role.StatisticRequest)
+  @Roles(Role.StatisticRequestRead)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Retrieve request statistics' })
   async request() {
@@ -32,7 +32,7 @@ export class StatisticsController {
   }
 
   @Get('inspector')
-  @Roles(Role.StatisticInspector)
+  @Roles(Role.StatisticInspectorRead)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Retrieve inspector statistics' })
   async inspector() {
@@ -40,7 +40,7 @@ export class StatisticsController {
   }
 
   @Get('dashboard')
-  @Roles(Role.StatisticDashboard)
+  @Roles(Role.StatisticDashboardRead)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Retrieve dashboard statistics' })
   async dashboard() {

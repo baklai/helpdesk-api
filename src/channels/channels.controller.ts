@@ -31,7 +31,7 @@ export class ChannelsController {
   constructor(private readonly channelService: ChannelsService) {}
 
   @Post()
-  @Roles(Role.CreateChannel)
+  @Roles(Role.ChannelCreate)
   @ApiOperation({ summary: 'Create a new channel' })
   @ApiCreatedResponse({ description: 'Channel created successfully', type: ChannelDto })
   @ApiBadRequestResponse({ description: 'Bad request' })
@@ -40,7 +40,7 @@ export class ChannelsController {
   }
 
   @Get()
-  @Roles(Role.ReadChannel)
+  @Roles(Role.ChannelRead)
   @UseGuards(AccessTokenGuard, RolesGuard)
   @ApiOperation({ summary: 'Get all channels' })
   @ApiOkResponse({ description: 'Success', type: PaginateChannelDto })
@@ -49,7 +49,7 @@ export class ChannelsController {
   }
 
   @Get(':id')
-  @Roles(Role.ReadChannel)
+  @Roles(Role.ChannelRead)
   @ApiOperation({ summary: 'Get a channel by ID' })
   @ApiOkResponse({ description: 'Success', type: ChannelDto })
   @ApiNotFoundResponse({ description: 'Channel not found' })
@@ -59,7 +59,7 @@ export class ChannelsController {
   }
 
   @Put(':id')
-  @Roles(Role.UpdateChannel)
+  @Roles(Role.ChannelUpdate)
   @ApiOperation({ summary: 'Update a channel by ID' })
   @ApiOkResponse({ description: 'Channel updated successfully', type: ChannelDto })
   @ApiNotFoundResponse({ description: 'Channel not found' })
@@ -69,7 +69,7 @@ export class ChannelsController {
   }
 
   @Delete(':id')
-  @Roles(Role.DeleteChannel)
+  @Roles(Role.ChannelDelete)
   @ApiOperation({ summary: 'Delete a channel by ID' })
   @ApiOkResponse({ description: 'Channel deleted successfully', type: ChannelDto })
   @ApiNotFoundResponse({ description: 'Channel not found' })

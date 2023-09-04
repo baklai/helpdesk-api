@@ -29,7 +29,7 @@ export class EnterprisesController {
   constructor(private readonly enterprisesService: EnterprisesService) {}
 
   @Post()
-  @Roles(Role.CreateEnterprise)
+  @Roles(Role.EnterpriseCreate)
   @ApiOperation({ summary: 'Create a new enterprise' })
   @ApiCreatedResponse({ description: 'Enterprise created successfully', type: EnterpriseDto })
   @ApiConflictResponse({ description: 'A enterprise with the same name already exists' })
@@ -39,7 +39,7 @@ export class EnterprisesController {
   }
 
   @Get()
-  @Roles(Role.ReadEnterprise)
+  @Roles(Role.EnterpriseRead)
   @ApiOperation({ summary: 'Get all enterprise' })
   @ApiOkResponse({ description: 'Success', type: [EnterpriseDto] })
   async findAll(): Promise<Enterprise[]> {
@@ -47,7 +47,7 @@ export class EnterprisesController {
   }
 
   @Get(':id')
-  @Roles(Role.ReadEnterprise)
+  @Roles(Role.EnterpriseRead)
   @ApiOperation({ summary: 'Get a enterprise by ID' })
   @ApiOkResponse({ description: 'Success', type: EnterpriseDto })
   @ApiNotFoundResponse({ description: 'Enterprise not found' })
@@ -57,7 +57,7 @@ export class EnterprisesController {
   }
 
   @Put(':id')
-  @Roles(Role.UpdateEnterprise)
+  @Roles(Role.EnterpriseUpdate)
   @ApiOperation({ summary: 'Update a enterprise by ID' })
   @ApiOkResponse({ description: 'Enterprise updated successfully', type: EnterpriseDto })
   @ApiNotFoundResponse({ description: 'Enterprise not found' })
@@ -68,7 +68,7 @@ export class EnterprisesController {
   }
 
   @Delete(':id')
-  @Roles(Role.DeleteEnterprise)
+  @Roles(Role.EnterpriseDelete)
   @ApiOperation({ summary: 'Delete a enterprise by ID' })
   @ApiOkResponse({ description: 'Enterprise deleted successfully', type: EnterpriseDto })
   @ApiNotFoundResponse({ description: 'Enterprise not found' })

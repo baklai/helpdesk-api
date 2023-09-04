@@ -18,31 +18,31 @@ export class LoggersController {
   constructor(private readonly loggerService: LoggersService) {}
 
   @Post()
-  @Roles(Role.CreateLogger)
+  @Roles(Role.LoggerCreate)
   create(@Body() createLoggerDto: CreateLoggerDto) {
     return this.loggerService.create(createLoggerDto);
   }
 
   @Get()
-  @Roles(Role.ReadLogger)
+  @Roles(Role.LoggerRead)
   findAll() {
     return this.loggerService.findAll();
   }
 
   @Get(':id')
-  @Roles(Role.ReadLogger)
+  @Roles(Role.LoggerRead)
   findOneById(@Param('id') id: string) {
     return this.loggerService.findOneById(+id);
   }
 
   @Patch(':id')
-  @Roles(Role.UpdateLogger)
+  @Roles(Role.LoggerUpdate)
   updateOneById(@Param('id') id: string, @Body() updateLoggerDto: UpdateLoggerDto) {
     return this.loggerService.updateOneById(+id, updateLoggerDto);
   }
 
   @Delete(':id')
-  @Roles(Role.DeleteLogger)
+  @Roles(Role.LoggerDelete)
   removeOneById(@Param('id') id: string) {
     return this.loggerService.removeOneById(+id);
   }

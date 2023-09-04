@@ -1,10 +1,7 @@
 import { Controller, Get, Query, Req, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { pingResponse } from 'pingman';
 import { Request } from 'express';
-
-import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { RolesGuard } from 'src/common/guards/roles.guard';
 
 import { SystoolsService } from './systools.service';
 import { QueryDto } from './dto/query-systool.dto';

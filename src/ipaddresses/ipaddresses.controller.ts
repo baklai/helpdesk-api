@@ -32,7 +32,7 @@ export class IpaddressesController {
   constructor(private readonly ipaddressService: IpaddressesService) {}
 
   @Post()
-  @Roles(Role.CreateIpaddress)
+  @Roles(Role.IpaddressCreate)
   @ApiOperation({ summary: 'Create a new ipaddress' })
   @ApiCreatedResponse({ description: 'Ipaddress created successfully', type: IpaddressDto })
   @ApiBadRequestResponse({ description: 'Bad request' })
@@ -41,7 +41,7 @@ export class IpaddressesController {
   }
 
   @Get()
-  @Roles(Role.ReadIpaddress)
+  @Roles(Role.IpaddressRead)
   @ApiOperation({ summary: 'Get all ipaddresses' })
   @ApiOkResponse({ description: 'Success', type: PaginateIpaddressDto })
   async findAll(@Query() query: PaginateQueryDto): Promise<PaginateResult<Ipaddress>> {
@@ -49,7 +49,7 @@ export class IpaddressesController {
   }
 
   @Get(':search')
-  @Roles(Role.ReadIpaddress)
+  @Roles(Role.IpaddressRead)
   @ApiOperation({ summary: 'Get a ipaddress by ID' })
   @ApiOkResponse({ description: 'Success', type: IpaddressDto })
   @ApiNotFoundResponse({ description: 'Ipaddress not found' })
@@ -63,7 +63,7 @@ export class IpaddressesController {
   }
 
   @Put(':id')
-  @Roles(Role.UpdateIpaddress)
+  @Roles(Role.IpaddressUpdate)
   @ApiOperation({ summary: 'Update a ipaddress by ID' })
   @ApiOkResponse({ description: 'Ipaddress updated successfully', type: IpaddressDto })
   @ApiNotFoundResponse({ description: 'Ipaddress not found' })
@@ -73,7 +73,7 @@ export class IpaddressesController {
   }
 
   @Delete(':id')
-  @Roles(Role.DeleteIpaddress)
+  @Roles(Role.IpaddressDelete)
   @ApiOperation({ summary: 'Delete a ipaddress by ID' })
   @ApiOkResponse({ description: 'Ipaddress deleted successfully', type: IpaddressDto })
   @ApiNotFoundResponse({ description: 'Ipaddress not found' })

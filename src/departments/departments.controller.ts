@@ -29,7 +29,7 @@ export class DepartmentsController {
   constructor(private readonly departmentsService: DepartmentsService) {}
 
   @Post()
-  @Roles(Role.CreateDepartment)
+  @Roles(Role.DepartmentCreate)
   @ApiOperation({ summary: 'Create a new department' })
   @ApiCreatedResponse({ description: 'Department created successfully', type: DepartmentDto })
   @ApiConflictResponse({ description: 'A department with the same name already exists' })
@@ -39,7 +39,7 @@ export class DepartmentsController {
   }
 
   @Get()
-  @Roles(Role.ReadDepartment)
+  @Roles(Role.DepartmentRead)
   @ApiOperation({ summary: 'Get all departments' })
   @ApiOkResponse({ description: 'Success', type: [DepartmentDto] })
   async findAll(): Promise<Department[]> {
@@ -47,7 +47,7 @@ export class DepartmentsController {
   }
 
   @Get(':id')
-  @Roles(Role.ReadDepartment)
+  @Roles(Role.DepartmentRead)
   @ApiOperation({ summary: 'Get a department by ID' })
   @ApiOkResponse({ description: 'Success', type: DepartmentDto })
   @ApiNotFoundResponse({ description: 'Department not found' })
@@ -57,7 +57,7 @@ export class DepartmentsController {
   }
 
   @Put(':id')
-  @Roles(Role.UpdateDepartment)
+  @Roles(Role.DepartmentUpdate)
   @ApiOperation({ summary: 'Update a department by ID' })
   @ApiOkResponse({ description: 'Department updated successfully', type: DepartmentDto })
   @ApiNotFoundResponse({ description: 'Department not found' })
@@ -68,7 +68,7 @@ export class DepartmentsController {
   }
 
   @Delete(':id')
-  @Roles(Role.DeleteDepartment)
+  @Roles(Role.DepartmentDelete)
   @ApiOperation({ summary: 'Delete a department by ID' })
   @ApiOkResponse({ description: 'Department deleted successfully', type: DepartmentDto })
   @ApiNotFoundResponse({ description: 'Department not found' })
