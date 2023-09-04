@@ -11,8 +11,8 @@ import {
 } from '@nestjs/swagger';
 
 import { Roles } from 'src/common/decorators/roles.decorator';
-import { Role } from 'src/common/enums/role.enum';
-import { RolesGuard } from 'src/common/guards/roles.guard';
+import { Scope } from 'src/common/enums/scope.enum';
+import { RolesGuard } from 'src/common/guards/scopes.guard';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 import { BranchesService } from './branches.service';
@@ -29,7 +29,7 @@ export class BranchesController {
   constructor(private readonly branchesService: BranchesService) {}
 
   @Post()
-  @Roles(Role.BranchCreate)
+  @Roles(Scope.BranchCreate)
   @ApiOperation({ summary: 'Create a new branch' })
   @ApiCreatedResponse({ description: 'Branch created successfully', type: BranchDto })
   @ApiConflictResponse({ description: 'A branch with the same name already exists' })
@@ -39,7 +39,7 @@ export class BranchesController {
   }
 
   @Get()
-  @Roles(Role.BranchRead)
+  @Roles(Scope.BranchRead)
   @ApiOperation({ summary: 'Get all branches' })
   @ApiOkResponse({ description: 'Success', type: [BranchDto] })
   async findAll(): Promise<Branch[]> {
@@ -47,7 +47,7 @@ export class BranchesController {
   }
 
   @Get(':id')
-  @Roles(Role.BranchRead)
+  @Roles(Scope.BranchRead)
   @ApiOperation({ summary: 'Get a branch by ID' })
   @ApiOkResponse({ description: 'Success', type: BranchDto })
   @ApiNotFoundResponse({ description: 'Branch not found' })
@@ -57,7 +57,7 @@ export class BranchesController {
   }
 
   @Put(':id')
-  @Roles(Role.BranchUpdate)
+  @Roles(Scope.BranchUpdate)
   @ApiOperation({ summary: 'Update a branch by ID' })
   @ApiOkResponse({ description: 'Branch updated successfully', type: BranchDto })
   @ApiNotFoundResponse({ description: 'Branch not found' })
@@ -68,7 +68,7 @@ export class BranchesController {
   }
 
   @Delete(':id')
-  @Roles(Role.BranchDelete)
+  @Roles(Scope.BranchDelete)
   @ApiOperation({ summary: 'Delete a branch by ID' })
   @ApiOkResponse({ description: 'Branch deleted successfully', type: BranchDto })
   @ApiNotFoundResponse({ description: 'Branch not found' })

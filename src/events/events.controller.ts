@@ -10,9 +10,9 @@ import {
 } from '@nestjs/swagger';
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { RolesGuard } from 'src/common/guards/roles.guard';
+import { RolesGuard } from 'src/common/guards/scopes.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
-import { Role } from 'src/common/enums/role.enum';
+import { Scope } from 'src/common/enums/scope.enum';
 
 import { EventsService } from './events.service';
 import { Event } from './schemas/event.schema';
@@ -29,7 +29,7 @@ export class EventsController {
   constructor(private readonly eventService: EventsService) {}
 
   @Post()
-  @Roles(Role.EventCreate)
+  @Roles(Scope.EventCreate)
   @ApiOperation({ summary: 'Create a new event' })
   @ApiCreatedResponse({ description: 'Event created successfully', type: EventDto })
   @ApiBadRequestResponse({ description: 'Bad request' })
@@ -38,7 +38,7 @@ export class EventsController {
   }
 
   @Get()
-  @Roles(Role.EventRead)
+  @Roles(Scope.EventRead)
   @ApiOperation({ summary: 'Get all events' })
   @ApiOkResponse({ description: 'Success', type: [EventDto] })
   async findAll(@Query() query: QueryEventDto): Promise<Event[]> {
@@ -46,7 +46,7 @@ export class EventsController {
   }
 
   @Get(':id')
-  @Roles(Role.EventRead)
+  @Roles(Scope.EventRead)
   @ApiOperation({ summary: 'Get an event by ID' })
   @ApiOkResponse({ description: 'Success', type: EventDto })
   @ApiNotFoundResponse({ description: 'Event not found' })
@@ -56,7 +56,7 @@ export class EventsController {
   }
 
   @Put(':id')
-  @Roles(Role.EventUpdate)
+  @Roles(Scope.EventUpdate)
   @ApiOperation({ summary: 'Update an event by ID' })
   @ApiOkResponse({ description: 'Event updated successfully', type: EventDto })
   @ApiNotFoundResponse({ description: 'Event not found' })
@@ -66,7 +66,7 @@ export class EventsController {
   }
 
   @Delete(':id')
-  @Roles(Role.EventDelete)
+  @Roles(Scope.EventDelete)
   @ApiOperation({ summary: 'Delete an event by ID' })
   @ApiOkResponse({ description: 'Event deleted successfully', type: EventDto })
   @ApiNotFoundResponse({ description: 'Event not found' })

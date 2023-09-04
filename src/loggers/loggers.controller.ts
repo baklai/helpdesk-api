@@ -2,9 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@n
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { RolesGuard } from 'src/common/guards/roles.guard';
+import { RolesGuard } from 'src/common/guards/scopes.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
-import { Role } from 'src/common/enums/role.enum';
+import { Scope } from 'src/common/enums/scope.enum';
 
 import { LoggersService } from './loggers.service';
 import { CreateLoggerDto } from './dto/create-logger.dto';
@@ -18,31 +18,31 @@ export class LoggersController {
   constructor(private readonly loggerService: LoggersService) {}
 
   @Post()
-  @Roles(Role.LoggerCreate)
+  @Roles(Scope.LoggerCreate)
   create(@Body() createLoggerDto: CreateLoggerDto) {
     return this.loggerService.create(createLoggerDto);
   }
 
   @Get()
-  @Roles(Role.LoggerRead)
+  @Roles(Scope.LoggerRead)
   findAll() {
     return this.loggerService.findAll();
   }
 
   @Get(':id')
-  @Roles(Role.LoggerRead)
+  @Roles(Scope.LoggerRead)
   findOneById(@Param('id') id: string) {
     return this.loggerService.findOneById(+id);
   }
 
   @Patch(':id')
-  @Roles(Role.LoggerUpdate)
+  @Roles(Scope.LoggerUpdate)
   updateOneById(@Param('id') id: string, @Body() updateLoggerDto: UpdateLoggerDto) {
     return this.loggerService.updateOneById(+id, updateLoggerDto);
   }
 
   @Delete(':id')
-  @Roles(Role.LoggerDelete)
+  @Roles(Scope.LoggerDelete)
   removeOneById(@Param('id') id: string) {
     return this.loggerService.removeOneById(+id);
   }

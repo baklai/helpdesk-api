@@ -16,7 +16,7 @@ import {
 } from 'class-validator';
 
 import { MongoSchemaDto } from 'src/common/dto/mongosee-schema.dto';
-import { Role } from 'src/common/enums/role.enum';
+import { Scope } from 'src/common/enums/scope.enum';
 
 export class UserDto extends MongoSchemaDto {
   @ApiProperty({ description: 'The login of the user', example: 'JohnDoe' })
@@ -81,25 +81,25 @@ export class UserDto extends MongoSchemaDto {
   @ApiPropertyOptional({
     description: "The user's scope",
     example: [
-      Role.BranchRead,
-      Role.ChannelRead,
-      Role.CompanyRead,
-      Role.DepartmentRead,
-      Role.EnterpriseRead,
-      Role.EventRead,
-      Role.InspectorRead,
-      Role.IpaddressRead,
-      Role.LoggerRead,
-      Role.NoticeRead,
-      Role.PositionRead,
-      Role.RequestRead,
-      Role.FilterRead,
-      Role.UnitRead,
-      Role.UserRead,
-      Role.StatisticNetworkRead,
-      Role.StatisticRequestRead,
-      Role.StatisticInspectorRead,
-      Role.StatisticDashboardRead
+      Scope.BranchRead,
+      Scope.ChannelRead,
+      Scope.CompanyRead,
+      Scope.DepartmentRead,
+      Scope.EnterpriseRead,
+      Scope.EventRead,
+      Scope.InspectorRead,
+      Scope.IpaddressRead,
+      Scope.LoggerRead,
+      Scope.NoticeRead,
+      Scope.PositionRead,
+      Scope.RequestRead,
+      Scope.FilterRead,
+      Scope.UnitRead,
+      Scope.UserRead,
+      Scope.StatisticNetworkRead,
+      Scope.StatisticRequestRead,
+      Scope.StatisticInspectorRead,
+      Scope.StatisticDashboardRead
     ]
   })
   @IsArray()
@@ -107,5 +107,5 @@ export class UserDto extends MongoSchemaDto {
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly scope?: Role;
+  readonly scope?: Scope;
 }

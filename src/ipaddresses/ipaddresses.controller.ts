@@ -13,9 +13,9 @@ import { isIP } from 'net';
 
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { RolesGuard } from 'src/common/guards/roles.guard';
+import { RolesGuard } from 'src/common/guards/scopes.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
-import { Role } from 'src/common/enums/role.enum';
+import { Scope } from 'src/common/enums/scope.enum';
 
 import { IpaddressesService } from './ipaddresses.service';
 import { Ipaddress } from './schemas/ipaddress.schema';
@@ -32,7 +32,7 @@ export class IpaddressesController {
   constructor(private readonly ipaddressService: IpaddressesService) {}
 
   @Post()
-  @Roles(Role.IpaddressCreate)
+  @Roles(Scope.IpaddressCreate)
   @ApiOperation({ summary: 'Create a new ipaddress' })
   @ApiCreatedResponse({ description: 'Ipaddress created successfully', type: IpaddressDto })
   @ApiBadRequestResponse({ description: 'Bad request' })
@@ -41,7 +41,7 @@ export class IpaddressesController {
   }
 
   @Get()
-  @Roles(Role.IpaddressRead)
+  @Roles(Scope.IpaddressRead)
   @ApiOperation({ summary: 'Get all ipaddresses' })
   @ApiOkResponse({ description: 'Success', type: PaginateIpaddressDto })
   async findAll(@Query() query: PaginateQueryDto): Promise<PaginateResult<Ipaddress>> {
@@ -49,7 +49,7 @@ export class IpaddressesController {
   }
 
   @Get(':search')
-  @Roles(Role.IpaddressRead)
+  @Roles(Scope.IpaddressRead)
   @ApiOperation({ summary: 'Get a ipaddress by ID' })
   @ApiOkResponse({ description: 'Success', type: IpaddressDto })
   @ApiNotFoundResponse({ description: 'Ipaddress not found' })
@@ -63,7 +63,7 @@ export class IpaddressesController {
   }
 
   @Put(':id')
-  @Roles(Role.IpaddressUpdate)
+  @Roles(Scope.IpaddressUpdate)
   @ApiOperation({ summary: 'Update a ipaddress by ID' })
   @ApiOkResponse({ description: 'Ipaddress updated successfully', type: IpaddressDto })
   @ApiNotFoundResponse({ description: 'Ipaddress not found' })
@@ -73,7 +73,7 @@ export class IpaddressesController {
   }
 
   @Delete(':id')
-  @Roles(Role.IpaddressDelete)
+  @Roles(Scope.IpaddressDelete)
   @ApiOperation({ summary: 'Delete a ipaddress by ID' })
   @ApiOkResponse({ description: 'Ipaddress deleted successfully', type: IpaddressDto })
   @ApiNotFoundResponse({ description: 'Ipaddress not found' })

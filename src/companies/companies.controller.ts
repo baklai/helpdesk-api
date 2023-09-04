@@ -11,9 +11,9 @@ import {
 } from '@nestjs/swagger';
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { RolesGuard } from 'src/common/guards/roles.guard';
+import { RolesGuard } from 'src/common/guards/scopes.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
-import { Role } from 'src/common/enums/role.enum';
+import { Scope } from 'src/common/enums/scope.enum';
 
 import { CompaniesService } from './companies.service';
 import { Company } from './schemas/company.schema';
@@ -29,7 +29,7 @@ export class CompaniesController {
   constructor(private readonly companiesService: CompaniesService) {}
 
   @Post()
-  @Roles(Role.CompanyCreate)
+  @Roles(Scope.CompanyCreate)
   @ApiOperation({ summary: 'Create a new company' })
   @ApiCreatedResponse({ description: 'Company created successfully', type: CompanyDto })
   @ApiConflictResponse({ description: 'A company with the same name already exists' })
@@ -39,7 +39,7 @@ export class CompaniesController {
   }
 
   @Get()
-  @Roles(Role.CompanyRead)
+  @Roles(Scope.CompanyRead)
   @ApiOperation({ summary: 'Get all companies' })
   @ApiOkResponse({ description: 'Success', type: [CompanyDto] })
   async findAll(): Promise<Company[]> {
@@ -47,7 +47,7 @@ export class CompaniesController {
   }
 
   @Get(':id')
-  @Roles(Role.CompanyRead)
+  @Roles(Scope.CompanyRead)
   @ApiOperation({ summary: 'Get a company by ID' })
   @ApiOkResponse({ description: 'Success', type: CompanyDto })
   @ApiNotFoundResponse({ description: 'Company not found' })
@@ -57,7 +57,7 @@ export class CompaniesController {
   }
 
   @Put(':id')
-  @Roles(Role.CompanyUpdate)
+  @Roles(Scope.CompanyUpdate)
   @ApiOperation({ summary: 'Update a company by ID' })
   @ApiOkResponse({ description: 'Company updated successfully', type: CompanyDto })
   @ApiNotFoundResponse({ description: 'Company not found' })
@@ -68,7 +68,7 @@ export class CompaniesController {
   }
 
   @Delete(':id')
-  @Roles(Role.CompanyDelete)
+  @Roles(Scope.CompanyDelete)
   @ApiOperation({ summary: 'Delete a company by ID' })
   @ApiOkResponse({ description: 'Company deleted successfully', type: CompanyDto })
   @ApiNotFoundResponse({ description: 'Company not found' })

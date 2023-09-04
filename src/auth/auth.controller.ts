@@ -13,7 +13,7 @@ import { UserDto } from 'src/users/dto/user.dto';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { RefreshTokenGuard } from 'src/common/guards/refreshToken.guard';
-import { RolesGuard } from 'src/common/guards/roles.guard';
+import { RolesGuard } from 'src/common/guards/scopes.guard';
 
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto/auth.dto';

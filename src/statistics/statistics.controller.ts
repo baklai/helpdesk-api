@@ -2,9 +2,9 @@ import { Controller, Get, HttpCode, HttpStatus, UseGuards } from '@nestjs/common
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { RolesGuard } from 'src/common/guards/roles.guard';
+import { RolesGuard } from 'src/common/guards/scopes.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
-import { Role } from 'src/common/enums/role.enum';
+import { Scope } from 'src/common/enums/scope.enum';
 
 import { StatisticsService } from './statistics.service';
 
@@ -16,7 +16,7 @@ export class StatisticsController {
   constructor(private readonly statisticsService: StatisticsService) {}
 
   @Get('network')
-  @Roles(Role.StatisticNetworkRead)
+  @Roles(Scope.StatisticNetworkRead)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Retrieve network statistics' })
   async network() {
@@ -24,7 +24,7 @@ export class StatisticsController {
   }
 
   @Get('request')
-  @Roles(Role.StatisticRequestRead)
+  @Roles(Scope.StatisticRequestRead)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Retrieve request statistics' })
   async request() {
@@ -32,7 +32,7 @@ export class StatisticsController {
   }
 
   @Get('inspector')
-  @Roles(Role.StatisticInspectorRead)
+  @Roles(Scope.StatisticInspectorRead)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Retrieve inspector statistics' })
   async inspector() {
@@ -40,7 +40,7 @@ export class StatisticsController {
   }
 
   @Get('dashboard')
-  @Roles(Role.StatisticDashboardRead)
+  @Roles(Scope.StatisticDashboardRead)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Retrieve dashboard statistics' })
   async dashboard() {

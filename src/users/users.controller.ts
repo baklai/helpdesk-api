@@ -13,9 +13,9 @@ import { PaginateResult } from 'mongoose';
 
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { RolesGuard } from 'src/common/guards/roles.guard';
+import { RolesGuard } from 'src/common/guards/scopes.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
-import { Role } from 'src/common/enums/role.enum';
+import { Scope } from 'src/common/enums/scope.enum';
 
 import { UsersService } from './users.service';
 import { User } from './schemas/user.schema';
@@ -32,7 +32,7 @@ export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Post()
-  @Roles(Role.UserCreate)
+  @Roles(Scope.UserCreate)
   @ApiOperation({ summary: 'Create a new user' })
   @ApiCreatedResponse({ description: 'User created successfully', type: UserDto })
   @ApiConflictResponse({ description: 'A user with the same login already exists' })
@@ -42,7 +42,7 @@ export class UsersController {
   }
 
   @Get()
-  @Roles(Role.UserRead)
+  @Roles(Scope.UserRead)
   @ApiOperation({ summary: 'Get all users' })
   @ApiOkResponse({ description: 'Success', type: PaginateUserDto })
   async findAll(@Query() query: PaginateQueryDto): Promise<PaginateResult<User>> {
@@ -50,7 +50,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  @Roles(Role.UserRead)
+  @Roles(Scope.UserRead)
   @ApiOperation({ summary: 'Get a user by ID' })
   @ApiOkResponse({ description: 'Success', type: UserDto })
   @ApiNotFoundResponse({ description: 'User not found' })
@@ -60,7 +60,7 @@ export class UsersController {
   }
 
   @Put(':id')
-  @Roles(Role.UserUpdate)
+  @Roles(Scope.UserUpdate)
   @ApiOperation({ summary: 'Update a user by ID' })
   @ApiOkResponse({ description: 'User updated successfully', type: UserDto })
   @ApiNotFoundResponse({ description: 'User not found' })
@@ -70,7 +70,7 @@ export class UsersController {
   }
 
   @Delete(':id')
-  @Roles(Role.UserDelete)
+  @Roles(Scope.UserDelete)
   @ApiOperation({ summary: 'Delete a user by ID' })
   @ApiOkResponse({ description: 'User deleted successfully', type: UserDto })
   @ApiNotFoundResponse({ description: 'User not found' })

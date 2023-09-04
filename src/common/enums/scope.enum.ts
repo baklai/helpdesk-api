@@ -1,4 +1,4 @@
-export enum Role {
+export enum Scope {
   BranchCreate = 'branch:create',
   BranchRead = 'branch:read',
   BranchUpdate = 'branch:update',
