@@ -28,7 +28,7 @@ export class BranchesService {
   }
 
   async findAll(): Promise<Branch[]> {
-    return await this.branchModel.find().exec();
+    return await this.branchModel.find().select({ createdAt: 0, updatedAt: 0 }).exec();
   }
 
   async findOneById(id: string): Promise<Branch> {

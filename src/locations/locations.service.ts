@@ -28,7 +28,7 @@ export class LocationsService {
   }
 
   async findAll(): Promise<Location[]> {
-    return await this.locationModel.find().exec();
+    return await this.locationModel.find().select({ createdAt: 0, updatedAt: 0 }).exec();
   }
 
   async findOneById(id: string): Promise<Location> {

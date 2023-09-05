@@ -28,7 +28,7 @@ export class NoticesService {
   }
 
   async findAll(): Promise<Notice[]> {
-    return await this.noticeModel.find().exec();
+    return await this.noticeModel.find().select({ createdAt: 0, updatedAt: 0 }).exec();
   }
 
   async findOneById(id: string): Promise<Notice> {

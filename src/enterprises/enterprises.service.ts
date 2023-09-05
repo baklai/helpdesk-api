@@ -28,7 +28,7 @@ export class EnterprisesService {
   }
 
   async findAll(): Promise<Enterprise[]> {
-    return await this.enterpriseModel.find().exec();
+    return await this.enterpriseModel.find().select({ createdAt: 0, updatedAt: 0 }).exec();
   }
 
   async findOneById(id: string): Promise<Enterprise> {

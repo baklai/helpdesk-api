@@ -8,7 +8,7 @@ export class User {
   @Prop({ type: String, required: true, unique: true, uniqueCaseInsensitive: true, trim: true })
   login: string;
 
-  @Prop({ type: String, required: true, trim: true, minLength: 6 })
+  @Prop({ type: String, required: true, trim: true, minLength: 6, select: false })
   password: string;
 
   @Prop({ type: String, required: true, trim: true })

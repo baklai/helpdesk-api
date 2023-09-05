@@ -38,15 +38,18 @@ export class AuthService {
     return user;
   }
 
-  async signin(authDto: AuthDto): Promise<TokensDto> {
-    const user = await this.userModel.findOne({ login: authDto.login }).select('password').exec();
+  async signin({ login, password }: AuthDto): Promise<TokensDto> {
+    const user = await this.userModel
+      .findOne({ login })
+      .select({ password: 1, isActive: 1 })
+      .exec();
     if (!user) {
       throw new BadRequestException('User does not exist');
     }
     if (!user?.isActive) {
       throw new UnauthorizedException('User account is disabled');
     }
-    const passwordMatches = await bcrypt.compare(authDto.password, user.password);
+    const passwordMatches = await bcrypt.compare(password, user.password);
     if (!passwordMatches) {
       throw new BadRequestException('The password is incorrect');
     }
@@ -57,17 +60,12 @@ export class AuthService {
       user.isAdmin,
       user.scope
     );
-
     await this.updateRefreshToken(user.id, tokens.refreshToken);
-
     return tokens;
   }
 
   async signup(authDto: CreateUserDto): Promise<User> {
-    const userExists = await this.userModel
-      .findOne({ login: authDto.login })
-      .select('password')
-      .exec();
+    const userExists = await this.userModel.findOne({ login: authDto.login }).exec();
     if (userExists) {
       throw new ConflictException('User already exists');
     }
@@ -86,7 +84,7 @@ export class AuthService {
   }
 
   async refresh(userId: string, refreshToken: string) {
-    const user = await this.userModel.findById(userId).select('password');
+    const user = await this.userModel.findById(userId).exec();
     const rtStore = await this.refreshTokenModel.findOne({ userId });
     if (!user || !user?.isActive || !rtStore?.refreshToken) {
       throw new UnauthorizedException();

@@ -18,7 +18,10 @@ export class EventsService {
 
   async findAll(query: QueryEventDto): Promise<Event[]> {
     const { startDate, endDate } = query;
-    return await this.eventModel.find({ datetime: { $gte: startDate, $lt: endDate } }).exec();
+    return await this.eventModel
+      .find({ datetime: { $gte: startDate, $lt: endDate } })
+      .select({ createdAt: 0, updatedAt: 0 })
+      .exec();
   }
 
   async findOneById(id: string): Promise<Event> {

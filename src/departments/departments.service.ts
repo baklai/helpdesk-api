@@ -28,7 +28,7 @@ export class DepartmentsService {
   }
 
   async findAll(): Promise<Department[]> {
-    return await this.departmentModel.find().exec();
+    return await this.departmentModel.find().select({ createdAt: 0, updatedAt: 0 }).exec();
   }
 
   async findOneById(id: string): Promise<Department> {

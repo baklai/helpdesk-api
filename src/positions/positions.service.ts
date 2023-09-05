@@ -28,7 +28,7 @@ export class PositionsService {
   }
 
   async findAll(): Promise<Position[]> {
-    return await this.positionModel.find().exec();
+    return await this.positionModel.find().select({ createdAt: 0, updatedAt: 0 }).exec();
   }
 
   async findOneById(id: string): Promise<Position> {

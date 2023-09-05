@@ -27,7 +27,7 @@ export class UnitsService {
   }
 
   async findAll(): Promise<Unit[]> {
-    return await this.unitModel.find().exec();
+    return await this.unitModel.find().select({ createdAt: 0, updatedAt: 0 }).exec();
   }
 
   async findOneById(id: string): Promise<Unit> {
