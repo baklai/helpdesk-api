@@ -1,7 +1,14 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsDate, IsDefined, IsIP, IsMongoId, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsDate,
+  IsDefined,
+  IsIP,
+  IsMongoId,
+  IsNotEmpty,
+  IsOptional,
+  IsString
+} from 'class-validator';
 
-import { MongoSchemaDto } from 'src/common/dto/mongosee-schema.dto';
 import { UserDto } from 'src/users/dto/user.dto';
 import { CompanyDto } from 'src/companies/dto/company.dto';
 import { BranchDto } from 'src/branches/dto/branch.dto';
@@ -10,7 +17,17 @@ import { EnterpriseDto } from 'src/enterprises/dto/enterprise.dto';
 import { LocationDto } from 'src/locations/dto/location.dto';
 import { PositionDto } from 'src/positions/dto/position.dto';
 
-export class RequestDto extends MongoSchemaDto {
+export class RequestDto {
+  @ApiProperty({
+    description: 'The ID of the record (unique)',
+    example: '6299b5cebf44864bfcea36d4'
+  })
+  @IsString()
+  @IsMongoId()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly id: string;
+
   @ApiProperty({ description: 'Full name of the requester', example: 'John Doe' })
   @IsString()
   @IsDefined()
@@ -44,7 +61,10 @@ export class RequestDto extends MongoSchemaDto {
   @IsNotEmpty()
   request: string;
 
-  @ApiPropertyOptional({ description: 'Date when the request was closed', example: '2023-08-26T12:00:00Z' })
+  @ApiPropertyOptional({
+    description: 'Date when the request was closed',
+    example: '2023-08-26T12:00:00Z'
+  })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
@@ -159,4 +179,24 @@ export class RequestDto extends MongoSchemaDto {
   @IsNotEmpty()
   @IsOptional()
   department?: DepartmentDto;
+
+  @ApiPropertyOptional({
+    description: 'The created date of the record',
+    example: '2021-06-03T07:18:38.233Z'
+  })
+  @IsDate()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  readonly createdAt?: Date;
+
+  @ApiPropertyOptional({
+    description: 'The updated date of the record',
+    example: '2022-06-03T07:18:38.233Z'
+  })
+  @IsDate()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  readonly updatedAt?: Date;
 }

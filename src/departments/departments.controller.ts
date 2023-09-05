@@ -63,7 +63,10 @@ export class DepartmentsController {
   @ApiNotFoundResponse({ description: 'Department not found' })
   @ApiConflictResponse({ description: 'A department with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Invalid department ID' })
-  async updateOneById(@Param('id') id: string, @Body() updateDepartmentDto: UpdateDepartmentDto): Promise<Department> {
+  async updateOneById(
+    @Param('id') id: string,
+    @Body() updateDepartmentDto: UpdateDepartmentDto
+  ): Promise<Department> {
     return await this.departmentsService.updateOneById(id, updateDepartmentDto);
   }
 

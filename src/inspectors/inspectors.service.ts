@@ -125,7 +125,7 @@ export class InspectorsService {
                   },
                   {
                     $not: {
-                      $in: ['$$item.Name', [...EXCEPTION_USERACCOUNTS.map((item) => item.regex)]]
+                      $in: ['$$item.Name', [...EXCEPTION_USERACCOUNTS.map(item => item.regex)]]
                     }
                   }
                 ]
@@ -176,7 +176,10 @@ export class InspectorsService {
                         $gt: [
                           {
                             $size: {
-                              $setIntersection: [{ $ifNull: ['$warningUseraccount.Name', []] }, '$useradmin']
+                              $setIntersection: [
+                                { $ifNull: ['$warningUseraccount.Name', []] },
+                                '$useradmin'
+                              ]
                             }
                           },
                           0
@@ -205,7 +208,7 @@ export class InspectorsService {
                             $size: {
                               $setIntersection: [
                                 { $ifNull: ['$product.Name', []] },
-                                [...UNWANTED_SOFTWARE.map((item) => item.regex)]
+                                [...UNWANTED_SOFTWARE.map(item => item.regex)]
                               ]
                             }
                           },

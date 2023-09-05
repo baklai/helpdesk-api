@@ -65,7 +65,10 @@ export class UsersController {
   @ApiOkResponse({ description: 'User updated successfully', type: UserDto })
   @ApiNotFoundResponse({ description: 'User not found' })
   @ApiBadRequestResponse({ description: 'Invalid user ID' })
-  async updateOneById(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<User> {
+  async updateOneById(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto
+  ): Promise<User> {
     return await this.userService.updateOneById(id, updateUserDto);
   }
 

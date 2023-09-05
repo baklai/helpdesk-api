@@ -63,7 +63,10 @@ export class LocationsController {
   @ApiNotFoundResponse({ description: 'Location not found' })
   @ApiConflictResponse({ description: 'A location with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Invalid location ID' })
-  async updateOneById(@Param('id') id: string, @Body() updateLocationDto: UpdateLocationDto): Promise<Location> {
+  async updateOneById(
+    @Param('id') id: string,
+    @Body() updateLocationDto: UpdateLocationDto
+  ): Promise<Location> {
     return await this.locationsService.updateOneById(id, updateLocationDto);
   }
 

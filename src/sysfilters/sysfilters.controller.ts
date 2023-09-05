@@ -61,7 +61,10 @@ export class SysfiltersController {
   @ApiOkResponse({ description: 'Filter updated successfully', type: SysfilterDto })
   @ApiNotFoundResponse({ description: 'Filter not found' })
   @ApiBadRequestResponse({ description: 'Invalid filter ID' })
-  async updateOneById(@Param('id') id: string, @Body() updateBranchDto: UpdateSysfilterDto): Promise<Sysfilter> {
+  async updateOneById(
+    @Param('id') id: string,
+    @Body() updateBranchDto: UpdateSysfilterDto
+  ): Promise<Sysfilter> {
     return await this.filtersService.updateOneById(id, updateBranchDto);
   }
 

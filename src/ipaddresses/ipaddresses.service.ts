@@ -11,7 +11,9 @@ import { UpdateIpaddressDto } from './dto/update-ipaddress.dto';
 
 @Injectable()
 export class IpaddressesService {
-  constructor(@InjectModel(Ipaddress.name) private readonly ipaddressModel: PaginateModel<Ipaddress>) {}
+  constructor(
+    @InjectModel(Ipaddress.name) private readonly ipaddressModel: PaginateModel<Ipaddress>
+  ) {}
 
   async create(createIpaddressDto: CreateIpaddressDto): Promise<Ipaddress> {
     const { ipaddress } = createIpaddressDto;

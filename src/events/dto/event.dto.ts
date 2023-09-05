@@ -1,11 +1,27 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsDate, IsDefined, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-
-import { MongoSchemaDto } from 'src/common/dto/mongosee-schema.dto';
+import {
+  IsDate,
+  IsDefined,
+  IsEnum,
+  IsMongoId,
+  IsNotEmpty,
+  IsOptional,
+  IsString
+} from 'class-validator';
 
 import { EventType } from '../schemas/event.schema';
 
-export class EventDto extends MongoSchemaDto {
+export class EventDto {
+  @ApiProperty({
+    description: 'The ID of the record (unique)',
+    example: '6299b5cebf44864bfcea36d4'
+  })
+  @IsString()
+  @IsMongoId()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly id: string;
+
   @ApiProperty({ description: 'The title of the event', example: 'Meeting with Team' })
   @IsString()
   @IsDefined()
@@ -36,4 +52,24 @@ export class EventDto extends MongoSchemaDto {
   @IsString()
   @IsOptional()
   readonly description?: string;
+
+  @ApiPropertyOptional({
+    description: 'The created date of the record',
+    example: '2021-06-03T07:18:38.233Z'
+  })
+  @IsDate()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  readonly createdAt?: Date;
+
+  @ApiPropertyOptional({
+    description: 'The updated date of the record',
+    example: '2022-06-03T07:18:38.233Z'
+  })
+  @IsDate()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  readonly updatedAt?: Date;
 }

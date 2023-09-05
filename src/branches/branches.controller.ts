@@ -63,7 +63,10 @@ export class BranchesController {
   @ApiNotFoundResponse({ description: 'Branch not found' })
   @ApiConflictResponse({ description: 'A branch with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Invalid branch ID' })
-  async updateOneById(@Param('id') id: string, @Body() updateBranchDto: UpdateBranchDto): Promise<Branch> {
+  async updateOneById(
+    @Param('id') id: string,
+    @Body() updateBranchDto: UpdateBranchDto
+  ): Promise<Branch> {
     return await this.branchesService.updateOneById(id, updateBranchDto);
   }
 

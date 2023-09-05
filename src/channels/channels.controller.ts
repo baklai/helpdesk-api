@@ -64,7 +64,10 @@ export class ChannelsController {
   @ApiOkResponse({ description: 'Channel updated successfully', type: ChannelDto })
   @ApiNotFoundResponse({ description: 'Channel not found' })
   @ApiBadRequestResponse({ description: 'Invalid channel ID' })
-  async updateOneById(@Param('id') id: string, @Body() updateChannelDto: UpdateChannelDto): Promise<Channel> {
+  async updateOneById(
+    @Param('id') id: string,
+    @Body() updateChannelDto: UpdateChannelDto
+  ): Promise<Channel> {
     return await this.channelService.updateOneById(id, updateChannelDto);
   }
 

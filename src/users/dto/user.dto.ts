@@ -2,9 +2,11 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsArray,
   IsBoolean,
+  IsDate,
   IsDefined,
   IsEmail,
   IsInt,
+  IsMongoId,
   IsNotEmpty,
   IsOptional,
   IsPhoneNumber,
@@ -14,10 +16,19 @@ import {
   MinLength
 } from 'class-validator';
 
-import { MongoSchemaDto } from 'src/common/dto/mongosee-schema.dto';
 import { Scope } from 'src/common/enums/scope.enum';
 
-export class UserDto extends MongoSchemaDto {
+export class UserDto {
+  @ApiProperty({
+    description: 'The ID of the record (unique)',
+    example: '6299b5cebf44864bfcea36d4'
+  })
+  @IsString()
+  @IsMongoId()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly id: string;
+
   @ApiProperty({ description: 'The login of the user', example: 'JohnDoe' })
   @IsString()
   @IsDefined({ message: 'Login must be defined' })
@@ -107,4 +118,24 @@ export class UserDto extends MongoSchemaDto {
   @IsNotEmpty()
   @IsOptional()
   readonly scope?: Scope;
+
+  @ApiPropertyOptional({
+    description: 'The created date of the record',
+    example: '2021-06-03T07:18:38.233Z'
+  })
+  @IsDate()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  readonly createdAt?: Date;
+
+  @ApiPropertyOptional({
+    description: 'The updated date of the record',
+    example: '2022-06-03T07:18:38.233Z'
+  })
+  @IsDate()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  readonly updatedAt?: Date;
 }

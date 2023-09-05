@@ -63,7 +63,10 @@ export class CompaniesController {
   @ApiNotFoundResponse({ description: 'Company not found' })
   @ApiConflictResponse({ description: 'A company with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Invalid company ID' })
-  async updateOneById(@Param('id') id: string, @Body() updateCompanyDto: UpdateCompanyDto): Promise<Company> {
+  async updateOneById(
+    @Param('id') id: string,
+    @Body() updateCompanyDto: UpdateCompanyDto
+  ): Promise<Company> {
     return await this.companiesService.updateOneById(id, updateCompanyDto);
   }
 

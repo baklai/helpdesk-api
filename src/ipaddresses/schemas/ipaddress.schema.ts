@@ -207,6 +207,7 @@ IpaddressSchema.virtual('status.internet').get(function () {
 IpaddressSchema.virtual('status.email').get(function () {
   if (!this?.email) return false;
   if (this?.email?.length === 0) return false;
-  if (this?.email?.find((item) => item?.login && item?.mail && item?.dateOpen && !item?.dateClose)) return true;
+  if (this?.email?.find(item => item?.login && item?.mail && item?.dateOpen && !item?.dateClose))
+    return true;
   return false;
 });

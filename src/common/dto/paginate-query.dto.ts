@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsObject, IsOptional, IsPositive, Max, Min } from 'class-validator';
+import { IsInt, IsObject, IsOptional, Max, Min } from 'class-validator';
 
 export class PaginateQueryDto {
   @ApiProperty({ description: 'Number of items per page', example: 5 })

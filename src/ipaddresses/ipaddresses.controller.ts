@@ -54,7 +54,10 @@ export class IpaddressesController {
   @ApiOkResponse({ description: 'Success', type: IpaddressDto })
   @ApiNotFoundResponse({ description: 'Ipaddress not found' })
   @ApiBadRequestResponse({ description: 'Invalid ipaddress ID' })
-  async findOneById(@Param('search') search: string, @Query('populate') populate: boolean): Promise<Ipaddress> {
+  async findOneById(
+    @Param('search') search: string,
+    @Query('populate') populate: boolean
+  ): Promise<Ipaddress> {
     if (isIP(search)) {
       return await this.ipaddressService.findOneByIP(search, populate);
     } else {
@@ -68,7 +71,10 @@ export class IpaddressesController {
   @ApiOkResponse({ description: 'Ipaddress updated successfully', type: IpaddressDto })
   @ApiNotFoundResponse({ description: 'Ipaddress not found' })
   @ApiBadRequestResponse({ description: 'Invalid ipaddress ID' })
-  async updateOneById(@Param('id') id: string, @Body() updateChannelDto: UpdateIpaddressDto): Promise<Ipaddress> {
+  async updateOneById(
+    @Param('id') id: string,
+    @Body() updateChannelDto: UpdateIpaddressDto
+  ): Promise<Ipaddress> {
     return await this.ipaddressService.updateOneById(id, updateChannelDto);
   }
 

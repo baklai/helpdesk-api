@@ -63,7 +63,10 @@ export class EnterprisesController {
   @ApiNotFoundResponse({ description: 'Enterprise not found' })
   @ApiConflictResponse({ description: 'A enterprise with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Invalid enterprise ID' })
-  async updateOneById(@Param('id') id: string, @Body() updateEnterpriseDto: UpdateEnterpriseDto): Promise<Enterprise> {
+  async updateOneById(
+    @Param('id') id: string,
+    @Body() updateEnterpriseDto: UpdateEnterpriseDto
+  ): Promise<Enterprise> {
     return await this.enterprisesService.updateOneById(id, updateEnterpriseDto);
   }
 

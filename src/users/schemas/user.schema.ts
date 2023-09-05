@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import * as bcrypt from 'bcrypt';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -46,41 +45,3 @@ export class User {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
-
-UserSchema.statics.toFindAllResponse = function (user) {
-  return {
-    id: user._id.toString(),
-    login: user.login,
-    fullname: user.fullname,
-    email: user.email,
-    phone: user.phone,
-    timeout: user.timeout,
-    isActive: user.isActive,
-    isAdmin: user.isAdmin,
-    scope: user?.scope?.length || 0
-  };
-};
-
-UserSchema.statics.toFindResponse = function (user) {
-  return {
-    id: user._id.toString(),
-    login: user.login,
-    fullname: user.fullname,
-    email: user.email,
-    phone: user.phone
-  };
-};
-
-UserSchema.statics.toResponse = function (user) {
-  return {
-    id: user._id.toString(),
-    login: user.login,
-    fullname: user.fullname,
-    email: user.email,
-    phone: user.phone,
-    timeout: user.timeout,
-    isActive: user.isActive,
-    isAdmin: user.isAdmin,
-    scope: user.scope
-  };
-};

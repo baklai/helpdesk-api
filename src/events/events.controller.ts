@@ -61,7 +61,10 @@ export class EventsController {
   @ApiOkResponse({ description: 'Event updated successfully', type: EventDto })
   @ApiNotFoundResponse({ description: 'Event not found' })
   @ApiBadRequestResponse({ description: 'Invalid event ID' })
-  async updateOneById(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto): Promise<Event> {
+  async updateOneById(
+    @Param('id') id: string,
+    @Body() updateEventDto: UpdateEventDto
+  ): Promise<Event> {
     return await this.eventService.updateOneById(id, updateEventDto);
   }
 

@@ -12,7 +12,6 @@ import {
   IsDefined
 } from 'class-validator';
 
-import { MongoSchemaDto } from 'src/common/dto/mongosee-schema.dto';
 import { BranchDto } from 'src/branches/dto/branch.dto';
 import { CompanyDto } from 'src/companies/dto/company.dto';
 import { DepartmentDto } from 'src/departments/dto/department.dto';
@@ -97,7 +96,17 @@ class EmailDto {
   comment?: string;
 }
 
-export class IpaddressDto extends MongoSchemaDto {
+export class IpaddressDto {
+  @ApiProperty({
+    description: 'The ID of the record (unique)',
+    example: '6299b5cebf44864bfcea36d4'
+  })
+  @IsString()
+  @IsMongoId()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly id: string;
+
   @ApiProperty({ description: 'IP address', example: '192.168.1.1' })
   @IsIP()
   @IsString()
@@ -216,4 +225,24 @@ export class IpaddressDto extends MongoSchemaDto {
   @IsOptional()
   @ValidateNested({ each: true })
   email?: EmailDto[];
+
+  @ApiPropertyOptional({
+    description: 'The created date of the record',
+    example: '2021-06-03T07:18:38.233Z'
+  })
+  @IsDate()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  readonly createdAt?: Date;
+
+  @ApiPropertyOptional({
+    description: 'The updated date of the record',
+    example: '2022-06-03T07:18:38.233Z'
+  })
+  @IsDate()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  readonly updatedAt?: Date;
 }

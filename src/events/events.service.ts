@@ -36,7 +36,9 @@ export class EventsService {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid event ID');
     }
-    const updatedEvent = await this.eventModel.findByIdAndUpdate(id, { $set: updateEventDto }, { new: true }).exec();
+    const updatedEvent = await this.eventModel
+      .findByIdAndUpdate(id, { $set: updateEventDto }, { new: true })
+      .exec();
     if (!updatedEvent) {
       throw new NotFoundException('Event not found');
     }

@@ -63,7 +63,10 @@ export class PositionsController {
   @ApiNotFoundResponse({ description: 'Position not found' })
   @ApiConflictResponse({ description: 'A position with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Invalid position ID' })
-  async updateOneById(@Param('id') id: string, @Body() updatePositionDto: UpdatePositionDto): Promise<Position> {
+  async updateOneById(
+    @Param('id') id: string,
+    @Body() updatePositionDto: UpdatePositionDto
+  ): Promise<Position> {
     return await this.positionsService.updateOneById(id, updatePositionDto);
   }
 

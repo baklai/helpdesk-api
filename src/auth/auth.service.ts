@@ -39,7 +39,7 @@ export class AuthService {
   }
 
   async signin(authDto: AuthDto): Promise<TokensDto> {
-    const user = await this.userModel.findOne({ login: authDto.login });
+    const user = await this.userModel.findOne({ login: authDto.login }).select('password').exec();
     if (!user) {
       throw new BadRequestException('User does not exist');
     }
@@ -50,7 +50,13 @@ export class AuthService {
     if (!passwordMatches) {
       throw new BadRequestException('The password is incorrect');
     }
-    const tokens = await this.generateTokens(user.id, user.login, user.isActive, user.isAdmin, user.scope);
+    const tokens = await this.generateTokens(
+      user.id,
+      user.login,
+      user.isActive,
+      user.isAdmin,
+      user.scope
+    );
 
     await this.updateRefreshToken(user.id, tokens.refreshToken);
 
@@ -58,7 +64,10 @@ export class AuthService {
   }
 
   async signup(authDto: CreateUserDto): Promise<User> {
-    const userExists = await this.userModel.findOne({ login: authDto.login });
+    const userExists = await this.userModel
+      .findOne({ login: authDto.login })
+      .select('password')
+      .exec();
     if (userExists) {
       throw new ConflictException('User already exists');
     }
@@ -72,11 +81,12 @@ export class AuthService {
   }
 
   async signout(userId: string) {
-    return this.refreshTokenModel.findOneAndDelete({ userId });
+    await this.refreshTokenModel.findOneAndDelete({ userId });
+    return;
   }
 
   async refresh(userId: string, refreshToken: string) {
-    const user = await this.userModel.findById(userId);
+    const user = await this.userModel.findById(userId).select('password');
     const rtStore = await this.refreshTokenModel.findOne({ userId });
     if (!user || !user?.isActive || !rtStore?.refreshToken) {
       throw new UnauthorizedException();
@@ -85,12 +95,24 @@ export class AuthService {
     if (!refreshTokenMatches) {
       throw new UnauthorizedException();
     }
-    const tokens = await this.generateTokens(user.id, user.login, user.isActive, user.isAdmin, user.scope);
+    const tokens = await this.generateTokens(
+      user.id,
+      user.login,
+      user.isActive,
+      user.isAdmin,
+      user.scope
+    );
     await this.updateRefreshToken(user.id, tokens.refreshToken);
     return tokens;
   }
 
-  async generateTokens(id: string, login: string, isActive: boolean, isAdmin: boolean, scope: string[]) {
+  async generateTokens(
+    id: string,
+    login: string,
+    isActive: boolean,
+    isAdmin: boolean,
+    scope: string[]
+  ) {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
         { id, login, isActive, isAdmin, scope },
@@ -112,9 +134,16 @@ export class AuthService {
   }
 
   async updateRefreshToken(userId: string, refreshToken: string) {
-    const hashedRefreshToken = await bcrypt.hash(refreshToken, this.configService.get('bcryptSalt'));
+    const hashedRefreshToken = await bcrypt.hash(
+      refreshToken,
+      this.configService.get('bcryptSalt')
+    );
     await this.refreshTokenModel
-      .findOneAndUpdate({ userId }, { userId, refreshToken: hashedRefreshToken }, { new: true, upsert: true })
+      .findOneAndUpdate(
+        { userId },
+        { userId, refreshToken: hashedRefreshToken },
+        { new: true, upsert: true }
+      )
       .exec();
   }
 }

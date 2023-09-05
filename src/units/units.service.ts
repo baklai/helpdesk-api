@@ -1,4 +1,9 @@
-import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 
@@ -41,7 +46,9 @@ export class UnitsService {
       throw new BadRequestException('Invalid unit ID');
     }
     try {
-      const updatedUnit = await this.unitModel.findByIdAndUpdate(id, { $set: updateUnitDto }, { new: true }).exec();
+      const updatedUnit = await this.unitModel
+        .findByIdAndUpdate(id, { $set: updateUnitDto }, { new: true })
+        .exec();
       if (!updatedUnit) {
         throw new NotFoundException('Unit not found');
       }

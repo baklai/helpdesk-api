@@ -66,7 +66,10 @@ export class InspectorsController {
   @ApiOkResponse({ description: 'Inspector updated successfully', type: InspectorDto })
   @ApiNotFoundResponse({ description: 'Inspector not found' })
   @ApiBadRequestResponse({ description: 'Invalid inspector ID' })
-  async updateOneById(@Param('id') id: string, @Body() updateInspectorDto: UpdateInspectorDto): Promise<Inspector> {
+  async updateOneById(
+    @Param('id') id: string,
+    @Body() updateInspectorDto: UpdateInspectorDto
+  ): Promise<Inspector> {
     return await this.inspectorService.updateOneById(id, updateInspectorDto);
   }
 

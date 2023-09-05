@@ -54,7 +54,9 @@ export class UsersService {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid user ID');
     }
-    const updatedUser = await this.userModel.findByIdAndUpdate(id, { $set: updateUserDto }, { new: true }).exec();
+    const updatedUser = await this.userModel
+      .findByIdAndUpdate(id, { $set: updateUserDto }, { new: true })
+      .exec();
     if (!updatedUser) {
       throw new NotFoundException('User not found');
     }

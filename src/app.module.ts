@@ -50,7 +50,7 @@ import { FilehostingModule } from './filehosting/filehosting.module';
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         uri: configService.get('mongoURI'),
-        connectionFactory: (connection) => {
+        connectionFactory: connection => {
           connection.plugin((schema: Schema) => {
             schema.set('autoCreate', false);
             schema.set('versionKey', false);

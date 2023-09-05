@@ -54,7 +54,10 @@ export class RequestsController {
   @ApiOkResponse({ description: 'Success', type: RequestDto })
   @ApiNotFoundResponse({ description: 'Request not found' })
   @ApiBadRequestResponse({ description: 'Invalid request ID' })
-  async findOneById(@Param('id') id: string, @Query('populate') populate: boolean): Promise<Request> {
+  async findOneById(
+    @Param('id') id: string,
+    @Query('populate') populate: boolean
+  ): Promise<Request> {
     return await this.requestsService.findOneById(id, populate);
   }
 
@@ -65,7 +68,10 @@ export class RequestsController {
   @ApiNotFoundResponse({ description: 'Request not found' })
   @ApiConflictResponse({ description: 'A request with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Invalid request ID' })
-  async updateOneById(@Param('id') id: string, @Body() updateRequestDto: UpdateRequestDto): Promise<Request> {
+  async updateOneById(
+    @Param('id') id: string,
+    @Body() updateRequestDto: UpdateRequestDto
+  ): Promise<Request> {
     return await this.requestsService.updateOneById(id, updateRequestDto);
   }
 

@@ -63,7 +63,10 @@ export class UnitsController {
   @ApiNotFoundResponse({ description: 'Unit not found' })
   @ApiConflictResponse({ description: 'A unit with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Invalid unit ID' })
-  async updateOneById(@Param('id') id: string, @Body() updateUnitDto: UpdateUnitDto): Promise<Unit> {
+  async updateOneById(
+    @Param('id') id: string,
+    @Body() updateUnitDto: UpdateUnitDto
+  ): Promise<Unit> {
     return await this.unitsService.updateOneById(id, updateUnitDto);
   }
 

@@ -63,7 +63,10 @@ export class NoticesController {
   @ApiNotFoundResponse({ description: 'Notice not found' })
   @ApiConflictResponse({ description: 'A notice with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Invalid notice ID' })
-  async updateOneById(@Param('id') id: string, @Body() updateNoticeDto: UpdateNoticeDto): Promise<Notice> {
+  async updateOneById(
+    @Param('id') id: string,
+    @Body() updateNoticeDto: UpdateNoticeDto
+  ): Promise<Notice> {
     return await this.noticesService.updateOneById(id, updateNoticeDto);
   }
 

@@ -66,7 +66,11 @@ export class StatisticsService {
               autoanswer: [
                 {
                   $match: {
-                    $and: [{ autoanswer: { $ne: '' } }, { autoanswer: { $ne: '-' } }, { autoanswer: { $ne: null } }]
+                    $and: [
+                      { autoanswer: { $ne: '' } },
+                      { autoanswer: { $ne: '-' } },
+                      { autoanswer: { $ne: null } }
+                    ]
                   }
                 },
                 { $count: 'autoanswer' }
@@ -119,7 +123,14 @@ export class StatisticsService {
 
       this.ipaddressModel
         .aggregate([
-          { $lookup: { from: 'locations', localField: 'location', foreignField: '_id', as: 'location' } },
+          {
+            $lookup: {
+              from: 'locations',
+              localField: 'location',
+              foreignField: '_id',
+              as: 'location'
+            }
+          },
           { $unwind: { path: '$location', preserveNullAndEmptyArrays: true } },
           { $group: { _id: '$location.title', count: { $sum: 1 } } },
           { $project: { _id: 0, title: '$_id', count: 1 } }
@@ -128,7 +139,9 @@ export class StatisticsService {
 
       this.ipaddressModel
         .aggregate([
-          { $lookup: { from: 'branches', localField: 'branch', foreignField: '_id', as: 'branch' } },
+          {
+            $lookup: { from: 'branches', localField: 'branch', foreignField: '_id', as: 'branch' }
+          },
           { $unwind: { path: '$branch', preserveNullAndEmptyArrays: true } },
           { $group: { _id: '$branch.title', count: { $sum: 1 } } },
           { $project: { _id: 0, title: '$_id', count: 1 } }
@@ -137,7 +150,14 @@ export class StatisticsService {
 
       this.ipaddressModel
         .aggregate([
-          { $lookup: { from: 'enterprises', localField: 'enterprise', foreignField: '_id', as: 'enterprise' } },
+          {
+            $lookup: {
+              from: 'enterprises',
+              localField: 'enterprise',
+              foreignField: '_id',
+              as: 'enterprise'
+            }
+          },
           { $unwind: { path: '$enterprise', preserveNullAndEmptyArrays: true } },
           { $group: { _id: '$enterprise.title', count: { $sum: 1 } } },
           { $project: { _id: 0, title: '$_id', count: 1 } }
@@ -165,16 +185,17 @@ export class StatisticsService {
     const startOfYear = dayjs().startOf('year');
     const endOfYear = dayjs().endOf('year');
 
-    const [requests, companies, branches, enterprises, departments, locations, positions, units] = await Promise.all([
-      this.requestModel.countDocuments(),
-      this.companyModel.countDocuments(),
-      this.branchModel.countDocuments(),
-      this.enterpriseModel.countDocuments(),
-      this.departmentModel.countDocuments(),
-      this.locationModel.countDocuments(),
-      this.positionModel.countDocuments(),
-      this.unitModel.countDocuments()
-    ]);
+    const [requests, companies, branches, enterprises, departments, locations, positions, units] =
+      await Promise.all([
+        this.requestModel.countDocuments(),
+        this.companyModel.countDocuments(),
+        this.branchModel.countDocuments(),
+        this.enterpriseModel.countDocuments(),
+        this.departmentModel.countDocuments(),
+        this.locationModel.countDocuments(),
+        this.positionModel.countDocuments(),
+        this.unitModel.countDocuments()
+      ]);
 
     const closed = await this.requestModel.countDocuments({ closed: { $ne: null } });
     const opened = await this.requestModel.countDocuments({ closed: { $eq: null } });
@@ -205,7 +226,7 @@ export class StatisticsService {
     });
 
     const data = datesOfMonth.map(({ day, date }) => {
-      return { day, date, count: monthchar.find((item) => item.day === day)?.count || 0 };
+      return { day, date, count: monthchar.find(item => item.day === day)?.count || 0 };
     });
 
     const startOfWeek = dayjs().startOf('week').startOf('day');
@@ -238,7 +259,10 @@ export class StatisticsService {
 
   async inspector() {
     const UNWANTED_SOFTWARE = await this.filterModel.find({ type: 'software', status: 'deny' });
-    const EXCEPTION_USERACCOUNTS = await this.filterModel.find({ type: 'account', status: 'allow' });
+    const EXCEPTION_USERACCOUNTS = await this.filterModel.find({
+      type: 'account',
+      status: 'allow'
+    });
 
     const [count, inspector, days, software] = await Promise.all([
       this.inspectorModel.countDocuments(),
@@ -253,7 +277,11 @@ export class StatisticsService {
                   cond: {
                     $and: [
                       { $ne: ['$$item.Disabled', 1] },
-                      { $not: { $in: ['$$item.Name', [...EXCEPTION_USERACCOUNTS.map((item) => item.regex)]] } }
+                      {
+                        $not: {
+                          $in: ['$$item.Name', [...EXCEPTION_USERACCOUNTS.map(item => item.regex)]]
+                        }
+                      }
                     ]
                   }
                 }
@@ -263,7 +291,9 @@ export class StatisticsService {
                 $filter: {
                   input: '$share',
                   as: 'item',
-                  cond: { $and: [{ $ne: ['$$item.Name', 'print$'] }, { $ne: ['$$item.Name', 'prnproc$'] }] }
+                  cond: {
+                    $and: [{ $ne: ['$$item.Name', 'print$'] }, { $ne: ['$$item.Name', 'prnproc$'] }]
+                  }
                 }
               }
             }
@@ -281,7 +311,14 @@ export class StatisticsService {
 
                         {
                           $gt: [
-                            { $size: { $setIntersection: [{ $ifNull: ['$useraccount.Name', []] }, '$useradmin'] } },
+                            {
+                              $size: {
+                                $setIntersection: [
+                                  { $ifNull: ['$useraccount.Name', []] },
+                                  '$useradmin'
+                                ]
+                              }
+                            },
                             0
                           ]
                         }
@@ -303,7 +340,7 @@ export class StatisticsService {
                               $size: {
                                 $setIntersection: [
                                   { $ifNull: ['$product.Name', []] },
-                                  [...UNWANTED_SOFTWARE.map((item) => item.regex)]
+                                  [...UNWANTED_SOFTWARE.map(item => item.regex)]
                                 ]
                               }
                             },
@@ -322,7 +359,14 @@ export class StatisticsService {
                     if: {
                       $and: [
                         { $gt: [{ $size: { $ifNull: ['$share', []] } }, 0] },
-                        { $gt: [{ $size: { $setIntersection: [{ $ifNull: ['$share.Type', []] }, [0]] } }, 0] }
+                        {
+                          $gt: [
+                            {
+                              $size: { $setIntersection: [{ $ifNull: ['$share.Type', []] }, [0]] }
+                            },
+                            0
+                          ]
+                        }
                       ]
                     },
                     then: true,
@@ -380,7 +424,11 @@ export class StatisticsService {
               output: { count: { $sum: 1 } }
             }
           },
-          { $addFields: { days: { $divide: [{ $subtract: [new Date(), '$_id'] }, 1000 * 60 * 60 * 24] } } },
+          {
+            $addFields: {
+              days: { $divide: [{ $subtract: [new Date(), '$_id'] }, 1000 * 60 * 60 * 24] }
+            }
+          },
           { $project: { _id: 0, days: 1, count: 1 } },
           { $sort: { days: 1 } }
         ])
@@ -396,7 +444,7 @@ export class StatisticsService {
     const [{ warning, useraccount, product, share }] = inspector;
 
     return {
-      unsoftware: UNWANTED_SOFTWARE.map((item) => item.regex),
+      unsoftware: UNWANTED_SOFTWARE.map(item => item.regex),
       software: software ? software : [],
       warning: warning,
       useraccount: useraccount,
