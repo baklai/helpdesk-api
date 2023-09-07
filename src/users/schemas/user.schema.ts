@@ -21,7 +21,6 @@ export class User {
     trim: true,
     unique: true,
     uniqueCaseInsensitive: true
-    // match: [/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 'Please fill a valid email address']
   })
   email: string;
 
@@ -29,7 +28,6 @@ export class User {
     type: String,
     required: true,
     trim: true
-    // match: [/\+\d{2}\(\d{3}\)\d{7}/, 'Please fill a valid phone number']
   })
   phone: string;
 
