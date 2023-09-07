@@ -17,8 +17,8 @@ export class LocationDto {
     example: 'Headquarters'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
+  @IsDefined({ message: 'Location name must be defined' })
+  @IsNotEmpty({ message: 'Location name not be empty' })
   readonly name: string;
 
   @ApiPropertyOptional({

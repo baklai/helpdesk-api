@@ -17,8 +17,8 @@ export class BranchDto {
     example: 'Downtown Branch'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
+  @IsDefined({ message: 'Branch name must be defined' })
+  @IsNotEmpty({ message: 'Branch name not be empty' })
   readonly name: string;
 
   @ApiPropertyOptional({

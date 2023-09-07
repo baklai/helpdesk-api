@@ -14,8 +14,8 @@ export class UnitDto {
 
   @ApiProperty({ description: 'The name of the unit (must be unique)', example: 'Router TP-Link' })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
+  @IsDefined({ message: 'Unit name must be defined' })
+  @IsNotEmpty({ message: 'Unit name not be empty' })
   readonly name: string;
 
   @ApiPropertyOptional({

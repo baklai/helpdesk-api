@@ -17,8 +17,8 @@ export class PositionDto {
     example: 'Senior Software Engineer'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
+  @IsDefined({ message: 'Position name must be defined' })
+  @IsNotEmpty({ message: 'Position name not be empty' })
   readonly name: string;
 
   @ApiPropertyOptional({

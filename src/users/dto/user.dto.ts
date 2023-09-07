@@ -47,21 +47,21 @@ export class UserDto {
 
   @ApiProperty({ description: 'The full name of the user', example: 'John Doe' })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
+  @IsDefined({ message: 'Full name must be defined' })
+  @IsNotEmpty({ message: 'Full name not be empty' })
   readonly fullname: string;
 
   @ApiProperty({ description: 'The email of the user', example: 'john@example.com' })
   @IsEmail()
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
+  @IsDefined({ message: 'Email must be defined' })
+  @IsNotEmpty({ message: 'Email not be empty' })
   readonly email: string;
 
   @ApiProperty({ description: 'The phone number of the user', example: '+38(234)567-89-10' })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
+  @IsDefined({ message: 'Phone number must be defined' })
+  @IsNotEmpty({ message: 'Phone number not be empty' })
   @IsPhoneNumber()
   readonly phone: string;
 

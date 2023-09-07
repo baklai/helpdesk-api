@@ -30,14 +30,14 @@ export class RequestDto {
 
   @ApiProperty({ description: 'Full name of the requester', example: 'John Doe' })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
+  @IsDefined({ message: 'Full name must be defined' })
+  @IsNotEmpty({ message: 'Full name not be empty' })
   fullname: string;
 
   @ApiProperty({ description: 'Phone number of the requester', example: '12-34-567' })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
+  @IsDefined({ message: 'Phone number must be defined' })
+  @IsNotEmpty({ message: 'Phone number not be empty' })
   phone: string;
 
   @ApiPropertyOptional({ description: 'IP address of the requester', example: '192.168.1.1' })
@@ -57,8 +57,8 @@ export class RequestDto {
 
   @ApiProperty({ description: 'Request message', example: 'Please fix the issue' })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
+  @IsDefined({ message: 'Request must be defined' })
+  @IsNotEmpty({ message: 'Request not be empty' })
   request: string;
 
   @ApiPropertyOptional({

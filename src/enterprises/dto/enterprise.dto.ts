@@ -17,8 +17,8 @@ export class EnterpriseDto {
     example: 'Tech Solutions Inc.'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
+  @IsDefined({ message: 'Enterprise name must be defined' })
+  @IsNotEmpty({ message: 'Enterprise name not be empty' })
   readonly name: string;
 
   @ApiPropertyOptional({

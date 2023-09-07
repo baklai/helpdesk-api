@@ -17,8 +17,8 @@ export class DepartmentDto {
     example: 'Sales Department'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
+  @IsDefined({ message: 'Department name must be defined' })
+  @IsNotEmpty({ message: 'Department name not be empty' })
   readonly name: string;
 
   @ApiPropertyOptional({
