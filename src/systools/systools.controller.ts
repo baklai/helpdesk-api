@@ -1,7 +1,7 @@
-import { Controller, Get, Query, Req } from '@nestjs/common';
+import { Controller, Get, Header, Query, Req, Res } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { pingResponse } from 'pingman';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 
 import { SystoolsService } from './systools.service';
 import { QueryDto } from './dto/query-systool.dto';
@@ -12,21 +12,25 @@ export class SystoolsController {
   constructor(private readonly systoolsService: SystoolsService) {}
 
   @Get('/rdp')
+  @Header('content-type', 'application/octet-stream')
   @ApiOperation({ summary: 'Generate an RDP (Remote Desktop Protocol) link' })
-  onLinkRDP(@Query() query: QueryDto): Buffer {
-    return this.systoolsService.linkRDP(query);
+  onLinkRDP(@Query() query: QueryDto, @Res() res: Response) {
+    const blob = this.systoolsService.linkRDP(query);
+    res.send(blob);
   }
 
   @Get('/vnc')
   @ApiOperation({ summary: 'Generate a VNC (Virtual Network Computing) link' })
-  onLinkVNC(@Query() query: QueryDto): Buffer {
-    return this.systoolsService.linkVNC(query);
+  onLinkVNC(@Query() query: QueryDto, @Res() res: Response) {
+    const blob = this.systoolsService.linkVNC(query);
+    res.send(blob);
   }
 
   @Get('/ping')
   @ApiOperation({ summary: 'Generate a ping link' })
-  onLinkPing(@Query() query: QueryDto): Buffer {
-    return this.systoolsService.linkPing(query);
+  onLinkPing(@Query() query: QueryDto, @Res() res: Response) {
+    const blob = this.systoolsService.linkPing(query);
+    res.send(blob);
   }
 
   @Get('/ping-online')
@@ -37,9 +41,10 @@ export class SystoolsController {
 
   @Get('/inspector')
   @ApiOperation({ summary: 'Retrieve a script for inspecting system information' })
-  onScriptInspector(@Req() request: Request): Buffer {
+  onScriptInspector(@Req() request: Request, @Res() res: Response) {
     const protocol = request.protocol;
     const host = request.get('Host');
-    return this.systoolsService.scriptInspector(protocol, host);
+    const blob = this.systoolsService.scriptInspector(protocol, host);
+    res.send(blob);
   }
 }
