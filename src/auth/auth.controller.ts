@@ -14,8 +14,8 @@ import {
   ApiConflictResponse,
   ApiOkResponse,
   ApiBearerAuth,
-  ApiTags,
-  ApiOperation
+  ApiOperation,
+  ApiTags
 } from '@nestjs/swagger';
 
 import { User } from 'src/users/schemas/user.schema';
@@ -39,16 +39,16 @@ export class AuthController {
   @UseGuards(AccessTokenGuard, RolesGuard)
   @ApiOperation({ summary: 'Retrieve user information' })
   @ApiOkResponse({ description: 'Success', type: UserDto })
-  me(@Request() req: Record<string, any>): Promise<User> {
-    return this.authService.me(req.user.id);
+  async me(@Request() req: Record<string, any>): Promise<User> {
+    return await this.authService.me(req.user.id);
   }
 
   @Post('signin')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Authenticate user and generate access tokens' })
   @ApiOkResponse({ description: 'User authenticated successfully', type: TokensDto })
-  signin(@Body() authDto: AuthDto): Promise<TokensDto> {
-    return this.authService.signin(authDto);
+  async signin(@Body() authDto: AuthDto): Promise<TokensDto> {
+    return await this.authService.signin(authDto);
   }
 
   @Post('signup')
@@ -56,8 +56,8 @@ export class AuthController {
   @ApiConflictResponse({ description: 'A login with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Bad request' })
   @ApiOkResponse({ description: 'Success', type: UserDto })
-  signup(@Body() authDto: CreateUserDto): Promise<User> {
-    return this.authService.signup(authDto);
+  async signup(@Body() authDto: CreateUserDto): Promise<User> {
+    return await this.authService.signup(authDto);
   }
 
   @Get('refresh')
@@ -65,17 +65,17 @@ export class AuthController {
   @UseGuards(RefreshTokenGuard)
   @ApiOperation({ summary: 'Refresh access tokens using a valid refresh token' })
   @ApiOkResponse({ description: 'Success', type: TokensDto })
-  refresh(@Req() req: Record<string, any>): Promise<TokensDto> {
+  async refresh(@Req() req: Record<string, any>): Promise<TokensDto> {
     const userId = req.user['id'];
     const refreshToken = req.user['refreshToken'];
-    return this.authService.refresh(userId, refreshToken);
+    return await this.authService.refresh(userId, refreshToken);
   }
 
   @Get('signout')
   @ApiBearerAuth('JWT Guard')
   @UseGuards(AccessTokenGuard)
   @ApiOperation({ summary: 'Sign out and invalidate the access token' })
-  signout(@Req() req: Record<string, any>) {
-    return this.authService.signout(req.user['id']);
+  async signout(@Req() req: Record<string, any>) {
+    return await this.authService.signout(req.user['id']);
   }
 }

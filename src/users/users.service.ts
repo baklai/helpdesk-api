@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Types, PaginateModel, PaginateResult } from 'mongoose';
 
@@ -13,7 +18,11 @@ export class UsersService {
   constructor(@InjectModel(User.name) private readonly userModel: PaginateModel<User>) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    return await this.userModel.create(createUserDto);
+    try {
+      return await this.userModel.create(createUserDto);
+    } catch (error) {
+      throw new UnprocessableEntityException(error.message);
+    }
   }
 
   async findAll(query: PaginateQueryDto): Promise<PaginateResult<User>> {
@@ -54,13 +63,17 @@ export class UsersService {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid user ID');
     }
-    const updatedUser = await this.userModel
-      .findByIdAndUpdate(id, { $set: updateUserDto }, { new: true })
-      .exec();
-    if (!updatedUser) {
-      throw new NotFoundException('User not found');
+    try {
+      const updatedUser = await this.userModel
+        .findByIdAndUpdate(id, { $set: updateUserDto }, { new: true })
+        .exec();
+      if (!updatedUser) {
+        throw new NotFoundException('User not found');
+      }
+      return updatedUser;
+    } catch (error) {
+      throw new UnprocessableEntityException(error.message);
     }
-    return updatedUser;
   }
 
   async removeOneById(id: string): Promise<User> {

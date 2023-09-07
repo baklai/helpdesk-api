@@ -3,7 +3,8 @@ import {
   BadRequestException,
   ConflictException,
   NotFoundException,
-  Injectable
+  Injectable,
+  UnprocessableEntityException
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
@@ -39,10 +40,8 @@ export class AuthService {
   }
 
   async signin({ login, password }: AuthDto): Promise<TokensDto> {
-    const user = await this.userModel
-      .findOne({ login })
-      .select({ password: 1, isActive: 1 })
-      .exec();
+    const user = await this.userModel.findOne({ login }, '+password').exec();
+
     if (!user) {
       throw new BadRequestException('User does not exist');
     }
@@ -53,6 +52,7 @@ export class AuthService {
     if (!passwordMatches) {
       throw new BadRequestException('The password is incorrect');
     }
+
     const tokens = await this.generateTokens(
       user.id,
       user.login,
@@ -70,12 +70,18 @@ export class AuthService {
       throw new ConflictException('User already exists');
     }
     const passwordHash = await bcrypt.hash(authDto.password, this.configService.get('bcryptSalt'));
-    return await this.userModel.create({
-      ...authDto,
-      password: passwordHash,
-      isActive: false,
-      isAdmin: false
-    });
+
+    try {
+      const user = await this.userModel.create({
+        ...authDto,
+        password: passwordHash,
+        isActive: false,
+        isAdmin: false
+      });
+      return await this.userModel.findById(user.id).exec();
+    } catch (error) {
+      throw new UnprocessableEntityException(error.message);
+    }
   }
 
   async signout(userId: string) {

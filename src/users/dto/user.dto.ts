@@ -58,7 +58,7 @@ export class UserDto {
   @IsNotEmpty()
   readonly email: string;
 
-  @ApiProperty({ description: 'The phone number of the user', example: '+1(234)567-89-10' })
+  @ApiProperty({ description: 'The phone number of the user', example: '+38(234)567-89-10' })
   @IsString()
   @IsDefined()
   @IsNotEmpty()
