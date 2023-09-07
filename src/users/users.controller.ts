@@ -49,6 +49,14 @@ export class UsersController {
     return await this.userService.findAll(query);
   }
 
+  @Get('public')
+  @Roles(Scope.UserRead)
+  @ApiOperation({ summary: 'Get public data of users' })
+  @ApiOkResponse({ description: 'Success', type: PaginateUserDto })
+  async findAllPublic(): Promise<User[]> {
+    return await this.userService.findAllPublic();
+  }
+
   @Get(':id')
   @Roles(Scope.UserRead)
   @ApiOperation({ summary: 'Get a user by ID' })

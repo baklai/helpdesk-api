@@ -40,6 +40,10 @@ export class UsersService {
     );
   }
 
+  async findAllPublic(): Promise<User[]> {
+    return await this.userModel.find().exec();
+  }
+
   async findOneById(id: string): Promise<User> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid user ID');
