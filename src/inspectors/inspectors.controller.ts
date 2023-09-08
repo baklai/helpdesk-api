@@ -20,7 +20,6 @@ import { InspectorsService } from './inspectors.service';
 import { Inspector } from './schemas/inspector.schema';
 import { InspectorDto } from './dto/inspector.dto';
 import { CreateInspectorDto } from './dto/create-inspector.dto';
-import { UpdateInspectorDto } from './dto/update-inspector.dto';
 import { PaginateInspectorDto } from './dto/paginate-inspector.dto';
 
 @ApiTags('Inspectors')

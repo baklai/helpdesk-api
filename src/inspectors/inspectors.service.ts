@@ -7,7 +7,6 @@ import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 
 import { Inspector } from './schemas/inspector.schema';
 import { CreateInspectorDto } from './dto/create-inspector.dto';
-import { UpdateInspectorDto } from './dto/update-inspector.dto';
 
 @Injectable()
 export class InspectorsService {
@@ -275,19 +274,6 @@ export class InspectorsService {
       throw new NotFoundException('Channel not found');
     }
     return inspector;
-  }
-
-  async updateOneById(id: string, updateInspectorDto: UpdateInspectorDto): Promise<Inspector> {
-    if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid inspector ID');
-    }
-    const updatedInspector = await this.inspectorModel
-      .findByIdAndUpdate(id, { $set: updateInspectorDto }, { new: true })
-      .exec();
-    if (!updatedInspector) {
-      throw new NotFoundException('Inspector not found');
-    }
-    return updatedInspector;
   }
 
   async removeOneById(id: string): Promise<Inspector> {
