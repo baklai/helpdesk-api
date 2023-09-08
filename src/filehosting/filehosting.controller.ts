@@ -1,11 +1,15 @@
-import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+
+import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 import { FileHostingService } from './filehosting.service';
 import { FileHostingDto } from './dto/filehosting.dto';
 
 @ApiTags('FileHosting')
 @Controller('filehosting')
+@ApiBearerAuth('JWT Guard')
+@UseGuards(AccessTokenGuard)
 export class FilehostingController {
   constructor(private readonly fileHostingService: FileHostingService) {}
 
