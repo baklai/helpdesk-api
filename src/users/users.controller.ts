@@ -13,8 +13,8 @@ import { PaginateResult } from 'mongoose';
 
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { RolesGuard } from 'src/common/guards/scopes.guard';
-import { Roles } from 'src/common/decorators/roles.decorator';
+import { ScopesGuard } from 'src/common/guards/scopes.guard';
+import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
 
 import { UsersService } from './users.service';
@@ -27,13 +27,16 @@ import { PaginateUserDto } from './dto/paginate-user.dto';
 @ApiTags('Users')
 @Controller('users')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard, RolesGuard)
+@UseGuards(AccessTokenGuard, ScopesGuard)
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Post()
-  @Roles(Scope.UserCreate)
-  @ApiOperation({ summary: 'Create a new user' })
+  @Scopes(Scope.UserCreate)
+  @ApiOperation({
+    summary: 'Create a new user',
+    description: 'Required user scopes: [' + [Scope.UserCreate].join(',') + ']'
+  })
   @ApiCreatedResponse({ description: 'User created successfully', type: UserDto })
   @ApiConflictResponse({ description: 'A user with the same login already exists' })
   @ApiBadRequestResponse({ description: 'Bad request' })
@@ -42,8 +45,11 @@ export class UsersController {
   }
 
   @Get()
-  @Roles(Scope.UserRead)
-  @ApiOperation({ summary: 'Get all users' })
+  @Scopes(Scope.UserRead)
+  @ApiOperation({
+    summary: 'Get all users',
+    description: 'Required user scopes: [' + [Scope.UserRead].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Success', type: PaginateUserDto })
   async findAll(@Query() query: PaginateQueryDto): Promise<PaginateResult<User>> {
     return await this.userService.findAll(query);
@@ -57,8 +63,11 @@ export class UsersController {
   }
 
   @Get(':id')
-  @Roles(Scope.UserRead)
-  @ApiOperation({ summary: 'Get a user by ID' })
+  @Scopes(Scope.UserRead)
+  @ApiOperation({
+    summary: 'Get a user by ID',
+    description: 'Required user scopes: [' + [Scope.UserRead].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Success', type: UserDto })
   @ApiNotFoundResponse({ description: 'User not found' })
   @ApiBadRequestResponse({ description: 'Invalid user ID' })
@@ -67,8 +76,11 @@ export class UsersController {
   }
 
   @Put(':id')
-  @Roles(Scope.UserUpdate)
-  @ApiOperation({ summary: 'Update a user by ID' })
+  @Scopes(Scope.UserUpdate)
+  @ApiOperation({
+    summary: 'Update a user by ID',
+    description: 'Required user scopes: [' + [Scope.UserUpdate].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'User updated successfully', type: UserDto })
   @ApiNotFoundResponse({ description: 'User not found' })
   @ApiBadRequestResponse({ description: 'Invalid user ID' })
@@ -80,8 +92,11 @@ export class UsersController {
   }
 
   @Delete(':id')
-  @Roles(Scope.UserDelete)
-  @ApiOperation({ summary: 'Delete a user by ID' })
+  @Scopes(Scope.UserDelete)
+  @ApiOperation({
+    summary: 'Delete a user by ID',
+    description: 'Required user scopes: [' + [Scope.UserDelete].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'User deleted successfully', type: UserDto })
   @ApiNotFoundResponse({ description: 'User not found' })
   @ApiBadRequestResponse({ description: 'Invalid user ID' })

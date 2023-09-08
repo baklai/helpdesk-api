@@ -12,8 +12,8 @@ import { AggregatePaginateResult } from 'mongoose';
 
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { RolesGuard } from 'src/common/guards/scopes.guard';
-import { Roles } from 'src/common/decorators/roles.decorator';
+import { ScopesGuard } from 'src/common/guards/scopes.guard';
+import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
 
 import { InspectorsService } from './inspectors.service';
@@ -37,20 +37,27 @@ export class InspectorsController {
   }
 
   @Get()
-  @Roles(Scope.InspectorRead)
   @ApiBearerAuth('JWT Guard')
-  @UseGuards(AccessTokenGuard, RolesGuard)
-  @ApiOperation({ summary: 'Get all inspectors' })
+  @UseGuards(AccessTokenGuard, ScopesGuard)
+  @Scopes(Scope.InspectorRead)
+  @ApiOperation({
+    summary: 'Get all inspectors',
+    description: 'Required user scopes: [' + [Scope.InspectorRead].join(',') + ']'
+  })
+  @ApiCreatedResponse({ description: 'Inspector created successfully', type: InspectorDto })
   @ApiOkResponse({ description: 'Success', type: PaginateInspectorDto })
   async findAll(@Query() query: PaginateQueryDto): Promise<AggregatePaginateResult<Inspector>> {
     return await this.inspectorService.findAll(query);
   }
 
   @Get(':id')
-  @Roles(Scope.InspectorRead)
   @ApiBearerAuth('JWT Guard')
-  @UseGuards(AccessTokenGuard, RolesGuard)
-  @ApiOperation({ summary: 'Get a inspector by ID' })
+  @UseGuards(AccessTokenGuard, ScopesGuard)
+  @Scopes(Scope.InspectorRead)
+  @ApiOperation({
+    summary: 'Get a inspector by ID',
+    description: 'Required user scopes: [' + [Scope.InspectorRead].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Success', type: InspectorDto })
   @ApiNotFoundResponse({ description: 'Inspector not found' })
   @ApiBadRequestResponse({ description: 'Invalid inspector ID' })
@@ -58,26 +65,14 @@ export class InspectorsController {
     return await this.inspectorService.findOneById(id);
   }
 
-  @Put(':id')
-  @Roles(Scope.InspectorUpdate)
-  @ApiBearerAuth('JWT Guard')
-  @UseGuards(AccessTokenGuard, RolesGuard)
-  @ApiOperation({ summary: 'Update a inspector by ID' })
-  @ApiOkResponse({ description: 'Inspector updated successfully', type: InspectorDto })
-  @ApiNotFoundResponse({ description: 'Inspector not found' })
-  @ApiBadRequestResponse({ description: 'Invalid inspector ID' })
-  async updateOneById(
-    @Param('id') id: string,
-    @Body() updateInspectorDto: UpdateInspectorDto
-  ): Promise<Inspector> {
-    return await this.inspectorService.updateOneById(id, updateInspectorDto);
-  }
-
   @Delete(':id')
-  @Roles(Scope.InspectorDelete)
   @ApiBearerAuth('JWT Guard')
-  @UseGuards(AccessTokenGuard, RolesGuard)
-  @ApiOperation({ summary: 'Delete a inspector by ID' })
+  @UseGuards(AccessTokenGuard, ScopesGuard)
+  @Scopes(Scope.InspectorDelete)
+  @ApiOperation({
+    summary: 'Delete a inspector by ID',
+    description: 'Required user scopes: [' + [Scope.InspectorDelete].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Inspector deleted successfully', type: InspectorDto })
   @ApiNotFoundResponse({ description: 'Inspector not found' })
   @ApiBadRequestResponse({ description: 'Invalid inspector ID' })

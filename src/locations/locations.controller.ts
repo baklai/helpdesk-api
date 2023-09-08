@@ -11,8 +11,8 @@ import {
 } from '@nestjs/swagger';
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { RolesGuard } from 'src/common/guards/scopes.guard';
-import { Roles } from 'src/common/decorators/roles.decorator';
+import { ScopesGuard } from 'src/common/guards/scopes.guard';
+import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
 
 import { LocationsService } from './locations.service';
@@ -24,13 +24,16 @@ import { UpdateLocationDto } from './dto/update-location.dto';
 @ApiTags('Locations')
 @Controller('locations')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard, RolesGuard)
+@UseGuards(AccessTokenGuard, ScopesGuard)
 export class LocationsController {
   constructor(private readonly locationsService: LocationsService) {}
 
   @Post()
-  @Roles(Scope.LocationCreate)
-  @ApiOperation({ summary: 'Create a new location' })
+  @Scopes(Scope.LocationCreate)
+  @ApiOperation({
+    summary: 'Create a new location',
+    description: 'Required user scopes: [' + [Scope.LocationCreate].join(',') + ']'
+  })
   @ApiCreatedResponse({ description: 'Location created successfully', type: LocationDto })
   @ApiConflictResponse({ description: 'A location with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Bad request' })
@@ -39,16 +42,22 @@ export class LocationsController {
   }
 
   @Get()
-  @Roles(Scope.LocationRead)
-  @ApiOperation({ summary: 'Get all locations' })
+  @Scopes(Scope.LocationRead)
+  @ApiOperation({
+    summary: 'Get all locations',
+    description: 'Required user scopes: [' + [Scope.LocationRead].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Success', type: [LocationDto] })
   async findAll(): Promise<Location[]> {
     return await this.locationsService.findAll();
   }
 
   @Get(':id')
-  @Roles(Scope.LocationRead)
-  @ApiOperation({ summary: 'Get a location by ID' })
+  @Scopes(Scope.LocationRead)
+  @ApiOperation({
+    summary: 'Get a location by ID',
+    description: 'Required user scopes: [' + [Scope.LocationRead].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Success', type: LocationDto })
   @ApiNotFoundResponse({ description: 'Location not found' })
   @ApiBadRequestResponse({ description: 'Invalid location ID' })
@@ -57,8 +66,11 @@ export class LocationsController {
   }
 
   @Put(':id')
-  @Roles(Scope.LocationUpdate)
-  @ApiOperation({ summary: 'Update a location by ID' })
+  @Scopes(Scope.LocationUpdate)
+  @ApiOperation({
+    summary: 'Update a location by ID',
+    description: 'Required user scopes: [' + [Scope.LocationUpdate].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Location updated successfully', type: LocationDto })
   @ApiNotFoundResponse({ description: 'Location not found' })
   @ApiConflictResponse({ description: 'A location with the same name already exists' })
@@ -71,8 +83,11 @@ export class LocationsController {
   }
 
   @Delete(':id')
-  @Roles(Scope.LocationDelete)
-  @ApiOperation({ summary: 'Delete a location by ID' })
+  @Scopes(Scope.LocationDelete)
+  @ApiOperation({
+    summary: 'Delete a location by ID',
+    description: 'Required user scopes: [' + [Scope.LocationDelete].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Location deleted successfully', type: LocationDto })
   @ApiNotFoundResponse({ description: 'Location not found' })
   @ApiBadRequestResponse({ description: 'Invalid location ID' })

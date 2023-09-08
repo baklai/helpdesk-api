@@ -11,8 +11,8 @@ import {
 } from '@nestjs/swagger';
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { RolesGuard } from 'src/common/guards/scopes.guard';
-import { Roles } from 'src/common/decorators/roles.decorator';
+import { ScopesGuard } from 'src/common/guards/scopes.guard';
+import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
 
 import { UnitsService } from './units.service';
@@ -24,13 +24,16 @@ import { UpdateUnitDto } from './dto/update-unit.dto';
 @ApiTags('Units')
 @Controller('units')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard, RolesGuard)
+@UseGuards(AccessTokenGuard, ScopesGuard)
 export class UnitsController {
   constructor(private readonly unitsService: UnitsService) {}
 
   @Post()
-  @Roles(Scope.UnitCreate)
-  @ApiOperation({ summary: 'Create a new unit' })
+  @Scopes(Scope.UnitCreate)
+  @ApiOperation({
+    summary: 'Create a new unit',
+    description: 'Required user scopes: [' + [Scope.UnitCreate].join(',') + ']'
+  })
   @ApiCreatedResponse({ description: 'Unit created successfully', type: UnitDto })
   @ApiConflictResponse({ description: 'A unit with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Bad request' })
@@ -39,16 +42,22 @@ export class UnitsController {
   }
 
   @Get()
-  @Roles(Scope.UnitRead)
-  @ApiOperation({ summary: 'Get all units' })
+  @Scopes(Scope.UnitRead)
+  @ApiOperation({
+    summary: 'Get all units',
+    description: 'Required user scopes: [' + [Scope.UnitRead].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Success', type: [UnitDto] })
   async findAll(): Promise<Unit[]> {
     return await this.unitsService.findAll();
   }
 
   @Get(':id')
-  @Roles(Scope.UnitRead)
-  @ApiOperation({ summary: 'Get a unit by ID' })
+  @Scopes(Scope.UnitRead)
+  @ApiOperation({
+    summary: 'Get a unit by ID',
+    description: 'Required user scopes: [' + [Scope.UnitRead].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Success', type: UnitDto })
   @ApiNotFoundResponse({ description: 'Unit not found' })
   @ApiBadRequestResponse({ description: 'Invalid unit ID' })
@@ -57,8 +66,11 @@ export class UnitsController {
   }
 
   @Put(':id')
-  @Roles(Scope.UnitUpdate)
-  @ApiOperation({ summary: 'Update a unit by ID' })
+  @Scopes(Scope.UnitUpdate)
+  @ApiOperation({
+    summary: 'Update a unit by ID',
+    description: 'Required user scopes: [' + [Scope.UnitUpdate].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Unit updated successfully', type: UnitDto })
   @ApiNotFoundResponse({ description: 'Unit not found' })
   @ApiConflictResponse({ description: 'A unit with the same name already exists' })
@@ -71,8 +83,11 @@ export class UnitsController {
   }
 
   @Delete(':id')
-  @Roles(Scope.UnitDelete)
-  @ApiOperation({ summary: 'Delete a unit by ID' })
+  @Scopes(Scope.UnitDelete)
+  @ApiOperation({
+    summary: 'Delete a unit by ID',
+    description: 'Required user scopes: [' + [Scope.UnitDelete].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Unit deleted successfully', type: UnitDto })
   @ApiNotFoundResponse({ description: 'Unit not found' })
   @ApiBadRequestResponse({ description: 'Invalid unit ID' })

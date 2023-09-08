@@ -2,8 +2,8 @@ import { Controller, Get, HttpCode, HttpStatus, UseGuards } from '@nestjs/common
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { RolesGuard } from 'src/common/guards/scopes.guard';
-import { Roles } from 'src/common/decorators/roles.decorator';
+import { ScopesGuard } from 'src/common/guards/scopes.guard';
+import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
 
 import { StatisticsService } from './statistics.service';
@@ -11,38 +11,50 @@ import { StatisticsService } from './statistics.service';
 @ApiTags('Statistics')
 @Controller('statistics')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard, RolesGuard)
+@UseGuards(AccessTokenGuard, ScopesGuard)
 export class StatisticsController {
   constructor(private readonly statisticsService: StatisticsService) {}
 
   @Get('network')
-  @Roles(Scope.StatisticNetworkRead)
+  @Scopes(Scope.StatisticNetworkRead)
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'Retrieve network statistics' })
+  @ApiOperation({
+    summary: 'Retrieve network statistics',
+    description: 'Required user scopes: [' + [Scope.StatisticNetworkRead].join(',') + ']'
+  })
   async network() {
     return await this.statisticsService.network();
   }
 
   @Get('request')
-  @Roles(Scope.StatisticRequestRead)
+  @Scopes(Scope.StatisticRequestRead)
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'Retrieve request statistics' })
+  @ApiOperation({
+    summary: 'Retrieve request statistics',
+    description: 'Required user scopes: [' + [Scope.StatisticRequestRead].join(',') + ']'
+  })
   async request() {
     return await this.statisticsService.request();
   }
 
   @Get('inspector')
-  @Roles(Scope.StatisticInspectorRead)
+  @Scopes(Scope.StatisticInspectorRead)
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'Retrieve inspector statistics' })
+  @ApiOperation({
+    summary: 'Retrieve inspector statistics',
+    description: 'Required user scopes: [' + [Scope.StatisticInspectorRead].join(',') + ']'
+  })
   async inspector() {
     return await this.statisticsService.inspector();
   }
 
   @Get('dashboard')
-  @Roles(Scope.StatisticDashboardRead)
+  @Scopes(Scope.StatisticDashboardRead)
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'Retrieve dashboard statistics' })
+  @ApiOperation({
+    summary: 'Retrieve dashboard statistics',
+    description: 'Required user scopes: [' + [Scope.StatisticDashboardRead].join(',') + ']'
+  })
   async dashboard() {
     return await this.statisticsService.dashboard();
   }

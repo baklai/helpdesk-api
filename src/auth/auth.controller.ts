@@ -23,7 +23,7 @@ import { UserDto } from 'src/users/dto/user.dto';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { RefreshTokenGuard } from 'src/common/guards/refreshToken.guard';
-import { RolesGuard } from 'src/common/guards/scopes.guard';
+import { ScopesGuard } from 'src/common/guards/scopes.guard';
 
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto/auth.dto';
@@ -36,7 +36,7 @@ export class AuthController {
 
   @Get('me')
   @ApiBearerAuth('JWT Guard')
-  @UseGuards(AccessTokenGuard, RolesGuard)
+  @UseGuards(AccessTokenGuard, ScopesGuard)
   @ApiOperation({ summary: 'Retrieve user information' })
   @ApiOkResponse({ description: 'Success', type: UserDto })
   async me(@Request() req: Record<string, any>): Promise<User> {

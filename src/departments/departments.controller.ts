@@ -11,8 +11,8 @@ import {
 } from '@nestjs/swagger';
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { RolesGuard } from 'src/common/guards/scopes.guard';
-import { Roles } from 'src/common/decorators/roles.decorator';
+import { ScopesGuard } from 'src/common/guards/scopes.guard';
+import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
 
 import { DepartmentsService } from './departments.service';
@@ -24,13 +24,16 @@ import { UpdateDepartmentDto } from './dto/update-department.dto';
 @ApiTags('Departments')
 @Controller('departments')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard, RolesGuard)
+@UseGuards(AccessTokenGuard, ScopesGuard)
 export class DepartmentsController {
   constructor(private readonly departmentsService: DepartmentsService) {}
 
   @Post()
-  @Roles(Scope.DepartmentCreate)
-  @ApiOperation({ summary: 'Create a new department' })
+  @Scopes(Scope.DepartmentCreate)
+  @ApiOperation({
+    summary: 'Create a new department',
+    description: 'Required user scopes: [' + [Scope.DepartmentCreate].join(',') + ']'
+  })
   @ApiCreatedResponse({ description: 'Department created successfully', type: DepartmentDto })
   @ApiConflictResponse({ description: 'A department with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Bad request' })
@@ -39,16 +42,22 @@ export class DepartmentsController {
   }
 
   @Get()
-  @Roles(Scope.DepartmentRead)
-  @ApiOperation({ summary: 'Get all departments' })
+  @Scopes(Scope.DepartmentRead)
+  @ApiOperation({
+    summary: 'Get all departments',
+    description: 'Required user scopes: [' + [Scope.DepartmentRead].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Success', type: [DepartmentDto] })
   async findAll(): Promise<Department[]> {
     return await this.departmentsService.findAll();
   }
 
   @Get(':id')
-  @Roles(Scope.DepartmentRead)
-  @ApiOperation({ summary: 'Get a department by ID' })
+  @Scopes(Scope.DepartmentRead)
+  @ApiOperation({
+    summary: 'Get a department by ID',
+    description: 'Required user scopes: [' + [Scope.DepartmentRead].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Success', type: DepartmentDto })
   @ApiNotFoundResponse({ description: 'Department not found' })
   @ApiBadRequestResponse({ description: 'Invalid department ID' })
@@ -57,8 +66,11 @@ export class DepartmentsController {
   }
 
   @Put(':id')
-  @Roles(Scope.DepartmentUpdate)
-  @ApiOperation({ summary: 'Update a department by ID' })
+  @Scopes(Scope.DepartmentUpdate)
+  @ApiOperation({
+    summary: 'Update a department by ID',
+    description: 'Required user scopes: [' + [Scope.DepartmentUpdate].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Department updated successfully', type: DepartmentDto })
   @ApiNotFoundResponse({ description: 'Department not found' })
   @ApiConflictResponse({ description: 'A department with the same name already exists' })
@@ -71,8 +83,11 @@ export class DepartmentsController {
   }
 
   @Delete(':id')
-  @Roles(Scope.DepartmentDelete)
-  @ApiOperation({ summary: 'Delete a department by ID' })
+  @Scopes(Scope.DepartmentDelete)
+  @ApiOperation({
+    summary: 'Delete a department by ID',
+    description: 'Required user scopes: [' + [Scope.DepartmentDelete].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Department deleted successfully', type: DepartmentDto })
   @ApiNotFoundResponse({ description: 'Department not found' })
   @ApiBadRequestResponse({ description: 'Invalid department ID' })

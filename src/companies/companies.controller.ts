@@ -11,8 +11,8 @@ import {
 } from '@nestjs/swagger';
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { RolesGuard } from 'src/common/guards/scopes.guard';
-import { Roles } from 'src/common/decorators/roles.decorator';
+import { ScopesGuard } from 'src/common/guards/scopes.guard';
+import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
 
 import { CompaniesService } from './companies.service';
@@ -24,13 +24,16 @@ import { UpdateCompanyDto } from './dto/update-company.dto';
 @ApiTags('Companies')
 @Controller('companies')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard, RolesGuard)
+@UseGuards(AccessTokenGuard, ScopesGuard)
 export class CompaniesController {
   constructor(private readonly companiesService: CompaniesService) {}
 
   @Post()
-  @Roles(Scope.CompanyCreate)
-  @ApiOperation({ summary: 'Create a new company' })
+  @Scopes(Scope.CompanyCreate)
+  @ApiOperation({
+    summary: 'Create a new company',
+    description: 'Required user scopes: [' + [Scope.CompanyCreate].join(',') + ']'
+  })
   @ApiCreatedResponse({ description: 'Company created successfully', type: CompanyDto })
   @ApiConflictResponse({ description: 'A company with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Bad request' })
@@ -39,16 +42,22 @@ export class CompaniesController {
   }
 
   @Get()
-  @Roles(Scope.CompanyRead)
-  @ApiOperation({ summary: 'Get all companies' })
+  @Scopes(Scope.CompanyRead)
+  @ApiOperation({
+    summary: 'Get all companies',
+    description: 'Required user scopes: [' + [Scope.CompanyRead].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Success', type: [CompanyDto] })
   async findAll(): Promise<Company[]> {
     return await this.companiesService.findAll();
   }
 
   @Get(':id')
-  @Roles(Scope.CompanyRead)
-  @ApiOperation({ summary: 'Get a company by ID' })
+  @Scopes(Scope.CompanyRead)
+  @ApiOperation({
+    summary: 'Get a company by ID',
+    description: 'Required user scopes: [' + [Scope.CompanyRead].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Success', type: CompanyDto })
   @ApiNotFoundResponse({ description: 'Company not found' })
   @ApiBadRequestResponse({ description: 'Invalid company ID' })
@@ -57,8 +66,11 @@ export class CompaniesController {
   }
 
   @Put(':id')
-  @Roles(Scope.CompanyUpdate)
-  @ApiOperation({ summary: 'Update a company by ID' })
+  @Scopes(Scope.CompanyUpdate)
+  @ApiOperation({
+    summary: 'Update a company by ID',
+    description: 'Required user scopes: [' + [Scope.CompanyUpdate].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Company updated successfully', type: CompanyDto })
   @ApiNotFoundResponse({ description: 'Company not found' })
   @ApiConflictResponse({ description: 'A company with the same name already exists' })
@@ -71,8 +83,11 @@ export class CompaniesController {
   }
 
   @Delete(':id')
-  @Roles(Scope.CompanyDelete)
-  @ApiOperation({ summary: 'Delete a company by ID' })
+  @Scopes(Scope.CompanyDelete)
+  @ApiOperation({
+    summary: 'Delete a company by ID',
+    description: 'Required user scopes: [' + [Scope.CompanyDelete].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Company deleted successfully', type: CompanyDto })
   @ApiNotFoundResponse({ description: 'Company not found' })
   @ApiBadRequestResponse({ description: 'Invalid company ID' })

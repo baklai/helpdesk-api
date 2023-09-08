@@ -10,8 +10,8 @@ import {
 } from '@nestjs/swagger';
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { RolesGuard } from 'src/common/guards/scopes.guard';
-import { Roles } from 'src/common/decorators/roles.decorator';
+import { ScopesGuard } from 'src/common/guards/scopes.guard';
+import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
 
 import { NoticesService } from './notices.service';
@@ -22,13 +22,16 @@ import { CreateNoticeDto } from './dto/create-notice.dto';
 @ApiTags('Notices')
 @Controller('notices')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard, RolesGuard)
+@UseGuards(AccessTokenGuard, ScopesGuard)
 export class NoticesController {
   constructor(private readonly noticesService: NoticesService) {}
 
   @Post()
-  @Roles(Scope.NoticeCreate)
-  @ApiOperation({ summary: 'Create a new notice' })
+  @Scopes(Scope.NoticeCreate)
+  @ApiOperation({
+    summary: 'Create a new notice',
+    description: 'Required user scopes: [' + [Scope.NoticeCreate].join(',') + ']'
+  })
   @ApiCreatedResponse({ description: 'Notice created successfully', type: NoticeDto })
   @ApiBadRequestResponse({ description: 'Bad request' })
   async create(@Body() createNoticeDto: CreateNoticeDto): Promise<Notice> {

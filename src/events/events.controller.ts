@@ -10,8 +10,8 @@ import {
 } from '@nestjs/swagger';
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { RolesGuard } from 'src/common/guards/scopes.guard';
-import { Roles } from 'src/common/decorators/roles.decorator';
+import { ScopesGuard } from 'src/common/guards/scopes.guard';
+import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
 
 import { EventsService } from './events.service';
@@ -24,13 +24,16 @@ import { QueryEventDto } from './dto/query-event.dto';
 @ApiTags('Events')
 @Controller('events')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard, RolesGuard)
+@UseGuards(AccessTokenGuard, ScopesGuard)
 export class EventsController {
   constructor(private readonly eventService: EventsService) {}
 
   @Post()
-  @Roles(Scope.EventCreate)
-  @ApiOperation({ summary: 'Create a new event' })
+  @Scopes(Scope.EventCreate)
+  @ApiOperation({
+    summary: 'Create a new event',
+    description: 'Required user scopes: [' + [Scope.EventCreate].join(',') + ']'
+  })
   @ApiCreatedResponse({ description: 'Event created successfully', type: EventDto })
   @ApiBadRequestResponse({ description: 'Bad request' })
   async create(@Body() createEventDto: CreateEventDto): Promise<Event> {
@@ -38,16 +41,22 @@ export class EventsController {
   }
 
   @Get()
-  @Roles(Scope.EventRead)
-  @ApiOperation({ summary: 'Get all events' })
+  @Scopes(Scope.EventRead)
+  @ApiOperation({
+    summary: 'Get all events',
+    description: 'Required user scopes: [' + [Scope.EventRead].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Success', type: [EventDto] })
   async findAll(@Query() query: QueryEventDto): Promise<Event[]> {
     return await this.eventService.findAll(query);
   }
 
   @Get(':id')
-  @Roles(Scope.EventRead)
-  @ApiOperation({ summary: 'Get an event by ID' })
+  @Scopes(Scope.EventRead)
+  @ApiOperation({
+    summary: 'Get an event by ID',
+    description: 'Required user scopes: [' + [Scope.EventRead].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Success', type: EventDto })
   @ApiNotFoundResponse({ description: 'Event not found' })
   @ApiBadRequestResponse({ description: 'Invalid event ID' })
@@ -56,8 +65,11 @@ export class EventsController {
   }
 
   @Put(':id')
-  @Roles(Scope.EventUpdate)
-  @ApiOperation({ summary: 'Update an event by ID' })
+  @Scopes(Scope.EventUpdate)
+  @ApiOperation({
+    summary: 'Update an event by ID',
+    description: 'Required user scopes: [' + [Scope.EventUpdate].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Event updated successfully', type: EventDto })
   @ApiNotFoundResponse({ description: 'Event not found' })
   @ApiBadRequestResponse({ description: 'Invalid event ID' })
@@ -69,8 +81,11 @@ export class EventsController {
   }
 
   @Delete(':id')
-  @Roles(Scope.EventDelete)
-  @ApiOperation({ summary: 'Delete an event by ID' })
+  @Scopes(Scope.EventDelete)
+  @ApiOperation({
+    summary: 'Delete an event by ID',
+    description: 'Required user scopes: [' + [Scope.EventUpdate].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Event deleted successfully', type: EventDto })
   @ApiNotFoundResponse({ description: 'Event not found' })
   @ApiBadRequestResponse({ description: 'Invalid event ID' })

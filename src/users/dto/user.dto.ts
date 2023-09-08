@@ -65,7 +65,7 @@ export class UserDto {
   @IsPhoneNumber()
   readonly phone: string;
 
-  @ApiPropertyOptional({ description: 'The timeout value for the user', example: 15 })
+  @ApiPropertyOptional({ description: 'The timeout value for the user', default: 15, example: 15 })
   @Min(5)
   @Max(90)
   @IsInt()
@@ -74,14 +74,22 @@ export class UserDto {
   @IsOptional()
   readonly timeout?: number;
 
-  @ApiPropertyOptional({ description: 'Flag indicating if the user is active', example: true })
+  @ApiPropertyOptional({
+    description: 'Flag indicating if the user is active',
+    default: false,
+    example: true
+  })
   @IsBoolean()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
   readonly isActive?: boolean;
 
-  @ApiPropertyOptional({ description: 'Flag indicating if the user is an admin', example: false })
+  @ApiPropertyOptional({
+    description: 'Flag indicating if the user is an admin',
+    default: false,
+    example: false
+  })
   @IsBoolean()
   @IsDefined()
   @IsNotEmpty()
@@ -90,26 +98,23 @@ export class UserDto {
 
   @ApiPropertyOptional({
     description: "The user's scope",
+    default: [],
     example: [
+      Scope.EventRead,
+      Scope.ChannelRead,
+      Scope.IpaddressRead,
+      Scope.RequestRead,
+      Scope.InspectorRead,
       Scope.BranchRead,
       Scope.ChannelRead,
       Scope.CompanyRead,
       Scope.DepartmentRead,
       Scope.EnterpriseRead,
-      Scope.EventRead,
-      Scope.InspectorRead,
-      Scope.IpaddressRead,
-      Scope.LoggerRead,
-      Scope.NoticeRead,
       Scope.PositionRead,
-      Scope.RequestRead,
-      Scope.FilterRead,
       Scope.UnitRead,
-      Scope.UserRead,
       Scope.StatisticNetworkRead,
       Scope.StatisticRequestRead,
-      Scope.StatisticInspectorRead,
-      Scope.StatisticDashboardRead
+      Scope.StatisticInspectorRead
     ]
   })
   @IsArray()

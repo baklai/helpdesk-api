@@ -11,8 +11,8 @@ import {
 } from '@nestjs/swagger';
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { RolesGuard } from 'src/common/guards/scopes.guard';
-import { Roles } from 'src/common/decorators/roles.decorator';
+import { ScopesGuard } from 'src/common/guards/scopes.guard';
+import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
 
 import { EnterprisesService } from './enterprises.service';
@@ -24,13 +24,16 @@ import { UpdateEnterpriseDto } from './dto/update-enterprise.dto';
 @ApiTags('Enterprises')
 @Controller('enterprises')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard, RolesGuard)
+@UseGuards(AccessTokenGuard, ScopesGuard)
 export class EnterprisesController {
   constructor(private readonly enterprisesService: EnterprisesService) {}
 
   @Post()
-  @Roles(Scope.EnterpriseCreate)
-  @ApiOperation({ summary: 'Create a new enterprise' })
+  @Scopes(Scope.EnterpriseCreate)
+  @ApiOperation({
+    summary: 'Create a new enterprise',
+    description: 'Required user scopes: [' + [Scope.EnterpriseCreate].join(',') + ']'
+  })
   @ApiCreatedResponse({ description: 'Enterprise created successfully', type: EnterpriseDto })
   @ApiConflictResponse({ description: 'A enterprise with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Bad request' })
@@ -39,16 +42,22 @@ export class EnterprisesController {
   }
 
   @Get()
-  @Roles(Scope.EnterpriseRead)
-  @ApiOperation({ summary: 'Get all enterprise' })
+  @Scopes(Scope.EnterpriseRead)
+  @ApiOperation({
+    summary: 'Get all enterprise',
+    description: 'Required user scopes: [' + [Scope.EnterpriseRead].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Success', type: [EnterpriseDto] })
   async findAll(): Promise<Enterprise[]> {
     return await this.enterprisesService.findAll();
   }
 
   @Get(':id')
-  @Roles(Scope.EnterpriseRead)
-  @ApiOperation({ summary: 'Get a enterprise by ID' })
+  @Scopes(Scope.EnterpriseRead)
+  @ApiOperation({
+    summary: 'Get a enterprise by ID',
+    description: 'Required user scopes: [' + [Scope.EnterpriseRead].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Success', type: EnterpriseDto })
   @ApiNotFoundResponse({ description: 'Enterprise not found' })
   @ApiBadRequestResponse({ description: 'Invalid enterprise ID' })
@@ -57,8 +66,11 @@ export class EnterprisesController {
   }
 
   @Put(':id')
-  @Roles(Scope.EnterpriseUpdate)
-  @ApiOperation({ summary: 'Update a enterprise by ID' })
+  @Scopes(Scope.EnterpriseUpdate)
+  @ApiOperation({
+    summary: 'Update a enterprise by ID',
+    description: 'Required user scopes: [' + [Scope.EnterpriseUpdate].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Enterprise updated successfully', type: EnterpriseDto })
   @ApiNotFoundResponse({ description: 'Enterprise not found' })
   @ApiConflictResponse({ description: 'A enterprise with the same name already exists' })
@@ -71,8 +83,11 @@ export class EnterprisesController {
   }
 
   @Delete(':id')
-  @Roles(Scope.EnterpriseDelete)
-  @ApiOperation({ summary: 'Delete a enterprise by ID' })
+  @Scopes(Scope.EnterpriseDelete)
+  @ApiOperation({
+    summary: 'Delete a enterprise by ID',
+    description: 'Required user scopes: [' + [Scope.EnterpriseDelete].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Enterprise deleted successfully', type: EnterpriseDto })
   @ApiNotFoundResponse({ description: 'Enterprise not found' })
   @ApiBadRequestResponse({ description: 'Invalid enterprise ID' })

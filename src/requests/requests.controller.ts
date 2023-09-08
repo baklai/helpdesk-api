@@ -13,8 +13,8 @@ import { PaginateResult } from 'mongoose';
 
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { RolesGuard } from 'src/common/guards/scopes.guard';
-import { Roles } from 'src/common/decorators/roles.decorator';
+import { ScopesGuard } from 'src/common/guards/scopes.guard';
+import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
 
 import { RequestsService } from './requests.service';
@@ -27,13 +27,16 @@ import { PaginateRequestDto } from './dto/paginate-request.dto';
 @ApiTags('Requests')
 @Controller('requests')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard, RolesGuard)
+@UseGuards(AccessTokenGuard, ScopesGuard)
 export class RequestsController {
   constructor(private readonly requestsService: RequestsService) {}
 
   @Post()
-  @Roles(Scope.RequestCreate)
-  @ApiOperation({ summary: 'Create a new request' })
+  @Scopes(Scope.RequestCreate)
+  @ApiOperation({
+    summary: 'Create a new request',
+    description: 'Required user scopes: [' + [Scope.RequestCreate].join(',') + ']'
+  })
   @ApiCreatedResponse({ description: 'Request created successfully', type: RequestDto })
   @ApiBadRequestResponse({ description: 'Bad request' })
   async create(@Body() createRequestDto: CreateRequestDto): Promise<Request> {
@@ -41,16 +44,22 @@ export class RequestsController {
   }
 
   @Get()
-  @Roles(Scope.RequestRead)
-  @ApiOperation({ summary: 'Get all requests' })
+  @Scopes(Scope.RequestRead)
+  @ApiOperation({
+    summary: 'Get all requests',
+    description: 'Required user scopes: [' + [Scope.RequestRead].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Success', type: PaginateRequestDto })
   async findAll(@Query() query: PaginateQueryDto): Promise<PaginateResult<Request>> {
     return await this.requestsService.findAll(query);
   }
 
   @Get(':id')
-  @Roles(Scope.RequestRead)
-  @ApiOperation({ summary: 'Get a request by ID' })
+  @Scopes(Scope.RequestRead)
+  @ApiOperation({
+    summary: 'Get a request by ID',
+    description: 'Required user scopes: [' + [Scope.RequestRead].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Success', type: RequestDto })
   @ApiNotFoundResponse({ description: 'Request not found' })
   @ApiBadRequestResponse({ description: 'Invalid request ID' })
@@ -62,8 +71,11 @@ export class RequestsController {
   }
 
   @Put(':id')
-  @Roles(Scope.RequestUpdate)
-  @ApiOperation({ summary: 'Update a request by ID' })
+  @Scopes(Scope.RequestUpdate)
+  @ApiOperation({
+    summary: 'Update a request by ID',
+    description: 'Required user scopes: [' + [Scope.RequestUpdate].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Request updated successfully', type: RequestDto })
   @ApiNotFoundResponse({ description: 'Request not found' })
   @ApiConflictResponse({ description: 'A request with the same name already exists' })
@@ -76,8 +88,11 @@ export class RequestsController {
   }
 
   @Delete(':id')
-  @Roles(Scope.RequestDelete)
-  @ApiOperation({ summary: 'Delete a request by ID' })
+  @Scopes(Scope.RequestDelete)
+  @ApiOperation({
+    summary: 'Delete a request by ID',
+    description: 'Required user scopes: [' + [Scope.RequestDelete].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Request deleted successfully', type: RequestDto })
   @ApiNotFoundResponse({ description: 'Request not found' })
   @ApiBadRequestResponse({ description: 'Invalid request ID' })

@@ -12,8 +12,8 @@ import { PaginateResult } from 'mongoose';
 
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { RolesGuard } from 'src/common/guards/scopes.guard';
-import { Roles } from 'src/common/decorators/roles.decorator';
+import { ScopesGuard } from 'src/common/guards/scopes.guard';
+import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
 
 import { ChannelsService } from './channels.service';
@@ -26,13 +26,16 @@ import { PaginateChannelDto } from './dto/paginate-chennel.dto';
 @ApiTags('Channels')
 @Controller('channels')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard, RolesGuard)
+@UseGuards(AccessTokenGuard, ScopesGuard)
 export class ChannelsController {
   constructor(private readonly channelService: ChannelsService) {}
 
   @Post()
-  @Roles(Scope.ChannelCreate)
-  @ApiOperation({ summary: 'Create a new channel' })
+  @Scopes(Scope.ChannelCreate)
+  @ApiOperation({
+    summary: 'Create a new channel',
+    description: 'Required user scopes: [' + [Scope.ChannelCreate].join(',') + ']'
+  })
   @ApiCreatedResponse({ description: 'Channel created successfully', type: ChannelDto })
   @ApiBadRequestResponse({ description: 'Bad request' })
   async create(@Body() createChannelDto: CreateChannelDto): Promise<Channel> {
@@ -40,17 +43,23 @@ export class ChannelsController {
   }
 
   @Get()
-  @Roles(Scope.ChannelRead)
-  @UseGuards(AccessTokenGuard, RolesGuard)
-  @ApiOperation({ summary: 'Get all channels' })
+  @Scopes(Scope.ChannelRead)
+  @UseGuards(AccessTokenGuard, ScopesGuard)
+  @ApiOperation({
+    summary: 'Get all channels',
+    description: 'Required user scopes: [' + [Scope.ChannelRead].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Success', type: PaginateChannelDto })
   async findAll(@Query() query: PaginateQueryDto): Promise<PaginateResult<Channel>> {
     return await this.channelService.findAll(query);
   }
 
   @Get(':id')
-  @Roles(Scope.ChannelRead)
-  @ApiOperation({ summary: 'Get a channel by ID' })
+  @Scopes(Scope.ChannelRead)
+  @ApiOperation({
+    summary: 'Get a channel by ID',
+    description: 'Required user scopes: [' + [Scope.ChannelRead].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Success', type: ChannelDto })
   @ApiNotFoundResponse({ description: 'Channel not found' })
   @ApiBadRequestResponse({ description: 'Invalid channel ID' })
@@ -59,8 +68,11 @@ export class ChannelsController {
   }
 
   @Put(':id')
-  @Roles(Scope.ChannelUpdate)
-  @ApiOperation({ summary: 'Update a channel by ID' })
+  @Scopes(Scope.ChannelUpdate)
+  @ApiOperation({
+    summary: 'Update a channel by ID',
+    description: 'Required user scopes: [' + [Scope.ChannelUpdate].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Channel updated successfully', type: ChannelDto })
   @ApiNotFoundResponse({ description: 'Channel not found' })
   @ApiBadRequestResponse({ description: 'Invalid channel ID' })
@@ -72,8 +84,11 @@ export class ChannelsController {
   }
 
   @Delete(':id')
-  @Roles(Scope.ChannelDelete)
-  @ApiOperation({ summary: 'Delete a channel by ID' })
+  @Scopes(Scope.ChannelDelete)
+  @ApiOperation({
+    summary: 'Delete a channel by ID',
+    description: 'Required user scopes: [' + [Scope.ChannelDelete].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Channel deleted successfully', type: ChannelDto })
   @ApiNotFoundResponse({ description: 'Channel not found' })
   @ApiBadRequestResponse({ description: 'Invalid channel ID' })

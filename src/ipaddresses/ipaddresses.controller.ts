@@ -13,8 +13,8 @@ import { isIP } from 'net';
 
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { RolesGuard } from 'src/common/guards/scopes.guard';
-import { Roles } from 'src/common/decorators/roles.decorator';
+import { ScopesGuard } from 'src/common/guards/scopes.guard';
+import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
 
 import { IpaddressesService } from './ipaddresses.service';
@@ -27,13 +27,16 @@ import { PaginateIpaddressDto } from './dto/paginate-ipaddress.dto';
 @ApiTags('IPAddresses')
 @Controller('ipaddresses')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard, RolesGuard)
+@UseGuards(AccessTokenGuard, ScopesGuard)
 export class IpaddressesController {
   constructor(private readonly ipaddressService: IpaddressesService) {}
 
   @Post()
-  @Roles(Scope.IpaddressCreate)
-  @ApiOperation({ summary: 'Create a new ipaddress' })
+  @Scopes(Scope.IpaddressCreate)
+  @ApiOperation({
+    summary: 'Create a new ipaddress',
+    description: 'Required user scopes: [' + [Scope.IpaddressCreate].join(',') + ']'
+  })
   @ApiCreatedResponse({ description: 'Ipaddress created successfully', type: IpaddressDto })
   @ApiBadRequestResponse({ description: 'Bad request' })
   async create(@Body() createChannelDto: CreateIpaddressDto): Promise<Ipaddress> {
@@ -41,16 +44,22 @@ export class IpaddressesController {
   }
 
   @Get()
-  @Roles(Scope.IpaddressRead)
-  @ApiOperation({ summary: 'Get all ipaddresses' })
+  @Scopes(Scope.IpaddressRead)
+  @ApiOperation({
+    summary: 'Get all ipaddresses',
+    description: 'Required user scopes: [' + [Scope.IpaddressRead].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Success', type: PaginateIpaddressDto })
   async findAll(@Query() query: PaginateQueryDto): Promise<PaginateResult<Ipaddress>> {
     return await this.ipaddressService.findAll(query);
   }
 
   @Get(':search')
-  @Roles(Scope.IpaddressRead)
-  @ApiOperation({ summary: 'Get a ipaddress by ID' })
+  @Scopes(Scope.IpaddressRead)
+  @ApiOperation({
+    summary: 'Get a ipaddress by ID',
+    description: 'Required user scopes: [' + [Scope.IpaddressRead].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Success', type: IpaddressDto })
   @ApiNotFoundResponse({ description: 'Ipaddress not found' })
   @ApiBadRequestResponse({ description: 'Invalid ipaddress ID' })
@@ -66,8 +75,11 @@ export class IpaddressesController {
   }
 
   @Put(':id')
-  @Roles(Scope.IpaddressUpdate)
-  @ApiOperation({ summary: 'Update a ipaddress by ID' })
+  @Scopes(Scope.IpaddressUpdate)
+  @ApiOperation({
+    summary: 'Update a ipaddress by ID',
+    description: 'Required user scopes: [' + [Scope.IpaddressUpdate].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Ipaddress updated successfully', type: IpaddressDto })
   @ApiNotFoundResponse({ description: 'Ipaddress not found' })
   @ApiBadRequestResponse({ description: 'Invalid ipaddress ID' })
@@ -79,8 +91,11 @@ export class IpaddressesController {
   }
 
   @Delete(':id')
-  @Roles(Scope.IpaddressDelete)
-  @ApiOperation({ summary: 'Delete a ipaddress by ID' })
+  @Scopes(Scope.IpaddressDelete)
+  @ApiOperation({
+    summary: 'Delete a ipaddress by ID',
+    description: 'Required user scopes: [' + [Scope.IpaddressDelete].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Ipaddress deleted successfully', type: IpaddressDto })
   @ApiNotFoundResponse({ description: 'Ipaddress not found' })
   @ApiBadRequestResponse({ description: 'Invalid ipaddress ID' })

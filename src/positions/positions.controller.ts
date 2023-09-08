@@ -11,8 +11,8 @@ import {
 } from '@nestjs/swagger';
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { RolesGuard } from 'src/common/guards/scopes.guard';
-import { Roles } from 'src/common/decorators/roles.decorator';
+import { ScopesGuard } from 'src/common/guards/scopes.guard';
+import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
 
 import { PositionsService } from './positions.service';
@@ -24,13 +24,16 @@ import { UpdatePositionDto } from './dto/update-position.dto';
 @ApiTags('Positions')
 @Controller('positions')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard, RolesGuard)
+@UseGuards(AccessTokenGuard, ScopesGuard)
 export class PositionsController {
   constructor(private readonly positionsService: PositionsService) {}
 
   @Post()
-  @Roles(Scope.PositionCreate)
-  @ApiOperation({ summary: 'Create a new position' })
+  @Scopes(Scope.PositionCreate)
+  @ApiOperation({
+    summary: 'Create a new position',
+    description: 'Required user scopes: [' + [Scope.PositionCreate].join(',') + ']'
+  })
   @ApiCreatedResponse({ description: 'Position created successfully', type: PositionDto })
   @ApiConflictResponse({ description: 'A position with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Bad request' })
@@ -39,16 +42,22 @@ export class PositionsController {
   }
 
   @Get()
-  @Roles(Scope.PositionRead)
-  @ApiOperation({ summary: 'Get all positions' })
+  @Scopes(Scope.PositionRead)
+  @ApiOperation({
+    summary: 'Get all positions',
+    description: 'Required user scopes: [' + [Scope.PositionRead].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Success', type: [PositionDto] })
   async findAll(): Promise<Position[]> {
     return await this.positionsService.findAll();
   }
 
   @Get(':id')
-  @Roles(Scope.PositionRead)
-  @ApiOperation({ summary: 'Get a position by ID' })
+  @Scopes(Scope.PositionRead)
+  @ApiOperation({
+    summary: 'Get a position by ID',
+    description: 'Required user scopes: [' + [Scope.PositionRead].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Success', type: PositionDto })
   @ApiNotFoundResponse({ description: 'Position not found' })
   @ApiBadRequestResponse({ description: 'Invalid position ID' })
@@ -57,8 +66,11 @@ export class PositionsController {
   }
 
   @Put(':id')
-  @Roles(Scope.PositionUpdate)
-  @ApiOperation({ summary: 'Update a position by ID' })
+  @Scopes(Scope.PositionUpdate)
+  @ApiOperation({
+    summary: 'Update a position by ID',
+    description: 'Required user scopes: [' + [Scope.PositionUpdate].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Position updated successfully', type: PositionDto })
   @ApiNotFoundResponse({ description: 'Position not found' })
   @ApiConflictResponse({ description: 'A position with the same name already exists' })
@@ -71,8 +83,11 @@ export class PositionsController {
   }
 
   @Delete(':id')
-  @Roles(Scope.PositionDelete)
-  @ApiOperation({ summary: 'Delete a position by ID' })
+  @Scopes(Scope.PositionDelete)
+  @ApiOperation({
+    summary: 'Delete a position by ID',
+    description: 'Required user scopes: [' + [Scope.PositionDelete].join(',') + ']'
+  })
   @ApiOkResponse({ description: 'Position deleted successfully', type: PositionDto })
   @ApiNotFoundResponse({ description: 'Position not found' })
   @ApiBadRequestResponse({ description: 'Invalid position ID' })
