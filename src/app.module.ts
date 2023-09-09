@@ -32,7 +32,6 @@ import { NoticesModule } from './notices/notices.module';
 import { LoggersModule } from './loggers/loggers.module';
 import { StatisticsModule } from './statistics/statistics.module';
 import { SystoolsModule } from './systools/systools.module';
-import { FilehostingModule } from './filehosting/filehosting.module';
 
 @Module({
   imports: [
@@ -97,8 +96,7 @@ import { FilehostingModule } from './filehosting/filehosting.module';
     SysfiltersModule,
     StatisticsModule,
     SystoolsModule,
-    LoggersModule,
-    FilehostingModule
+    LoggersModule
   ],
   controllers: [AppController],
   providers: [AppService]
