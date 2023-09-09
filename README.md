@@ -44,16 +44,15 @@ $ npm install
 
 | Key                      | Comment                  |
 | ------------------------ | ------------------------ |
-| `PORT`                   | API port                 |
-| `HOST`                   | API host                 |
+| `PORT`                   | API port (optional)      |
+| `HOST`                   | API host (optional)      |
 | `MONGO_URI`              | Mongo uri                |
-| `BCRYPT_SALT`            | Crypt salt               |
+| `BCRYPT_SALT`            | Crypt salt (optional)    |
 | `HD_PUBLIC_TOKEN`        | Public token (optional)  |
 | `JWT_ACCESS_SECRET`      | Access token secret key  |
 | `JWT_ACCESS_EXPIRES_IN`  | Access token expires in  |
 | `JWT_REFRESH_SECRET`     | Refresh token secret key |
 | `JWT_REFRESH_EXPIRES_IN` | Refresh token expires in |
-| `FILE_HOSTING_PATH`      | File storage local path  |
 
 ## Serve static
 
@@ -63,7 +62,7 @@ After starting the API you can open client app in your browser by base route pat
 
 ## Swagger documentation
 
-After starting the API you can open Swagger documentation in your browser by `/api/v1` route path
+After starting the API you can open Swagger documentation in your browser by `/api` route path
 
 ## Running the app
 
@@ -101,4 +100,4 @@ npm run format
 The service administrator is created during the first registration on the service
 
 After starting the app on port (3000 as default) you can open
-in your browser helpdesk api by typing http://localhost:3000/.
+in your browser helpdesk api by typing http://localhost:3000/api.
