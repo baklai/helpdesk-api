@@ -7,10 +7,7 @@ import {
   ApiOkResponse,
   ApiBearerAuth,
   ApiOperation,
-  ApiTags,
-  ApiSecurity,
-  ApiConsumes,
-  ApiExtension
+  ApiTags
 } from '@nestjs/swagger';
 
 import { Scopes } from 'src/common/decorators/scopes.decorator';

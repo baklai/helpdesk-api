@@ -7,7 +7,6 @@ import {
   Delete,
   Query,
   UseGuards,
-  Req,
   HttpCode,
   HttpStatus,
   Ip
