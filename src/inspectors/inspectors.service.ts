@@ -6,7 +6,6 @@ import { Sysfilter } from 'src/sysfilters/schemas/sysfilter.schema';
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 
 import { Inspector } from './schemas/inspector.schema';
-import { CreateInspectorDto } from './dto/create-inspector.dto';
 
 @Injectable()
 export class InspectorsService {
@@ -15,8 +14,23 @@ export class InspectorsService {
     @InjectModel(Sysfilter.name) private readonly sysfilterModel: Model<Sysfilter>
   ) {}
 
-  async create(createInspectorDto: CreateInspectorDto): Promise<Inspector> {
-    return await this.inspectorModel.create(createInspectorDto);
+  async create(host: string, field: string, createInspectorDto: Record<string, any>) {
+    await this.inspectorModel
+      .findOneAndUpdate(
+        { host },
+        {
+          $set: {
+            host,
+            [field]:
+              field === 'baseboard' || field === 'bios' || field === 'cpu' || field === 'os'
+                ? createInspectorDto[createInspectorDto.length - 1]
+                : createInspectorDto
+          }
+        },
+        { new: true, upsert: true }
+      )
+      .exec();
+    return;
   }
 
   async findAll(query: PaginateQueryDto): Promise<AggregatePaginateResult<Inspector>> {

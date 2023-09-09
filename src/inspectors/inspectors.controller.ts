@@ -1,4 +1,17 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, Query, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Query,
+  UseGuards,
+  Req,
+  HttpCode,
+  HttpStatus,
+  Ip
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -19,7 +32,6 @@ import { Scope } from 'src/common/enums/scope.enum';
 import { InspectorsService } from './inspectors.service';
 import { Inspector } from './schemas/inspector.schema';
 import { InspectorDto } from './dto/inspector.dto';
-import { CreateInspectorDto } from './dto/create-inspector.dto';
 import { PaginateInspectorDto } from './dto/paginate-inspector.dto';
 
 @ApiTags('Inspectors')
@@ -28,11 +40,16 @@ export class InspectorsController {
   constructor(private readonly inspectorService: InspectorsService) {}
 
   @Post()
+  @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Create a new inspector' })
   @ApiCreatedResponse({ description: 'Inspector created successfully', type: InspectorDto })
   @ApiBadRequestResponse({ description: 'Bad request' })
-  async create(@Body() createChannelDto: CreateInspectorDto): Promise<Inspector> {
-    return await this.inspectorService.create(createChannelDto);
+  async create(
+    @Ip() ip: string,
+    @Query() query: Record<string, any>,
+    @Body() createInspectorDto: Record<string, any>
+  ) {
+    return await this.inspectorService.create(ip, query.field, createInspectorDto);
   }
 
   @Get()

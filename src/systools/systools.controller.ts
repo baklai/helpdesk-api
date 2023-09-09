@@ -1,17 +1,13 @@
-import { Controller, Get, Header, Query, Req, Res, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Header, Query, Req, Res } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { pingResponse } from 'pingman';
 import { Request, Response } from 'express';
-
-import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 import { SystoolsService } from './systools.service';
 import { QueryDto } from './dto/query-systool.dto';
 
 @ApiTags('System tools')
 @Controller('systools')
-@ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard)
 export class SystoolsController {
   constructor(private readonly systoolsService: SystoolsService) {}
 
