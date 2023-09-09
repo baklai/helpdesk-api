@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
@@ -13,6 +14,8 @@ const GLOBAL_PREFIX = '/api/v1';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const configService = app.get(ConfigService);
 
   app.setGlobalPrefix(GLOBAL_PREFIX);
 
@@ -50,12 +53,16 @@ async function bootstrap() {
     )
     .build();
   const document = SwaggerModule.createDocument(app, config);
+
   SwaggerModule.setup(SWAGGER_API_PATH, app, document, {
     customSiteTitle: 'API Helpdesk | Swagger'
   });
 
-  await app.listen(3000, 'localhost', async () => {
-    console.info(`Application is running on: ${await app.getUrl()}`);
+  const port = configService.get('port');
+  const host = configService.get('host');
+
+  await app.listen(port, host, async () => {
+    console.info(`Application is running on: ${await app.getUrl()}/api`);
   });
 }
 bootstrap();
