@@ -42,7 +42,7 @@ import { FilehostingModule } from './filehosting/filehosting.module';
       load: [appConfig]
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public'),
+      rootPath: join(__dirname, '..', 'client'),
       exclude: ['/(.*)']
     }),
     MongooseModule.forRootAsync({

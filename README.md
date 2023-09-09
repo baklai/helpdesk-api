@@ -57,7 +57,13 @@ $ npm install
 
 ## Serve static
 
-- `public` - Directory with static resource
+- `client` - Directory with static site
+
+After starting the API you can open client app in your browser by base route path
+
+## Swagger documentation
+
+After starting the API you can open Swagger documentation in your browser by `/api/v1` route path
 
 ## Running the app
 

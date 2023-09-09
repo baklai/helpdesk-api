@@ -152,5 +152,5 @@ certs
 # TernJS port file
 .tern-port
 
-# Public content
-/public/*
+# Client content
+/client/*
