@@ -55,6 +55,10 @@ $ npm install
 | `JWT_REFRESH_EXPIRES_IN` | Refresh token expires in |
 | `FILE_HOSTING_PATH`      | File storage local path  |
 
+## Serve static
+
+- `public` - Directory with static resource
+
 ## Running the app
 
 ```bash
