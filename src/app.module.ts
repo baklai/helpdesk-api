@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { Schema } from 'mongoose';
@@ -32,6 +33,7 @@ import { NoticesModule } from './notices/notices.module';
 import { LoggersModule } from './loggers/loggers.module';
 import { StatisticsModule } from './statistics/statistics.module';
 import { SystoolsModule } from './systools/systools.module';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
@@ -40,6 +42,7 @@ import { SystoolsModule } from './systools/systools.module';
       envFilePath: ['.env'],
       load: [appConfig]
     }),
+    ScheduleModule.forRoot(),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client'),
       exclude: ['/(.*)']
@@ -96,7 +99,8 @@ import { SystoolsModule } from './systools/systools.module';
     SysfiltersModule,
     StatisticsModule,
     SystoolsModule,
-    LoggersModule
+    LoggersModule,
+    TasksModule
   ],
   controllers: [AppController],
   providers: [AppService]
