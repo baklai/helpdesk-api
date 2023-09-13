@@ -1,3 +1,4 @@
+import * as fs from 'fs';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -56,10 +57,9 @@ async function bootstrap() {
     )
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  const theme = new SwaggerTheme('v3');
   SwaggerModule.setup(SWAGGER_API_PATH, app, document, {
     explorer: false,
-    customCss: theme.getBuffer('dark'),
+    customCss: fs.readFileSync('src/common/themes/dark.css', 'utf8'),
     customSiteTitle: 'API Helpdesk | Swagger'
   });
 
