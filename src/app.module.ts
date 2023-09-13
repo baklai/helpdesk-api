@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -30,10 +30,12 @@ import { UnitsModule } from './units/units.module';
 import { LocationsModule } from './locations/locations.module';
 import { SysfiltersModule } from './sysfilters/sysfilters.module';
 import { NoticesModule } from './notices/notices.module';
-import { LoggersModule } from './loggers/loggers.module';
 import { StatisticsModule } from './statistics/statistics.module';
 import { SystoolsModule } from './systools/systools.module';
+import { SyslogsModule } from './syslogs/syslogs.module';
 import { TasksModule } from './tasks/tasks.module';
+
+import { LoggerMiddleware } from './common/middleware/logger.middleware';
 
 @Module({
   imports: [
@@ -99,10 +101,21 @@ import { TasksModule } from './tasks/tasks.module';
     SysfiltersModule,
     StatisticsModule,
     SystoolsModule,
-    LoggersModule,
+    SyslogsModule,
     TasksModule
   ],
   controllers: [AppController],
   providers: [AppService]
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggerMiddleware)
+      .exclude(
+        { path: 'loggers', method: RequestMethod.GET },
+        { path: 'systools', method: RequestMethod.GET },
+        { path: 'inspectors', method: RequestMethod.POST }
+      )
+      .forRoutes('*');
+  }
+}

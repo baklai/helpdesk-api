@@ -6,42 +6,42 @@ import { ScopesGuard } from 'src/common/guards/scopes.guard';
 import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
 
-import { LoggersService } from './loggers.service';
+import { SyslogsService } from './syslogs.service';
 
-@ApiTags('Loggers')
-@Controller('loggers')
+@ApiTags('System Logs')
+@Controller('syslogs')
 @ApiBearerAuth('JWT Guard')
 @UseGuards(AccessTokenGuard, ScopesGuard)
-export class LoggersController {
-  constructor(private readonly loggerService: LoggersService) {}
+export class SyslogsController {
+  constructor(private readonly syslogService: SyslogsService) {}
 
   @Get()
-  @Scopes(Scope.LoggerRead)
+  @Scopes(Scope.SyslogRead)
   @ApiOperation({
     summary: 'Get all logs',
-    description: 'Required user scopes: [' + [Scope.LoggerRead].join(',') + ']'
+    description: 'Required user scopes: [' + [Scope.SyslogRead].join(',') + ']'
   })
   findAll() {
-    return this.loggerService.findAll();
+    return this.syslogService.findAll();
   }
 
   @Get(':id')
-  @Scopes(Scope.LoggerRead)
+  @Scopes(Scope.SyslogRead)
   @ApiOperation({
     summary: 'Get a log by ID',
-    description: 'Required user scopes: [' + [Scope.LoggerRead].join(',') + ']'
+    description: 'Required user scopes: [' + [Scope.SyslogRead].join(',') + ']'
   })
   findOneById(@Param('id') id: string) {
-    return this.loggerService.findOneById(id);
+    return this.syslogService.findOneById(id);
   }
 
   @Delete(':id')
-  @Scopes(Scope.LoggerDelete)
+  @Scopes(Scope.SyslogDelete)
   @ApiOperation({
     summary: 'Delete a log by ID',
-    description: 'Required user scopes: [' + [Scope.LoggerDelete].join(',') + ']'
+    description: 'Required user scopes: [' + [Scope.SyslogDelete].join(',') + ']'
   })
   removeOneById(@Param('id') id: string) {
-    return this.loggerService.removeOneById(id);
+    return this.syslogService.removeOneById(id);
   }
 }

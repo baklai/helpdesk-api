@@ -74,6 +74,6 @@ export enum Scope {
   FilterUpdate = 'filter:update',
   FilterDelete = 'filter:delete',
 
-  LoggerRead = 'logger:read',
-  LoggerDelete = 'logger:delete'
+  SyslogRead = 'syslog:read',
+  SyslogDelete = 'syslog:delete'
 }

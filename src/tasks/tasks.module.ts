@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { Logger, LoggerSchema } from 'src/loggers/schemas/logger.schema';
+import { Syslog, SyslogSchema } from 'src/syslogs/schemas/syslog.schema';
 import { Notice, NoticeSchema } from 'src/notices/schemas/notice.schema';
 
 import { TasksService } from './tasks.service';
@@ -9,7 +9,7 @@ import { TasksService } from './tasks.service';
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: Logger.name, schema: LoggerSchema },
+      { name: Syslog.name, schema: SyslogSchema },
       { name: Notice.name, schema: NoticeSchema }
     ])
   ],

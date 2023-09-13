@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { SwaggerTheme } from 'swagger-themes';
 
 import { AppModule } from './app.module';
 
@@ -13,7 +14,9 @@ const SWAGGER_API_PATH = '/api';
 const GLOBAL_PREFIX = '/api/v1';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: ['log', 'error', 'warn']
+  });
 
   const configService = app.get(ConfigService);
 
@@ -53,8 +56,10 @@ async function bootstrap() {
     )
     .build();
   const document = SwaggerModule.createDocument(app, config);
-
+  const theme = new SwaggerTheme('v3');
   SwaggerModule.setup(SWAGGER_API_PATH, app, document, {
+    explorer: false,
+    customCss: theme.getBuffer('dark'),
     customSiteTitle: 'API Helpdesk | Swagger'
   });
 
