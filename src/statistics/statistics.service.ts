@@ -13,7 +13,7 @@ import { Enterprise } from 'src/enterprises/schemas/enterprise.schema';
 import { Inspector } from 'src/inspectors/schemas/inspector.schema';
 import { Ipaddress } from 'src/ipaddresses/schemas/ipaddress.schema';
 import { Position } from 'src/positions/schemas/position.schema';
-import { Sysfilter } from 'src/sysfilters/schemas/sysfilter.schema';
+import { Filter } from 'src/filters/schemas/filter.schema';
 import { Unit } from 'src/units/schemas/unit.schema';
 import { User } from 'src/users/schemas/user.schema';
 
@@ -30,7 +30,7 @@ export class StatisticsService {
     @InjectModel(Location.name) private readonly locationModel: Model<Location>,
     @InjectModel(Position.name) private readonly positionModel: Model<Position>,
     @InjectModel(Request.name) private readonly requestModel: Model<Request>,
-    @InjectModel(Sysfilter.name) private readonly filterModel: Model<Sysfilter>,
+    @InjectModel(Filter.name) private readonly filterModel: Model<Filter>,
     @InjectModel(Unit.name) private readonly unitModel: Model<Unit>,
     @InjectModel(User.name) private readonly userModel: Model<User>
   ) {}

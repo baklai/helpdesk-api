@@ -14,19 +14,19 @@ import { ScopesGuard } from 'src/common/guards/scopes.guard';
 import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
 
-import { SysfiltersService } from './sysfilters.service';
-import { Sysfilter } from './schemas/sysfilter.schema';
-import { SysfilterDto } from './dto/sysfilter.dto';
-import { CreateSysfilterDto } from './dto/create-sysfilter.dto';
-import { UpdateSysfilterDto } from './dto/update-sysfilter.dto';
-import { QuerySysfilterDto } from './dto/query-sysfilter.dto';
+import { FiltersService } from './filters.service';
+import { Filter } from './schemas/filter.schema';
+import { FilterDto } from './dto/filter.dto';
+import { CreateFilterDto } from './dto/create-filter.dto';
+import { UpdateFilterDto } from './dto/update-filter.dto';
+import { QueryFilterDto } from './dto/query-filter.dto';
 
-@ApiTags('System filters')
-@Controller('sysfilters')
+@ApiTags('Filters')
+@Controller('filters')
 @ApiBearerAuth('JWT Guard')
 @UseGuards(AccessTokenGuard, ScopesGuard)
-export class SysfiltersController {
-  constructor(private readonly filtersService: SysfiltersService) {}
+export class FiltersController {
+  constructor(private readonly filtersService: FiltersService) {}
 
   @Post()
   @Scopes(Scope.FilterCreate)
@@ -34,10 +34,10 @@ export class SysfiltersController {
     summary: 'Create a new filter',
     description: 'Required user scopes: [' + [Scope.FilterCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Filter created successfully', type: SysfilterDto })
+  @ApiCreatedResponse({ description: 'Filter created successfully', type: FilterDto })
   @ApiBadRequestResponse({ description: 'Bad request' })
-  async create(@Body() createBranchDto: CreateSysfilterDto): Promise<Sysfilter> {
-    return await this.filtersService.create(createBranchDto);
+  async create(@Body() createFilterDto: CreateFilterDto): Promise<Filter> {
+    return await this.filtersService.create(createFilterDto);
   }
 
   @Get()
@@ -46,8 +46,8 @@ export class SysfiltersController {
     summary: 'Get all filters',
     description: 'Required user scopes: [' + [Scope.FilterRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: [SysfilterDto] })
-  async findAll(@Query() query: QuerySysfilterDto): Promise<Sysfilter[]> {
+  @ApiOkResponse({ description: 'Success', type: [FilterDto] })
+  async findAll(@Query() query: QueryFilterDto): Promise<Filter[]> {
     return await this.filtersService.findAll(query);
   }
 
@@ -57,10 +57,10 @@ export class SysfiltersController {
     summary: 'Get a filter by ID',
     description: 'Required user scopes: [' + [Scope.FilterRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: SysfilterDto })
+  @ApiOkResponse({ description: 'Success', type: FilterDto })
   @ApiNotFoundResponse({ description: 'Filter not found' })
   @ApiBadRequestResponse({ description: 'Invalid filter ID' })
-  async findOneById(@Param('id') id: string): Promise<Sysfilter> {
+  async findOneById(@Param('id') id: string): Promise<Filter> {
     return await this.filtersService.findOneById(id);
   }
 
@@ -70,14 +70,14 @@ export class SysfiltersController {
     summary: 'Update a filter by ID',
     description: 'Required user scopes: [' + [Scope.FilterUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Filter updated successfully', type: SysfilterDto })
+  @ApiOkResponse({ description: 'Filter updated successfully', type: FilterDto })
   @ApiNotFoundResponse({ description: 'Filter not found' })
   @ApiBadRequestResponse({ description: 'Invalid filter ID' })
   async updateOneById(
     @Param('id') id: string,
-    @Body() updateBranchDto: UpdateSysfilterDto
-  ): Promise<Sysfilter> {
-    return await this.filtersService.updateOneById(id, updateBranchDto);
+    @Body() updateFilterDto: UpdateFilterDto
+  ): Promise<Filter> {
+    return await this.filtersService.updateOneById(id, updateFilterDto);
   }
 
   @Delete(':id')
@@ -86,10 +86,10 @@ export class SysfiltersController {
     summary: 'Delete a filter by ID',
     description: 'Required user scopes: [' + [Scope.FilterDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Filter deleted successfully', type: SysfilterDto })
+  @ApiOkResponse({ description: 'Filter deleted successfully', type: FilterDto })
   @ApiNotFoundResponse({ description: 'Filter not found' })
   @ApiBadRequestResponse({ description: 'Invalid filter ID' })
-  async removeOneById(@Param('id') id: string): Promise<Sysfilter> {
+  async removeOneById(@Param('id') id: string): Promise<Filter> {
     return await this.filtersService.removeOneById(id);
   }
 }

@@ -2,7 +2,7 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import { InjectModel } from '@nestjs/mongoose';
 import { Types, AggregatePaginateModel, AggregatePaginateResult, Model } from 'mongoose';
 
-import { Sysfilter } from 'src/sysfilters/schemas/sysfilter.schema';
+import { Filter } from 'src/filters/schemas/filter.schema';
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 
 import { Inspector } from './schemas/inspector.schema';
@@ -11,7 +11,7 @@ import { Inspector } from './schemas/inspector.schema';
 export class InspectorsService {
   constructor(
     @InjectModel(Inspector.name) private readonly inspectorModel: AggregatePaginateModel<Inspector>,
-    @InjectModel(Sysfilter.name) private readonly sysfilterModel: Model<Sysfilter>
+    @InjectModel(Filter.name) private readonly sysfilterModel: Model<Filter>
   ) {}
 
   async create(host: string, field: string, createInspectorDto: Record<string, any>) {

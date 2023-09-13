@@ -28,7 +28,7 @@ import { DepartmentsModule } from './departments/departments.module';
 import { PositionsModule } from './positions/positions.module';
 import { UnitsModule } from './units/units.module';
 import { LocationsModule } from './locations/locations.module';
-import { SysfiltersModule } from './sysfilters/sysfilters.module';
+import { FiltersModule } from './filters/filters.module';
 import { NoticesModule } from './notices/notices.module';
 import { StatisticsModule } from './statistics/statistics.module';
 import { SystoolsModule } from './systools/systools.module';
@@ -98,7 +98,7 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
     PositionsModule,
     LocationsModule,
     UnitsModule,
-    SysfiltersModule,
+    FiltersModule,
     StatisticsModule,
     SystoolsModule,
     SyslogsModule,

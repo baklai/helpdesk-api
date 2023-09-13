@@ -11,7 +11,7 @@ import { Inspector, InspectorSchema } from 'src/inspectors/schemas/inspector.sch
 import { Ipaddress, IpaddressSchema } from 'src/ipaddresses/schemas/ipaddress.schema';
 import { Location, LocationSchema } from 'src/locations/schemas/location.schema';
 import { Position, PositionSchema } from 'src/positions/schemas/position.schema';
-import { Sysfilter, SysfilterSchema } from 'src/sysfilters/schemas/sysfilter.schema';
+import { Filter, FilterSchema } from 'src/filters/schemas/filter.schema';
 import { Unit, UnitSchema } from 'src/units/schemas/unit.schema';
 import { User, UserSchema } from 'src/users/schemas/user.schema';
 
@@ -31,7 +31,7 @@ import { StatisticsController } from './statistics.controller';
       { name: Ipaddress.name, schema: IpaddressSchema },
       { name: Location.name, schema: LocationSchema },
       { name: Position.name, schema: PositionSchema },
-      { name: Sysfilter.name, schema: SysfilterSchema },
+      { name: Filter.name, schema: FilterSchema },
       { name: Unit.name, schema: UnitSchema },
       { name: User.name, schema: UserSchema }
     ])

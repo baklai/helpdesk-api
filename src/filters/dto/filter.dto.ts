@@ -9,9 +9,9 @@ import {
   IsString
 } from 'class-validator';
 
-import { FilterType, FilterStatus } from '../schemas/sysfilter.schema';
+import { FilterType, FilterStatus } from '../schemas/filter.schema';
 
-export class SysfilterDto {
+export class FilterDto {
   @ApiProperty({
     description: 'The ID of the record (unique)',
     example: '6299b5cebf44864bfcea36d4'

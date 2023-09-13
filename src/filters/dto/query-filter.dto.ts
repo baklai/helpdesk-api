@@ -1,9 +1,9 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsString } from 'class-validator';
 
-import { FilterStatus, FilterType } from '../schemas/sysfilter.schema';
+import { FilterStatus, FilterType } from '../schemas/filter.schema';
 
-export class QuerySysfilterDto {
+export class QueryFilterDto {
   @ApiPropertyOptional({
     description: 'Filter type',
     example: FilterType.SOFTWARE

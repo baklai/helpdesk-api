@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { Sysfilter, SysfilterSchema } from 'src/sysfilters/schemas/sysfilter.schema';
+import { Filter, FilterSchema } from 'src/filters/schemas/filter.schema';
 
 import { Inspector, InspectorSchema } from './schemas/inspector.schema';
 import { InspectorsController } from './inspectors.controller';
@@ -11,7 +11,7 @@ import { InspectorsService } from './inspectors.service';
   imports: [
     MongooseModule.forFeature([
       { name: Inspector.name, schema: InspectorSchema },
-      { name: Sysfilter.name, schema: SysfilterSchema }
+      { name: Filter.name, schema: FilterSchema }
     ])
   ],
   controllers: [InspectorsController],

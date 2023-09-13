@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
-export type SysfilterDocument = HydratedDocument<Sysfilter>;
+export type SysfilterDocument = HydratedDocument<Filter>;
 
 export enum FilterType {
   ACCOUNT = 'account',
@@ -15,7 +15,7 @@ export enum FilterStatus {
 }
 
 @Schema()
-export class Sysfilter {
+export class Filter {
   @Prop({ type: String, required: true, trim: true })
   regex: string;
 
@@ -29,4 +29,4 @@ export class Sysfilter {
   description?: string;
 }
 
-export const SysfilterSchema = SchemaFactory.createForClass(Sysfilter);
+export const FilterSchema = SchemaFactory.createForClass(Filter);
