@@ -45,24 +45,6 @@ export class IpaddressesService {
       delete filters.internet;
     }
 
-    if (filters?.email) {
-      switch (filters?.email['$regex']) {
-        case '^opened$':
-          filters['email'] = { $ne: null };
-          filters['email.login'] = { $ne: null };
-          filters['email.dateOpen'] = { $ne: null };
-          filters['email.dateClose'] = null;
-          break;
-        case '^closed$':
-          filters['email'] = { $ne: null };
-          filters['email.login'] = { $ne: null };
-          filters['email.dateOpen'] = { $ne: null };
-          filters['email.dateClose'] = { $ne: null };
-          break;
-      }
-      delete filters.email;
-    }
-
     return await this.ipaddressModel.paginate(
       { ...filters },
       {

@@ -36,6 +36,7 @@ import { SyslogsModule } from './syslogs/syslogs.module';
 import { TasksModule } from './tasks/tasks.module';
 
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
+import { MailboxesModule } from './mailboxes/mailboxes.module';
 
 @Module({
   imports: [
@@ -88,6 +89,7 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
     EventsModule,
     ChannelsModule,
     IpaddressesModule,
+    MailboxesModule,
     RequestsModule,
     InspectorsModule,
     NoticesModule,

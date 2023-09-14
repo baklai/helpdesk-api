@@ -19,6 +19,11 @@ export enum Scope {
   IpaddressUpdate = 'ipaddress:update',
   IpaddressDelete = 'ipaddress:delete',
 
+  MailboxCreate = 'mailbox:create',
+  MailboxRead = 'mailbox:read',
+  MailboxUpdate = 'mailbox:update',
+  MailboxDelete = 'mailbox:delete',
+
   RequestCreate = 'request:create',
   RequestRead = 'request:read',
   RequestUpdate = 'request:update',

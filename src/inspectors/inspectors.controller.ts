@@ -33,7 +33,7 @@ import { Inspector } from './schemas/inspector.schema';
 import { InspectorDto } from './dto/inspector.dto';
 import { PaginateInspectorDto } from './dto/paginate-inspector.dto';
 
-@ApiTags('Inspectors')
+@ApiTags('PC SysInspectors')
 @Controller('inspectors')
 export class InspectorsController {
   constructor(private readonly inspectorService: InspectorsService) {}

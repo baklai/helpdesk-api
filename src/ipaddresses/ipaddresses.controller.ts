@@ -24,7 +24,7 @@ import { CreateIpaddressDto } from './dto/create-ipaddress.dto';
 import { UpdateIpaddressDto } from './dto/update-ipaddress.dto';
 import { PaginateIpaddressDto } from './dto/paginate-ipaddress.dto';
 
-@ApiTags('IPAddresses')
+@ApiTags('IP Addresses')
 @Controller('ipaddresses')
 @ApiBearerAuth('JWT Guard')
 @UseGuards(AccessTokenGuard, ScopesGuard)
