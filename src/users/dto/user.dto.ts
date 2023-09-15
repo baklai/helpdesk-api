@@ -65,15 +65,6 @@ export class UserDto {
   @IsPhoneNumber()
   readonly phone: string;
 
-  @ApiPropertyOptional({ description: 'The timeout value for the user', default: 15, example: 15 })
-  @Min(5)
-  @Max(90)
-  @IsInt()
-  @IsDefined()
-  @IsNotEmpty()
-  @IsOptional()
-  readonly timeout?: number;
-
   @ApiPropertyOptional({
     description: 'Flag indicating if the user is active',
     default: false,

@@ -31,9 +31,6 @@ export class User {
   })
   phone: string;
 
-  @Prop({ type: Number, min: 5, max: 90, default: 15 })
-  timeout: number;
-
   @Prop({ type: Boolean, default: false })
   isActive: boolean;
 

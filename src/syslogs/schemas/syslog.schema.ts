@@ -5,20 +5,26 @@ export type SyslogDocument = HydratedDocument<Syslog>;
 
 @Schema()
 export class Syslog {
-  @Prop({ type: String, trim: true })
-  method: string;
+  @Prop({ type: String })
+  user?: any;
 
   @Prop({ type: String, trim: true })
-  url: string;
+  method?: string;
+
+  @Prop({ type: String, trim: true })
+  baseUrl?: string;
+
+  @Prop({ type: String })
+  params?: any;
+
+  @Prop({ type: String })
+  query?: any;
+
+  @Prop({ type: String })
+  body?: any;
 
   @Prop({ type: Number })
-  status: number;
-
-  @Prop({ type: Number })
-  responseTime: number;
-
-  @Prop({ type: String, trim: true })
-  payload: string;
+  status?: number;
 }
 
 export const SyslogSchema = SchemaFactory.createForClass(Syslog);

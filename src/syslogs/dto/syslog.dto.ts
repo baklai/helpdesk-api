@@ -16,6 +16,30 @@ export class SyslogDto {
     description: 'The name of the position (must be unique)',
     example: 'Senior Software Engineer'
   })
+  readonly user?: string;
+
+  @ApiPropertyOptional({
+    description: 'The name of the position (must be unique)',
+    example: 'Senior Software Engineer'
+  })
+  readonly params?: string;
+
+  @ApiPropertyOptional({
+    description: 'The name of the position (must be unique)',
+    example: 'Senior Software Engineer'
+  })
+  readonly query?: string;
+
+  @ApiPropertyOptional({
+    description: 'The name of the position (must be unique)',
+    example: 'Senior Software Engineer'
+  })
+  readonly body?: string;
+
+  @ApiPropertyOptional({
+    description: 'The name of the position (must be unique)',
+    example: 'Senior Software Engineer'
+  })
   @IsString()
   @IsDefined({ message: 'Position name must be defined' })
   @IsNotEmpty({ message: 'Position name not be empty' })
@@ -28,7 +52,7 @@ export class SyslogDto {
   @IsString()
   @IsDefined({ message: 'Position name must be defined' })
   @IsNotEmpty({ message: 'Position name not be empty' })
-  readonly url?: string;
+  readonly baseUrl?: string;
 
   @ApiPropertyOptional({
     description: 'The name of the position (must be unique)',
@@ -38,15 +62,6 @@ export class SyslogDto {
   @IsDefined({ message: 'Position name must be defined' })
   @IsNotEmpty({ message: 'Position name not be empty' })
   readonly status?: number;
-
-  @ApiPropertyOptional({
-    description: 'The name of the position (must be unique)',
-    example: 'Senior Software Engineer'
-  })
-  @IsString()
-  @IsDefined({ message: 'Position name must be defined' })
-  @IsNotEmpty({ message: 'Position name not be empty' })
-  readonly payload?: string;
 
   @ApiPropertyOptional({
     description: 'The created date of the record',
