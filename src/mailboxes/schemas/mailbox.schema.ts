@@ -22,13 +22,13 @@ export class Mailbox {
   dateOpen: Date;
 
   @Prop({ type: String, trim: true })
-  fullname?: string;
+  fullname: string;
 
   @Prop({ type: String, trim: true })
-  phone?: string;
+  phone: string;
 
   @Prop({ type: String, trim: true })
-  ipaddress?: string;
+  ipaddress: string;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
@@ -37,7 +37,7 @@ export class Mailbox {
     default: null,
     autopopulate: true
   })
-  location?: Location;
+  location: Location;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
@@ -46,7 +46,7 @@ export class Mailbox {
     default: null,
     autopopulate: true
   })
-  company?: Company;
+  company: Company;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
@@ -55,7 +55,7 @@ export class Mailbox {
     default: null,
     autopopulate: true
   })
-  branch?: Branch;
+  branch: Branch;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
@@ -64,7 +64,7 @@ export class Mailbox {
     default: null,
     autopopulate: true
   })
-  enterprise?: Enterprise;
+  enterprise: Enterprise;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
@@ -73,7 +73,7 @@ export class Mailbox {
     default: null,
     autopopulate: true
   })
-  department?: Department;
+  department: Department;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
@@ -82,13 +82,13 @@ export class Mailbox {
     default: null,
     autopopulate: true
   })
-  position?: Position;
+  position: Position;
 
   @Prop({ type: Date, trim: true })
-  dateClose?: Date;
+  dateClose: Date;
 
   @Prop({ type: String, trim: true })
-  comment?: string;
+  comment: string;
 }
 
 export const MailboxSchema = SchemaFactory.createForClass(Mailbox);

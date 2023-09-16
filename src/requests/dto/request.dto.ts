@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
+  IsBoolean,
   IsDate,
   IsDefined,
   IsIP,
@@ -10,11 +11,11 @@ import {
 } from 'class-validator';
 
 import { UserDto } from 'src/users/dto/user.dto';
+import { LocationDto } from 'src/locations/dto/location.dto';
 import { CompanyDto } from 'src/companies/dto/company.dto';
 import { BranchDto } from 'src/branches/dto/branch.dto';
-import { DepartmentDto } from 'src/departments/dto/department.dto';
 import { EnterpriseDto } from 'src/enterprises/dto/enterprise.dto';
-import { LocationDto } from 'src/locations/dto/location.dto';
+import { DepartmentDto } from 'src/departments/dto/department.dto';
 import { PositionDto } from 'src/positions/dto/position.dto';
 
 export class RequestDto {
@@ -30,173 +31,169 @@ export class RequestDto {
 
   @ApiProperty({ description: 'Full name of the requester', example: 'John Doe' })
   @IsString()
-  @IsDefined({ message: 'Full name must be defined' })
-  @IsNotEmpty({ message: 'Full name not be empty' })
-  fullname: string;
+  @IsDefined()
+  @IsNotEmpty()
+  readonly fullname: string;
 
   @ApiProperty({ description: 'Phone number of the requester', example: '12-34-567' })
   @IsString()
-  @IsDefined({ message: 'Phone number must be defined' })
-  @IsNotEmpty({ message: 'Phone number not be empty' })
-  phone: string;
+  @IsDefined()
+  @IsNotEmpty()
+  readonly phone: string;
 
-  @ApiPropertyOptional({ description: 'IP address of the requester', example: '192.168.1.1' })
+  @ApiPropertyOptional({ description: 'IP Address of the requester', example: '192.168.1.1' })
   @IsIP()
   @IsString()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  ipaddress?: string;
+  readonly ipaddress: string;
 
-  @ApiPropertyOptional({ description: 'Number of mail of the requester', example: 'Mail №125987' })
+  @ApiPropertyOptional({
+    description: 'Incoming request number of the requester',
+    example: '№125987/01'
+  })
   @IsString()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  mail?: string;
+  readonly reqnum: string;
 
   @ApiProperty({ description: 'Request message', example: 'Please fix the issue' })
   @IsString()
-  @IsDefined({ message: 'Request must be defined' })
-  @IsNotEmpty({ message: 'Request not be empty' })
-  request: string;
+  @IsDefined()
+  @IsNotEmpty()
+  readonly request: string;
 
   @ApiPropertyOptional({
-    description: 'Date when the request was closed',
-    example: '2023-08-26T12:00:00Z'
+    description: 'Key the request was closed',
+    default: false,
+    example: true
   })
-  @IsDate()
+  @IsBoolean()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  closed?: Date;
+  readonly closed: boolean;
 
   @ApiPropertyOptional({ description: 'Comment about the request', example: 'Fixed the issue' })
   @IsString()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  comment?: string;
+  readonly comment: string;
 
   @ApiPropertyOptional({ description: 'Conclusion about the request', example: 'Issue resolved' })
   @IsString()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  conclusion?: string;
+  readonly conclusion: string;
 
   @ApiProperty({
-    type: UserDto,
-    description: 'ID of the associated position',
-    example: 'User ID'
+    description: 'Document of the associated User',
+    example: UserDto
   })
   @IsString()
   @IsMongoId()
   @IsDefined()
   @IsNotEmpty()
-  workerOpen: UserDto;
+  readonly workerOpen: UserDto;
 
   @ApiPropertyOptional({
-    type: UserDto,
-    description: 'ID of the associated position',
-    example: 'User ID'
+    description: 'Document of the associated User',
+    example: UserDto
   })
   @IsString()
   @IsMongoId()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  workerClose?: UserDto;
+  readonly workerClose: UserDto;
 
   @ApiPropertyOptional({
-    type: PositionDto,
-    description: 'ID of the associated position',
-    example: 'Position ID'
+    description: 'Document of the associated Location',
+    example: LocationDto
   })
   @IsString()
   @IsMongoId()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  position?: PositionDto;
+  readonly location: LocationDto;
 
   @ApiPropertyOptional({
-    type: LocationDto,
-    description: 'ID of the associated location',
-    example: 'Location ID'
+    description: 'Document of the associated Company',
+    example: CompanyDto
   })
   @IsString()
   @IsMongoId()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  location?: LocationDto;
+  readonly company: CompanyDto;
 
   @ApiPropertyOptional({
-    type: CompanyDto,
-    description: 'ID of the associated company',
-    example: 'Company ID'
+    description: 'Document of the associated Branch',
+    example: BranchDto
   })
   @IsString()
   @IsMongoId()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  company?: CompanyDto;
+  readonly branch: BranchDto;
 
   @ApiPropertyOptional({
-    type: BranchDto,
-    description: 'ID of the associated branch',
-    example: 'Branch ID'
+    description: 'Document of the associated Enterprise',
+    example: EnterpriseDto
   })
   @IsString()
   @IsMongoId()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  branch?: BranchDto;
+  readonly enterprise: EnterpriseDto;
 
   @ApiPropertyOptional({
-    type: EnterpriseDto,
-    description: 'ID of the associated enterprise',
-    example: 'Enterprise ID'
+    description: 'Document of the associated Department',
+    example: DepartmentDto
   })
   @IsString()
   @IsMongoId()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  enterprise?: EnterpriseDto;
+  readonly department: DepartmentDto;
 
   @ApiPropertyOptional({
-    type: DepartmentDto,
-    description: 'ID of the associated department',
-    example: 'Department ID'
+    description: 'Document of the associated Position',
+    example: PositionDto
   })
   @IsString()
   @IsMongoId()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  department?: DepartmentDto;
+  readonly position: PositionDto;
 
   @ApiPropertyOptional({
     description: 'The created date of the record',
-    example: '2021-06-03T07:18:38.233Z'
+    example: new Date()
   })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly createdAt?: Date;
+  readonly createdAt: Date;
 
   @ApiPropertyOptional({
     description: 'The updated date of the record',
-    example: '2022-06-03T07:18:38.233Z'
+    example: new Date()
   })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly updatedAt?: Date;
+  readonly updatedAt: Date;
 }

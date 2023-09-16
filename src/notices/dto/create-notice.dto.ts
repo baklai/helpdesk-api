@@ -1,9 +1,32 @@
-import { OmitType } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsDefined, IsMongoId, IsNotEmpty, IsString } from 'class-validator';
 
-import { NoticeDto } from './notice.dto';
+export class CreateNoticeDto {
+  @ApiProperty({
+    description: 'The name of the notice',
+    example: 'Important Announcement'
+  })
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly name: string;
 
-export class CreateNoticeDto extends OmitType(NoticeDto, [
-  'id',
-  'createdAt',
-  'updatedAt'
-] as const) {}
+  @ApiProperty({
+    description: 'The text of the notice',
+    example: 'Please be informed about the upcoming maintenance on...'
+  })
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly text: string;
+
+  @ApiProperty({
+    description: 'User ID associated with the notification',
+    example: '6299b5cebf44864bfcea37a5'
+  })
+  @IsString()
+  @IsMongoId()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly userId: string;
+}

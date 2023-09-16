@@ -20,22 +20,22 @@ export class Request {
   phone: string;
 
   @Prop({ type: String, trim: true })
-  ipaddress?: string;
+  ipaddress: string;
 
   @Prop({ type: String, trim: true })
-  mail?: string;
+  mail: string;
 
   @Prop({ type: String, required: true, trim: true })
   request: string;
 
   @Prop({ type: Date, trim: true })
-  closed?: Date;
+  closed: Date;
 
   @Prop({ type: String, trim: true })
-  comment?: string;
+  comment: string;
 
   @Prop({ type: String, trim: true })
-  conclusion?: string;
+  conclusion: string;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
@@ -58,7 +58,7 @@ export class Request {
     trim: true,
     autopopulate: true
   })
-  position?: Position;
+  position: Position;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
@@ -66,7 +66,7 @@ export class Request {
     trim: true,
     autopopulate: true
   })
-  location?: Location;
+  location: Location;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
@@ -74,7 +74,7 @@ export class Request {
     trim: true,
     autopopulate: true
   })
-  company?: Company;
+  company: Company;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
@@ -82,7 +82,7 @@ export class Request {
     trim: true,
     autopopulate: true
   })
-  branch?: Branch;
+  branch: Branch;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
@@ -90,7 +90,7 @@ export class Request {
     trim: true,
     autopopulate: true
   })
-  enterprise?: Enterprise;
+  enterprise: Enterprise;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
@@ -98,7 +98,7 @@ export class Request {
     trim: true,
     autopopulate: true
   })
-  department?: Department;
+  department: Department;
 }
 
 export const RequestSchema = SchemaFactory.createForClass(Request);

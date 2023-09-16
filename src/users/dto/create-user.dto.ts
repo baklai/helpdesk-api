@@ -1,5 +1,102 @@
-import { OmitType } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional, OmitType } from '@nestjs/swagger';
+import {
+  IsArray,
+  IsBoolean,
+  IsDefined,
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsPhoneNumber,
+  IsString,
+  MinLength
+} from 'class-validator';
 
-import { UserDto } from './user.dto';
+import { Scope } from 'src/common/enums/scope.enum';
 
-export class CreateUserDto extends OmitType(UserDto, ['id', 'createdAt', 'updatedAt'] as const) {}
+export class CreateUserDto {
+  @ApiProperty({ description: 'The login of the user', example: 'JohnDoe' })
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly login: string;
+
+  @ApiProperty({
+    description: 'The password of the user (minimum 6 characters)',
+    example: 'vJaPk2eg9UaN'
+  })
+  @IsString()
+  @MinLength(6, { message: 'Password must be at least 6 characters' })
+  @IsDefined()
+  @IsNotEmpty()
+  readonly password: string;
+
+  @ApiProperty({ description: 'The full name of the user', example: 'John Doe' })
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly fullname: string;
+
+  @ApiProperty({ description: 'The email of the user', example: 'john@example.com' })
+  @IsEmail()
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly email: string;
+
+  @ApiProperty({ description: 'The phone number of the user', example: '+38(234)567-89-10' })
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsPhoneNumber()
+  readonly phone: string;
+
+  @ApiPropertyOptional({
+    description: 'Flag indicating if the user is active',
+    default: false,
+    example: true
+  })
+  @IsBoolean()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  readonly isActive: boolean;
+
+  @ApiPropertyOptional({
+    description: 'Flag indicating if the user is an admin',
+    default: false,
+    example: false
+  })
+  @IsBoolean()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  readonly isAdmin: boolean;
+
+  @ApiPropertyOptional({
+    description: "The user's scope",
+    default: [],
+    example: [
+      Scope.EventRead,
+      Scope.ChannelRead,
+      Scope.IpaddressRead,
+      Scope.RequestRead,
+      Scope.InspectorRead,
+      Scope.BranchRead,
+      Scope.ChannelRead,
+      Scope.CompanyRead,
+      Scope.DepartmentRead,
+      Scope.EnterpriseRead,
+      Scope.PositionRead,
+      Scope.UnitRead,
+      Scope.StatisticNetworkRead,
+      Scope.StatisticRequestRead,
+      Scope.StatisticInspectorRead
+    ]
+  })
+  @IsArray()
+  @IsString({ each: true })
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  readonly scope: Scope;
+}

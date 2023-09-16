@@ -32,80 +32,80 @@ export class InspectorDto {
   @ApiPropertyOptional({ description: 'The baseboard of the host' })
   @IsObject()
   @IsOptional()
-  readonly baseboard?: Record<string, any>;
+  readonly baseboard: Record<string, any>;
 
   @ApiPropertyOptional({ description: 'The bios of the host' })
   @IsObject()
   @IsOptional()
-  readonly bios?: Record<string, any>;
+  readonly bios: Record<string, any>;
 
   @ApiPropertyOptional({ description: 'The CPU of the host' })
   @IsObject()
   @IsOptional()
-  readonly cpu?: Record<string, any>;
+  readonly cpu: Record<string, any>;
 
   @ApiPropertyOptional({ description: 'The operation system of the host' })
   @IsObject()
   @IsOptional()
-  readonly os?: Record<string, any>;
+  readonly os: Record<string, any>;
 
   @ApiPropertyOptional({ description: 'The diskdrive of the host' })
   @IsArray()
   @IsOptional()
-  readonly diskdrive?: Record<string, any>[];
+  readonly diskdrive: Record<string, any>[];
 
   @ApiPropertyOptional({ description: 'The memorychip of the host' })
   @IsArray()
   @IsOptional()
-  readonly memorychip?: Record<string, any>[];
+  readonly memorychip: Record<string, any>[];
 
   @ApiPropertyOptional({ description: 'The netadapter of the host' })
   @IsArray()
   @IsOptional()
-  readonly netadapter?: Record<string, any>[];
+  readonly netadapter: Record<string, any>[];
 
   @ApiPropertyOptional({ description: 'The printer of the host' })
   @IsArray()
   @IsOptional()
-  readonly printer?: Record<string, any>[];
+  readonly printer: Record<string, any>[];
 
   @ApiPropertyOptional({ description: 'The product of the host' })
   @IsArray()
   @IsOptional()
-  readonly product?: Record<string, any>[];
+  readonly product: Record<string, any>[];
 
   @ApiPropertyOptional({ description: 'The share of the host' })
   @IsArray()
   @IsOptional()
-  readonly share?: Record<string, any>[];
+  readonly share: Record<string, any>[];
 
   @ApiPropertyOptional({ description: 'The useraccount of the host' })
   @IsArray()
   @IsOptional()
-  readonly useraccount?: Record<string, any>[];
+  readonly useraccount: Record<string, any>[];
 
   @ApiPropertyOptional({ description: 'The useradmin of the host' })
   @IsArray()
   @IsOptional()
-  readonly useradmin?: string[];
+  readonly useradmin: string[];
 
   @ApiPropertyOptional({
     description: 'The created date of the record',
-    example: '2021-06-03T07:18:38.233Z'
+    example: new Date()
   })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly createdAt?: Date;
+  readonly createdAt: Date;
 
   @ApiPropertyOptional({
     description: 'The updated date of the record',
-    example: '2022-06-03T07:18:38.233Z'
+    example: new Date()
   })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly updatedAt?: Date;
+  readonly updatedAt: Date;
 }

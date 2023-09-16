@@ -9,10 +9,10 @@ export class Company {
   name: string;
 
   @Prop({ type: String, trim: true })
-  address?: string;
+  address: string;
 
   @Prop({ type: String, trim: true })
-  description?: string;
+  description: string;
 }
 
 export const CompanySchema = SchemaFactory.createForClass(Company);

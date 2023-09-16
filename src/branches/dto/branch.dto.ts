@@ -26,34 +26,38 @@ export class BranchDto {
     example: '123 Main Street, Cityville'
   })
   @IsString()
+  @IsDefined()
+  @IsNotEmpty()
   @IsOptional()
-  readonly address?: string;
+  readonly address: string;
 
   @ApiPropertyOptional({
     description: 'A description about the branch',
     example: 'This branch is located in the heart of the city.'
   })
   @IsString()
+  @IsDefined()
+  @IsNotEmpty()
   @IsOptional()
-  readonly description?: string;
+  readonly description: string;
 
   @ApiPropertyOptional({
     description: 'The created date of the record',
-    example: '2021-06-03T07:18:38.233Z'
+    example: new Date()
   })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly createdAt?: Date;
+  readonly createdAt: Date;
 
   @ApiPropertyOptional({
     description: 'The updated date of the record',
-    example: '2022-06-03T07:18:38.233Z'
+    example: new Date()
   })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly updatedAt?: Date;
+  readonly updatedAt: Date;
 }

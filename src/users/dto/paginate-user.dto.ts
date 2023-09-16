@@ -6,5 +6,5 @@ import { UserDto } from './user.dto';
 
 export class PaginateUserDto extends PaginateV2ResponseDto {
   @ApiProperty({ type: [UserDto], description: 'Array of documents' })
-  docs?: UserDto[];
+  docs: UserDto[];
 }

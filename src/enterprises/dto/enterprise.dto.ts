@@ -17,8 +17,8 @@ export class EnterpriseDto {
     example: 'Tech Solutions Inc.'
   })
   @IsString()
-  @IsDefined({ message: 'Enterprise name must be defined' })
-  @IsNotEmpty({ message: 'Enterprise name not be empty' })
+  @IsDefined()
+  @IsNotEmpty()
   readonly name: string;
 
   @ApiPropertyOptional({
@@ -26,34 +26,38 @@ export class EnterpriseDto {
     example: '123 Tech Street, Innovation City'
   })
   @IsString()
+  @IsDefined()
+  @IsNotEmpty()
   @IsOptional()
-  readonly address?: string;
+  readonly address: string;
 
   @ApiPropertyOptional({
     description: 'A description about the enterprise',
     example: 'A cutting-edge technology company specializing in software solutions.'
   })
   @IsString()
+  @IsDefined()
+  @IsNotEmpty()
   @IsOptional()
-  readonly description?: string;
+  readonly description: string;
 
   @ApiPropertyOptional({
     description: 'The created date of the record',
-    example: '2021-06-03T07:18:38.233Z'
+    example: new Date()
   })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly createdAt?: Date;
+  readonly createdAt: Date;
 
   @ApiPropertyOptional({
     description: 'The updated date of the record',
-    example: '2022-06-03T07:18:38.233Z'
+    example: new Date()
   })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly updatedAt?: Date;
+  readonly updatedAt: Date;
 }

@@ -15,8 +15,8 @@ export type IpaddressDocument = HydratedDocument<Ipaddress>;
 export interface Internet {
   reqnum: string;
   dateOpen: Date;
-  dateClose?: Date;
-  comment?: string;
+  dateClose: Date;
+  comment: string;
 }
 
 export interface CIDR {
@@ -56,7 +56,7 @@ export class Ipaddress {
   phone: string;
 
   @Prop({ type: String, trim: true })
-  autoanswer?: string;
+  autoanswer: string;
 
   @Prop({
     type: {
@@ -67,10 +67,10 @@ export class Ipaddress {
     },
     default: null
   })
-  internet?: Internet;
+  internet: Internet;
 
   @Prop({ type: String, trim: true })
-  comment?: string;
+  comment: string;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,

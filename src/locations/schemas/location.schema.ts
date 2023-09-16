@@ -9,7 +9,7 @@ export class Location {
   name: string;
 
   @Prop({ type: String, trim: true })
-  region?: string;
+  region: string;
 }
 
 export const LocationSchema = SchemaFactory.createForClass(Location);

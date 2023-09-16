@@ -10,7 +10,7 @@ export class QueryFilterDto {
   })
   @IsString()
   @IsOptional()
-  readonly type?: FilterType;
+  readonly type: FilterType;
 
   @ApiPropertyOptional({
     description: 'Filter status',
@@ -18,5 +18,5 @@ export class QueryFilterDto {
   })
   @IsString()
   @IsOptional()
-  readonly status?: FilterStatus;
+  readonly status: FilterStatus;
 }

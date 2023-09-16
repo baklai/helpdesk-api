@@ -14,8 +14,8 @@ export class UnitDto {
 
   @ApiProperty({ description: 'The name of the unit (must be unique)', example: 'Router TP-Link' })
   @IsString()
-  @IsDefined({ message: 'Unit name must be defined' })
-  @IsNotEmpty({ message: 'Unit name not be empty' })
+  @IsDefined()
+  @IsNotEmpty()
   readonly name: string;
 
   @ApiPropertyOptional({
@@ -26,25 +26,25 @@ export class UnitDto {
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly description?: string;
+  readonly description: string;
 
   @ApiPropertyOptional({
     description: 'The created date of the record',
-    example: '2021-06-03T07:18:38.233Z'
+    example: new Date()
   })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly createdAt?: Date;
+  readonly createdAt: Date;
 
   @ApiPropertyOptional({
     description: 'The updated date of the record',
-    example: '2022-06-03T07:18:38.233Z'
+    example: new Date()
   })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly updatedAt?: Date;
+  readonly updatedAt: Date;
 }

@@ -17,27 +17,27 @@ export class PositionDto {
     example: 'Senior Software Engineer'
   })
   @IsString()
-  @IsDefined({ message: 'Position name must be defined' })
-  @IsNotEmpty({ message: 'Position name not be empty' })
+  @IsDefined()
+  @IsNotEmpty()
   readonly name: string;
 
   @ApiPropertyOptional({
     description: 'The created date of the record',
-    example: '2021-06-03T07:18:38.233Z'
+    example: new Date()
   })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly createdAt?: Date;
+  readonly createdAt: Date;
 
   @ApiPropertyOptional({
     description: 'The updated date of the record',
-    example: '2022-06-03T07:18:38.233Z'
+    example: new Date()
   })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly updatedAt?: Date;
+  readonly updatedAt: Date;
 }

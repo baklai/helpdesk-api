@@ -17,8 +17,8 @@ export class LocationDto {
     example: 'Headquarters'
   })
   @IsString()
-  @IsDefined({ message: 'Location name must be defined' })
-  @IsNotEmpty({ message: 'Location name not be empty' })
+  @IsDefined()
+  @IsNotEmpty()
   readonly name: string;
 
   @ApiPropertyOptional({
@@ -26,26 +26,28 @@ export class LocationDto {
     example: 'North America'
   })
   @IsString()
+  @IsDefined()
+  @IsNotEmpty()
   @IsOptional()
-  readonly region?: string;
+  readonly region: string;
 
   @ApiPropertyOptional({
     description: 'The created date of the record',
-    example: '2021-06-03T07:18:38.233Z'
+    example: new Date()
   })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly createdAt?: Date;
+  readonly createdAt: Date;
 
   @ApiPropertyOptional({
     description: 'The updated date of the record',
-    example: '2022-06-03T07:18:38.233Z'
+    example: new Date()
   })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly updatedAt?: Date;
+  readonly updatedAt: Date;
 }

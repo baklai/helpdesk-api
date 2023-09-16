@@ -31,37 +31,27 @@ export class UserDto {
 
   @ApiProperty({ description: 'The login of the user', example: 'JohnDoe' })
   @IsString()
-  @IsDefined({ message: 'Login must be defined' })
-  @IsNotEmpty({ message: 'Login must not be empty' })
+  @IsDefined()
+  @IsNotEmpty()
   readonly login: string;
-
-  @ApiProperty({
-    description: 'The password of the user (minimum 6 characters)',
-    example: 'vJaPk2eg9UaN'
-  })
-  @IsString()
-  @MinLength(6, { message: 'Password must be at least 6 characters' })
-  @IsDefined({ message: 'Password must be defined' })
-  @IsNotEmpty({ message: 'Password must not be empty' })
-  readonly password: string;
 
   @ApiProperty({ description: 'The full name of the user', example: 'John Doe' })
   @IsString()
-  @IsDefined({ message: 'Full name must be defined' })
-  @IsNotEmpty({ message: 'Full name not be empty' })
+  @IsDefined()
+  @IsNotEmpty()
   readonly fullname: string;
 
   @ApiProperty({ description: 'The email of the user', example: 'john@example.com' })
   @IsEmail()
   @IsString()
-  @IsDefined({ message: 'Email must be defined' })
-  @IsNotEmpty({ message: 'Email not be empty' })
+  @IsDefined()
+  @IsNotEmpty()
   readonly email: string;
 
   @ApiProperty({ description: 'The phone number of the user', example: '+38(234)567-89-10' })
   @IsString()
-  @IsDefined({ message: 'Phone number must be defined' })
-  @IsNotEmpty({ message: 'Phone number not be empty' })
+  @IsDefined()
+  @IsNotEmpty()
   @IsPhoneNumber()
   readonly phone: string;
 
@@ -74,7 +64,7 @@ export class UserDto {
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly isActive?: boolean;
+  readonly isActive: boolean;
 
   @ApiPropertyOptional({
     description: 'Flag indicating if the user is an admin',
@@ -85,7 +75,7 @@ export class UserDto {
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly isAdmin?: boolean;
+  readonly isAdmin: boolean;
 
   @ApiPropertyOptional({
     description: "The user's scope",
@@ -113,25 +103,25 @@ export class UserDto {
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly scope?: Scope;
+  readonly scope: Scope;
 
   @ApiPropertyOptional({
     description: 'The created date of the record',
-    example: '2021-06-03T07:18:38.233Z'
+    example: new Date()
   })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly createdAt?: Date;
+  readonly createdAt: Date;
 
   @ApiPropertyOptional({
     description: 'The updated date of the record',
-    example: '2022-06-03T07:18:38.233Z'
+    example: new Date()
   })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly updatedAt?: Date;
+  readonly updatedAt: Date;
 }

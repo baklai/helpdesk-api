@@ -1,5 +1,13 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsDate, IsDefined, IsMongoId, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsDate,
+  IsDefined,
+  IsMongoId,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString
+} from 'class-validator';
 
 export class SyslogDto {
   @ApiProperty({
@@ -10,76 +18,95 @@ export class SyslogDto {
   @IsMongoId()
   @IsDefined()
   @IsNotEmpty()
-  readonly id?: string;
+  readonly id: string;
 
   @ApiPropertyOptional({
-    description: 'The name of the position (must be unique)',
-    example: 'Senior Software Engineer'
-  })
-  readonly user?: string;
-
-  @ApiPropertyOptional({
-    description: 'The name of the position (must be unique)',
-    example: 'Senior Software Engineer'
-  })
-  readonly params?: string;
-
-  @ApiPropertyOptional({
-    description: 'The name of the position (must be unique)',
-    example: 'Senior Software Engineer'
-  })
-  readonly query?: string;
-
-  @ApiPropertyOptional({
-    description: 'The name of the position (must be unique)',
-    example: 'Senior Software Engineer'
-  })
-  readonly body?: string;
-
-  @ApiPropertyOptional({
-    description: 'The name of the position (must be unique)',
-    example: 'Senior Software Engineer'
+    description: 'The ID of User',
+    example: '6299b5cebf44864bfcea36d4'
   })
   @IsString()
-  @IsDefined({ message: 'Position name must be defined' })
-  @IsNotEmpty({ message: 'Position name not be empty' })
-  readonly method?: string;
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  readonly user: string;
 
   @ApiPropertyOptional({
-    description: 'The name of the position (must be unique)',
-    example: 'Senior Software Engineer'
+    description: 'The params of request',
+    example: '{"0":"users"}'
   })
   @IsString()
-  @IsDefined({ message: 'Position name must be defined' })
-  @IsNotEmpty({ message: 'Position name not be empty' })
-  readonly baseUrl?: string;
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  readonly params: string;
 
   @ApiPropertyOptional({
-    description: 'The name of the position (must be unique)',
-    example: 'Senior Software Engineer'
+    description: 'The query of request',
+    example: '{"limit":"10","offset":"50"}'
   })
   @IsString()
-  @IsDefined({ message: 'Position name must be defined' })
-  @IsNotEmpty({ message: 'Position name not be empty' })
-  readonly status?: number;
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  readonly query: string;
+
+  @ApiPropertyOptional({
+    description: 'The body of request',
+    example: '{"name":"Cisco unit"}'
+  })
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  readonly body: string;
+
+  @ApiPropertyOptional({
+    description: 'The method of request',
+    example: 'POST'
+  })
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  readonly method: string;
+
+  @ApiPropertyOptional({
+    description: 'The base url of request',
+    example: '/units?limit=10&offset=50'
+  })
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  readonly baseUrl: string;
+
+  @ApiPropertyOptional({
+    description: 'The status of request',
+    example: 200
+  })
+  @IsNumber()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  readonly status: number;
 
   @ApiPropertyOptional({
     description: 'The created date of the record',
-    example: '2021-06-03T07:18:38.233Z'
+    example: new Date()
   })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly createdAt?: Date;
+  readonly createdAt: Date;
 
   @ApiPropertyOptional({
     description: 'The updated date of the record',
-    example: '2022-06-03T07:18:38.233Z'
+    example: new Date()
   })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly updatedAt?: Date;
+  readonly updatedAt: Date;
 }

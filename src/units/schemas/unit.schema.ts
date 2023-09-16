@@ -9,7 +9,7 @@ export class Unit {
   name: string;
 
   @Prop({ type: String, trim: true })
-  description?: string;
+  description: string;
 }
 
 export const UnitSchema = SchemaFactory.createForClass(Unit);

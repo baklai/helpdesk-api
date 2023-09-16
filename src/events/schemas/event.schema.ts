@@ -28,7 +28,7 @@ export class Event {
   eventType: EventType;
 
   @Prop({ type: String, trim: true })
-  description?: string;
+  description: string;
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);

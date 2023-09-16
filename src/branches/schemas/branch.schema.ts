@@ -9,10 +9,10 @@ export class Branch {
   name: string;
 
   @Prop({ type: String, trim: true })
-  address?: string;
+  address: string;
 
   @Prop({ type: String, trim: true })
-  description?: string;
+  description: string;
 }
 
 export const BranchSchema = SchemaFactory.createForClass(Branch);

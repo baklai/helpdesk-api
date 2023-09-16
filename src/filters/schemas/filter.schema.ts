@@ -26,7 +26,7 @@ export class Filter {
   status: FilterStatus;
 
   @Prop({ type: String, trim: true })
-  description?: string;
+  description: string;
 }
 
 export const FilterSchema = SchemaFactory.createForClass(Filter);

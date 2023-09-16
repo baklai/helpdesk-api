@@ -1,9 +1,13 @@
-import { OmitType } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsDefined, IsNotEmpty, IsString } from 'class-validator';
 
-import { PositionDto } from './position.dto';
-
-export class CreatePositionDto extends OmitType(PositionDto, [
-  'id',
-  'createdAt',
-  'updatedAt'
-] as const) {}
+export class CreatePositionDto {
+  @ApiProperty({
+    description: 'The name of the position (must be unique)',
+    example: 'Senior Software Engineer'
+  })
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly name: string;
+}

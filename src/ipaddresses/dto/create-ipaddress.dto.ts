@@ -6,7 +6,8 @@ import {
   IsDefined,
   IsMongoId,
   IsNotEmpty,
-  ValidateNested
+  ValidateNested,
+  IsOptional
 } from 'class-validator';
 
 import { CIDRDto } from './cidr.dto';
@@ -54,6 +55,7 @@ export class CreateIpaddressDto {
   @IsString()
   @IsDefined()
   @IsNotEmpty()
+  @IsOptional()
   readonly comment: string;
 
   @ApiPropertyOptional({
@@ -63,12 +65,14 @@ export class CreateIpaddressDto {
   @IsDefined()
   @IsNotEmpty()
   @ValidateNested()
+  @IsOptional()
   readonly internet: InternetDto;
 
   @ApiPropertyOptional({ description: 'Autoanswer', example: '(12 3456 7)89' })
   @IsString()
   @IsDefined()
   @IsNotEmpty()
+  @IsOptional()
   readonly autoanswer: string;
 
   @ApiPropertyOptional({
@@ -79,6 +83,7 @@ export class CreateIpaddressDto {
   @IsMongoId()
   @IsDefined()
   @IsNotEmpty()
+  @IsOptional()
   readonly unit: string;
 
   @ApiPropertyOptional({
@@ -89,6 +94,7 @@ export class CreateIpaddressDto {
   @IsMongoId()
   @IsDefined()
   @IsNotEmpty()
+  @IsOptional()
   readonly location: string;
 
   @ApiPropertyOptional({
@@ -99,6 +105,7 @@ export class CreateIpaddressDto {
   @IsMongoId()
   @IsDefined()
   @IsNotEmpty()
+  @IsOptional()
   readonly company: string;
 
   @ApiPropertyOptional({
@@ -109,6 +116,7 @@ export class CreateIpaddressDto {
   @IsMongoId()
   @IsDefined()
   @IsNotEmpty()
+  @IsOptional()
   readonly branch: string;
 
   @ApiPropertyOptional({
@@ -119,6 +127,7 @@ export class CreateIpaddressDto {
   @IsMongoId()
   @IsDefined()
   @IsNotEmpty()
+  @IsOptional()
   readonly enterprise: string;
 
   @ApiPropertyOptional({
@@ -129,6 +138,7 @@ export class CreateIpaddressDto {
   @IsMongoId()
   @IsDefined()
   @IsNotEmpty()
+  @IsOptional()
   readonly department: string;
 
   @ApiPropertyOptional({
@@ -139,5 +149,6 @@ export class CreateIpaddressDto {
   @IsMongoId()
   @IsDefined()
   @IsNotEmpty()
+  @IsOptional()
   readonly position: string;
 }

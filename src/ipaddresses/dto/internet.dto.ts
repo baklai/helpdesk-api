@@ -19,6 +19,8 @@ export class InternetDto {
 
   @ApiPropertyOptional({ description: 'Date when internet was closed', example: new Date() })
   @IsDate()
+  @IsDefined()
+  @IsNotEmpty()
   @IsOptional()
   dateClose: Date;
 
@@ -27,6 +29,8 @@ export class InternetDto {
     example: 'Internet is closed of №1234/560'
   })
   @IsString()
+  @IsDefined()
+  @IsNotEmpty()
   @IsOptional()
   comment: string;
 }

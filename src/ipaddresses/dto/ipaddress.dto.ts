@@ -12,56 +12,16 @@ import {
   IsDefined
 } from 'class-validator';
 
-import { BranchDto } from 'src/branches/dto/branch.dto';
-import { CompanyDto } from 'src/companies/dto/company.dto';
-import { DepartmentDto } from 'src/departments/dto/department.dto';
-import { EnterpriseDto } from 'src/enterprises/dto/enterprise.dto';
+import { InternetDto } from './internet.dto';
+import { CIDRDto } from './cidr.dto';
+
+import { UnitDto } from 'src/units/dto/unit.dto';
 import { LocationDto } from 'src/locations/dto/location.dto';
+import { CompanyDto } from 'src/companies/dto/company.dto';
+import { BranchDto } from 'src/branches/dto/branch.dto';
+import { EnterpriseDto } from 'src/enterprises/dto/enterprise.dto';
+import { DepartmentDto } from 'src/departments/dto/department.dto';
 import { PositionDto } from 'src/positions/dto/position.dto';
-
-class CIDRDto {
-  @ApiProperty({ description: 'CIDR value', example: 24 })
-  @IsNumber()
-  @IsDefined()
-  @IsNotEmpty()
-  value: number;
-
-  @ApiProperty({ description: 'CIDR mask', example: '255.255.255.0' })
-  @IsString()
-  @IsDefined()
-  @IsNotEmpty()
-  mask: string;
-}
-
-class InternetDto {
-  @ApiProperty({
-    description: 'Incoming letter number',
-    example: 'Letter number №548925 from 12/12/2023'
-  })
-  @IsString()
-  @IsDefined()
-  @IsNotEmpty()
-  reqnum: string;
-
-  @ApiProperty({ description: 'Date when internet was opened', example: new Date() })
-  @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
-  dateOpen: Date;
-
-  @ApiPropertyOptional({ description: 'Date when internet was closed', example: new Date() })
-  @IsDate()
-  @IsOptional()
-  dateClose?: Date;
-
-  @ApiPropertyOptional({
-    description: 'Comment about internet',
-    example: 'Internet is closed of №1234/560'
-  })
-  @IsString()
-  @IsOptional()
-  comment?: string;
-}
 
 export class IpaddressDto {
   @ApiProperty({
@@ -74,6 +34,12 @@ export class IpaddressDto {
   @IsNotEmpty()
   readonly id: string;
 
+  @ApiProperty({ description: 'Index IP Address', example: 3232235521 })
+  @IsNumber()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly indexip: number;
+
   @ApiProperty({ description: 'IP Address', example: '192.168.0.1' })
   @IsIP()
   @IsString()
@@ -81,17 +47,7 @@ export class IpaddressDto {
   @IsNotEmpty()
   readonly ipaddress: string;
 
-  @ApiProperty({ description: 'Index IP Address', example: 3232235521 })
-  @IsNumber()
-  @IsDefined()
-  @IsNotEmpty()
-  readonly indexip: number;
-
-  @ApiProperty({
-    type: CIDRDto,
-    description: 'CIDR Information',
-    example: { value: 24, mask: '255.255.255.0' }
-  })
+  @ApiProperty({ description: 'CIDR Information', example: CIDRDto })
   @IsDefined()
   @IsNotEmpty()
   @ValidateNested()
@@ -103,7 +59,7 @@ export class IpaddressDto {
   @IsNotEmpty()
   readonly reqnum: string;
 
-  @ApiProperty({ description: 'Date of create', example: new Date() })
+  @ApiProperty({ description: 'Date of create record', example: new Date() })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
@@ -121,106 +77,124 @@ export class IpaddressDto {
   @IsNotEmpty()
   readonly phone: string;
 
-  @ApiPropertyOptional({ description: 'Autoanswer', example: '(12 3456 7)89' })
+  @ApiPropertyOptional({ description: 'Comment text', example: 'Network access limited' })
   @IsString()
+  @IsDefined()
+  @IsNotEmpty()
   @IsOptional()
-  readonly autoanswer?: string;
+  readonly comment: string;
 
   @ApiPropertyOptional({
-    type: InternetDto,
     description: 'Internet information',
     example: InternetDto
   })
-  @IsOptional()
+  @IsDefined()
+  @IsNotEmpty()
   @ValidateNested()
-  readonly internet?: InternetDto;
-
-  @ApiPropertyOptional({ description: 'Comment text', example: 'Comment text' })
-  @IsString()
   @IsOptional()
-  readonly comment?: string;
+  readonly internet: InternetDto;
 
-  @ApiProperty({
-    type: LocationDto,
-    description: 'ID of the associated location',
-    example: '6299b5cebf44864bfcea39da'
+  @ApiPropertyOptional({ description: 'Autoanswer', example: '(12 3456 7)89' })
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  readonly autoanswer: string;
+
+  @ApiPropertyOptional({
+    description: 'Document of the associated Unit',
+    example: UnitDto
   })
   @IsString()
   @IsMongoId()
   @IsDefined()
   @IsNotEmpty()
-  readonly location?: LocationDto;
+  @IsOptional()
+  readonly unit: UnitDto;
 
-  @ApiProperty({
-    type: CompanyDto,
-    description: 'ID of the associated company',
-    example: '6299b5cfbf44864bfcea3b0e'
+  @ApiPropertyOptional({
+    description: 'Document of the associated Location',
+    example: LocationDto
   })
   @IsString()
   @IsMongoId()
   @IsDefined()
   @IsNotEmpty()
+  @IsOptional()
+  readonly location: LocationDto;
+
+  @ApiPropertyOptional({
+    description: 'Document of the associated Company',
+    example: CompanyDto
+  })
+  @IsString()
+  @IsMongoId()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
   readonly company: CompanyDto;
 
-  @ApiProperty({
-    type: BranchDto,
-    description: 'ID of the associated branch',
-    example: '6299b5cebf44864bfcea36d2'
+  @ApiPropertyOptional({
+    description: 'Document of the associated Branch',
+    example: BranchDto
   })
   @IsString()
   @IsMongoId()
   @IsDefined()
   @IsNotEmpty()
+  @IsOptional()
   readonly branch: BranchDto;
 
-  @ApiProperty({
-    type: EnterpriseDto,
-    description: 'ID of the associated enterprise',
-    example: '6299b5cebf44864bfcea372a'
+  @ApiPropertyOptional({
+    description: 'Document of the associated Enterprise',
+    example: EnterpriseDto
   })
   @IsString()
   @IsMongoId()
   @IsDefined()
   @IsNotEmpty()
+  @IsOptional()
   readonly enterprise: EnterpriseDto;
 
-  @ApiProperty({
-    type: DepartmentDto,
-    description: 'ID of the associated department',
-    example: '6299b5cebf44864bfcea3772'
+  @ApiPropertyOptional({
+    description: 'Document of the associated Department',
+    example: DepartmentDto
   })
   @IsString()
   @IsMongoId()
   @IsDefined()
   @IsNotEmpty()
+  @IsOptional()
   readonly department: DepartmentDto;
 
-  @ApiProperty({
-    type: PositionDto,
-    description: 'ID of the associated position',
-    example: '6299b5cebf44864bfcea391a'
+  @ApiPropertyOptional({
+    description: 'Document of the associated Position',
+    example: PositionDto
   })
   @IsString()
   @IsMongoId()
   @IsDefined()
   @IsNotEmpty()
+  @IsOptional()
   readonly position: PositionDto;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'The created date of the record',
-    example: '2021-06-03T07:18:38.233Z'
+    example: new Date()
   })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
+  @IsOptional()
   readonly createdAt: Date;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'The updated date of the record',
-    example: '2022-06-03T07:18:38.233Z'
+    example: new Date()
   })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
+  @IsOptional()
   readonly updatedAt: Date;
 }
