@@ -27,9 +27,6 @@ export class Mailbox {
   @Prop({ type: String, trim: true })
   phone: string;
 
-  @Prop({ type: String, trim: true })
-  ipaddress: string;
-
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Location',

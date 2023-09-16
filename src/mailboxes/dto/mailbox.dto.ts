@@ -34,19 +34,19 @@ export class MailboxDto {
   @IsString()
   @IsDefined()
   @IsNotEmpty()
-  reqnum: string;
+  readonly reqnum: string;
 
   @ApiProperty({ description: 'E-Mail login', example: 'john.doe1985' })
   @IsString()
   @IsDefined()
   @IsNotEmpty()
-  login: string;
+  readonly login: string;
 
   @ApiProperty({ description: 'Fullname of email owner', example: 'John Doe' })
   @IsString()
   @IsDefined()
   @IsNotEmpty()
-  fullname: string;
+  readonly fullname: string;
 
   @ApiProperty({ description: 'Client phone number', example: '1234-56-78' })
   @IsString()
@@ -58,14 +58,14 @@ export class MailboxDto {
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
-  dateOpen: Date;
+  readonly dateOpen: Date;
 
   @ApiPropertyOptional({ description: 'Date when email was closed', example: new Date() })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  dateClose: Date;
+  readonly dateClose: Date;
 
   @ApiPropertyOptional({
     description: 'Comment about email',
@@ -75,15 +75,7 @@ export class MailboxDto {
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  comment: string;
-
-  @ApiPropertyOptional({ description: 'IP Address', example: '192.168.0.1' })
-  @IsIP()
-  @IsString()
-  @IsDefined()
-  @IsNotEmpty()
-  @IsOptional()
-  ipaddress: string;
+  readonly comment: string;
 
   @ApiPropertyOptional({
     description: 'Document of the associated Location',
