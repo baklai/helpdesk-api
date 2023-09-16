@@ -32,6 +32,7 @@ import { InspectorsService } from './inspectors.service';
 import { Inspector } from './schemas/inspector.schema';
 import { InspectorDto } from './dto/inspector.dto';
 import { PaginateInspectorDto } from './dto/paginate-inspector.dto';
+import { isIP } from 'class-validator';
 
 @ApiTags('PC SysInspectors')
 @Controller('inspectors')
@@ -65,7 +66,7 @@ export class InspectorsController {
     return await this.inspectorService.findAll(query);
   }
 
-  @Get(':id')
+  @Get(':search')
   @ApiBearerAuth('JWT Guard')
   @UseGuards(AccessTokenGuard, ScopesGuard)
   @Scopes(Scope.InspectorRead)
@@ -76,8 +77,12 @@ export class InspectorsController {
   @ApiOkResponse({ description: 'Success', type: InspectorDto })
   @ApiNotFoundResponse({ description: 'Inspector not found' })
   @ApiBadRequestResponse({ description: 'Invalid inspector ID' })
-  async findOneById(@Param('id') id: string): Promise<Inspector> {
-    return await this.inspectorService.findOneById(id);
+  async findOneById(@Param('search') search: string): Promise<Inspector> {
+    if (isIP(search)) {
+      return await this.inspectorService.findOneByIP(search);
+    } else {
+      return await this.inspectorService.findOneById(search);
+    }
   }
 
   @Delete(':id')

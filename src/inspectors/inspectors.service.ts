@@ -281,18 +281,26 @@ export class InspectorsService {
 
   async findOneById(id: string): Promise<Inspector> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid channel ID');
+      throw new BadRequestException('Invalid inspector ID');
     }
     const inspector = await this.inspectorModel.findById(id).exec();
     if (!inspector) {
-      throw new NotFoundException('Channel not found');
+      throw new NotFoundException('Inspector not found');
+    }
+    return inspector;
+  }
+
+  async findOneByIP(ip: string): Promise<Inspector> {
+    const inspector = await this.inspectorModel.findOne({ host: ip }).exec();
+    if (!inspector) {
+      throw new NotFoundException('Inspector not found');
     }
     return inspector;
   }
 
   async removeOneById(id: string): Promise<Inspector> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid channel ID');
+      throw new BadRequestException('Invalid inspector ID');
     }
     const deletedInspector = await this.inspectorModel.findByIdAndRemove(id).exec();
     if (!deletedInspector) {

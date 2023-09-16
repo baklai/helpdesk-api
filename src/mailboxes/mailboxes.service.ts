@@ -42,7 +42,7 @@ export class MailboxesService {
 
   async updateOneById(id: string, updateMailboxDto: UpdateMailboxDto): Promise<Mailbox> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid channel ID');
+      throw new BadRequestException('Invalid mailbox ID');
     }
     const updatedMailbox = await this.mailboxModel
       .findByIdAndUpdate(id, { $set: updateMailboxDto }, { new: true })
