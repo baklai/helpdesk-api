@@ -35,13 +35,13 @@ class CIDRDto {
 
 class InternetDto {
   @ApiProperty({
-    description: 'Mail number',
+    description: 'Incoming letter number',
     example: 'Letter number №548925 from 12/12/2023'
   })
   @IsString()
   @IsDefined()
   @IsNotEmpty()
-  mail: string;
+  reqnum: string;
 
   @ApiProperty({ description: 'Date when internet was opened', example: new Date() })
   @IsDate()
@@ -54,43 +54,10 @@ class InternetDto {
   @IsOptional()
   dateClose?: Date;
 
-  @ApiPropertyOptional({ description: 'Comment about internet', example: 'Internet comment' })
-  @IsString()
-  @IsOptional()
-  comment?: string;
-}
-
-class EmailDto {
-  @ApiProperty({ description: 'Email address', example: 'sample@mail.com' })
-  @IsString()
-  @IsDefined()
-  @IsNotEmpty()
-  mail: string;
-
-  @ApiProperty({ description: 'Email login', example: 'login123' })
-  @IsString()
-  @IsDefined()
-  @IsNotEmpty()
-  login: string;
-
-  @ApiProperty({ description: 'Fullname of email owner', example: 'John Doe' })
-  @IsString()
-  @IsDefined()
-  @IsNotEmpty()
-  fullname: string;
-
-  @ApiProperty({ description: 'Date when email was opened', example: new Date() })
-  @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
-  dateOpen: Date;
-
-  @ApiPropertyOptional({ description: 'Date when email was closed', example: new Date() })
-  @IsDate()
-  @IsOptional()
-  dateClose?: Date;
-
-  @ApiPropertyOptional({ description: 'Comment about email', example: 'Email comment' })
+  @ApiPropertyOptional({
+    description: 'Comment about internet',
+    example: 'Internet is closed of №1234/560'
+  })
   @IsString()
   @IsOptional()
   comment?: string;
@@ -107,142 +74,153 @@ export class IpaddressDto {
   @IsNotEmpty()
   readonly id: string;
 
-  @ApiProperty({ description: 'IP address', example: '192.168.1.1' })
+  @ApiProperty({ description: 'IP Address', example: '192.168.0.1' })
   @IsIP()
   @IsString()
   @IsDefined()
   @IsNotEmpty()
-  ipaddress: string;
+  readonly ipaddress: string;
 
-  @ApiPropertyOptional({ description: 'IP index', example: 1 })
+  @ApiProperty({ description: 'Index IP Address', example: 3232235521 })
   @IsNumber()
-  @IsOptional()
-  indexip?: number;
+  @IsDefined()
+  @IsNotEmpty()
+  readonly indexip: number;
 
-  @ApiProperty({ type: CIDRDto, description: 'CIDR information' })
+  @ApiProperty({
+    type: CIDRDto,
+    description: 'CIDR Information',
+    example: { value: 24, mask: '255.255.255.0' }
+  })
   @IsDefined()
   @IsNotEmpty()
   @ValidateNested()
-  cidr: CIDRDto;
+  readonly cidr: CIDRDto;
 
-  @ApiPropertyOptional({
-    type: LocationDto,
-    description: 'ID of the associated location',
-    example: 'Location ID'
-  })
+  @ApiProperty({ description: 'Incoming request number', example: '№1234/56' })
   @IsString()
-  @IsMongoId()
-  @IsOptional()
-  location?: LocationDto;
+  @IsDefined()
+  @IsNotEmpty()
+  readonly reqnum: string;
 
-  @ApiPropertyOptional({
-    type: CompanyDto,
-    description: 'ID of the associated company',
-    example: 'Company ID'
-  })
-  @IsString()
-  @IsMongoId()
-  @IsOptional()
-  company?: CompanyDto;
-
-  @ApiPropertyOptional({
-    type: BranchDto,
-    description: 'ID of the associated branch',
-    example: 'Branch ID'
-  })
-  @IsString()
-  @IsMongoId()
-  @IsOptional()
-  branch?: BranchDto;
-
-  @ApiPropertyOptional({
-    type: EnterpriseDto,
-    description: 'ID of the associated enterprise',
-    example: 'Enterprise ID'
-  })
-  @IsString()
-  @IsMongoId()
-  @IsOptional()
-  enterprise?: EnterpriseDto;
-
-  @ApiPropertyOptional({
-    type: DepartmentDto,
-    description: 'ID of the associated department',
-    example: 'Department ID'
-  })
-  @IsString()
-  @IsMongoId()
-  @IsOptional()
-  department?: DepartmentDto;
-
-  @ApiPropertyOptional({
-    type: PositionDto,
-    description: 'ID of the associated position',
-    example: 'Position ID'
-  })
-  @IsString()
-  @IsMongoId()
-  @IsOptional()
-  position?: PositionDto;
-
-  @ApiPropertyOptional({ description: 'Autoanswer text', example: 'Autoanswer text' })
-  @IsString()
-  @IsOptional()
-  autoanswer?: string;
-
-  @ApiPropertyOptional({ description: 'Email address', example: 'sample@mail.com' })
-  @IsString()
-  @IsOptional()
-  mail?: string;
-
-  @ApiPropertyOptional({ description: 'Date', example: new Date() })
+  @ApiProperty({ description: 'Date of create', example: new Date() })
   @IsDate()
-  @IsOptional()
-  date?: Date;
+  @IsDefined()
+  @IsNotEmpty()
+  readonly date: Date;
 
-  @ApiPropertyOptional({ description: 'Full name', example: 'Full name' })
+  @ApiProperty({ description: 'Client full name', example: 'John Doe' })
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly fullname: string;
+
+  @ApiProperty({ description: 'Client phone number', example: '1234-56-78' })
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly phone: string;
+
+  @ApiPropertyOptional({ description: 'Autoanswer', example: '(12 3456 7)89' })
   @IsString()
   @IsOptional()
-  fullname?: string;
+  readonly autoanswer?: string;
 
-  @ApiPropertyOptional({ description: 'Phone number', example: '123-456-7890' })
-  @IsString()
+  @ApiPropertyOptional({
+    type: InternetDto,
+    description: 'Internet information',
+    example: InternetDto
+  })
   @IsOptional()
-  phone?: string;
+  @ValidateNested()
+  readonly internet?: InternetDto;
 
   @ApiPropertyOptional({ description: 'Comment text', example: 'Comment text' })
   @IsString()
   @IsOptional()
-  comment?: string;
+  readonly comment?: string;
 
-  @ApiPropertyOptional({ type: InternetDto, description: 'Internet information' })
-  @IsOptional()
-  @ValidateNested()
-  internet?: InternetDto;
+  @ApiProperty({
+    type: LocationDto,
+    description: 'ID of the associated location',
+    example: '6299b5cebf44864bfcea39da'
+  })
+  @IsString()
+  @IsMongoId()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly location?: LocationDto;
 
-  @ApiPropertyOptional({ type: [EmailDto], description: 'List of email addresses' })
-  @IsArray()
-  @IsOptional()
-  @ValidateNested({ each: true })
-  email?: EmailDto[];
+  @ApiProperty({
+    type: CompanyDto,
+    description: 'ID of the associated company',
+    example: '6299b5cfbf44864bfcea3b0e'
+  })
+  @IsString()
+  @IsMongoId()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly company: CompanyDto;
 
-  @ApiPropertyOptional({
+  @ApiProperty({
+    type: BranchDto,
+    description: 'ID of the associated branch',
+    example: '6299b5cebf44864bfcea36d2'
+  })
+  @IsString()
+  @IsMongoId()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly branch: BranchDto;
+
+  @ApiProperty({
+    type: EnterpriseDto,
+    description: 'ID of the associated enterprise',
+    example: '6299b5cebf44864bfcea372a'
+  })
+  @IsString()
+  @IsMongoId()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly enterprise: EnterpriseDto;
+
+  @ApiProperty({
+    type: DepartmentDto,
+    description: 'ID of the associated department',
+    example: '6299b5cebf44864bfcea3772'
+  })
+  @IsString()
+  @IsMongoId()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly department: DepartmentDto;
+
+  @ApiProperty({
+    type: PositionDto,
+    description: 'ID of the associated position',
+    example: '6299b5cebf44864bfcea391a'
+  })
+  @IsString()
+  @IsMongoId()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly position: PositionDto;
+
+  @ApiProperty({
     description: 'The created date of the record',
     example: '2021-06-03T07:18:38.233Z'
   })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
-  @IsOptional()
-  readonly createdAt?: Date;
+  readonly createdAt: Date;
 
-  @ApiPropertyOptional({
+  @ApiProperty({
     description: 'The updated date of the record',
     example: '2022-06-03T07:18:38.233Z'
   })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
-  @IsOptional()
-  readonly updatedAt?: Date;
+  readonly updatedAt: Date;
 }

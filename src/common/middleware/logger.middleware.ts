@@ -15,9 +15,6 @@ export class LoggerMiddleware implements NestMiddleware {
   //  async use(req: Request, res: Response, next: NextFunction) {
 
   async use(req: Request, res: Response, next: NextFunction) {
-    console.log(req?.user);
-
-    console.log(res);
     // await this.syslogsService.create({
     //   // user: req?.user || null,
     //   method: req?.method || null,

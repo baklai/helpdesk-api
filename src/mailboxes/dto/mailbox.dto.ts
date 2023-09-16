@@ -27,94 +27,26 @@ export class MailboxDto {
   @IsNotEmpty()
   readonly id: string;
 
-  @ApiPropertyOptional({ description: 'IP address', example: '192.168.1.1' })
-  @IsIP()
+  @ApiProperty({
+    description: 'Incoming letter number',
+    example: 'Letter number №548925 from 12/12/2023'
+  })
   @IsString()
   @IsDefined()
   @IsNotEmpty()
-  ipaddress?: string;
+  reqnum: string;
 
-  @ApiPropertyOptional({
-    type: LocationDto,
-    description: 'ID of the associated location',
-    example: 'Location ID'
-  })
-  @IsString()
-  @IsMongoId()
-  @IsOptional()
-  location?: LocationDto;
-
-  @ApiPropertyOptional({
-    type: CompanyDto,
-    description: 'ID of the associated company',
-    example: 'Company ID'
-  })
-  @IsString()
-  @IsMongoId()
-  @IsOptional()
-  company?: CompanyDto;
-
-  @ApiPropertyOptional({
-    type: BranchDto,
-    description: 'ID of the associated branch',
-    example: 'Branch ID'
-  })
-  @IsString()
-  @IsMongoId()
-  @IsOptional()
-  branch?: BranchDto;
-
-  @ApiPropertyOptional({
-    type: EnterpriseDto,
-    description: 'ID of the associated enterprise',
-    example: 'Enterprise ID'
-  })
-  @IsString()
-  @IsMongoId()
-  @IsOptional()
-  enterprise?: EnterpriseDto;
-
-  @ApiPropertyOptional({
-    type: DepartmentDto,
-    description: 'ID of the associated department',
-    example: 'Department ID'
-  })
-  @IsString()
-  @IsMongoId()
-  @IsOptional()
-  department?: DepartmentDto;
-
-  @ApiPropertyOptional({
-    type: PositionDto,
-    description: 'ID of the associated position',
-    example: 'Position ID'
-  })
-  @IsString()
-  @IsMongoId()
-  @IsOptional()
-  position?: PositionDto;
-
-  @ApiPropertyOptional({ description: 'Fullname of email owner', example: 'John Doe' })
-  @IsString()
-  @IsOptional()
-  fullname?: string;
-
-  @ApiPropertyOptional({ description: 'Phone number', example: '123-456-7890' })
-  @IsString()
-  @IsOptional()
-  phone?: string;
-
-  @ApiPropertyOptional({ description: 'Email number', example: '№12458' })
-  @IsString()
-  @IsDefined()
-  @IsNotEmpty()
-  mail: string;
-
-  @ApiProperty({ description: 'Email login', example: 'login123' })
+  @ApiProperty({ description: 'Email login', example: 'john.doe1985' })
   @IsString()
   @IsDefined()
   @IsNotEmpty()
   login: string;
+
+  @ApiProperty({ description: 'Fullname of email owner', example: 'John Doe' })
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  fullname: string;
 
   @ApiProperty({ description: 'Date when email was opened', example: new Date() })
   @IsDate()
@@ -127,28 +59,99 @@ export class MailboxDto {
   @IsOptional()
   dateClose?: Date;
 
-  @ApiPropertyOptional({ description: 'Comment about email', example: 'Comment text' })
+  @ApiPropertyOptional({ description: 'Comment about email', example: 'Email comment' })
   @IsString()
   @IsOptional()
   comment?: string;
 
-  @ApiPropertyOptional({
+  @ApiPropertyOptional({ description: 'IP Address', example: '192.168.0.1' })
+  @IsIP()
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  ipaddress?: string;
+
+  @ApiProperty({
+    type: LocationDto,
+    description: 'ID of the associated location',
+    example: 'Location ID'
+  })
+  @IsString()
+  @IsMongoId()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly location?: LocationDto;
+
+  @ApiProperty({
+    type: CompanyDto,
+    description: 'ID of the associated company',
+    example: 'Company ID'
+  })
+  @IsString()
+  @IsMongoId()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly company: CompanyDto;
+
+  @ApiProperty({
+    type: BranchDto,
+    description: 'ID of the associated branch',
+    example: 'Branch ID'
+  })
+  @IsString()
+  @IsMongoId()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly branch: BranchDto;
+
+  @ApiProperty({
+    type: EnterpriseDto,
+    description: 'ID of the associated enterprise',
+    example: 'Enterprise ID'
+  })
+  @IsString()
+  @IsMongoId()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly enterprise: EnterpriseDto;
+
+  @ApiProperty({
+    type: DepartmentDto,
+    description: 'ID of the associated department',
+    example: 'Department ID'
+  })
+  @IsString()
+  @IsMongoId()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly department: DepartmentDto;
+
+  @ApiProperty({
+    type: PositionDto,
+    description: 'ID of the associated position',
+    example: 'Position ID'
+  })
+  @IsString()
+  @IsMongoId()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly position: PositionDto;
+
+  @ApiProperty({
     description: 'The created date of the record',
     example: '2021-06-03T07:18:38.233Z'
   })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
-  @IsOptional()
-  readonly createdAt?: Date;
+  readonly createdAt: Date;
 
-  @ApiPropertyOptional({
+  @ApiProperty({
     description: 'The updated date of the record',
     example: '2022-06-03T07:18:38.233Z'
   })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
-  @IsOptional()
-  readonly updatedAt?: Date;
+  readonly updatedAt: Date;
 }
