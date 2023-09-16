@@ -48,6 +48,12 @@ export class MailboxDto {
   @IsNotEmpty()
   fullname: string;
 
+  @ApiProperty({ description: 'Client phone number', example: '1234-56-78' })
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  readonly phone: string;
+
   @ApiProperty({ description: 'Date when email was opened', example: new Date() })
   @IsDate()
   @IsDefined()
