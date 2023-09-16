@@ -13,7 +13,7 @@ export type MailboxDocument = HydratedDocument<Mailbox>;
 @Schema()
 export class Mailbox {
   @Prop({ type: String, required: true, trim: true })
-  mail: string;
+  reqnum: string;
 
   @Prop({ type: String, required: true, trim: true })
   login: string;

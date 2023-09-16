@@ -23,13 +23,13 @@ export class Request {
   ipaddress: string;
 
   @Prop({ type: String, trim: true })
-  mail: string;
+  reqnum: string;
 
   @Prop({ type: String, required: true, trim: true })
   request: string;
 
-  @Prop({ type: Date, trim: true })
-  closed: Date;
+  @Prop({ type: Boolean, default: false })
+  closed: boolean;
 
   @Prop({ type: String, trim: true })
   comment: string;
