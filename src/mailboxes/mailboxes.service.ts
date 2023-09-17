@@ -15,7 +15,7 @@ export class MailboxesService {
   }
 
   async findAll(query: PaginateQueryDto): Promise<PaginateResult<Mailbox>> {
-    const { offset = 0, limit = 5, sort = { locationFrom: 1 }, filters = {} } = query;
+    const { offset = 0, limit = 5, sort = { dateOpen: -1 }, filters = {} } = query;
 
     return await this.mailboxModel.paginate(
       { ...filters },
