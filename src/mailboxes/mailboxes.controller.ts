@@ -73,8 +73,11 @@ export class MailboxesController {
   @ApiOkResponse({ description: 'Success', type: MailboxDto })
   @ApiNotFoundResponse({ description: 'Mailbox not found' })
   @ApiBadRequestResponse({ description: 'Invalid mailbox ID' })
-  async findOneById(@Param('id') id: string): Promise<Mailbox> {
-    return await this.mailboxesService.findOneById(id);
+  async findOneById(
+    @Param('id') id: string,
+    @Query('populate') populate: boolean
+  ): Promise<Mailbox> {
+    return await this.mailboxesService.findOneById(id, populate);
   }
 
   @Put(':id')

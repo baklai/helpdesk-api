@@ -29,11 +29,15 @@ export class MailboxesService {
     );
   }
 
-  async findOneById(id: string): Promise<Mailbox> {
+  async findOneById(id: string, populate: boolean): Promise<Mailbox> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid mailbox ID');
     }
-    const mailbox = await this.mailboxModel.findById(id).exec();
+    const mailbox = await this.mailboxModel
+      .findById(id, null, {
+        autopopulate: populate
+      })
+      .exec();
     if (!mailbox) {
       throw new NotFoundException('Mailbox not found');
     }
