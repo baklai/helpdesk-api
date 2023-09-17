@@ -1,10 +1,10 @@
 import {
+  UnprocessableEntityException,
   UnauthorizedException,
   BadRequestException,
   ConflictException,
   NotFoundException,
-  Injectable,
-  UnprocessableEntityException
+  Injectable
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
@@ -13,11 +13,11 @@ import { Model, Types } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 
 import { User } from 'src/users/schemas/user.schema';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
-
 import { RefreshToken } from './schemas/refreshToken.schema';
-import { AuthDto } from './dto/auth.dto';
+
 import { TokensDto } from './dto/tokens.dto';
+import { SigninAuthDto } from './dto/signin-auth.dto';
+import { SignupAuthDto } from './dto/signup-auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -39,7 +39,7 @@ export class AuthService {
     return user;
   }
 
-  async signin({ login, password }: AuthDto): Promise<TokensDto> {
+  async signin({ login, password }: SigninAuthDto): Promise<TokensDto> {
     const user = await this.userModel.findOne({ login }, '+password').exec();
 
     if (!user) {
@@ -64,16 +64,19 @@ export class AuthService {
     return tokens;
   }
 
-  async signup(authDto: CreateUserDto): Promise<User> {
-    const userExists = await this.userModel.findOne({ login: authDto.login }).exec();
+  async signup(signinAuthDto: SignupAuthDto): Promise<User> {
+    const userExists = await this.userModel.findOne({ login: signinAuthDto.login }).exec();
     if (userExists) {
       throw new ConflictException('User already exists');
     }
-    const passwordHash = await bcrypt.hash(authDto.password, this.configService.get('bcryptSalt'));
+    const passwordHash = await bcrypt.hash(
+      signinAuthDto.password,
+      this.configService.get('bcryptSalt')
+    );
 
     try {
       const user = await this.userModel.create({
-        ...authDto,
+        ...signinAuthDto,
         password: passwordHash,
         isActive: false,
         isAdmin: false
