@@ -7,7 +7,6 @@ const JWT_ACCESS_SECRET = 'HELPDESK-JWT-ACCESS-SECRET';
 const JWT_ACCESS_EXPIRES_IN = '15m';
 const JWT_REFRESH_SECRET = 'HELPDESK-JWT-REFRESH-SECRET';
 const JWT_REFRESH_EXPIRES_IN = '7d';
-const FILE_HOSTING_PATH = null;
 
 export default () => ({
   host: process.env.HOST || HOST,
@@ -18,6 +17,5 @@ export default () => ({
   jwtAccessSecret: process.env.JWT_ACCESS_SECRET || JWT_ACCESS_SECRET,
   jwtAccessExpiresIn: process.env.JWT_ACCESS_EXPIRES_IN || JWT_ACCESS_EXPIRES_IN,
   jwtRefreshSecret: process.env.JWT_REFRESH_SECRET || JWT_REFRESH_SECRET,
-  jwtRefreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN || JWT_REFRESH_EXPIRES_IN,
-  fileHostingPath: process.env.FILE_HOSTING_PATH || FILE_HOSTING_PATH
+  jwtRefreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN || JWT_REFRESH_EXPIRES_IN
 });
