@@ -67,13 +67,13 @@ After starting the API you can open Swagger documentation in your browser by `/a
 ## Running the app
 
 ```bash
-# development
+# production mode
 $ npm run start
 
-# watch mode
+# development watch mode
 $ npm run start:dev
 
-# production mode
+# debug mode
 $ npm run start:prod
 ```
 
