@@ -2,19 +2,21 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDate, IsDefined, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class InternetDto {
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'Incoming letter number',
     example: 'Letter number №548925 from 12/07/2023'
   })
   @IsString()
   @IsDefined()
   @IsNotEmpty()
+  @IsOptional()
   reqnum: string;
 
-  @ApiProperty({ description: 'Date when internet was opened', example: new Date() })
+  @ApiPropertyOptional({ description: 'Date when internet was opened', example: new Date() })
   @IsDate()
   @IsDefined()
   @IsNotEmpty()
+  @IsOptional()
   dateOpen: Date;
 
   @ApiPropertyOptional({ description: 'Date when internet was closed', example: new Date() })
