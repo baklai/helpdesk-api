@@ -1,28 +1,29 @@
-import { Injectable, Logger, NestMiddleware, UseGuards } from '@nestjs/common';
+import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 
 import { SyslogsService } from 'src/syslogs/syslogs.service';
-import { AccessTokenGuard } from '../guards/accessToken.guard';
-import { ScopesGuard } from '../guards/scopes.guard';
-import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Injectable()
-@ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard, ScopesGuard)
 export class LoggerMiddleware implements NestMiddleware {
   constructor(private syslogsService: SyslogsService) {}
   private logger = new Logger('HTTP');
 
   async use(request: Request, response: Response, next: NextFunction): Promise<void> {
-    const { ip, user, method, baseUrl, query, params, body } = request;
+    const { ip, method, baseUrl, query, params, body } = request;
+
     const userAgent = request.get('user-agent') || '';
+
     response.on('close', async () => {
       const { statusCode } = response;
-      this.logger.log(`${ip} ${method} ${statusCode} ${baseUrl} `);
+      const { user } = request;
+
+      this.logger.log(
+        `${ip} ${user ? user['login'] : 'anonymous'} ${method} ${statusCode} ${baseUrl}`
+      );
 
       await this.syslogsService.create({
         host: ip,
-        user: user ? JSON.stringify(user) : null,
+        user: user ? user['login'] : 'anonymous',
         method: method || null,
         baseUrl: baseUrl || null,
         params: params ? JSON.stringify(params) : null,
