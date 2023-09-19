@@ -29,6 +29,14 @@ export class SyslogsService {
     );
   }
 
+  async removeAll(): Promise<string> {
+    const deletedSyslog = await this.syslogModel.deleteMany().exec();
+    if (!deletedSyslog) {
+      throw new NotFoundException('Syslog not found');
+    }
+    return "Ok";
+  }
+
   async findOneById(id: string): Promise<Syslog> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid syslog ID');

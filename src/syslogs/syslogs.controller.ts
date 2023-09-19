@@ -31,6 +31,16 @@ export class SyslogsController {
     return await this.syslogService.findAll(query);
   }
 
+  @Delete()
+  @Scopes(Scope.SyslogDelete)
+  @ApiOperation({
+    summary: 'Delete all logs',
+    description: 'Required user scopes: [' + [Scope.SyslogDelete].join(',') + ']'
+  })
+  removeAll() {
+    return this.syslogService.removeAll();
+  }
+
   @Get(':id')
   @Scopes(Scope.SyslogRead)
   @ApiOperation({
