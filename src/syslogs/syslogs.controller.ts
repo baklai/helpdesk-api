@@ -1,12 +1,17 @@
-import { Controller, Get, Param, Delete, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Param, Delete, Query, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { PaginateResult } from 'mongoose';
 
+import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { ScopesGuard } from 'src/common/guards/scopes.guard';
 import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
 
+import { Syslog } from './schemas/syslog.schema';
+
 import { SyslogsService } from './syslogs.service';
+import { PaginateSyslogDto } from './dto/paginate-syslog.dto';
 
 @ApiTags('System Logs')
 @Controller('syslogs')
@@ -21,8 +26,9 @@ export class SyslogsController {
     summary: 'Get all logs',
     description: 'Required user scopes: [' + [Scope.SyslogRead].join(',') + ']'
   })
-  findAll() {
-    return this.syslogService.findAll();
+  @ApiOkResponse({ description: 'Success', type: PaginateSyslogDto })
+  async findAll(@Query() query: PaginateQueryDto): Promise<PaginateResult<Syslog>> {
+    return await this.syslogService.findAll(query);
   }
 
   @Get(':id')

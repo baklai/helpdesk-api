@@ -18,10 +18,10 @@ export class LoggerMiddleware implements NestMiddleware {
     const userAgent = request.get('user-agent') || '';
     response.on('close', async () => {
       const { statusCode } = response;
-      this.logger.log(`${ip} ${method} ${baseUrl} ${statusCode} - ${userAgent} `);
+      this.logger.log(`${ip} ${method} ${statusCode} ${baseUrl} `);
 
       await this.syslogsService.create({
-        ip: ip,
+        host: ip,
         user: user ? JSON.stringify(user) : null,
         method: method || null,
         baseUrl: baseUrl || null,

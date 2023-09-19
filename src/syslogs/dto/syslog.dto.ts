@@ -19,7 +19,7 @@ export class SyslogDto {
   @IsMongoId()
   @IsDefined()
   @IsNotEmpty()
-  readonly id: string;
+  readonly host: string;
 
   @ApiPropertyOptional({
     description: 'The IP of request',

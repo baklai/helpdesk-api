@@ -6,7 +6,7 @@ export type SyslogDocument = HydratedDocument<Syslog>;
 @Schema()
 export class Syslog {
   @Prop({ type: String })
-  ip: string;
+  host: string;
 
   @Prop({ type: String })
   user: string;

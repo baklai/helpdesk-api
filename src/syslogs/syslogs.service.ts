@@ -1,20 +1,32 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { PaginateModel, PaginateResult, Types } from 'mongoose';
 
 import { Syslog } from './schemas/syslog.schema';
 import { CreateSyslogDto } from './dto/create-syslog.dto';
+import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 
 @Injectable()
 export class SyslogsService {
-  constructor(@InjectModel(Syslog.name) private readonly syslogModel: Model<Syslog>) {}
+  constructor(@InjectModel(Syslog.name) private readonly syslogModel: PaginateModel<Syslog>) {}
 
   async create(syslogDto: CreateSyslogDto): Promise<Syslog> {
     return await this.syslogModel.create(syslogDto);
   }
 
-  async findAll(): Promise<Syslog[]> {
-    return await this.syslogModel.find().exec();
+  async findAll(query: PaginateQueryDto): Promise<PaginateResult<Syslog>> {
+    const { offset = 0, limit = 5, sort = { locationFrom: 1 }, filters = {} } = query;
+
+    return await this.syslogModel.paginate(
+      { ...filters },
+      {
+        sort,
+        offset,
+        limit: Number(limit) > 0 ? Number(limit) : await this.syslogModel.countDocuments(),
+        lean: false,
+        allowDiskUse: true
+      }
+    );
   }
 
   async findOneById(id: string): Promise<Syslog> {

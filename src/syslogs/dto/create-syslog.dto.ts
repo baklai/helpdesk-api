@@ -1,5 +1,5 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsDefined, IsIP, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsDefined, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateSyslogDto {
   @ApiPropertyOptional({
@@ -10,7 +10,7 @@ export class CreateSyslogDto {
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  readonly ip: string;
+  readonly host: string;
 
   @ApiPropertyOptional({
     description: 'The ID of User',

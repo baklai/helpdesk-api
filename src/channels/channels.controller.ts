@@ -44,7 +44,6 @@ export class ChannelsController {
 
   @Get()
   @Scopes(Scope.ChannelRead)
-  @UseGuards(AccessTokenGuard, ScopesGuard)
   @ApiOperation({
     summary: 'Get all channels',
     description: 'Required user scopes: [' + [Scope.ChannelRead].join(',') + ']'
