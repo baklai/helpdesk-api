@@ -15,7 +15,7 @@ export class SyslogsService {
   }
 
   async findAll(query: PaginateQueryDto): Promise<PaginateResult<Syslog>> {
-    const { offset = 0, limit = 5, sort = { locationFrom: 1 }, filters = {} } = query;
+    const { offset = 0, limit = 5, sort = { createdAt: -1 }, filters = {} } = query;
 
     return await this.syslogModel.paginate(
       { ...filters },
