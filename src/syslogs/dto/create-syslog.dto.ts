@@ -1,26 +1,7 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  IsDate,
-  IsDefined,
-  IsIP,
-  IsMongoId,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString
-} from 'class-validator';
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IsDefined, IsIP, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
-export class SyslogDto {
-  @ApiProperty({
-    description: 'The ID of the record (unique)',
-    example: '6299b5cebf44864bfcea36d4'
-  })
-  @IsString()
-  @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
-  readonly id: string;
-
+export class CreateSyslogDto {
   @ApiPropertyOptional({
     description: 'The IP of request',
     example: '127.0.0.1'
@@ -110,24 +91,4 @@ export class SyslogDto {
   @IsNotEmpty()
   @IsOptional()
   readonly userAgent: string;
-
-  @ApiPropertyOptional({
-    description: 'The created date of the record',
-    example: new Date()
-  })
-  @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
-  @IsOptional()
-  readonly createdAt: Date;
-
-  @ApiPropertyOptional({
-    description: 'The updated date of the record',
-    example: new Date()
-  })
-  @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
-  @IsOptional()
-  readonly updatedAt: Date;
 }

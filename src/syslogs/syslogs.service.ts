@@ -3,13 +3,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 
 import { Syslog } from './schemas/syslog.schema';
-import { SyslogDto } from './dto/syslog.dto';
+import { CreateSyslogDto } from './dto/create-syslog.dto';
 
 @Injectable()
 export class SyslogsService {
   constructor(@InjectModel(Syslog.name) private readonly syslogModel: Model<Syslog>) {}
 
-  async create(syslogDto: SyslogDto): Promise<Syslog> {
+  async create(syslogDto: CreateSyslogDto): Promise<Syslog> {
     return await this.syslogModel.create(syslogDto);
   }
 
