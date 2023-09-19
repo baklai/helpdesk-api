@@ -18,14 +18,14 @@ export class LoggerMiddleware implements NestMiddleware {
       const { user } = request;
 
       this.logger.log(
-        `${ip} ${user ? user['login'] : 'anonymous'} ${method} ${statusCode} ${baseUrl}`
+        `${ip} [${user ? user['login'] : 'anonymous'}] ${method} ${statusCode} ${baseUrl}`
       );
 
       await this.syslogsService.create({
         host: ip,
         user: user ? user['login'] : 'anonymous',
-        method: method || null,
-        baseUrl: baseUrl || null,
+        method: method || '-',
+        baseUrl: baseUrl || '-',
         params: params ? JSON.stringify(params) : null,
         query: query ? JSON.stringify(query) : null,
         body: body ? JSON.stringify(body) : null,

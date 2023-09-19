@@ -114,6 +114,7 @@ export class AppModule implements NestModule {
     consumer
       .apply(LoggerMiddleware)
       .exclude(
+        { path: '/notices', method: RequestMethod.GET },
         { path: '/syslogs', method: RequestMethod.GET },
         { path: '/systools', method: RequestMethod.GET },
         { path: '/inspectors', method: RequestMethod.POST },
