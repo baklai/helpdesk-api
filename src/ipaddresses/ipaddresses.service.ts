@@ -18,8 +18,7 @@ export class IpaddressesService {
   async create(createIpaddressDto: CreateIpaddressDto): Promise<Ipaddress> {
     const { ipaddress } = createIpaddressDto;
     const indexip = new Netmask(ipaddress).netLong;
-    const createdChannel = await this.ipaddressModel.create({ ...createIpaddressDto, indexip });
-    return createdChannel;
+    return await this.ipaddressModel.create({ ...createIpaddressDto, indexip });
   }
 
   async findAll(query: PaginateQueryDto): Promise<PaginateResult<Ipaddress>> {
@@ -90,23 +89,23 @@ export class IpaddressesService {
     }
     const { ipaddress } = updateIpaddressDto;
     const indexip = new Netmask(ipaddress).netLong;
-    const updatedChannel = await this.ipaddressModel
+    const updatedIpaddress = await this.ipaddressModel
       .findByIdAndUpdate(id, { $set: { ...updateIpaddressDto, indexip } }, { new: true })
       .exec();
-    if (!updatedChannel) {
+    if (!updatedIpaddress) {
       throw new NotFoundException('Ipaddress not found');
     }
-    return updatedChannel;
+    return updatedIpaddress;
   }
 
   async removeOneById(id: string): Promise<Ipaddress> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid ipaddress ID');
     }
-    const deletedChannel = await this.ipaddressModel.findByIdAndRemove(id).exec();
-    if (!deletedChannel) {
+    const deletedIpaddress = await this.ipaddressModel.findByIdAndRemove(id).exec();
+    if (!deletedIpaddress) {
       throw new NotFoundException('Ipaddress not found');
     }
-    return deletedChannel;
+    return deletedIpaddress;
   }
 }
