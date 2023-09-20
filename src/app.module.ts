@@ -116,8 +116,8 @@ export class AppModule implements NestModule {
       .exclude(
         { path: '/notices', method: RequestMethod.GET },
         { path: '/syslogs', method: RequestMethod.GET },
-        { path: '/systools', method: RequestMethod.GET },
         { path: '/inspectors', method: RequestMethod.POST },
+        { path: '/systools/:params', method: RequestMethod.GET },
         { path: '/auth/refresh', method: RequestMethod.GET }
       )
       .forRoutes('*');
