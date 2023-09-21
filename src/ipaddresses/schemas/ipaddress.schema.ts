@@ -60,12 +60,11 @@ export class Ipaddress {
 
   @Prop({
     type: {
-      reqnum: { type: String, required: true, default: null, trim: true },
-      dateOpen: { type: Date, required: true, default: null, trim: true },
-      dateClose: { type: Date, trim: true },
-      comment: { type: String, trim: true }
-    },
-    default: null
+      reqnum: { type: String, default: null, trim: true },
+      dateOpen: { type: Date, default: null, trim: true },
+      dateClose: { type: Date, default: null, trim: true },
+      comment: { type: String, default: null, trim: true }
+    }
   })
   internet: Internet;
 
