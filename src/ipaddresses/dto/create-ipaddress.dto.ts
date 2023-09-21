@@ -62,9 +62,6 @@ export class CreateIpaddressDto {
     description: 'Internet information',
     example: InternetDto
   })
-  @IsDefined()
-  @IsNotEmpty()
-  @ValidateNested()
   @IsOptional()
   readonly internet: InternetDto;
 
