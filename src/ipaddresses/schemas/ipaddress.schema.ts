@@ -60,8 +60,8 @@ export class Ipaddress {
 
   @Prop({
     type: {
-      reqnum: { type: String, required: true, trim: true },
-      dateOpen: { type: Date, required: true, trim: true },
+      reqnum: { type: String, required: true, default: null, trim: true },
+      dateOpen: { type: Date, required: true, default: null, trim: true },
       dateClose: { type: Date, trim: true },
       comment: { type: String, trim: true }
     },
