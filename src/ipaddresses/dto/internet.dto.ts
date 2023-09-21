@@ -7,22 +7,16 @@ export class InternetDto {
     example: 'Letter number №548925 from 12/07/2023'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   reqnum: string;
 
   @ApiPropertyOptional({ description: 'Date when internet was opened', example: new Date() })
   @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   dateOpen: Date;
 
   @ApiPropertyOptional({ description: 'Date when internet was closed', example: new Date() })
   @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   dateClose: Date;
 
@@ -31,8 +25,6 @@ export class InternetDto {
     example: 'Internet is closed of №1234/560'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   comment: string;
 }
