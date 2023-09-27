@@ -4,8 +4,10 @@ import {
   NotFoundException,
   UnprocessableEntityException
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { Types, PaginateModel, PaginateResult } from 'mongoose';
+import * as bcrypt from 'bcrypt';
 
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 
@@ -15,11 +17,21 @@ import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private readonly userModel: PaginateModel<User>) {}
+  constructor(
+    @InjectModel(User.name) private readonly userModel: PaginateModel<User>,
+    private configService: ConfigService
+  ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
+    const passwordHash = await bcrypt.hash(
+      createUserDto.password,
+      this.configService.get('bcryptSalt')
+    );
     try {
-      return await this.userModel.create(createUserDto);
+      return await this.userModel.create({
+        ...createUserDto,
+        password: passwordHash
+      });
     } catch (error) {
       throw new UnprocessableEntityException(error.message);
     }
@@ -69,7 +81,21 @@ export class UsersService {
     }
     try {
       const updatedUser = await this.userModel
-        .findByIdAndUpdate(id, { $set: updateUserDto }, { new: true })
+        .findByIdAndUpdate(
+          id,
+          {
+            $set: updateUserDto?.password
+              ? {
+                  ...updateUserDto,
+                  password: await bcrypt.hash(
+                    updateUserDto.password,
+                    this.configService.get('bcryptSalt')
+                  )
+                }
+              : updateUserDto
+          },
+          { new: true }
+        )
         .exec();
       if (!updatedUser) {
         throw new NotFoundException('User not found');

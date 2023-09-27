@@ -64,22 +64,23 @@ export class AuthService {
     return tokens;
   }
 
-  async signup(signinAuthDto: SignupAuthDto): Promise<User> {
-    const userExists = await this.userModel.findOne({ login: signinAuthDto.login }).exec();
+  async signup(signupAuthDto: SignupAuthDto): Promise<User> {
+    const userExists = await this.userModel.findOne({ login: signupAuthDto.login }).exec();
     if (userExists) {
       throw new ConflictException('User already exists');
     }
     const passwordHash = await bcrypt.hash(
-      signinAuthDto.password,
+      signupAuthDto.password,
       this.configService.get('bcryptSalt')
     );
 
     try {
       const user = await this.userModel.create({
-        ...signinAuthDto,
+        ...signupAuthDto,
         password: passwordHash,
         isActive: false,
-        isAdmin: false
+        isAdmin: false,
+        scope: []
       });
       return await this.userModel.findById(user.id).exec();
     } catch (error) {

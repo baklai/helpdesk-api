@@ -59,11 +59,18 @@ export class Ipaddress {
   autoanswer: string;
 
   @Prop({
-    type: {
-      reqnum: { type: String, default: null, trim: true },
-      dateOpen: { type: Date, default: null, trim: true },
-      dateClose: { type: Date, default: null, trim: true },
-      comment: { type: String, default: null, trim: true }
+    // type: {
+    //   reqnum: { type: String, default: null, trim: true },
+    //   dateOpen: { type: Date, default: null, trim: true },
+    //   dateClose: { type: Date, default: null, trim: true },
+    //   comment: { type: String, default: null, trim: true }
+    // },
+    type: Object,
+    default: {
+      reqnum: null,
+      dateOpen: null,
+      dateClose: null,
+      comment: null
     }
   })
   internet: Internet;
