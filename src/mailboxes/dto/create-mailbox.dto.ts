@@ -55,8 +55,6 @@ export class CreateMailboxDto {
     example: 'This user has several mailboxes'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly comment: string;
 
