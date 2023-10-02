@@ -16,6 +16,7 @@ const GLOBAL_PREFIX = '/api/v1';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    rawBody: true,
     logger: ['log', 'error', 'warn']
   });
 
