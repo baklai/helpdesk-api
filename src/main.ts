@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import { NestFactory } from '@nestjs/core';
+import type { NestExpressApplication } from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
@@ -14,11 +15,14 @@ const SWAGGER_API_PATH = '/api';
 const GLOBAL_PREFIX = '/api/v1';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger: ['log', 'error', 'warn']
   });
 
   const configService = app.get(ConfigService);
+
+  app.useBodyParser('json', { limit: '10mb' });
+  app.useBodyParser('urlencoded', { limit: '10mb', extended: true });
 
   app.setGlobalPrefix(GLOBAL_PREFIX);
 
