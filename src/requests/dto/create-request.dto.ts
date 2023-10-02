@@ -46,17 +46,6 @@ export class CreateRequestDto {
   @IsNotEmpty()
   readonly request: string;
 
-  @ApiPropertyOptional({
-    description: 'Key the request was closed',
-    default: false,
-    example: true
-  })
-  @IsBoolean()
-  @IsDefined()
-  @IsNotEmpty()
-  @IsOptional()
-  readonly closed: boolean;
-
   @ApiPropertyOptional({ description: 'Comment about the request', example: 'Fixed the issue' })
   @IsString()
   @IsDefined()

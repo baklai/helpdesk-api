@@ -28,9 +28,6 @@ export class Request {
   @Prop({ type: String, required: true, trim: true })
   request: string;
 
-  @Prop({ type: Boolean, default: false })
-  closed: boolean;
-
   @Prop({ type: String, trim: true })
   comment: string;
 
@@ -102,3 +99,7 @@ export class Request {
 }
 
 export const RequestSchema = SchemaFactory.createForClass(Request);
+
+RequestSchema.virtual('closed').get(function () {
+  return this?.workerClose ? true : false;
+});
