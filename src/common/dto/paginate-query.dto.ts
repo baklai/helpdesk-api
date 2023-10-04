@@ -41,9 +41,7 @@ export class PaginateQueryDto {
   @IsDefined()
   @IsNotEmpty()
   @IsOptional()
-  @Transform(params => (params ? convertValuesToNumber(params.value) : {}), {
-    toClassOnly: true
-  })
+  @Transform(({ value }) => (value ? convertValuesToNumber(value) : {}))
   readonly sort: Record<number | string, any>;
 
   @ApiPropertyOptional({
