@@ -4,10 +4,10 @@ import { IsDefined, IsInt, IsNotEmpty, IsObject, IsOptional, Max, Min } from 'cl
 
 function convertValuesToNumber(val: Record<string, any>) {
   let obj = { ...val };
-  for (var key in obj) {
+  for (let key in obj) {
     if (obj.hasOwnProperty(key)) {
-      var value = obj[key];
-      var numericValue = parseFloat(value);
+      let value = obj[key];
+      let numericValue = parseFloat(value);
       if (!isNaN(numericValue)) {
         obj[key] = numericValue;
       }
