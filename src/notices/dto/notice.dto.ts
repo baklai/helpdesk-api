@@ -8,8 +8,6 @@ export class NoticeDto {
   })
   @IsString()
   @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
   readonly id: string;
 
   @ApiProperty({
@@ -17,8 +15,6 @@ export class NoticeDto {
     example: 'Important Announcement'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly name: string;
 
   @ApiProperty({
@@ -26,8 +22,6 @@ export class NoticeDto {
     example: 'Please be informed about the upcoming maintenance on...'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly text: string;
 
   @ApiProperty({
@@ -36,8 +30,6 @@ export class NoticeDto {
   })
   @IsString()
   @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
   readonly userId: string;
 
   @ApiPropertyOptional({
@@ -45,8 +37,6 @@ export class NoticeDto {
     example: new Date()
   })
   @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly createdAt: Date;
 
@@ -55,8 +45,6 @@ export class NoticeDto {
     example: new Date()
   })
   @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly updatedAt: Date;
 }

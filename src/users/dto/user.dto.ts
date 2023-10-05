@@ -25,33 +25,23 @@ export class UserDto {
   })
   @IsString()
   @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
   readonly id: string;
 
   @ApiProperty({ description: 'The login of the user', example: 'JohnDoe' })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly login: string;
 
   @ApiProperty({ description: 'The full name of the user', example: 'John Doe' })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly fullname: string;
 
   @ApiProperty({ description: 'The email of the user', example: 'john@example.com' })
   @IsEmail()
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly email: string;
 
   @ApiProperty({ description: 'The phone number of the user', example: '+38(234)567-89-10' })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsPhoneNumber()
   readonly phone: string;
 
@@ -61,8 +51,6 @@ export class UserDto {
     example: true
   })
   @IsBoolean()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly isActive: boolean;
 
@@ -72,8 +60,6 @@ export class UserDto {
     example: false
   })
   @IsBoolean()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly isAdmin: boolean;
 
@@ -100,8 +86,6 @@ export class UserDto {
   })
   @IsArray()
   @IsString({ each: true })
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly scope: Scope;
 
@@ -110,8 +94,6 @@ export class UserDto {
     example: new Date()
   })
   @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly createdAt: Date;
 
@@ -120,8 +102,6 @@ export class UserDto {
     example: new Date()
   })
   @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly updatedAt: Date;
 }

@@ -8,8 +8,6 @@ export class LocationDto {
   })
   @IsString()
   @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
   readonly id: string;
 
   @ApiProperty({
@@ -17,8 +15,6 @@ export class LocationDto {
     example: 'Headquarters'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly name: string;
 
   @ApiPropertyOptional({
@@ -26,8 +22,6 @@ export class LocationDto {
     example: 'North America'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly region: string;
 
@@ -36,8 +30,6 @@ export class LocationDto {
     example: new Date()
   })
   @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly createdAt: Date;
 
@@ -46,8 +38,6 @@ export class LocationDto {
     example: new Date()
   })
   @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly updatedAt: Date;
 }

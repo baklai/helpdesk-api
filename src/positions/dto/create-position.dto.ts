@@ -7,7 +7,5 @@ export class CreatePositionDto {
     example: 'Senior Software Engineer'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly name: string;
 }

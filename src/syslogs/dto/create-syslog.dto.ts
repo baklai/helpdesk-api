@@ -7,8 +7,6 @@ export class CreateSyslogDto {
     example: '127.0.0.1'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly host: string;
 
@@ -17,8 +15,6 @@ export class CreateSyslogDto {
     example: '6299b5cebf44864bfcea36d4'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly user: string;
 
@@ -27,8 +23,6 @@ export class CreateSyslogDto {
     example: '{"0":"users"}'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly params: string;
 
@@ -37,8 +31,6 @@ export class CreateSyslogDto {
     example: '{"limit":"10","offset":"50"}'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly query: string;
 
@@ -47,8 +39,6 @@ export class CreateSyslogDto {
     example: '{"name":"Cisco unit"}'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly body: string;
 
@@ -57,8 +47,6 @@ export class CreateSyslogDto {
     example: 'POST'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly method: string;
 
@@ -67,8 +55,6 @@ export class CreateSyslogDto {
     example: '/units?limit=10&offset=50'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly baseUrl: string;
 
@@ -77,8 +63,6 @@ export class CreateSyslogDto {
     example: 200
   })
   @IsNumber()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly status: number;
 
@@ -87,8 +71,6 @@ export class CreateSyslogDto {
     example: 200
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly userAgent: string;
 }

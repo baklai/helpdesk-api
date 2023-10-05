@@ -8,8 +8,6 @@ export class DepartmentDto {
   })
   @IsString()
   @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
   readonly id: string;
 
   @ApiProperty({
@@ -17,8 +15,6 @@ export class DepartmentDto {
     example: 'Sales Department'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly name: string;
 
   @ApiPropertyOptional({
@@ -26,8 +22,6 @@ export class DepartmentDto {
     example: 'Responsible for driving sales and customer engagement.'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly description: string;
 
@@ -36,8 +30,6 @@ export class DepartmentDto {
     example: new Date()
   })
   @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly createdAt: Date;
 
@@ -46,8 +38,6 @@ export class DepartmentDto {
     example: new Date()
   })
   @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly updatedAt: Date;
 }

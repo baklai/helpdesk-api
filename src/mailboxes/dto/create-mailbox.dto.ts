@@ -15,38 +15,26 @@ export class CreateMailboxDto {
     example: 'Letter number №548925 from 12/12/2023'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly reqnum: string;
 
   @ApiProperty({ description: 'E-Mail login', example: 'john.doe1985' })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly login: string;
 
   @ApiProperty({ description: 'Fullname of email owner', example: 'John Doe' })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly fullname: string;
 
   @ApiProperty({ description: 'Client phone number', example: '1234-56-78' })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly phone: string;
 
   @ApiProperty({ description: 'Date when email was opened', example: new Date() })
   @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
   readonly dateOpen: Date;
 
   @ApiPropertyOptional({ description: 'Date when email was closed', example: new Date() })
   @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly dateClose: Date;
 
@@ -64,8 +52,6 @@ export class CreateMailboxDto {
   })
   @IsString()
   @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly location: string;
 
@@ -75,8 +61,6 @@ export class CreateMailboxDto {
   })
   @IsString()
   @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly company: string;
 
@@ -86,8 +70,6 @@ export class CreateMailboxDto {
   })
   @IsString()
   @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly branch: string;
 
@@ -97,8 +79,6 @@ export class CreateMailboxDto {
   })
   @IsString()
   @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly enterprise: string;
 
@@ -108,8 +88,6 @@ export class CreateMailboxDto {
   })
   @IsString()
   @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly department: string;
 
@@ -119,8 +97,6 @@ export class CreateMailboxDto {
   })
   @IsString()
   @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly position: string;
 }

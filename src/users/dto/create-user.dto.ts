@@ -16,8 +16,6 @@ import { Scope } from 'src/common/enums/scope.enum';
 export class CreateUserDto {
   @ApiProperty({ description: 'The login of the user', example: 'JohnDoe' })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly login: string;
 
   @ApiProperty({
@@ -26,27 +24,19 @@ export class CreateUserDto {
   })
   @IsString()
   @MinLength(6, { message: 'Password must be at least 6 characters' })
-  @IsDefined()
-  @IsNotEmpty()
   readonly password: string;
 
   @ApiProperty({ description: 'The full name of the user', example: 'John Doe' })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly fullname: string;
 
   @ApiProperty({ description: 'The email of the user', example: 'john@example.com' })
   @IsEmail()
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly email: string;
 
   @ApiProperty({ description: 'The phone number of the user', example: '+38(234)567-89-10' })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsPhoneNumber()
   readonly phone: string;
 
@@ -56,8 +46,6 @@ export class CreateUserDto {
     example: true
   })
   @IsBoolean()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly isActive: boolean;
 
@@ -67,8 +55,6 @@ export class CreateUserDto {
     example: false
   })
   @IsBoolean()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly isAdmin: boolean;
 
@@ -95,8 +81,6 @@ export class CreateUserDto {
   })
   @IsArray()
   @IsString({ each: true })
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly scope: Scope;
 }

@@ -21,16 +21,12 @@ export class PaginateQueryDto {
   @Min(0)
   @Max(50)
   @IsInt()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly limit: number;
 
   @ApiPropertyOptional({ description: 'Number of items to skip', example: 0 })
   @Min(0)
   @IsInt()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly offset: number;
 
@@ -38,8 +34,6 @@ export class PaginateQueryDto {
     description: 'Sorting criteria (e.g., sort[field]=asc)'
   })
   @IsObject()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   @Transform(({ value }) => (value ? convertValuesToNumber(value) : {}))
   readonly sort: Record<number | string, any>;
@@ -48,8 +42,6 @@ export class PaginateQueryDto {
     description: 'Filtering criteria (e.g., filters[field]=value)'
   })
   @IsObject()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly filters: Record<string, any>;
 }

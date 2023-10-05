@@ -18,8 +18,6 @@ export class FilterDto {
   })
   @IsString()
   @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
   readonly id: string;
 
   @ApiProperty({
@@ -27,8 +25,6 @@ export class FilterDto {
     example: 'Warcraft II: Tides of Darkness'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly regex: string;
 
   @ApiProperty({
@@ -38,8 +34,6 @@ export class FilterDto {
     description: 'The type of the filter'
   })
   @IsEnum(FilterType, { message: 'Invalid filter type' })
-  @IsDefined()
-  @IsNotEmpty()
   readonly type: FilterType;
 
   @ApiProperty({
@@ -49,8 +43,6 @@ export class FilterDto {
     description: 'The status of the filter'
   })
   @IsEnum(FilterStatus, { message: 'Invalid filter status' })
-  @IsDefined()
-  @IsNotEmpty()
   readonly status: FilterStatus;
 
   @ApiPropertyOptional({
@@ -58,8 +50,6 @@ export class FilterDto {
     example: 'This software is unwanted.'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly description: string;
 
@@ -68,8 +58,6 @@ export class FilterDto {
     example: new Date()
   })
   @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly createdAt: Date;
 
@@ -78,8 +66,6 @@ export class FilterDto {
     example: new Date()
   })
   @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly updatedAt: Date;
 }

@@ -7,8 +7,6 @@ export class CreateNoticeDto {
     example: 'Important Announcement'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly name: string;
 
   @ApiProperty({
@@ -16,8 +14,6 @@ export class CreateNoticeDto {
     example: 'Please be informed about the upcoming maintenance on...'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly text: string;
 
   @ApiProperty({
@@ -26,7 +22,5 @@ export class CreateNoticeDto {
   })
   @IsString()
   @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
   readonly userId: string;
 }

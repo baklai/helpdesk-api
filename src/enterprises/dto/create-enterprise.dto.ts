@@ -7,8 +7,6 @@ export class CreateEnterpriseDto {
     example: 'Tech Solutions Inc.'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly name: string;
 
   @ApiPropertyOptional({
@@ -16,8 +14,6 @@ export class CreateEnterpriseDto {
     example: '123 Tech Street, Innovation City'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly address: string;
 
@@ -26,8 +22,6 @@ export class CreateEnterpriseDto {
     example: 'A cutting-edge technology company specializing in software solutions.'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly description: string;
 }

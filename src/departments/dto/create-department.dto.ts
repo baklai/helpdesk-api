@@ -7,8 +7,6 @@ export class CreateDepartmentDto {
     example: 'Sales Department'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly name: string;
 
   @ApiPropertyOptional({
@@ -16,8 +14,6 @@ export class CreateDepartmentDto {
     example: 'Responsible for driving sales and customer engagement.'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly description: string;
 }

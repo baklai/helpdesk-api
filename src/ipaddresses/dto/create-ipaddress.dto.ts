@@ -17,44 +17,30 @@ export class CreateIpaddressDto {
   @ApiProperty({ description: 'IP Address', example: '192.168.0.1' })
   @IsIP()
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly ipaddress: string;
 
   @ApiProperty({ description: 'CIDR Information', example: CIDRDto })
-  @IsDefined()
-  @IsNotEmpty()
   @ValidateNested()
   readonly cidr: CIDRDto;
 
   @ApiProperty({ description: 'Incoming request number', example: '№1234/56' })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly reqnum: string;
 
   @ApiProperty({ description: 'Date of create record', example: new Date() })
   @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
   readonly date: Date;
 
   @ApiProperty({ description: 'Client full name', example: 'John Doe' })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly fullname: string;
 
   @ApiProperty({ description: 'Client phone number', example: '1234-56-78' })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly phone: string;
 
   @ApiPropertyOptional({ description: 'Comment text', example: 'Network access limited' })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly comment: string;
 
@@ -67,8 +53,6 @@ export class CreateIpaddressDto {
 
   @ApiPropertyOptional({ description: 'Autoanswer', example: '(12 3456 7)89' })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly autoanswer: string;
 
@@ -78,8 +62,6 @@ export class CreateIpaddressDto {
   })
   @IsString()
   @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly unit: string;
 
@@ -89,8 +71,6 @@ export class CreateIpaddressDto {
   })
   @IsString()
   @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly location: string;
 
@@ -100,8 +80,6 @@ export class CreateIpaddressDto {
   })
   @IsString()
   @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly company: string;
 
@@ -111,8 +89,6 @@ export class CreateIpaddressDto {
   })
   @IsString()
   @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly branch: string;
 
@@ -122,8 +98,6 @@ export class CreateIpaddressDto {
   })
   @IsString()
   @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly enterprise: string;
 
@@ -133,8 +107,6 @@ export class CreateIpaddressDto {
   })
   @IsString()
   @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly department: string;
 
@@ -144,8 +116,6 @@ export class CreateIpaddressDto {
   })
   @IsString()
   @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly position: string;
 }

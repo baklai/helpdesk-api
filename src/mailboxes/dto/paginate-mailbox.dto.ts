@@ -8,8 +8,6 @@ import { MailboxDto } from './mailbox.dto';
 export class PaginateMailboxDto extends PaginateV2ResponseDto {
   @ApiPropertyOptional({ type: [MailboxDto], description: 'Array of documents' })
   @IsArray()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   docs: MailboxDto[];
 }

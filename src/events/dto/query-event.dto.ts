@@ -8,7 +8,6 @@ export class QueryEventDto {
     required: true
   })
   @IsDate()
-  @IsNotEmpty()
   readonly startDate: Date;
 
   @ApiProperty({
@@ -17,6 +16,5 @@ export class QueryEventDto {
     required: true
   })
   @IsDate()
-  @IsNotEmpty()
   readonly endDate: Date;
 }

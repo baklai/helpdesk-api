@@ -8,8 +8,6 @@ export class CompanyDto {
   })
   @IsString()
   @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
   readonly id: string;
 
   @ApiProperty({
@@ -17,8 +15,6 @@ export class CompanyDto {
     example: 'ABC Corporation'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly name: string;
 
   @ApiPropertyOptional({
@@ -26,8 +22,6 @@ export class CompanyDto {
     example: '456 Business Avenue, Townsville'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly address: string;
 
@@ -36,8 +30,6 @@ export class CompanyDto {
     example: 'A leading provider of innovative solutions.'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly description: string;
 
@@ -46,8 +38,6 @@ export class CompanyDto {
     example: new Date()
   })
   @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly createdAt: Date;
 
@@ -56,8 +46,6 @@ export class CompanyDto {
     example: new Date()
   })
   @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly updatedAt: Date;
 }

@@ -8,8 +8,6 @@ import { InspectorDto } from './inspector.dto';
 export class PaginateInspectorDto extends PaginateV2ResponseDto {
   @ApiPropertyOptional({ type: [InspectorDto], description: 'Array of documents' })
   @IsArray()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   docs: InspectorDto[];
 }

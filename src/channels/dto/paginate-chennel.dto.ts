@@ -8,8 +8,6 @@ import { ChannelDto } from './channel.dto';
 export class PaginateChannelDto extends PaginateV2ResponseDto {
   @ApiPropertyOptional({ type: [ChannelDto], description: 'Array of documents' })
   @IsArray()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   docs: ChannelDto[];
 }

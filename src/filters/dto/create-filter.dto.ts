@@ -9,8 +9,6 @@ export class CreateFilterDto {
     example: 'Warcraft II: Tides of Darkness'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly regex: string;
 
   @ApiProperty({
@@ -20,8 +18,6 @@ export class CreateFilterDto {
     description: 'The type of the filter'
   })
   @IsEnum(FilterType, { message: 'Invalid filter type' })
-  @IsDefined()
-  @IsNotEmpty()
   readonly type: FilterType;
 
   @ApiProperty({
@@ -31,8 +27,6 @@ export class CreateFilterDto {
     description: 'The status of the filter'
   })
   @IsEnum(FilterStatus, { message: 'Invalid filter status' })
-  @IsDefined()
-  @IsNotEmpty()
   readonly status: FilterStatus;
 
   @ApiPropertyOptional({
@@ -40,8 +34,6 @@ export class CreateFilterDto {
     example: 'This software is unwanted.'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly description: string;
 }

@@ -18,20 +18,14 @@ export class EventDto {
   })
   @IsString()
   @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
   readonly id: string;
 
   @ApiProperty({ description: 'The title of the event', example: 'Meeting with Team' })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly title: string;
 
   @ApiProperty({ description: 'The date and time of the event', example: new Date() })
   @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
   readonly datetime: Date;
 
   @ApiProperty({
@@ -41,8 +35,6 @@ export class EventDto {
     description: 'The type of the event'
   })
   @IsEnum(EventType, { message: 'Invalid event type' })
-  @IsDefined()
-  @IsNotEmpty()
   readonly eventType: EventType;
 
   @ApiPropertyOptional({
@@ -50,8 +42,6 @@ export class EventDto {
     example: 'Discussing project updates'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly description: string;
 
@@ -60,8 +50,6 @@ export class EventDto {
     example: new Date()
   })
   @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly createdAt: Date;
 
@@ -70,8 +58,6 @@ export class EventDto {
     example: new Date()
   })
   @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly updatedAt: Date;
 }

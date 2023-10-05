@@ -7,8 +7,6 @@ export class CreateBranchDto {
     example: 'Downtown Branch'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly name: string;
 
   @ApiPropertyOptional({
@@ -16,8 +14,6 @@ export class CreateBranchDto {
     example: '123 Main Street, Cityville'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly address: string;
 
@@ -26,8 +22,6 @@ export class CreateBranchDto {
     example: 'This branch is located in the heart of the city.'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly description: string;
 }

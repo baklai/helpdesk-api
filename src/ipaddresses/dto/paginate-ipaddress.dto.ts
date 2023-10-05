@@ -8,8 +8,6 @@ import { IpaddressDto } from './ipaddress.dto';
 export class PaginateIpaddressDto extends PaginateV2ResponseDto {
   @ApiPropertyOptional({ type: [IpaddressDto], description: 'Array of documents' })
   @IsArray()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   docs: IpaddressDto[];
 }

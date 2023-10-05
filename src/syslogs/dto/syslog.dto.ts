@@ -17,8 +17,6 @@ export class SyslogDto {
   })
   @IsString()
   @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
   readonly host: string;
 
   @ApiPropertyOptional({
@@ -26,8 +24,6 @@ export class SyslogDto {
     example: '127.0.0.1'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly ip: string;
 
@@ -36,8 +32,6 @@ export class SyslogDto {
     example: '6299b5cebf44864bfcea36d4'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly user: string;
 
@@ -46,8 +40,6 @@ export class SyslogDto {
     example: '{"0":"users"}'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly params: string;
 
@@ -56,8 +48,6 @@ export class SyslogDto {
     example: '{"limit":"10","offset":"50"}'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly query: string;
 
@@ -66,8 +56,6 @@ export class SyslogDto {
     example: '{"name":"Cisco unit"}'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly body: string;
 
@@ -76,8 +64,6 @@ export class SyslogDto {
     example: 'POST'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly method: string;
 
@@ -86,8 +72,6 @@ export class SyslogDto {
     example: '/units?limit=10&offset=50'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly baseUrl: string;
 
@@ -96,8 +80,6 @@ export class SyslogDto {
     example: 200
   })
   @IsNumber()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly status: number;
 
@@ -106,8 +88,6 @@ export class SyslogDto {
     example: 200
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly userAgent: string;
 
@@ -116,8 +96,6 @@ export class SyslogDto {
     example: new Date()
   })
   @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly createdAt: Date;
 
@@ -126,8 +104,6 @@ export class SyslogDto {
     example: new Date()
   })
   @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly updatedAt: Date;
 }

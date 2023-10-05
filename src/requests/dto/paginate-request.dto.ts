@@ -8,8 +8,6 @@ import { RequestDto } from './request.dto';
 export class PaginateRequestDto extends PaginateV2ResponseDto {
   @ApiPropertyOptional({ type: [RequestDto], description: 'Array of documents' })
   @IsArray()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   docs: RequestDto[];
 }

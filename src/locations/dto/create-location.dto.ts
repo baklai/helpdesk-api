@@ -7,8 +7,6 @@ export class CreateLocationDto {
     example: 'Headquarters'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly name: string;
 
   @ApiPropertyOptional({
@@ -16,8 +14,6 @@ export class CreateLocationDto {
     example: 'North America'
   })
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly region: string;
 }

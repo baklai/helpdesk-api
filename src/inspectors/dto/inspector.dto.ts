@@ -18,15 +18,11 @@ export class InspectorDto {
   })
   @IsString()
   @IsMongoId()
-  @IsDefined()
-  @IsNotEmpty()
   readonly id: string;
 
   @ApiProperty({ description: 'The host address', example: '192.168.1.1' })
   @IsIP()
   @IsString()
-  @IsDefined()
-  @IsNotEmpty()
   readonly host: string;
 
   @ApiPropertyOptional({ description: 'The baseboard of the host' })
@@ -94,8 +90,6 @@ export class InspectorDto {
     example: new Date()
   })
   @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly createdAt: Date;
 
@@ -104,8 +98,6 @@ export class InspectorDto {
     example: new Date()
   })
   @IsDate()
-  @IsDefined()
-  @IsNotEmpty()
   @IsOptional()
   readonly updatedAt: Date;
 }
