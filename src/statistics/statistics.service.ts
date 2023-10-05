@@ -16,28 +16,32 @@ import { Position } from 'src/positions/schemas/position.schema';
 import { Filter } from 'src/filters/schemas/filter.schema';
 import { Unit } from 'src/units/schemas/unit.schema';
 import { User } from 'src/users/schemas/user.schema';
+import { Mailbox } from 'src/mailboxes/schemas/mailbox.schema';
 
 @Injectable()
 export class StatisticsService {
   constructor(
-    @InjectModel(Branch.name) private readonly branchModel: Model<Branch>,
     @InjectModel(Channel.name) private readonly channelModel: Model<Channel>,
-    @InjectModel(Company.name) private readonly companyModel: Model<Company>,
-    @InjectModel(Department.name) private readonly departmentModel: Model<Department>,
-    @InjectModel(Enterprise.name) private readonly enterpriseModel: Model<Enterprise>,
-    @InjectModel(Inspector.name) private readonly inspectorModel: Model<Inspector>,
+    @InjectModel(Mailbox.name) private readonly mailboxModel: Model<Mailbox>,
     @InjectModel(Ipaddress.name) private readonly ipaddressModel: Model<Ipaddress>,
+    @InjectModel(Request.name) private readonly requestModel: Model<Request>,
+    @InjectModel(Inspector.name) private readonly inspectorModel: Model<Inspector>,
+    @InjectModel(Company.name) private readonly companyModel: Model<Company>,
+    @InjectModel(Branch.name) private readonly branchModel: Model<Branch>,
+    @InjectModel(Enterprise.name) private readonly enterpriseModel: Model<Enterprise>,
+    @InjectModel(Department.name) private readonly departmentModel: Model<Department>,
+    @InjectModel(Unit.name) private readonly unitModel: Model<Unit>,
     @InjectModel(Location.name) private readonly locationModel: Model<Location>,
     @InjectModel(Position.name) private readonly positionModel: Model<Position>,
-    @InjectModel(Request.name) private readonly requestModel: Model<Request>,
     @InjectModel(Filter.name) private readonly filterModel: Model<Filter>,
-    @InjectModel(Unit.name) private readonly unitModel: Model<Unit>,
     @InjectModel(User.name) private readonly userModel: Model<User>
   ) {}
 
   async network() {
     const [
       channels,
+      mailboxes,
+      ipaddresses,
       companies,
       branches,
       enterprises,
@@ -51,6 +55,8 @@ export class StatisticsService {
       barEnterprises
     ] = await Promise.all([
       this.channelModel.countDocuments(),
+      this.mailboxModel.countDocuments(),
+      this.ipaddressModel.countDocuments(),
       this.companyModel.countDocuments(),
       this.branchModel.countDocuments(),
       this.enterpriseModel.countDocuments(),
@@ -62,8 +68,7 @@ export class StatisticsService {
         .aggregate([
           {
             $facet: {
-              count: [{ $count: 'count' }],
-              autoanswer: [
+              autoanswers: [
                 {
                   $match: {
                     $and: [
@@ -73,40 +78,26 @@ export class StatisticsService {
                     ]
                   }
                 },
-                { $count: 'autoanswer' }
+                { $count: 'count' }
               ],
-              internet: [
+              internets: [
                 {
                   $match: {
                     $and: [
-                      { 'internet.mail': { $ne: null } },
+                      { 'internet.reqnum': { $ne: null } },
                       { 'internet.dateOpen': { $ne: null } },
                       { 'internet.dateClose': null }
                     ]
                   }
                 },
-                { $count: 'internet' }
-              ],
-              email: [
-                {
-                  $match: {
-                    $and: [
-                      { 'email.mail': { $ne: null } },
-                      { 'email.dateOpen': { $ne: null } },
-                      { 'email.dateClose': null }
-                    ]
-                  }
-                },
-                { $count: 'email' }
+                { $count: 'count' }
               ]
             }
           },
           {
             $addFields: {
-              count: { $first: '$count.count' },
-              autoanswer: { $first: '$autoanswer.autoanswer' },
-              internet: { $first: '$internet.internet' },
-              email: { $first: '$email.email' }
+              autoanswers: { $first: '$autoanswers.count' },
+              internets: { $first: '$internets.count' }
             }
           }
         ])
@@ -116,8 +107,8 @@ export class StatisticsService {
         .aggregate([
           { $lookup: { from: 'units', localField: 'unit', foreignField: '_id', as: 'unit' } },
           { $unwind: { path: '$unit', preserveNullAndEmptyArrays: true } },
-          { $group: { _id: '$unit.title', count: { $sum: 1 } } },
-          { $project: { _id: 0, title: '$_id', count: 1 } }
+          { $group: { _id: '$unit.name', count: { $sum: 1 } } },
+          { $project: { _id: 0, name: '$_id', count: 1 } }
         ])
         .allowDiskUse(true),
 
@@ -132,8 +123,8 @@ export class StatisticsService {
             }
           },
           { $unwind: { path: '$location', preserveNullAndEmptyArrays: true } },
-          { $group: { _id: '$location.title', count: { $sum: 1 } } },
-          { $project: { _id: 0, title: '$_id', count: 1 } }
+          { $group: { _id: '$location.name', count: { $sum: 1 } } },
+          { $project: { _id: 0, name: '$_id', count: 1 } }
         ])
         .allowDiskUse(true),
 
@@ -143,8 +134,8 @@ export class StatisticsService {
             $lookup: { from: 'branches', localField: 'branch', foreignField: '_id', as: 'branch' }
           },
           { $unwind: { path: '$branch', preserveNullAndEmptyArrays: true } },
-          { $group: { _id: '$branch.title', count: { $sum: 1 } } },
-          { $project: { _id: 0, title: '$_id', count: 1 } }
+          { $group: { _id: '$branch.name', count: { $sum: 1 } } },
+          { $project: { _id: 0, name: '$_id', count: 1 } }
         ])
         .allowDiskUse(true),
 
@@ -159,15 +150,20 @@ export class StatisticsService {
             }
           },
           { $unwind: { path: '$enterprise', preserveNullAndEmptyArrays: true } },
-          { $group: { _id: '$enterprise.title', count: { $sum: 1 } } },
-          { $project: { _id: 0, title: '$_id', count: 1 } }
+          { $group: { _id: '$enterprise.name', count: { $sum: 1 } } },
+          { $project: { _id: 0, name: '$_id', count: 1 } }
         ])
         .allowDiskUse(true)
     ]);
 
+    const [{ autoanswers, internets }] = statistic;
+
     return {
-      ...statistic[0],
+      autoanswers,
+      internets,
       channels,
+      mailboxes,
+      ipaddresses,
       companies,
       branches,
       enterprises,
