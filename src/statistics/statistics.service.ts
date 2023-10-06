@@ -260,7 +260,7 @@ export class StatisticsService {
       status: 'allow'
     });
 
-    const [count, inspector, days, software] = await Promise.all([
+    const [count, inspector, days] = await Promise.all([
       this.inspectorModel.countDocuments(),
       this.inspectorModel
         .aggregate([
@@ -402,6 +402,7 @@ export class StatisticsService {
           { $project: { _id: 0, warning: 1, useraccount: 1, product: 1, share: 1 } }
         ])
         .allowDiskUse(true),
+
       this.inspectorModel
         .aggregate([
           {
@@ -428,20 +429,21 @@ export class StatisticsService {
           { $project: { _id: 0, days: 1, count: 1 } },
           { $sort: { days: 1 } }
         ])
-        .allowDiskUse(true),
-      this.inspectorModel.aggregate([
-        { $unwind: '$product' },
-        { $group: { _id: '$product.Name', count: { $sum: 1 } } },
-        { $project: { _id: 0, name: '$_id', count: 1 } },
-        { $sort: { name: 1 } }
-      ])
+        .allowDiskUse(true)
+
+      // this.inspectorModel.aggregate([
+      //   { $unwind: '$product' },
+      //   { $group: { _id: '$product.Name', count: { $sum: 1 } } },
+      //   { $project: { _id: 0, name: '$_id', count: 1 } },
+      //   { $sort: { name: 1 } }
+      // ])
     ]);
 
     const [{ warning, useraccount, product, share }] = inspector;
 
     return {
-      unsoftware: UNWANTED_SOFTWARE.map(item => item.regex),
-      software: software ? software : [],
+      // unsoftware: UNWANTED_SOFTWARE.map(item => item.regex),
+      // software: software ? software : [],
       warning: warning,
       useraccount: useraccount,
       product: product,
