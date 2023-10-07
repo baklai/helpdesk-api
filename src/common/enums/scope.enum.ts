@@ -74,6 +74,8 @@ export enum Scope {
   StatisticInspectorRead = 'statistic:inspector:read',
   StatisticDashboardRead = 'statistic:dashboard:read',
 
+  ReportRead = 'report:read',
+
   FilterCreate = 'filter:create',
   FilterRead = 'filter:read',
   FilterUpdate = 'filter:update',

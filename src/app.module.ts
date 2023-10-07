@@ -18,6 +18,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { EventsModule } from './events/events.module';
 import { ChannelsModule } from './channels/channels.module';
+import { MailboxesModule } from './mailboxes/mailboxes.module';
 import { IpaddressesModule } from './ipaddresses/ipaddresses.module';
 import { InspectorsModule } from './inspectors/inspectors.module';
 import { RequestsModule } from './requests/requests.module';
@@ -31,12 +32,12 @@ import { LocationsModule } from './locations/locations.module';
 import { FiltersModule } from './filters/filters.module';
 import { NoticesModule } from './notices/notices.module';
 import { StatisticsModule } from './statistics/statistics.module';
+import { ReportsModule } from './reports/reports.module';
 import { SystoolsModule } from './systools/systools.module';
 import { SyslogsModule } from './syslogs/syslogs.module';
 import { TasksModule } from './tasks/tasks.module';
 
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
-import { MailboxesModule } from './mailboxes/mailboxes.module';
 
 @Module({
   imports: [
@@ -102,6 +103,7 @@ import { MailboxesModule } from './mailboxes/mailboxes.module';
     UnitsModule,
     FiltersModule,
     StatisticsModule,
+    ReportsModule,
     SystoolsModule,
     SyslogsModule,
     TasksModule
