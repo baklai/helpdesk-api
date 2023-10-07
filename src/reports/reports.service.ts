@@ -18,7 +18,7 @@ export class ReportsService {
     const data = await this.filterModel.find({ type: 'software', status: 'deny' });
     return data.map((item, index) => {
       return {
-        Number: (index + 1).toString(),
+        '№': (index + 1).toString(),
         'Unwanted software': item.regex,
         Description: item.description
       };
@@ -37,7 +37,7 @@ export class ReportsService {
     );
     return data.map((item, index) => {
       return {
-        Number: (index + 1).toString(),
+        '№': (index + 1).toString(),
         'IP Address': item?.ipaddress || '-',
         Location: item?.location?.name || '-',
         Company: item?.company?.name || '-',
@@ -59,7 +59,7 @@ export class ReportsService {
     const data = await this.mailboxModel.find({}, null, { autopopulate: true });
     return data.map((item, index) => {
       return {
-        Number: (index + 1).toString(),
+        '№': (index + 1).toString(),
         Login: item?.login || '-',
         'Letter number': item?.reqnum || '-',
         'Date open': item?.dateOpen ? new Date(item.dateOpen).toLocaleDateString() : '-',
