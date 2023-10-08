@@ -53,7 +53,7 @@ export class UsersService {
   }
 
   async findAllMe(): Promise<User[]> {
-    return await this.userModel.find().select({ id: 1, fullname: 1 }).exec();
+    return await this.userModel.find().select({ id: 1, login: 1, fullname: 1 }).exec();
   }
 
   async findOneById(id: string): Promise<User> {
