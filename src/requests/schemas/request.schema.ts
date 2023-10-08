@@ -100,6 +100,6 @@ export class Request {
 
 export const RequestSchema = SchemaFactory.createForClass(Request);
 
-RequestSchema.virtual('closed').get(function () {
+RequestSchema.virtual('status').get(function () {
   return this?.workerClose ? true : false;
 });

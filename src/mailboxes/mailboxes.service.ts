@@ -17,6 +17,22 @@ export class MailboxesService {
   async findAll(query: PaginateQueryDto): Promise<PaginateResult<Mailbox>> {
     const { offset = 0, limit = 5, sort = { dateOpen: -1 }, filters = {} } = query;
 
+    if (filters?.status) {
+      switch (filters?.status) {
+        case 'true':
+          filters['dateOpen'] = { $ne: null };
+          filters['dateClose'] = null;
+          break;
+        case 'false':
+          filters['dateOpen'] = { $ne: null };
+          filters['dateClose'] = { $ne: null };
+          break;
+        default:
+          break;
+      }
+      delete filters.status;
+    }
+
     return await this.mailboxModel.paginate(
       { ...filters },
       {

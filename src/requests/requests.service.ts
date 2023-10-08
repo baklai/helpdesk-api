@@ -19,6 +19,20 @@ export class RequestsService {
   async findAll(query: PaginateQueryDto): Promise<PaginateResult<Request>> {
     const { offset = 0, limit = 5, sort = { createdAt: -1 }, filters = {} } = query;
 
+    if (filters?.status) {
+      switch (filters?.status) {
+        case 'true':
+          filters['workerClose'] = { $ne: null };
+          break;
+        case 'false':
+          filters['workerClose'] = null;
+          break;
+        default:
+          break;
+      }
+      delete filters.status;
+    }
+
     return await this.requestModel.paginate(
       { ...filters },
       {
