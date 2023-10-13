@@ -3,11 +3,11 @@ import { Transform, Type } from 'class-transformer';
 import { IsDefined, IsInt, IsNotEmpty, IsObject, IsOptional, Max, Min } from 'class-validator';
 
 function convertValuesToNumber(val: Record<string, any>) {
-  let obj = { ...val };
-  for (let key in obj) {
+  const obj = { ...val };
+  for (const key in obj) {
     if (obj.hasOwnProperty(key)) {
-      let value = obj[key];
-      let numericValue = parseFloat(value);
+      const value = obj[key];
+      const numericValue = parseFloat(value);
       if (!isNaN(numericValue)) {
         obj[key] = numericValue;
       }

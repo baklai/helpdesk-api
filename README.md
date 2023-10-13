@@ -53,6 +53,11 @@ $ npm install
 | `JWT_ACCESS_EXPIRES_IN`  | Access token expires in  |
 | `JWT_REFRESH_SECRET`     | Refresh token secret key |
 | `JWT_REFRESH_EXPIRES_IN` | Refresh token expires in |
+| `FTP_HOST`               | FTP host (optional)      |
+| `FTP_PORT`               | FTP port (optional)      |
+| `FTP_USER`               | FTP user (optional)      |
+| `FTP_PASSWORD`           | FTP password (optional)  |
+| `FTP_SECURE`             | FTP secure (optional)    |
 
 ## Serve static
 

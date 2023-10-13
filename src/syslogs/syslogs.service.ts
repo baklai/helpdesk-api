@@ -34,7 +34,7 @@ export class SyslogsService {
     if (!deletedSyslog) {
       throw new NotFoundException('Syslog not found');
     }
-    return "Ok";
+    return 'Ok';
   }
 
   async findOneById(id: string): Promise<Syslog> {
