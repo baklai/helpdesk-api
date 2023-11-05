@@ -10,9 +10,9 @@ export class NetmapsService {
 
   async networkMap() {
     return await this.ipaddressModel
-      .find({ ipaddress: { $regex: '^10.7.110.', $options: 'i' } }, null, {
+      .find({ ipaddress: { $regex: '^10.7.130.', $options: 'i' } }, null, {
         autopopulate: true
       })
-      .limit(100);
+      .limit(255);
   }
 }
