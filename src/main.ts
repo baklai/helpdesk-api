@@ -11,7 +11,7 @@ import { AppModule } from './app.module';
 const SWAGGER_API_TITLE = 'API Helpdesk';
 const SWAGGER_API_DESCRIPTION = 'The Helpdesk API documentation';
 const SWAGGER_API_VERSION = '1.0';
-const SWAGGER_API_PATH = '/api';
+const SWAGGER_API_PATH = '/';
 
 const GLOBAL_PREFIX = '/api/v1';
 
@@ -73,7 +73,7 @@ async function bootstrap() {
   const host = configService.get('host');
 
   await app.listen(port, host, async () => {
-    console.info(`Application is running on: ${await app.getUrl()}/api`);
+    console.info(`Application is running on: ${await app.getUrl()}/`);
   });
 }
 bootstrap();

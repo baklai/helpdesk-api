@@ -17,10 +17,12 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { EventsModule } from './events/events.module';
+import { NetmapsModule } from './netmaps/netmaps.module';
 import { ChannelsModule } from './channels/channels.module';
 import { MailboxesModule } from './mailboxes/mailboxes.module';
 import { IpaddressesModule } from './ipaddresses/ipaddresses.module';
 import { InspectorsModule } from './inspectors/inspectors.module';
+import { OnmapsModule } from './onmaps/onmaps.module';
 import { RequestsModule } from './requests/requests.module';
 import { CompaniesModule } from './companies/companies.module';
 import { BranchesModule } from './branches/branches.module';
@@ -93,7 +95,9 @@ import { FtpclientModule } from './ftpclient/ftpclient.module';
     IpaddressesModule,
     MailboxesModule,
     RequestsModule,
+    NetmapsModule,
     InspectorsModule,
+    OnmapsModule,
     NoticesModule,
     CompaniesModule,
     BranchesModule,

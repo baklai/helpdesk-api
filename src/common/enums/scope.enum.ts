@@ -9,6 +9,8 @@ export enum Scope {
   EventUpdate = 'event:update',
   EventDelete = 'event:delete',
 
+  NetmapRead = 'netmap:read',
+
   ChannelCreate = 'channel:create',
   ChannelRead = 'channel:read',
   ChannelUpdate = 'channel:update',
@@ -31,6 +33,11 @@ export enum Scope {
 
   InspectorRead = 'inspector:read',
   InspectorDelete = 'inspector:delete',
+
+  OnmapCreate = 'onmap:create',
+  OnmapRead = 'onmap:read',
+  OnmapUpdate = 'onmap:update',
+  OnmapDelete = 'onmap:delete',
 
   CompanyCreate = 'company:create',
   CompanyRead = 'company:read',
