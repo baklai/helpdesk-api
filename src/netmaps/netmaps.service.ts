@@ -1,18 +1,31 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model, Types } from 'mongoose';
 
 import { Ipaddress } from 'src/ipaddresses/schemas/ipaddress.schema';
 
 @Injectable()
 export class NetmapsService {
-  constructor(@InjectModel(Ipaddress.name) private readonly ipaddressModel: Model<Ipaddress>) {}
+  constructor(@InjectModel(Ipaddress.name) private readonly ipaddressModel: Record<string, any>) {}
 
-  async networkMap() {
-    return await this.ipaddressModel
-      .find({ ipaddress: { $regex: '^10.7.110.', $options: 'i' } }, null, {
+  async networkMap(id: string) {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('Invalid location ID');
+    }
+
+    const records = await this.ipaddressModel
+      .find({ location: new mongoose.Types.ObjectId(id) }, null, {
         autopopulate: true
       })
       .limit(255);
+
+    return records.map((record: Record<string, any>) => {
+      return {
+        id: record.id,
+        unit: record.unit.name,
+        ipaddress: record.ipaddress,
+        gateway: record.gateway
+      };
+    });
   }
 }

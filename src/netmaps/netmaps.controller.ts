@@ -1,6 +1,13 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { NetmapsService } from './netmaps.service';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags
+} from '@nestjs/swagger';
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { ScopesGuard } from 'src/common/guards/scopes.guard';
@@ -14,9 +21,16 @@ import { Scope } from 'src/common/enums/scope.enum';
 export class NetmapsController {
   constructor(private readonly netmapsService: NetmapsService) {}
 
-  @Get()
+  @Get(':id')
   @Scopes(Scope.NetmapRead)
-  networkMap() {
-    return this.netmapsService.networkMap();
+  @ApiOperation({
+    summary: 'Get a location by ID',
+    description: 'Required user scopes: [' + [Scope.NetmapRead].join(',') + ']'
+  })
+  @ApiOkResponse({ description: 'Success' })
+  @ApiNotFoundResponse({ description: 'Location not found' })
+  @ApiBadRequestResponse({ description: 'Invalid location ID' })
+  async networkMap(@Param('id') id: string) {
+    return this.netmapsService.networkMap(id);
   }
 }
