@@ -47,12 +47,8 @@ export class OnmapsController {
   @ApiOperation({ summary: 'Create a new inspector' })
   @ApiCreatedResponse({ description: 'Onmap created successfully', type: OnmapDto })
   @ApiBadRequestResponse({ description: 'Bad request' })
-  async create(
-    @Ip() ip: string,
-    @Query() query: Record<string, any>,
-    @Body() createOnmapDto: Record<string, any>
-  ) {
-    return await this.onmapService.create(ip, query.field, createOnmapDto);
+  async create(@Body() createOnmapDto: Record<string, any>) {
+    return await this.onmapService.create(createOnmapDto);
   }
 
   @Get()
@@ -61,13 +57,13 @@ export class OnmapsController {
     summary: 'Get all inspectors',
     description: 'Required user scopes: [' + [Scope.OnmapRead].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Onmap created successfully', type: OnmapDto })
+  @ApiCreatedResponse({ description: 'Onmap successfully', type: OnmapDto })
   @ApiOkResponse({ description: 'Success', type: PaginateOnmapDto })
   async findAll(@Query() query: PaginateQueryDto): Promise<AggregatePaginateResult<Onmap>> {
     return await this.onmapService.findAll(query);
   }
 
-  @Get(':search')
+  @Get(':id')
   @Scopes(Scope.OnmapRead)
   @ApiOperation({
     summary: 'Get a inspector by ID',
@@ -75,13 +71,9 @@ export class OnmapsController {
   })
   @ApiOkResponse({ description: 'Success', type: OnmapDto })
   @ApiNotFoundResponse({ description: 'Onmap not found' })
-  @ApiBadRequestResponse({ description: 'Invalid inspector ID' })
-  async findOneById(@Param('search') search: string): Promise<Onmap> {
-    if (isIP(search)) {
-      return await this.onmapService.findOneByIP(search);
-    } else {
-      return await this.onmapService.findOneById(search);
-    }
+  @ApiBadRequestResponse({ description: 'Invalid report ID' })
+  async findOneById(@Param('id') id: string): Promise<Onmap> {
+    return await this.onmapService.findOneById(id);
   }
 
   @Delete(':id')
@@ -92,7 +84,7 @@ export class OnmapsController {
   })
   @ApiOkResponse({ description: 'Onmap deleted successfully', type: OnmapDto })
   @ApiNotFoundResponse({ description: 'Onmap not found' })
-  @ApiBadRequestResponse({ description: 'Invalid inspector ID' })
+  @ApiBadRequestResponse({ description: 'Invalid report ID' })
   async removeOneById(@Param('id') id: string): Promise<Onmap> {
     return await this.onmapService.removeOneById(id);
   }

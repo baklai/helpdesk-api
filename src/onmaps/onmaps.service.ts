@@ -1,6 +1,8 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
 import { Types, AggregatePaginateModel, AggregatePaginateResult } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+
+const nmap = require('libnmap');
 
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 import { Onmap } from './schemas/onmap.schema';
@@ -11,23 +13,35 @@ export class OnmapsService {
     @InjectModel(Onmap.name) private readonly onmapModel: AggregatePaginateModel<Onmap>
   ) {}
 
-  async create(host: string, field: string, createInspectorDto: Record<string, any>) {
-    await this.onmapModel
-      .findOneAndUpdate(
-        { host },
-        {
-          $set: {
-            host,
-            [field]:
-              field === 'baseboard' || field === 'bios' || field === 'cpu' || field === 'os'
-                ? createInspectorDto[createInspectorDto.length - 1]
-                : createInspectorDto
+  async create(createOnmapDto: Record<string, any>) {
+    const { title, target, profile } = createOnmapDto;
+    const opts = {
+      json: true,
+      timeout: 900,
+      flags: profile,
+      ports: null,
+      range: [target]
+    };
+
+    nmap.scan(opts, async (err: any, report: any) => {
+      if (err) {
+        return new Error(err.message);
+      } else {
+        for (let item in report) {
+          try {
+            await this.onmapModel.create({
+              title: title || `ONMAP Scan ${target}`,
+              target: item,
+              flags: opts.flags || [],
+              ...report[item]
+            });
+          } catch (err) {
+            return new Error(err.message);
           }
-        },
-        { new: true, upsert: true }
-      )
-      .exec();
-    return;
+        }
+        return true;
+      }
+    });
   }
 
   async findAll(query: PaginateQueryDto): Promise<AggregatePaginateResult<Onmap>> {
@@ -70,30 +84,22 @@ export class OnmapsService {
 
   async findOneById(id: string): Promise<Onmap> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid inspector ID');
+      throw new BadRequestException('Invalid report ID');
     }
-    const inspector = await this.onmapModel.findById(id).exec();
-    if (!inspector) {
-      throw new NotFoundException('Inspector not found');
+    const report = await this.onmapModel.findById(id).exec();
+    if (!report) {
+      throw new NotFoundException('Report not found');
     }
-    return inspector;
-  }
-
-  async findOneByIP(ip: string): Promise<Onmap> {
-    const inspector = await this.onmapModel.findOne({ host: ip }).exec();
-    if (!inspector) {
-      throw new NotFoundException('Inspector not found');
-    }
-    return inspector;
+    return report;
   }
 
   async removeOneById(id: string): Promise<Onmap> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid inspector ID');
+      throw new BadRequestException('Invalid report ID');
     }
     const deletedInspector = await this.onmapModel.findByIdAndRemove(id).exec();
     if (!deletedInspector) {
-      throw new NotFoundException('Inspector not found');
+      throw new NotFoundException('Report not found');
     }
     return deletedInspector;
   }
