@@ -2,9 +2,7 @@ import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/c
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ServeStaticModule } from '@nestjs/serve-static';
 import { Schema } from 'mongoose';
-import { join } from 'path';
 import * as mongooseAutopopulate from 'mongoose-autopopulate';
 const mongooseAggregatePaginate = require('mongoose-aggregate-paginate-v2');
 import * as mongoosePaginate from 'mongoose-paginate-v2';
@@ -50,10 +48,6 @@ import { FtpclientModule } from './ftpclient/ftpclient.module';
       load: [appConfig]
     }),
     ScheduleModule.forRoot(),
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'client'),
-      exclude: ['/(.*)']
-    }),
     MongooseModule.forRootAsync({
       inject: [ConfigService],
       imports: [ConfigModule],
