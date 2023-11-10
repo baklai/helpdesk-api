@@ -31,7 +31,7 @@ export class BranchesService {
     return await this.branchModel.find().select({ createdAt: 0, updatedAt: 0 }).exec();
   }
 
-  async findOneById(id: string): Promise<Branch> {
+  async findOneById(id: Types.ObjectId): Promise<Branch> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid branch ID');
     }
@@ -42,7 +42,7 @@ export class BranchesService {
     return branch;
   }
 
-  async updateOneById(id: string, updateBranchDto: UpdateBranchDto): Promise<Branch> {
+  async updateOneById(id: Types.ObjectId, updateBranchDto: UpdateBranchDto): Promise<Branch> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid branch ID');
     }
@@ -62,7 +62,7 @@ export class BranchesService {
     }
   }
 
-  async removeOneById(id: string): Promise<Branch> {
+  async removeOneById(id: Types.ObjectId): Promise<Branch> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid branch ID');
     }

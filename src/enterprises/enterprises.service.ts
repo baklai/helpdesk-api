@@ -31,7 +31,7 @@ export class EnterprisesService {
     return await this.enterpriseModel.find().select({ createdAt: 0, updatedAt: 0 }).exec();
   }
 
-  async findOneById(id: string): Promise<Enterprise> {
+  async findOneById(id: Types.ObjectId): Promise<Enterprise> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid enterprise ID');
     }
@@ -42,7 +42,10 @@ export class EnterprisesService {
     return enterprise;
   }
 
-  async updateOneById(id: string, updateEnterpriseDto: UpdateEnterpriseDto): Promise<Enterprise> {
+  async updateOneById(
+    id: Types.ObjectId,
+    updateEnterpriseDto: UpdateEnterpriseDto
+  ): Promise<Enterprise> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid enterprise ID');
     }
@@ -62,7 +65,7 @@ export class EnterprisesService {
     }
   }
 
-  async removeOneById(id: string): Promise<Enterprise> {
+  async removeOneById(id: Types.ObjectId): Promise<Enterprise> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid enterprise ID');
     }

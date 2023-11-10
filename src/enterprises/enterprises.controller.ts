@@ -17,9 +17,9 @@ import { Scope } from 'src/common/enums/scope.enum';
 
 import { EnterprisesService } from './enterprises.service';
 import { Enterprise } from './schemas/enterprise.schema';
-import { EnterpriseDto } from './dto/enterprise.dto';
 import { CreateEnterpriseDto } from './dto/create-enterprise.dto';
 import { UpdateEnterpriseDto } from './dto/update-enterprise.dto';
+import { Types } from 'mongoose';
 
 @ApiTags('Enterprises')
 @Controller('enterprises')
@@ -34,7 +34,7 @@ export class EnterprisesController {
     summary: 'Create a new enterprise',
     description: 'Required user scopes: [' + [Scope.EnterpriseCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Enterprise created successfully', type: EnterpriseDto })
+  @ApiCreatedResponse({ description: 'Enterprise created successfully', type: Enterprise })
   @ApiConflictResponse({ description: 'A enterprise with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Bad request' })
   async create(@Body() createEnterpriseDto: CreateEnterpriseDto): Promise<Enterprise> {
@@ -47,7 +47,7 @@ export class EnterprisesController {
     summary: 'Get all enterprise',
     description: 'Required user scopes: [' + [Scope.EnterpriseRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: [EnterpriseDto] })
+  @ApiOkResponse({ description: 'Success', type: [Enterprise] })
   async findAll(): Promise<Enterprise[]> {
     return await this.enterprisesService.findAll();
   }
@@ -58,10 +58,10 @@ export class EnterprisesController {
     summary: 'Get a enterprise by ID',
     description: 'Required user scopes: [' + [Scope.EnterpriseRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: EnterpriseDto })
+  @ApiOkResponse({ description: 'Success', type: Enterprise })
   @ApiNotFoundResponse({ description: 'Enterprise not found' })
   @ApiBadRequestResponse({ description: 'Invalid enterprise ID' })
-  async findOneById(@Param('id') id: string): Promise<Enterprise> {
+  async findOneById(@Param('id') id: Types.ObjectId): Promise<Enterprise> {
     return await this.enterprisesService.findOneById(id);
   }
 
@@ -71,12 +71,12 @@ export class EnterprisesController {
     summary: 'Update a enterprise by ID',
     description: 'Required user scopes: [' + [Scope.EnterpriseUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Enterprise updated successfully', type: EnterpriseDto })
+  @ApiOkResponse({ description: 'Enterprise updated successfully', type: Enterprise })
   @ApiNotFoundResponse({ description: 'Enterprise not found' })
   @ApiConflictResponse({ description: 'A enterprise with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Invalid enterprise ID' })
   async updateOneById(
-    @Param('id') id: string,
+    @Param('id') id: Types.ObjectId,
     @Body() updateEnterpriseDto: UpdateEnterpriseDto
   ): Promise<Enterprise> {
     return await this.enterprisesService.updateOneById(id, updateEnterpriseDto);
@@ -88,10 +88,10 @@ export class EnterprisesController {
     summary: 'Delete a enterprise by ID',
     description: 'Required user scopes: [' + [Scope.EnterpriseDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Enterprise deleted successfully', type: EnterpriseDto })
+  @ApiOkResponse({ description: 'Enterprise deleted successfully', type: Enterprise })
   @ApiNotFoundResponse({ description: 'Enterprise not found' })
   @ApiBadRequestResponse({ description: 'Invalid enterprise ID' })
-  async removeOneById(@Param('id') id: string): Promise<Enterprise> {
+  async removeOneById(@Param('id') id: Types.ObjectId): Promise<Enterprise> {
     return await this.enterprisesService.removeOneById(id);
   }
 }

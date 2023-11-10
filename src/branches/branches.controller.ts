@@ -17,9 +17,9 @@ import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 import { BranchesService } from './branches.service';
 import { Branch } from './schemas/branch.schema';
-import { BranchDto } from './dto/branch.dto';
 import { CreateBranchDto } from './dto/create-branch.dto';
 import { UpdateBranchDto } from './dto/update-branch.dto';
+import { Types } from 'mongoose';
 
 @ApiTags('Branches')
 @Controller('branches')
@@ -34,7 +34,7 @@ export class BranchesController {
     summary: 'Create a new branch',
     description: 'Required user scopes: [' + [Scope.BranchCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Branch created successfully', type: BranchDto })
+  @ApiCreatedResponse({ description: 'Branch created successfully', type: Branch })
   @ApiConflictResponse({ description: 'A branch with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Bad request' })
   async create(@Body() createBranchDto: CreateBranchDto): Promise<Branch> {
@@ -47,7 +47,7 @@ export class BranchesController {
     summary: 'Get all branches',
     description: 'Required user scopes: [' + [Scope.BranchRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: [BranchDto] })
+  @ApiOkResponse({ description: 'Success', type: [Branch] })
   async findAll(): Promise<Branch[]> {
     return await this.branchesService.findAll();
   }
@@ -58,10 +58,10 @@ export class BranchesController {
     summary: 'Get a branch by ID',
     description: 'Required user scopes: [' + [Scope.BranchRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: BranchDto })
+  @ApiOkResponse({ description: 'Success', type: Branch })
   @ApiNotFoundResponse({ description: 'Branch not found' })
   @ApiBadRequestResponse({ description: 'Invalid branch ID' })
-  async findOneById(@Param('id') id: string): Promise<Branch> {
+  async findOneById(@Param('id') id: Types.ObjectId): Promise<Branch> {
     return await this.branchesService.findOneById(id);
   }
 
@@ -71,12 +71,12 @@ export class BranchesController {
     summary: 'Update a branch by ID',
     description: 'Required user scopes: [' + [Scope.BranchUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Branch updated successfully', type: BranchDto })
+  @ApiOkResponse({ description: 'Branch updated successfully', type: Branch })
   @ApiNotFoundResponse({ description: 'Branch not found' })
   @ApiConflictResponse({ description: 'A branch with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Invalid branch ID' })
   async updateOneById(
-    @Param('id') id: string,
+    @Param('id') id: Types.ObjectId,
     @Body() updateBranchDto: UpdateBranchDto
   ): Promise<Branch> {
     return await this.branchesService.updateOneById(id, updateBranchDto);
@@ -88,10 +88,10 @@ export class BranchesController {
     summary: 'Delete a branch by ID',
     description: 'Required user scopes: [' + [Scope.BranchDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Branch deleted successfully', type: BranchDto })
+  @ApiOkResponse({ description: 'Branch deleted successfully', type: Branch })
   @ApiNotFoundResponse({ description: 'Branch not found' })
   @ApiBadRequestResponse({ description: 'Invalid branch ID' })
-  async removeOneById(@Param('id') id: string): Promise<Branch> {
+  async removeOneById(@Param('id') id: Types.ObjectId): Promise<Branch> {
     return await this.branchesService.removeOneById(id);
   }
 }

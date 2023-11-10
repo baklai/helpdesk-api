@@ -56,7 +56,7 @@ export class UsersService {
     return await this.userModel.find().select({ id: 1, login: 1, fullname: 1 }).exec();
   }
 
-  async findOneById(id: string): Promise<User> {
+  async findOneById(id: Types.ObjectId): Promise<User> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid user ID');
     }
@@ -75,7 +75,7 @@ export class UsersService {
     return user;
   }
 
-  async updateOneById(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+  async updateOneById(id: Types.ObjectId, updateUserDto: UpdateUserDto): Promise<User> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid user ID');
     }
@@ -106,7 +106,7 @@ export class UsersService {
     }
   }
 
-  async removeOneById(id: string): Promise<User> {
+  async removeOneById(id: Types.ObjectId): Promise<User> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid user ID');
     }

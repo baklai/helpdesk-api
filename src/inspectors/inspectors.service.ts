@@ -280,9 +280,6 @@ export class InspectorsService {
   }
 
   async findOneById(id: string): Promise<Inspector> {
-    if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid inspector ID');
-    }
     const inspector = await this.inspectorModel.findById(id).exec();
     if (!inspector) {
       throw new NotFoundException('Inspector not found');
@@ -290,8 +287,8 @@ export class InspectorsService {
     return inspector;
   }
 
-  async findOneByIP(ip: string): Promise<Inspector> {
-    const inspector = await this.inspectorModel.findOne({ host: ip }).exec();
+  async findOneByIP(host: string): Promise<Inspector> {
+    const inspector = await this.inspectorModel.findOne({ host }).exec();
     if (!inspector) {
       throw new NotFoundException('Inspector not found');
     }
@@ -299,9 +296,6 @@ export class InspectorsService {
   }
 
   async removeOneById(id: string): Promise<Inspector> {
-    if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid inspector ID');
-    }
     const deletedInspector = await this.inspectorModel.findByIdAndRemove(id).exec();
     if (!deletedInspector) {
       throw new NotFoundException('Inspector not found');

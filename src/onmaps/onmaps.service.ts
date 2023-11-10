@@ -82,7 +82,7 @@ export class OnmapsService {
     });
   }
 
-  async findOneById(id: string): Promise<Onmap> {
+  async findOneById(id: Types.ObjectId): Promise<Onmap> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid report ID');
     }
@@ -93,7 +93,7 @@ export class OnmapsService {
     return report;
   }
 
-  async removeOneById(id: string): Promise<Onmap> {
+  async removeOneById(id: Types.ObjectId): Promise<Onmap> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid report ID');
     }

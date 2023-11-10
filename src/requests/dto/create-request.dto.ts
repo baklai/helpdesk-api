@@ -1,13 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  IsBoolean,
-  IsDefined,
-  IsIP,
-  IsMongoId,
-  IsNotEmpty,
-  IsOptional,
-  IsString
-} from 'class-validator';
+import { IsIP, IsMongoId, IsOptional, IsString } from 'class-validator';
 
 export class CreateRequestDto {
   @ApiProperty({ description: 'Full name of the requester', example: 'John Doe' })

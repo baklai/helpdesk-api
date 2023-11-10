@@ -1,13 +1,5 @@
-import { ApiProperty, ApiPropertyOptional, OmitType } from '@nestjs/swagger';
-import {
-  IsDate,
-  IsDefined,
-  IsIP,
-  IsMongoId,
-  IsNotEmpty,
-  IsOptional,
-  IsString
-} from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsDate, IsMongoId, IsOptional, IsString } from 'class-validator';
 
 export class CreateMailboxDto {
   @ApiProperty({

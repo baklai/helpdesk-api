@@ -24,7 +24,7 @@ export class EventsService {
       .exec();
   }
 
-  async findOneById(id: string): Promise<Event> {
+  async findOneById(id: Types.ObjectId): Promise<Event> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid event ID');
     }
@@ -35,7 +35,7 @@ export class EventsService {
     return event;
   }
 
-  async updateOneById(id: string, updateEventDto: UpdateEventDto): Promise<Event> {
+  async updateOneById(id: Types.ObjectId, updateEventDto: UpdateEventDto): Promise<Event> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid event ID');
     }
@@ -48,7 +48,7 @@ export class EventsService {
     return updatedEvent;
   }
 
-  async removeOneById(id: string): Promise<Event> {
+  async removeOneById(id: Types.ObjectId): Promise<Event> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid event ID');
     }

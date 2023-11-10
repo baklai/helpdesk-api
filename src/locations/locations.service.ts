@@ -31,7 +31,7 @@ export class LocationsService {
     return await this.locationModel.find().select({ createdAt: 0, updatedAt: 0 }).exec();
   }
 
-  async findOneById(id: string): Promise<Location> {
+  async findOneById(id: Types.ObjectId): Promise<Location> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid location ID');
     }
@@ -42,7 +42,7 @@ export class LocationsService {
     return location;
   }
 
-  async updateOneById(id: string, updateLocationDto: UpdateLocationDto): Promise<Location> {
+  async updateOneById(id: Types.ObjectId, updateLocationDto: UpdateLocationDto): Promise<Location> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid location ID');
     }
@@ -62,7 +62,7 @@ export class LocationsService {
     }
   }
 
-  async removeOneById(id: string): Promise<Location> {
+  async removeOneById(id: Types.ObjectId): Promise<Location> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid location ID');
     }

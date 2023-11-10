@@ -45,7 +45,7 @@ export class MailboxesService {
     );
   }
 
-  async findOneById(id: string, populate: boolean): Promise<Mailbox> {
+  async findOneById(id: Types.ObjectId, populate: boolean): Promise<Mailbox> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid mailbox ID');
     }
@@ -60,7 +60,7 @@ export class MailboxesService {
     return mailbox;
   }
 
-  async updateOneById(id: string, updateMailboxDto: UpdateMailboxDto): Promise<Mailbox> {
+  async updateOneById(id: Types.ObjectId, updateMailboxDto: UpdateMailboxDto): Promise<Mailbox> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid mailbox ID');
     }
@@ -73,7 +73,7 @@ export class MailboxesService {
     return updatedMailbox;
   }
 
-  async removeOneById(id: string): Promise<Mailbox> {
+  async removeOneById(id: Types.ObjectId): Promise<Mailbox> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid mailbox ID');
     }

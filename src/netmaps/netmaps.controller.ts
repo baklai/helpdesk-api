@@ -13,6 +13,7 @@ import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { ScopesGuard } from 'src/common/guards/scopes.guard';
 import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
+import { Types } from 'mongoose';
 
 @ApiTags('Network maps')
 @Controller('netmaps')
@@ -30,7 +31,7 @@ export class NetmapsController {
   @ApiOkResponse({ description: 'Success' })
   @ApiNotFoundResponse({ description: 'Location not found' })
   @ApiBadRequestResponse({ description: 'Invalid location ID' })
-  async networkMap(@Param('id') id: string) {
+  async networkMap(@Param('id') id: Types.ObjectId) {
     return this.netmapsService.networkMap(id);
   }
 }

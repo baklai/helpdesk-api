@@ -1,10 +1,8 @@
-import { ApiProperty, ApiPropertyOptional, OmitType } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsArray,
   IsBoolean,
-  IsDefined,
   IsEmail,
-  IsNotEmpty,
   IsOptional,
   IsPhoneNumber,
   IsString,

@@ -1,4 +1,4 @@
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import { IsDefined, IsInt, IsNotEmpty, IsObject, IsOptional, Max, Min } from 'class-validator';
 
@@ -17,21 +17,20 @@ function convertValuesToNumber(val: Record<string, any>) {
 }
 
 export class PaginateQueryDto {
-  @ApiPropertyOptional({ description: 'Number of items per page', example: 5 })
+  @ApiProperty({ description: 'Number of items per page', example: 5, type: Number })
   @Min(0)
   @Max(50)
   @IsInt()
-  @IsOptional()
   readonly limit: number;
 
-  @ApiPropertyOptional({ description: 'Number of items to skip', example: 0 })
+  @ApiProperty({ description: 'Number of items to skip', example: 0, type: Number })
   @Min(0)
   @IsInt()
-  @IsOptional()
   readonly offset: number;
 
   @ApiPropertyOptional({
-    description: 'Sorting criteria (e.g., sort[field]=asc)'
+    description: 'Sorting criteria (e.g., sort[field]=asc)',
+    type: String
   })
   @IsObject()
   @IsOptional()
@@ -39,7 +38,8 @@ export class PaginateQueryDto {
   readonly sort: Record<number | string, any>;
 
   @ApiPropertyOptional({
-    description: 'Filtering criteria (e.g., filters[field]=value)'
+    description: 'Filtering criteria (e.g., filters[field]=value)',
+    type: String
   })
   @IsObject()
   @IsOptional()

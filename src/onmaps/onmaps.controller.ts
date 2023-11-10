@@ -20,7 +20,7 @@ import {
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
-import { AggregatePaginateResult } from 'mongoose';
+import { AggregatePaginateResult, Types } from 'mongoose';
 
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
@@ -28,11 +28,8 @@ import { ScopesGuard } from 'src/common/guards/scopes.guard';
 import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
 
-import { isIP } from 'class-validator';
 import { OnmapsService } from './onmaps.service';
-import { OnmapDto } from './dto/onmap.dto';
-import { Onmap } from './schemas/onmap.schema';
-import { PaginateOnmapDto } from './dto/paginate-onmap.dto';
+import { Onmap, PaginateOnmap } from './schemas/onmap.schema';
 
 @ApiTags('ONMAP Scanner')
 @Controller('onmaps')
@@ -45,7 +42,7 @@ export class OnmapsController {
   @Scopes(Scope.OnmapCreate)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Create a new inspector' })
-  @ApiCreatedResponse({ description: 'Onmap created successfully', type: OnmapDto })
+  @ApiCreatedResponse({ description: 'Onmap created successfully', type: Onmap })
   @ApiBadRequestResponse({ description: 'Bad request' })
   async create(@Body() createOnmapDto: Record<string, any>) {
     return await this.onmapService.create(createOnmapDto);
@@ -57,8 +54,8 @@ export class OnmapsController {
     summary: 'Get all inspectors',
     description: 'Required user scopes: [' + [Scope.OnmapRead].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Onmap successfully', type: OnmapDto })
-  @ApiOkResponse({ description: 'Success', type: PaginateOnmapDto })
+  @ApiCreatedResponse({ description: 'Onmap successfully', type: Onmap })
+  @ApiOkResponse({ description: 'Success', type: PaginateOnmap })
   async findAll(@Query() query: PaginateQueryDto): Promise<AggregatePaginateResult<Onmap>> {
     return await this.onmapService.findAll(query);
   }
@@ -69,10 +66,10 @@ export class OnmapsController {
     summary: 'Get a inspector by ID',
     description: 'Required user scopes: [' + [Scope.OnmapRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: OnmapDto })
+  @ApiOkResponse({ description: 'Success', type: Onmap })
   @ApiNotFoundResponse({ description: 'Onmap not found' })
   @ApiBadRequestResponse({ description: 'Invalid report ID' })
-  async findOneById(@Param('id') id: string): Promise<Onmap> {
+  async findOneById(@Param('id') id: Types.ObjectId): Promise<Onmap> {
     return await this.onmapService.findOneById(id);
   }
 
@@ -82,10 +79,10 @@ export class OnmapsController {
     summary: 'Delete a inspector by ID',
     description: 'Required user scopes: [' + [Scope.OnmapDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Onmap deleted successfully', type: OnmapDto })
+  @ApiOkResponse({ description: 'Onmap deleted successfully', type: Onmap })
   @ApiNotFoundResponse({ description: 'Onmap not found' })
   @ApiBadRequestResponse({ description: 'Invalid report ID' })
-  async removeOneById(@Param('id') id: string): Promise<Onmap> {
+  async removeOneById(@Param('id') id: Types.ObjectId): Promise<Onmap> {
     return await this.onmapService.removeOneById(id);
   }
 }

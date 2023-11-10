@@ -9,7 +9,8 @@ import {
   UseGuards,
   HttpCode,
   HttpStatus,
-  Ip
+  Ip,
+  BadRequestException
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -20,7 +21,7 @@ import {
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
-import { AggregatePaginateResult } from 'mongoose';
+import { AggregatePaginateResult, Types } from 'mongoose';
 
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
@@ -29,9 +30,7 @@ import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
 
 import { InspectorsService } from './inspectors.service';
-import { Inspector } from './schemas/inspector.schema';
-import { InspectorDto } from './dto/inspector.dto';
-import { PaginateInspectorDto } from './dto/paginate-inspector.dto';
+import { Inspector, PaginateInspector } from './schemas/inspector.schema';
 import { isIP } from 'class-validator';
 
 @ApiTags('PC SysInspectors')
@@ -42,7 +41,7 @@ export class InspectorsController {
   @Post()
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Create a new inspector' })
-  @ApiCreatedResponse({ description: 'Inspector created successfully', type: InspectorDto })
+  @ApiCreatedResponse({ description: 'Inspector created successfully', type: Inspector })
   @ApiBadRequestResponse({ description: 'Bad request' })
   async create(
     @Ip() ip: string,
@@ -60,13 +59,13 @@ export class InspectorsController {
     summary: 'Get all inspectors',
     description: 'Required user scopes: [' + [Scope.InspectorRead].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Inspector created successfully', type: InspectorDto })
-  @ApiOkResponse({ description: 'Success', type: PaginateInspectorDto })
+  @ApiCreatedResponse({ description: 'Inspector created successfully', type: Inspector })
+  @ApiOkResponse({ description: 'Success', type: PaginateInspector })
   async findAll(@Query() query: PaginateQueryDto): Promise<AggregatePaginateResult<Inspector>> {
     return await this.inspectorService.findAll(query);
   }
 
-  @Get(':search')
+  @Get('ipaddress')
   @ApiBearerAuth('JWT Guard')
   @UseGuards(AccessTokenGuard, ScopesGuard)
   @Scopes(Scope.InspectorRead)
@@ -74,15 +73,32 @@ export class InspectorsController {
     summary: 'Get a inspector by ID',
     description: 'Required user scopes: [' + [Scope.InspectorRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: InspectorDto })
+  @ApiOkResponse({ description: 'Success', type: Inspector })
   @ApiNotFoundResponse({ description: 'Inspector not found' })
   @ApiBadRequestResponse({ description: 'Invalid inspector ID' })
-  async findOneById(@Param('search') search: string): Promise<Inspector> {
-    if (isIP(search)) {
-      return await this.inspectorService.findOneByIP(search);
-    } else {
-      return await this.inspectorService.findOneById(search);
+  async findOneByIP(@Param('ipaddress') ipaddress: string): Promise<Inspector> {
+    if (!isIP(ipaddress)) {
+      throw new BadRequestException('Invalid IP Address');
     }
+    return await this.inspectorService.findOneByIP(ipaddress);
+  }
+
+  @Get(':id')
+  @ApiBearerAuth('JWT Guard')
+  @UseGuards(AccessTokenGuard, ScopesGuard)
+  @Scopes(Scope.InspectorRead)
+  @ApiOperation({
+    summary: 'Get a inspector by ID',
+    description: 'Required user scopes: [' + [Scope.InspectorRead].join(',') + ']'
+  })
+  @ApiOkResponse({ description: 'Success', type: Inspector })
+  @ApiNotFoundResponse({ description: 'Inspector not found' })
+  @ApiBadRequestResponse({ description: 'Invalid inspector ID' })
+  async findOneById(@Param('id') id: string): Promise<Inspector> {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('Invalid inspector ID');
+    }
+    return await this.inspectorService.findOneById(id);
   }
 
   @Delete(':id')
@@ -93,10 +109,13 @@ export class InspectorsController {
     summary: 'Delete a inspector by ID',
     description: 'Required user scopes: [' + [Scope.InspectorDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Inspector deleted successfully', type: InspectorDto })
+  @ApiOkResponse({ description: 'Inspector deleted successfully', type: Inspector })
   @ApiNotFoundResponse({ description: 'Inspector not found' })
   @ApiBadRequestResponse({ description: 'Invalid inspector ID' })
   async removeOneById(@Param('id') id: string): Promise<Inspector> {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('Invalid inspector ID');
+    }
     return await this.inspectorService.removeOneById(id);
   }
 }

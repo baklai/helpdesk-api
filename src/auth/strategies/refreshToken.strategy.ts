@@ -3,9 +3,10 @@ import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Request } from 'express';
+import { Types } from 'mongoose';
 
 type JwtPayload = {
-  id: string;
+  id: Types.ObjectId;
   login: string;
 };
 

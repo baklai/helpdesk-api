@@ -1,39 +1,95 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsArray, IsDate, IsMongoId, IsOptional, IsString } from 'class-validator';
+import { HydratedDocument, Types } from 'mongoose';
 
-export type ChannelDocument = HydratedDocument<Channel>;
+import { PaginateResponseDto } from 'src/common/dto/paginate-response.dto';
 
 @Schema()
 export class Channel {
-  @Prop({ type: String, required: true, trim: true })
-  locationFrom: string;
+  @ApiProperty({
+    description: 'The ID of the record (unique)',
+    example: '6299b5cebf44864bfcea36d4',
+    type: String
+  })
+  @IsString()
+  @IsMongoId()
+  readonly id: Types.ObjectId;
 
+  @ApiProperty({ description: 'The location from', example: 'Headquarters' })
+  @IsString()
   @Prop({ type: String, required: true, trim: true })
-  unitFrom: string;
+  readonly locationFrom: string;
 
+  @ApiProperty({ description: 'The unit from', example: 'Router TP-Link' })
+  @IsString()
   @Prop({ type: String, required: true, trim: true })
-  locationTo: string;
+  readonly unitFrom: string;
 
+  @ApiProperty({ description: 'The location to', example: 'Branch Office' })
+  @IsString()
   @Prop({ type: String, required: true, trim: true })
-  unitTo: string;
+  readonly locationTo: string;
 
+  @ApiProperty({ description: 'The unit to', example: 'Switch' })
+  @IsString()
   @Prop({ type: String, required: true, trim: true })
-  level: string;
+  readonly unitTo: string;
 
+  @ApiProperty({ description: 'The level of channel', example: 'High' })
+  @IsString()
   @Prop({ type: String, required: true, trim: true })
-  type: string;
+  readonly level: string;
 
+  @ApiProperty({ description: 'The type of channel', example: 'Fiber Optic' })
+  @IsString()
   @Prop({ type: String, required: true, trim: true })
-  speed: string;
+  readonly type: string;
 
+  @ApiProperty({ description: 'The speed of channel', example: '10 Gbps' })
+  @IsString()
   @Prop({ type: String, required: true, trim: true })
-  status: string;
+  readonly speed: string;
 
+  @ApiProperty({ description: 'The status of channel', example: 'Active' })
+  @IsString()
   @Prop({ type: String, required: true, trim: true })
-  operator: string;
+  readonly status: string;
 
+  @ApiProperty({ description: 'The operator of channel', example: 'ISP' })
+  @IsString()
   @Prop({ type: String, required: true, trim: true })
-  composition: string;
+  readonly operator: string;
+
+  @ApiProperty({ description: 'The composition of channel', example: 'Single-mode' })
+  @IsString()
+  @Prop({ type: String, required: true, trim: true })
+  readonly composition: string;
+
+  @ApiPropertyOptional({
+    description: 'The created date of the record',
+    example: new Date()
+  })
+  @IsDate()
+  @IsOptional()
+  readonly createdAt: Date;
+
+  @ApiPropertyOptional({
+    description: 'The updated date of the record',
+    example: new Date()
+  })
+  @IsDate()
+  @IsOptional()
+  readonly updatedAt: Date;
 }
+
+export class PaginateChannel extends PaginateResponseDto {
+  @ApiPropertyOptional({ type: [Channel], description: 'Array of documents' })
+  @IsArray()
+  @IsOptional()
+  docs: Channel[];
+}
+
+export type ChannelDocument = HydratedDocument<Channel>;
 
 export const ChannelSchema = SchemaFactory.createForClass(Channel);

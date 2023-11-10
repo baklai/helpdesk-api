@@ -37,7 +37,7 @@ export class SyslogsService {
     return 'Ok';
   }
 
-  async findOneById(id: string): Promise<Syslog> {
+  async findOneById(id: Types.ObjectId): Promise<Syslog> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid syslog ID');
     }
@@ -48,7 +48,7 @@ export class SyslogsService {
     return syslog;
   }
 
-  async removeOneById(id: string): Promise<Syslog> {
+  async removeOneById(id: Types.ObjectId): Promise<Syslog> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid syslog ID');
     }

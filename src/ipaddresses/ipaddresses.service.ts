@@ -57,9 +57,6 @@ export class IpaddressesService {
   }
 
   async findOneById(id: string, populate: boolean): Promise<Ipaddress> {
-    if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid ipaddress ID');
-    }
     const ipaddress = await this.ipaddressModel
       .findById(id, null, {
         autopopulate: populate
@@ -84,9 +81,6 @@ export class IpaddressesService {
   }
 
   async updateOneById(id: string, updateIpaddressDto: UpdateIpaddressDto): Promise<Ipaddress> {
-    if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid ipaddress ID');
-    }
     const { ipaddress } = updateIpaddressDto;
     const indexip = new Netmask(ipaddress).netLong;
     const updatedIpaddress = await this.ipaddressModel
@@ -99,9 +93,6 @@ export class IpaddressesService {
   }
 
   async removeOneById(id: string): Promise<Ipaddress> {
-    if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid ipaddress ID');
-    }
     const deletedIpaddress = await this.ipaddressModel.findByIdAndRemove(id).exec();
     if (!deletedIpaddress) {
       throw new NotFoundException('Ipaddress not found');

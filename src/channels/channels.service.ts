@@ -31,7 +31,7 @@ export class ChannelsService {
     );
   }
 
-  async findOneById(id: string): Promise<Channel> {
+  async findOneById(id: Types.ObjectId): Promise<Channel> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid channel ID');
     }
@@ -42,7 +42,7 @@ export class ChannelsService {
     return channel;
   }
 
-  async updateOneById(id: string, updateChannelDto: UpdateChannelDto): Promise<Channel> {
+  async updateOneById(id: Types.ObjectId, updateChannelDto: UpdateChannelDto): Promise<Channel> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid channel ID');
     }
@@ -55,7 +55,7 @@ export class ChannelsService {
     return updatedChannel;
   }
 
-  async removeOneById(id: string): Promise<Channel> {
+  async removeOneById(id: Types.ObjectId): Promise<Channel> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid channel ID');
     }

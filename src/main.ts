@@ -62,7 +62,9 @@ async function bootstrap() {
       'JWT Guard'
     )
     .build();
+
   const document = SwaggerModule.createDocument(app, config);
+
   SwaggerModule.setup(SWAGGER_API_PATH, app, document, {
     explorer: false,
     customCss: fs.readFileSync('src/common/themes/dark.css', 'utf8'),

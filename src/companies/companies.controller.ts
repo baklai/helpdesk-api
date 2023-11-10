@@ -17,9 +17,9 @@ import { Scope } from 'src/common/enums/scope.enum';
 
 import { CompaniesService } from './companies.service';
 import { Company } from './schemas/company.schema';
-import { CompanyDto } from './dto/company.dto';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
+import { Types } from 'mongoose';
 
 @ApiTags('Companies')
 @Controller('companies')
@@ -34,7 +34,7 @@ export class CompaniesController {
     summary: 'Create a new company',
     description: 'Required user scopes: [' + [Scope.CompanyCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Company created successfully', type: CompanyDto })
+  @ApiCreatedResponse({ description: 'Company created successfully', type: Company })
   @ApiConflictResponse({ description: 'A company with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Bad request' })
   async create(@Body() createCompanyDto: CreateCompanyDto): Promise<Company> {
@@ -47,7 +47,7 @@ export class CompaniesController {
     summary: 'Get all companies',
     description: 'Required user scopes: [' + [Scope.CompanyRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: [CompanyDto] })
+  @ApiOkResponse({ description: 'Success', type: [Company] })
   async findAll(): Promise<Company[]> {
     return await this.companiesService.findAll();
   }
@@ -58,10 +58,10 @@ export class CompaniesController {
     summary: 'Get a company by ID',
     description: 'Required user scopes: [' + [Scope.CompanyRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: CompanyDto })
+  @ApiOkResponse({ description: 'Success', type: Company })
   @ApiNotFoundResponse({ description: 'Company not found' })
   @ApiBadRequestResponse({ description: 'Invalid company ID' })
-  async findOneById(@Param('id') id: string): Promise<Company> {
+  async findOneById(@Param('id') id: Types.ObjectId): Promise<Company> {
     return await this.companiesService.findOneById(id);
   }
 
@@ -71,12 +71,12 @@ export class CompaniesController {
     summary: 'Update a company by ID',
     description: 'Required user scopes: [' + [Scope.CompanyUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Company updated successfully', type: CompanyDto })
+  @ApiOkResponse({ description: 'Company updated successfully', type: Company })
   @ApiNotFoundResponse({ description: 'Company not found' })
   @ApiConflictResponse({ description: 'A company with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Invalid company ID' })
   async updateOneById(
-    @Param('id') id: string,
+    @Param('id') id: Types.ObjectId,
     @Body() updateCompanyDto: UpdateCompanyDto
   ): Promise<Company> {
     return await this.companiesService.updateOneById(id, updateCompanyDto);
@@ -88,10 +88,10 @@ export class CompaniesController {
     summary: 'Delete a company by ID',
     description: 'Required user scopes: [' + [Scope.CompanyDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Company deleted successfully', type: CompanyDto })
+  @ApiOkResponse({ description: 'Company deleted successfully', type: Company })
   @ApiNotFoundResponse({ description: 'Company not found' })
   @ApiBadRequestResponse({ description: 'Invalid company ID' })
-  async removeOneById(@Param('id') id: string): Promise<Company> {
+  async removeOneById(@Param('id') id: Types.ObjectId): Promise<Company> {
     return await this.companiesService.removeOneById(id);
   }
 }

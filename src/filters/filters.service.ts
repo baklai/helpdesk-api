@@ -20,7 +20,7 @@ export class FiltersService {
     return await this.filterModel.find(query).exec();
   }
 
-  async findOneById(id: string): Promise<Filter> {
+  async findOneById(id: Types.ObjectId): Promise<Filter> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid filter ID');
     }
@@ -31,7 +31,7 @@ export class FiltersService {
     return filter;
   }
 
-  async updateOneById(id: string, updateFilterDto: UpdateFilterDto): Promise<Filter> {
+  async updateOneById(id: Types.ObjectId, updateFilterDto: UpdateFilterDto): Promise<Filter> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid filter ID');
     }
@@ -44,7 +44,7 @@ export class FiltersService {
     return updatedFilter;
   }
 
-  async removeOneById(id: string): Promise<Filter> {
+  async removeOneById(id: Types.ObjectId): Promise<Filter> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid filter ID');
     }

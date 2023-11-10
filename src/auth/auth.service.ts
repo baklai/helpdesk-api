@@ -18,6 +18,7 @@ import { RefreshToken } from './schemas/refreshToken.schema';
 import { TokensDto } from './dto/tokens.dto';
 import { SigninAuthDto } from './dto/signin-auth.dto';
 import { SignupAuthDto } from './dto/signup-auth.dto';
+import { Scope } from 'src/common/enums/scope.enum';
 
 @Injectable()
 export class AuthService {
@@ -28,7 +29,7 @@ export class AuthService {
     private jwtService: JwtService
   ) {}
 
-  async me(id: string): Promise<User> {
+  async me(id: Types.ObjectId): Promise<User> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid user ID');
     }
@@ -115,11 +116,11 @@ export class AuthService {
   }
 
   async generateTokens(
-    id: string,
+    id: Types.ObjectId,
     login: string,
     isActive: boolean,
     isAdmin: boolean,
-    scope: string[]
+    scope: Scope
   ) {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(

@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Types } from 'mongoose';
 import { Netmask } from 'netmask';
 
 import { Unit } from 'src/units/schemas/unit.schema';
@@ -9,26 +9,88 @@ import { Branch } from 'src/branches/schemas/branch.schema';
 import { Enterprise } from 'src/enterprises/schemas/enterprise.schema';
 import { Department } from 'src/departments/schemas/department.schema';
 import { Position } from 'src/positions/schemas/position.schema';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  IsString,
+  IsMongoId,
+  IsIP,
+  IsNumber,
+  ValidateNested,
+  IsDate,
+  IsOptional,
+  IsArray
+} from 'class-validator';
+import { PaginateResponseDto } from 'src/common/dto/paginate-response.dto';
 
-export type IpaddressDocument = HydratedDocument<Ipaddress>;
+// export interface Internet {
+//   reqnum: string;
+//   dateOpen: Date;
+//   dateClose: Date;
+//   comment: string;
+// }
 
-export interface Internet {
-  reqnum: string;
-  dateOpen: Date;
-  dateClose: Date;
-  comment: string;
+// export interface CIDR {
+//   value: number;
+//   mask: string;
+// }
+
+export class CIDR {
+  @ApiProperty({ description: 'CIDR Value', example: 24 })
+  @IsNumber()
+  readonly value: number;
+
+  @ApiProperty({ description: 'CIDR Mask', example: '255.255.255.0' })
+  @IsString()
+  readonly mask: string;
 }
 
-export interface CIDR {
-  value: number;
-  mask: string;
+export class Internet {
+  @ApiPropertyOptional({
+    description: 'Incoming letter number',
+    example: 'Letter number №548925 from 12/07/2023'
+  })
+  @IsString()
+  @IsOptional()
+  readonly reqnum: string;
+
+  @ApiPropertyOptional({ description: 'Date when internet was opened', example: new Date() })
+  @IsDate()
+  @IsOptional()
+  readonly dateOpen: Date;
+
+  @ApiPropertyOptional({ description: 'Date when internet was closed', example: new Date() })
+  @IsDate()
+  @IsOptional()
+  readonly dateClose: Date;
+
+  @ApiPropertyOptional({
+    description: 'Comment about internet',
+    example: 'Internet is closed of №1234/560'
+  })
+  @IsString()
+  @IsOptional()
+  readonly comment: string;
 }
 
 @Schema()
 export class Ipaddress {
-  @Prop({ type: String, required: true, unique: true, trim: true })
-  ipaddress: string;
+  @ApiProperty({
+    description: 'The ID of the record (unique)',
+    example: '6299b5cebf44864bfcea36d4',
+    type: String
+  })
+  @IsString()
+  @IsMongoId()
+  readonly id: Types.ObjectId;
 
+  @ApiProperty({ description: 'IP Address', example: '192.168.0.1' })
+  @IsIP()
+  @IsString()
+  @Prop({ type: String, required: true, unique: true, trim: true })
+  readonly ipaddress: string;
+
+  @ApiProperty({ description: 'Index IP Address', example: 3232235521 })
+  @IsNumber()
   @Prop({
     type: Number,
     default: function () {
@@ -38,26 +100,45 @@ export class Ipaddress {
       return null;
     }
   })
-  indexip: number;
+  readonly indexip: number;
 
+  @ApiProperty({ description: 'CIDR Information', example: CIDR })
+  @ValidateNested()
   @Prop({ type: Object, required: true, default: { value: 24, mask: '255.255.255.0' } })
-  cidr: CIDR;
+  readonly cidr: CIDR;
 
+  @ApiProperty({ description: 'Incoming request number', example: '№1234/56' })
+  @IsString()
   @Prop({ type: String, required: true, default: null, trim: true })
-  reqnum: string;
+  readonly reqnum: string;
 
+  @ApiProperty({ description: 'Date of create record', example: new Date() })
+  @IsDate()
   @Prop({ type: Date, required: true, trim: true })
-  date: Date;
+  readonly date: Date;
 
+  @ApiProperty({ description: 'Client full name', example: 'John Doe' })
+  @IsString()
   @Prop({ type: String, required: true, trim: true })
-  fullname: string;
+  readonly fullname: string;
 
+  @ApiProperty({ description: 'Client phone number', example: '1234-56-78' })
+  @IsString()
   @Prop({ type: String, required: true, trim: true })
   phone: string;
 
+  @ApiPropertyOptional({ description: 'Autoanswer', example: '(12 3456 7)89' })
+  @IsString()
+  @IsOptional()
   @Prop({ type: String, trim: true })
-  autoanswer: string;
+  readonly autoanswer: string;
 
+  @ApiPropertyOptional({
+    description: 'Internet information',
+    example: Internet
+  })
+  @ValidateNested()
+  @IsOptional()
   @Prop({
     // type: {
     //   reqnum: { type: String, default: null, trim: true },
@@ -73,67 +154,144 @@ export class Ipaddress {
       comment: null
     }
   })
-  internet: Internet;
+  readonly internet: Internet;
 
+  @ApiPropertyOptional({ description: 'Comment text', example: 'Network access limited' })
+  @IsString()
+  @IsOptional()
   @Prop({ type: String, trim: true })
-  comment: string;
+  readonly comment: string;
 
+  @ApiPropertyOptional({
+    description: 'Document of the associated Unit',
+    example: Unit
+  })
+  @IsString()
+  @IsMongoId()
+  @IsOptional()
   @Prop({
-    type: mongoose.Schema.Types.ObjectId,
+    type: Types.ObjectId,
     ref: 'Unit',
     default: null,
     autopopulate: true
   })
-  unit: Unit;
+  readonly unit: Unit;
 
+  @ApiPropertyOptional({
+    description: 'Document of the associated Location',
+    example: Location
+  })
+  @IsString()
+  @IsMongoId()
+  @IsOptional()
   @Prop({
-    type: mongoose.Schema.Types.ObjectId,
+    type: Types.ObjectId,
     ref: 'Location',
     default: null,
     autopopulate: true
   })
-  location: Location;
+  readonly location: Location;
 
+  @ApiPropertyOptional({
+    description: 'Document of the associated Company',
+    example: Company
+  })
+  @IsString()
+  @IsMongoId()
+  @IsOptional()
   @Prop({
-    type: mongoose.Schema.Types.ObjectId,
+    type: Types.ObjectId,
     ref: 'Company',
     default: null,
     autopopulate: true
   })
-  company: Company;
+  readonly company: Company;
 
+  @ApiPropertyOptional({
+    description: 'Document of the associated Branch',
+    example: Branch
+  })
+  @IsString()
+  @IsMongoId()
+  @IsOptional()
   @Prop({
-    type: mongoose.Schema.Types.ObjectId,
+    type: Types.ObjectId,
     ref: 'Branch',
     default: null,
     autopopulate: true
   })
-  branch: Branch;
+  readonly branch: Branch;
 
+  @ApiPropertyOptional({
+    description: 'Document of the associated Enterprise',
+    example: Enterprise
+  })
+  @IsString()
+  @IsMongoId()
+  @IsOptional()
   @Prop({
-    type: mongoose.Schema.Types.ObjectId,
+    type: Types.ObjectId,
     ref: 'Enterprise',
     default: null,
     autopopulate: true
   })
-  enterprise: Enterprise;
+  readonly enterprise: Enterprise;
 
+  @ApiPropertyOptional({
+    description: 'Document of the associated Department',
+    example: Department
+  })
+  @IsString()
+  @IsMongoId()
+  @IsOptional()
   @Prop({
-    type: mongoose.Schema.Types.ObjectId,
+    type: Types.ObjectId,
     ref: 'Department',
     default: null,
     autopopulate: true
   })
-  department: Department;
+  readonly department: Department;
 
+  @ApiPropertyOptional({
+    description: 'Document of the associated Position',
+    example: Position
+  })
+  @IsString()
+  @IsMongoId()
+  @IsOptional()
   @Prop({
-    type: mongoose.Schema.Types.ObjectId,
+    type: Types.ObjectId,
     ref: 'Position',
     default: null,
     autopopulate: true
   })
-  position: Position;
+  readonly position: Position;
+
+  @ApiPropertyOptional({
+    description: 'The created date of the record',
+    example: new Date()
+  })
+  @IsDate()
+  @IsOptional()
+  readonly createdAt: Date;
+
+  @ApiPropertyOptional({
+    description: 'The updated date of the record',
+    example: new Date()
+  })
+  @IsDate()
+  @IsOptional()
+  readonly updatedAt: Date;
 }
+
+export class PaginateIpaddress extends PaginateResponseDto {
+  @ApiPropertyOptional({ type: [Ipaddress], description: 'Array of documents' })
+  @IsArray()
+  @IsOptional()
+  docs: Ipaddress[];
+}
+
+export type IpaddressDocument = HydratedDocument<Ipaddress>;
 
 export const IpaddressSchema = SchemaFactory.createForClass(Ipaddress);
 

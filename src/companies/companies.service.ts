@@ -31,7 +31,7 @@ export class CompaniesService {
     return await this.companyModel.find().select({ createdAt: 0, updatedAt: 0 }).exec();
   }
 
-  async findOneById(id: string): Promise<Company> {
+  async findOneById(id: Types.ObjectId): Promise<Company> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid company ID');
     }
@@ -42,7 +42,7 @@ export class CompaniesService {
     return company;
   }
 
-  async updateOneById(id: string, updateCompanyDto: UpdateCompanyDto): Promise<Company> {
+  async updateOneById(id: Types.ObjectId, updateCompanyDto: UpdateCompanyDto): Promise<Company> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid company ID');
     }
@@ -62,7 +62,7 @@ export class CompaniesService {
     }
   }
 
-  async removeOneById(id: string): Promise<Company> {
+  async removeOneById(id: Types.ObjectId): Promise<Company> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid company ID');
     }

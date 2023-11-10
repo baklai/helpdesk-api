@@ -45,7 +45,7 @@ export class RequestsService {
     );
   }
 
-  async findOneById(id: string, populate: boolean): Promise<Request> {
+  async findOneById(id: Types.ObjectId, populate: boolean): Promise<Request> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid request ID');
     }
@@ -60,7 +60,7 @@ export class RequestsService {
     return request;
   }
 
-  async updateOneById(id: string, updateRequestDto: UpdateRequestDto): Promise<Request> {
+  async updateOneById(id: Types.ObjectId, updateRequestDto: UpdateRequestDto): Promise<Request> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid request ID');
     }
@@ -74,7 +74,7 @@ export class RequestsService {
     return updatedRequest;
   }
 
-  async removeOneById(id: string): Promise<Request> {
+  async removeOneById(id: Types.ObjectId): Promise<Request> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid request ID');
     }

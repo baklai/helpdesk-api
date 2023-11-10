@@ -30,7 +30,7 @@ export class UnitsService {
     return await this.unitModel.find().select({ createdAt: 0, updatedAt: 0 }).exec();
   }
 
-  async findOneById(id: string): Promise<Unit> {
+  async findOneById(id: Types.ObjectId): Promise<Unit> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid unit ID');
     }
@@ -41,7 +41,7 @@ export class UnitsService {
     return unit;
   }
 
-  async updateOneById(id: string, updateUnitDto: UpdateUnitDto): Promise<Unit> {
+  async updateOneById(id: Types.ObjectId, updateUnitDto: UpdateUnitDto): Promise<Unit> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid unit ID');
     }
@@ -61,7 +61,7 @@ export class UnitsService {
     }
   }
 
-  async removeOneById(id: string): Promise<Unit> {
+  async removeOneById(id: Types.ObjectId): Promise<Unit> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid unit ID');
     }

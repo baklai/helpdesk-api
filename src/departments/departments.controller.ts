@@ -17,9 +17,9 @@ import { Scope } from 'src/common/enums/scope.enum';
 
 import { DepartmentsService } from './departments.service';
 import { Department } from './schemas/department.schema';
-import { DepartmentDto } from './dto/department.dto';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { UpdateDepartmentDto } from './dto/update-department.dto';
+import { Types } from 'mongoose';
 
 @ApiTags('Departments')
 @Controller('departments')
@@ -34,7 +34,7 @@ export class DepartmentsController {
     summary: 'Create a new department',
     description: 'Required user scopes: [' + [Scope.DepartmentCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Department created successfully', type: DepartmentDto })
+  @ApiCreatedResponse({ description: 'Department created successfully', type: Department })
   @ApiConflictResponse({ description: 'A department with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Bad request' })
   async create(@Body() createDepartmentDto: CreateDepartmentDto): Promise<Department> {
@@ -47,7 +47,7 @@ export class DepartmentsController {
     summary: 'Get all departments',
     description: 'Required user scopes: [' + [Scope.DepartmentRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: [DepartmentDto] })
+  @ApiOkResponse({ description: 'Success', type: [Department] })
   async findAll(): Promise<Department[]> {
     return await this.departmentsService.findAll();
   }
@@ -58,10 +58,10 @@ export class DepartmentsController {
     summary: 'Get a department by ID',
     description: 'Required user scopes: [' + [Scope.DepartmentRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: DepartmentDto })
+  @ApiOkResponse({ description: 'Success', type: Department })
   @ApiNotFoundResponse({ description: 'Department not found' })
   @ApiBadRequestResponse({ description: 'Invalid department ID' })
-  async findOneById(@Param('id') id: string): Promise<Department> {
+  async findOneById(@Param('id') id: Types.ObjectId): Promise<Department> {
     return await this.departmentsService.findOneById(id);
   }
 
@@ -71,12 +71,12 @@ export class DepartmentsController {
     summary: 'Update a department by ID',
     description: 'Required user scopes: [' + [Scope.DepartmentUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Department updated successfully', type: DepartmentDto })
+  @ApiOkResponse({ description: 'Department updated successfully', type: Department })
   @ApiNotFoundResponse({ description: 'Department not found' })
   @ApiConflictResponse({ description: 'A department with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Invalid department ID' })
   async updateOneById(
-    @Param('id') id: string,
+    @Param('id') id: Types.ObjectId,
     @Body() updateDepartmentDto: UpdateDepartmentDto
   ): Promise<Department> {
     return await this.departmentsService.updateOneById(id, updateDepartmentDto);
@@ -88,10 +88,10 @@ export class DepartmentsController {
     summary: 'Delete a department by ID',
     description: 'Required user scopes: [' + [Scope.DepartmentDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Department deleted successfully', type: DepartmentDto })
+  @ApiOkResponse({ description: 'Department deleted successfully', type: Department })
   @ApiNotFoundResponse({ description: 'Department not found' })
   @ApiBadRequestResponse({ description: 'Invalid department ID' })
-  async removeOneById(@Param('id') id: string): Promise<Department> {
+  async removeOneById(@Param('id') id: Types.ObjectId): Promise<Department> {
     return await this.departmentsService.removeOneById(id);
   }
 }

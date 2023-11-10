@@ -31,7 +31,7 @@ export class PositionsService {
     return await this.positionModel.find().select({ createdAt: 0, updatedAt: 0 }).exec();
   }
 
-  async findOneById(id: string): Promise<Position> {
+  async findOneById(id: Types.ObjectId): Promise<Position> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid position ID');
     }
@@ -42,7 +42,7 @@ export class PositionsService {
     return position;
   }
 
-  async updateOneById(id: string, updatePositionDto: UpdatePositionDto): Promise<Position> {
+  async updateOneById(id: Types.ObjectId, updatePositionDto: UpdatePositionDto): Promise<Position> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid position ID');
     }
@@ -62,7 +62,7 @@ export class PositionsService {
     }
   }
 
-  async removeOneById(id: string): Promise<Position> {
+  async removeOneById(id: Types.ObjectId): Promise<Position> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid position ID');
     }

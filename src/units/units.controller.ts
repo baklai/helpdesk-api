@@ -17,9 +17,9 @@ import { Scope } from 'src/common/enums/scope.enum';
 
 import { UnitsService } from './units.service';
 import { Unit } from './schemas/unit.schema';
-import { UnitDto } from './dto/unit.dto';
 import { CreateUnitDto } from './dto/create-unit.dto';
 import { UpdateUnitDto } from './dto/update-unit.dto';
+import { Types } from 'mongoose';
 
 @ApiTags('Units')
 @Controller('units')
@@ -34,7 +34,7 @@ export class UnitsController {
     summary: 'Create a new unit',
     description: 'Required user scopes: [' + [Scope.UnitCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Unit created successfully', type: UnitDto })
+  @ApiCreatedResponse({ description: 'Unit created successfully', type: Unit })
   @ApiConflictResponse({ description: 'A unit with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Bad request' })
   async create(@Body() createUnitDto: CreateUnitDto): Promise<Unit> {
@@ -47,7 +47,7 @@ export class UnitsController {
     summary: 'Get all units',
     description: 'Required user scopes: [' + [Scope.UnitRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: [UnitDto] })
+  @ApiOkResponse({ description: 'Success', type: [Unit] })
   async findAll(): Promise<Unit[]> {
     return await this.unitsService.findAll();
   }
@@ -58,10 +58,10 @@ export class UnitsController {
     summary: 'Get a unit by ID',
     description: 'Required user scopes: [' + [Scope.UnitRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: UnitDto })
+  @ApiOkResponse({ description: 'Success', type: Unit })
   @ApiNotFoundResponse({ description: 'Unit not found' })
   @ApiBadRequestResponse({ description: 'Invalid unit ID' })
-  async findOneById(@Param('id') id: string): Promise<Unit> {
+  async findOneById(@Param('id') id: Types.ObjectId): Promise<Unit> {
     return await this.unitsService.findOneById(id);
   }
 
@@ -71,12 +71,12 @@ export class UnitsController {
     summary: 'Update a unit by ID',
     description: 'Required user scopes: [' + [Scope.UnitUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Unit updated successfully', type: UnitDto })
+  @ApiOkResponse({ description: 'Unit updated successfully', type: Unit })
   @ApiNotFoundResponse({ description: 'Unit not found' })
   @ApiConflictResponse({ description: 'A unit with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Invalid unit ID' })
   async updateOneById(
-    @Param('id') id: string,
+    @Param('id') id: Types.ObjectId,
     @Body() updateUnitDto: UpdateUnitDto
   ): Promise<Unit> {
     return await this.unitsService.updateOneById(id, updateUnitDto);
@@ -88,10 +88,10 @@ export class UnitsController {
     summary: 'Delete a unit by ID',
     description: 'Required user scopes: [' + [Scope.UnitDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Unit deleted successfully', type: UnitDto })
+  @ApiOkResponse({ description: 'Unit deleted successfully', type: Unit })
   @ApiNotFoundResponse({ description: 'Unit not found' })
   @ApiBadRequestResponse({ description: 'Invalid unit ID' })
-  async removeOneById(@Param('id') id: string): Promise<Unit> {
+  async removeOneById(@Param('id') id: Types.ObjectId): Promise<Unit> {
     return await this.unitsService.removeOneById(id);
   }
 }

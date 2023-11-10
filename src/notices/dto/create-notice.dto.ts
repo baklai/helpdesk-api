@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDefined, IsMongoId, IsNotEmpty, IsString } from 'class-validator';
+import { IsMongoId, IsString } from 'class-validator';
 
 export class CreateNoticeDto {
   @ApiProperty({

@@ -17,7 +17,7 @@ export class NoticesService {
     return await this.noticeModel.find({ userId }).exec();
   }
 
-  async removeOneById(id: string, userId: string): Promise<Notice> {
+  async removeOneById(id: Types.ObjectId, userId: string): Promise<Notice> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid notice ID');
     }

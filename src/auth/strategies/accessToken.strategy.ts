@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
+import { Types } from 'mongoose';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
 type JwtPayload = {
-  id: string;
+  id: Types.ObjectId;
   login: string;
   isActive: boolean;
   isAdmin: boolean;

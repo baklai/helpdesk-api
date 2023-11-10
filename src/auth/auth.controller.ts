@@ -19,7 +19,6 @@ import {
 } from '@nestjs/swagger';
 
 import { User } from 'src/users/schemas/user.schema';
-import { UserDto } from 'src/users/dto/user.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { RefreshTokenGuard } from 'src/common/guards/refreshToken.guard';
 import { ScopesGuard } from 'src/common/guards/scopes.guard';
@@ -39,7 +38,7 @@ export class AuthController {
   @ApiBearerAuth('JWT Guard')
   @UseGuards(AccessTokenGuard, ScopesGuard)
   @ApiOperation({ summary: 'Retrieve user information' })
-  @ApiOkResponse({ description: 'Success', type: UserDto })
+  @ApiOkResponse({ description: 'Success', type: User })
   async me(@Request() req: Record<string, any>): Promise<User> {
     return await this.authService.me(req.user.id);
   }
@@ -56,7 +55,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Create a new user account' })
   @ApiConflictResponse({ description: 'A login with the same name already exists' })
   @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiOkResponse({ description: 'Success', type: UserDto })
+  @ApiOkResponse({ description: 'Success', type: User })
   async signup(@Body() signupAuthDto: SignupAuthDto): Promise<User> {
     return await this.authService.signup(signupAuthDto);
   }

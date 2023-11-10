@@ -31,7 +31,7 @@ export class DepartmentsService {
     return await this.departmentModel.find().select({ createdAt: 0, updatedAt: 0 }).exec();
   }
 
-  async findOneById(id: string): Promise<Department> {
+  async findOneById(id: Types.ObjectId): Promise<Department> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid department ID');
     }
@@ -42,7 +42,10 @@ export class DepartmentsService {
     return department;
   }
 
-  async updateOneById(id: string, updateDepartmentDto: UpdateDepartmentDto): Promise<Department> {
+  async updateOneById(
+    id: Types.ObjectId,
+    updateDepartmentDto: UpdateDepartmentDto
+  ): Promise<Department> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid department ID');
     }
@@ -62,7 +65,7 @@ export class DepartmentsService {
     }
   }
 
-  async removeOneById(id: string): Promise<Department> {
+  async removeOneById(id: Types.ObjectId): Promise<Department> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid department ID');
     }

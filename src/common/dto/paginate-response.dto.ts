@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsDefined, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 
-export class PaginateV2ResponseDto {
+export class PaginateResponseDto {
   @ApiPropertyOptional({
     description: 'Total number of documents in collection that match a query',
     example: 100

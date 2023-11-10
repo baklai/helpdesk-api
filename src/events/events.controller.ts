@@ -16,10 +16,10 @@ import { Scope } from 'src/common/enums/scope.enum';
 
 import { EventsService } from './events.service';
 import { Event } from './schemas/event.schema';
-import { EventDto } from './dto/event.dto';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { QueryEventDto } from './dto/query-event.dto';
+import { Types } from 'mongoose';
 
 @ApiTags('Events')
 @Controller('events')
@@ -34,7 +34,7 @@ export class EventsController {
     summary: 'Create a new event',
     description: 'Required user scopes: [' + [Scope.EventCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Event created successfully', type: EventDto })
+  @ApiCreatedResponse({ description: 'Event created successfully', type: Event })
   @ApiBadRequestResponse({ description: 'Bad request' })
   async create(@Body() createEventDto: CreateEventDto): Promise<Event> {
     return await this.eventService.create(createEventDto);
@@ -46,7 +46,7 @@ export class EventsController {
     summary: 'Get all events',
     description: 'Required user scopes: [' + [Scope.EventRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: [EventDto] })
+  @ApiOkResponse({ description: 'Success', type: [Event] })
   async findAll(@Query() query: QueryEventDto): Promise<Event[]> {
     return await this.eventService.findAll(query);
   }
@@ -57,10 +57,10 @@ export class EventsController {
     summary: 'Get an event by ID',
     description: 'Required user scopes: [' + [Scope.EventRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: EventDto })
+  @ApiOkResponse({ description: 'Success', type: Event })
   @ApiNotFoundResponse({ description: 'Event not found' })
   @ApiBadRequestResponse({ description: 'Invalid event ID' })
-  async findOneById(@Param('id') id: string): Promise<Event> {
+  async findOneById(@Param('id') id: Types.ObjectId): Promise<Event> {
     return await this.eventService.findOneById(id);
   }
 
@@ -70,11 +70,11 @@ export class EventsController {
     summary: 'Update an event by ID',
     description: 'Required user scopes: [' + [Scope.EventUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Event updated successfully', type: EventDto })
+  @ApiOkResponse({ description: 'Event updated successfully', type: Event })
   @ApiNotFoundResponse({ description: 'Event not found' })
   @ApiBadRequestResponse({ description: 'Invalid event ID' })
   async updateOneById(
-    @Param('id') id: string,
+    @Param('id') id: Types.ObjectId,
     @Body() updateEventDto: UpdateEventDto
   ): Promise<Event> {
     return await this.eventService.updateOneById(id, updateEventDto);
@@ -86,10 +86,10 @@ export class EventsController {
     summary: 'Delete an event by ID',
     description: 'Required user scopes: [' + [Scope.EventUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Event deleted successfully', type: EventDto })
+  @ApiOkResponse({ description: 'Event deleted successfully', type: Event })
   @ApiNotFoundResponse({ description: 'Event not found' })
   @ApiBadRequestResponse({ description: 'Invalid event ID' })
-  async removeOneById(@Param('id') id: string): Promise<Event> {
+  async removeOneById(@Param('id') id: Types.ObjectId): Promise<Event> {
     return await this.eventService.removeOneById(id);
   }
 }

@@ -1,17 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  IsIP,
-  IsDate,
-  IsString,
-  IsDefined,
-  IsMongoId,
-  IsNotEmpty,
-  ValidateNested,
-  IsOptional
-} from 'class-validator';
+import { IsIP, IsDate, IsString, IsMongoId, ValidateNested, IsOptional } from 'class-validator';
 
-import { CIDRDto } from './cidr.dto';
-import { InternetDto } from './internet.dto';
+import { CIDR, Internet } from '../schemas/ipaddress.schema';
 
 export class CreateIpaddressDto {
   @ApiProperty({ description: 'IP Address', example: '192.168.0.1' })
@@ -19,9 +9,9 @@ export class CreateIpaddressDto {
   @IsString()
   readonly ipaddress: string;
 
-  @ApiProperty({ description: 'CIDR Information', example: CIDRDto })
+  @ApiProperty({ description: 'CIDR Information', example: CIDR })
   @ValidateNested()
-  readonly cidr: CIDRDto;
+  readonly cidr: CIDR;
 
   @ApiProperty({ description: 'Incoming request number', example: '№1234/56' })
   @IsString()
@@ -46,10 +36,10 @@ export class CreateIpaddressDto {
 
   @ApiPropertyOptional({
     description: 'Internet information',
-    example: InternetDto
+    example: Internet
   })
   @IsOptional()
-  readonly internet: InternetDto;
+  readonly internet: Internet;
 
   @ApiPropertyOptional({ description: 'Autoanswer', example: '(12 3456 7)89' })
   @IsString()
