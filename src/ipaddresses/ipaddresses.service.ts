@@ -63,7 +63,7 @@ export class IpaddressesService {
       })
       .exec();
     if (!ipaddress) {
-      throw new NotFoundException('Ipaddress not found');
+      throw new NotFoundException('IP Address not found');
     }
     return ipaddress;
   }
@@ -75,7 +75,19 @@ export class IpaddressesService {
       })
       .exec();
     if (!ipaddress) {
-      throw new NotFoundException('Ipaddress not found');
+      throw new NotFoundException('IP Address not found');
+    }
+    return ipaddress;
+  }
+
+  async aggregatOneById(id: string, populate: boolean): Promise<Ipaddress> {
+    const ipaddress = await this.ipaddressModel
+      .findById(id, null, {
+        autopopulate: populate
+      })
+      .exec();
+    if (!ipaddress) {
+      throw new NotFoundException('IP Address not found');
     }
     return ipaddress;
   }
@@ -87,7 +99,7 @@ export class IpaddressesService {
       .findByIdAndUpdate(id, { $set: { ...updateIpaddressDto, indexip } }, { new: true })
       .exec();
     if (!updatedIpaddress) {
-      throw new NotFoundException('Ipaddress not found');
+      throw new NotFoundException('IP Address not found');
     }
     return updatedIpaddress;
   }
@@ -95,7 +107,7 @@ export class IpaddressesService {
   async removeOneById(id: string): Promise<Ipaddress> {
     const deletedIpaddress = await this.ipaddressModel.findByIdAndRemove(id).exec();
     if (!deletedIpaddress) {
-      throw new NotFoundException('Ipaddress not found');
+      throw new NotFoundException('IP Address not found');
     }
     return deletedIpaddress;
   }

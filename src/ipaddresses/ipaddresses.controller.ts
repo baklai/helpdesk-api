@@ -11,9 +11,11 @@ import {
   BadRequestException
 } from '@nestjs/common';
 import {
+  ApiAcceptedResponse,
   ApiBadRequestResponse,
   ApiBearerAuth,
   ApiCreatedResponse,
+  ApiMovedPermanentlyResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
@@ -35,8 +37,8 @@ import { UpdateIpaddressDto } from './dto/update-ipaddress.dto';
 
 @ApiTags('IP Addresses')
 @Controller('ipaddresses')
-@ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard, ScopesGuard)
+// @ApiBearerAuth('JWT Guard')
+// @UseGuards(AccessTokenGuard, ScopesGuard)
 export class IpaddressesController {
   constructor(private readonly ipaddressService: IpaddressesService) {}
 
@@ -58,21 +60,22 @@ export class IpaddressesController {
     summary: 'Get all IP Addresses',
     description: 'Required user scopes: [' + [Scope.IpaddressRead].join(',') + ']'
   })
-  @ApiBadRequestResponse({ description: 'Bad request' })
   @ApiOkResponse({ description: 'Success', type: PaginateIpaddress })
+  @ApiNotFoundResponse({ description: 'Not Found' })
+  @ApiBadRequestResponse({ description: 'Bad Request' })
   async findAll(@Query() paginateQueryDto: PaginateQueryDto): Promise<PaginateResult<Ipaddress>> {
     return await this.ipaddressService.findAll(paginateQueryDto);
   }
 
-  @Get('ipaddress')
-  @Scopes(Scope.IpaddressRead)
+  @Get('find')
+  // @Scopes(Scope.IpaddressRead)
   @ApiOperation({
     summary: 'Get a IP Address by IP Address',
     description: 'Required user scopes: [' + [Scope.IpaddressRead].join(',') + ']'
   })
   @ApiOkResponse({ description: 'Success', type: Ipaddress })
-  @ApiNotFoundResponse({ description: 'IP Address not found' })
-  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not Found' })
+  @ApiBadRequestResponse({ description: 'Bad Request' })
   async findOneByIP(
     @Query('ipaddress') ipaddress: string,
     @Query('populate') populate: boolean
@@ -84,7 +87,7 @@ export class IpaddressesController {
   }
 
   @Get(':id')
-  @Scopes(Scope.IpaddressRead)
+  // @Scopes(Scope.IpaddressRead)
   @ApiOperation({
     summary: 'Get a IP Address by ID',
     description: 'Required user scopes: [' + [Scope.IpaddressRead].join(',') + ']'
@@ -102,6 +105,25 @@ export class IpaddressesController {
     return await this.ipaddressService.findOneById(id, populate);
   }
 
+  @Get(':id/aggregate')
+  // @Scopes(Scope.IpaddressRead)
+  @ApiOperation({
+    summary: 'Get a IP Address by ID',
+    description: 'Required user scopes: [' + [Scope.IpaddressRead].join(',') + ']'
+  })
+  @ApiOkResponse({ description: 'Success', type: Ipaddress })
+  @ApiNotFoundResponse({ description: 'IP Address not found' })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  async aggregatOneById(
+    @Param('id') id: string,
+    @Query('populate') populate: boolean
+  ): Promise<Ipaddress> {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('Invalid ID');
+    }
+    return await this.ipaddressService.aggregatOneById(id, populate);
+  }
+
   @Put(':id')
   @Scopes(Scope.IpaddressUpdate)
   @ApiOperation({
@@ -110,7 +132,7 @@ export class IpaddressesController {
   })
   @ApiOkResponse({ description: 'IP Address updated successfully', type: Ipaddress })
   @ApiNotFoundResponse({ description: 'IP Address not found' })
-  @ApiBadRequestResponse({ description: 'Invalid ID' })
+  @ApiBadRequestResponse({ description: 'Bad request' })
   async updateOneById(
     @Param('id') id: string,
     @Body() updateChannelDto: UpdateIpaddressDto
