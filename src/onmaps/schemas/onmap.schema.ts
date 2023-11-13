@@ -19,7 +19,7 @@ export class Onmap {
   @ApiProperty({ description: 'The target address', example: '192.168.1.1' })
   @IsIP()
   @IsString()
-  @Prop({ type: String, required: true, unique: true, trim: true })
+  @Prop({ type: String, trim: true })
   readonly target: string;
 
   @ApiPropertyOptional({

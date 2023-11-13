@@ -15,11 +15,11 @@ export class OnmapsService {
   ) {}
 
   async create(createOnmapDto: CreateOnmapDto) {
-    const { title, target, profile } = createOnmapDto;
+    const { title, target, profile, flags } = createOnmapDto;
     const opts = {
       json: true,
       timeout: 900,
-      flags: profile,
+      flags: flags,
       ports: null,
       range: [target]
     };
@@ -33,7 +33,8 @@ export class OnmapsService {
             await this.onmapModel.create({
               title: title || `ONMAP Scan ${target}`,
               target: item,
-              flags: opts.flags || [],
+              profile: profile,
+              flags: opts.flags || flags || [],
               ...report[item]
             });
           } catch (err) {
@@ -68,6 +69,8 @@ export class OnmapsService {
           id: 1,
           title: 1,
           target: 1,
+          profile: 1,
+          flags: 1,
           updatedAt: 1
         }
       },

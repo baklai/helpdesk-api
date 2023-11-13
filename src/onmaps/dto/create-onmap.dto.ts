@@ -17,9 +17,16 @@ export class CreateOnmapDto {
   readonly target: string;
 
   @ApiProperty({
-    description: 'User ID associated with the notification',
-    example: ['-A', '-P4']
+    description: 'The profile scan name',
+    example: 'Ping scan'
+  })
+  @IsString()
+  readonly profile: string;
+
+  @ApiProperty({
+    description: 'The scan flags',
+    example: ['-sn', '-P4']
   })
   @IsArray()
-  readonly profile: string[];
+  readonly flags: string[];
 }
