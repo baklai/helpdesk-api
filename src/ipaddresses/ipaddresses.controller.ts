@@ -1,25 +1,26 @@
 import {
-  Controller,
   Get,
+  Put,
   Post,
   Body,
   Param,
-  Delete,
-  Put,
   Query,
+  Delete,
   UseGuards,
+  Controller,
   BadRequestException
 } from '@nestjs/common';
 import {
-  ApiAcceptedResponse,
   ApiBadRequestResponse,
-  ApiBearerAuth,
-  ApiCreatedResponse,
-  ApiMovedPermanentlyResponse,
   ApiNotFoundResponse,
+  ApiCreatedResponse,
+  ApiBearerAuth,
   ApiOkResponse,
   ApiOperation,
-  ApiTags
+  ApiTags,
+  ApiQuery,
+  ApiParam,
+  ApiBody
 } from '@nestjs/swagger';
 import { PaginateResult, Types } from 'mongoose';
 import { isIP } from 'net';
@@ -30,26 +31,26 @@ import { ScopesGuard } from 'src/common/guards/scopes.guard';
 import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
 
-import { IpaddressesService } from './ipaddresses.service';
 import { Ipaddress, PaginateIpaddress } from './schemas/ipaddress.schema';
+import { IpaddressesService } from './ipaddresses.service';
 import { CreateIpaddressDto } from './dto/create-ipaddress.dto';
 import { UpdateIpaddressDto } from './dto/update-ipaddress.dto';
 
 @ApiTags('IP Addresses')
 @Controller('ipaddresses')
-// @ApiBearerAuth('JWT Guard')
-// @UseGuards(AccessTokenGuard, ScopesGuard)
+@ApiBearerAuth('JWT Guard')
+@UseGuards(AccessTokenGuard, ScopesGuard)
 export class IpaddressesController {
   constructor(private readonly ipaddressService: IpaddressesService) {}
 
   @Post()
   @Scopes(Scope.IpaddressCreate)
   @ApiOperation({
-    summary: 'Create a new IP Address',
-    description: 'Required user scopes: [' + [Scope.IpaddressCreate].join(',') + ']'
+    summary: 'Create new record',
+    description: 'Required scopes: [' + [Scope.IpaddressCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'IP Address created successfully', type: Ipaddress })
-  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiCreatedResponse({ description: 'Success', type: Ipaddress })
+  @ApiBadRequestResponse({ description: 'Bad Request' })
   async create(@Body() createIpaddressDto: CreateIpaddressDto): Promise<Ipaddress> {
     return await this.ipaddressService.create(createIpaddressDto);
   }
@@ -57,105 +58,84 @@ export class IpaddressesController {
   @Get()
   @Scopes(Scope.IpaddressRead)
   @ApiOperation({
-    summary: 'Get all IP Addresses',
-    description: 'Required user scopes: [' + [Scope.IpaddressRead].join(',') + ']'
+    summary: 'Get all records',
+    description: 'Required scopes: [' + [Scope.IpaddressRead].join(',') + ']'
   })
   @ApiOkResponse({ description: 'Success', type: PaginateIpaddress })
-  @ApiNotFoundResponse({ description: 'Not Found' })
   @ApiBadRequestResponse({ description: 'Bad Request' })
   async findAll(@Query() paginateQueryDto: PaginateQueryDto): Promise<PaginateResult<Ipaddress>> {
     return await this.ipaddressService.findAll(paginateQueryDto);
   }
 
   @Get('find')
-  // @Scopes(Scope.IpaddressRead)
+  @Scopes(Scope.IpaddressRead)
   @ApiOperation({
-    summary: 'Get a IP Address by IP Address',
-    description: 'Required user scopes: [' + [Scope.IpaddressRead].join(',') + ']'
+    summary: 'Get record by field',
+    description: 'Required scopes: [' + [Scope.IpaddressRead].join(',') + ']'
   })
   @ApiOkResponse({ description: 'Success', type: Ipaddress })
-  @ApiNotFoundResponse({ description: 'Not Found' })
-  @ApiBadRequestResponse({ description: 'Bad Request' })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiQuery({ name: 'ipaddress', description: 'The value of the field', type: String })
+  @ApiQuery({ name: 'populate', description: 'The populate records', type: Boolean })
+  @ApiQuery({ name: 'aggregate', description: 'The aggregate records', type: Boolean })
   async findOneByIP(
     @Query('ipaddress') ipaddress: string,
-    @Query('populate') populate: boolean
+    @Query('populate') populate: boolean,
+    @Query('aggregate') aggregate: boolean
   ): Promise<Ipaddress> {
-    if (!isIP(ipaddress)) {
-      throw new BadRequestException('Invalid IP Address');
-    }
-    return await this.ipaddressService.findOneByIP(ipaddress, populate);
+    return await this.ipaddressService.findOneByIP(ipaddress, populate, aggregate);
   }
 
   @Get(':id')
-  // @Scopes(Scope.IpaddressRead)
+  @Scopes(Scope.IpaddressRead)
   @ApiOperation({
-    summary: 'Get a IP Address by ID',
-    description: 'Required user scopes: [' + [Scope.IpaddressRead].join(',') + ']'
+    summary: 'Get record by ID',
+    description: 'Required scopes: [' + [Scope.IpaddressRead].join(',') + ']'
   })
   @ApiOkResponse({ description: 'Success', type: Ipaddress })
-  @ApiNotFoundResponse({ description: 'IP Address not found' })
   @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiQuery({ name: 'populate', description: 'The populate records', type: Boolean })
+  @ApiQuery({ name: 'aggregate', description: 'The aggregate records', type: Boolean })
   async findOneById(
     @Param('id') id: string,
-    @Query('populate') populate: boolean
+    @Query('populate') populate: boolean,
+    @Query('aggregate') aggregate: boolean
   ): Promise<Ipaddress> {
-    if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid ID');
-    }
-    return await this.ipaddressService.findOneById(id, populate);
-  }
-
-  @Get(':id/aggregate')
-  // @Scopes(Scope.IpaddressRead)
-  @ApiOperation({
-    summary: 'Get a IP Address by ID',
-    description: 'Required user scopes: [' + [Scope.IpaddressRead].join(',') + ']'
-  })
-  @ApiOkResponse({ description: 'Success', type: Ipaddress })
-  @ApiNotFoundResponse({ description: 'IP Address not found' })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  async aggregatOneById(
-    @Param('id') id: string,
-    @Query('populate') populate: boolean
-  ): Promise<Ipaddress> {
-    if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid ID');
-    }
-    return await this.ipaddressService.aggregatOneById(id, populate);
+    return await this.ipaddressService.findOneById(id, populate, aggregate);
   }
 
   @Put(':id')
   @Scopes(Scope.IpaddressUpdate)
   @ApiOperation({
-    summary: 'Update a IP Address by ID',
-    description: 'Required user scopes: [' + [Scope.IpaddressUpdate].join(',') + ']'
+    summary: 'Update record by ID',
+    description: 'Required scopes: [' + [Scope.IpaddressUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'IP Address updated successfully', type: Ipaddress })
-  @ApiNotFoundResponse({ description: 'IP Address not found' })
+  @ApiOkResponse({ description: 'Success', type: Ipaddress })
   @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiBody({ description: 'Request body object', type: UpdateIpaddressDto })
   async updateOneById(
     @Param('id') id: string,
-    @Body() updateChannelDto: UpdateIpaddressDto
+    @Body() updateIpaddressDto: UpdateIpaddressDto
   ): Promise<Ipaddress> {
-    if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid ID');
-    }
-    return await this.ipaddressService.updateOneById(id, updateChannelDto);
+    return await this.ipaddressService.updateOneById(id, updateIpaddressDto);
   }
 
   @Delete(':id')
   @Scopes(Scope.IpaddressDelete)
   @ApiOperation({
-    summary: 'Delete a IP Address by ID',
-    description: 'Required user scopes: [' + [Scope.IpaddressDelete].join(',') + ']'
+    summary: 'Delete record by ID',
+    description: 'Required scopes: [' + [Scope.IpaddressDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'IP Address deleted successfully', type: Ipaddress })
-  @ApiNotFoundResponse({ description: 'IP Address not found' })
+  @ApiOkResponse({ description: 'Success', type: Ipaddress })
   @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
   async removeOneById(@Param('id') id: string): Promise<Ipaddress> {
-    if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid ID');
-    }
     return await this.ipaddressService.removeOneById(id);
   }
 }

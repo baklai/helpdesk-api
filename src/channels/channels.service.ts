@@ -3,7 +3,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Types, PaginateModel, PaginateResult } from 'mongoose';
 
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
-
 import { Channel } from './schemas/channel.schema';
 import { CreateChannelDto } from './dto/create-channel.dto';
 import { UpdateChannelDto } from './dto/update-channel.dto';
@@ -18,7 +17,6 @@ export class ChannelsService {
 
   async findAll(query: PaginateQueryDto): Promise<PaginateResult<Channel>> {
     const { offset = 0, limit = 5, sort = { locationFrom: 1 }, filters = {} } = query;
-
     return await this.channelModel.paginate(
       { ...filters },
       {
@@ -31,37 +29,37 @@ export class ChannelsService {
     );
   }
 
-  async findOneById(id: Types.ObjectId): Promise<Channel> {
+  async findOneById(id: string): Promise<Channel> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid channel ID');
+      throw new BadRequestException('Invalid record ID');
     }
     const channel = await this.channelModel.findById(id).exec();
     if (!channel) {
-      throw new NotFoundException('Channel not found');
+      throw new NotFoundException('Record not found');
     }
     return channel;
   }
 
-  async updateOneById(id: Types.ObjectId, updateChannelDto: UpdateChannelDto): Promise<Channel> {
+  async updateOneById(id: string, updateChannelDto: UpdateChannelDto): Promise<Channel> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid channel ID');
+      throw new BadRequestException('Invalid record ID');
     }
     const updatedChannel = await this.channelModel
       .findByIdAndUpdate(id, { $set: updateChannelDto }, { new: true })
       .exec();
     if (!updatedChannel) {
-      throw new NotFoundException('Channel not found');
+      throw new NotFoundException('Record not found');
     }
     return updatedChannel;
   }
 
-  async removeOneById(id: Types.ObjectId): Promise<Channel> {
+  async removeOneById(id: string): Promise<Channel> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid channel ID');
+      throw new BadRequestException('Invalid record ID');
     }
     const deletedChannel = await this.channelModel.findByIdAndRemove(id).exec();
     if (!deletedChannel) {
-      throw new NotFoundException('Channel not found');
+      throw new NotFoundException('Record not found');
     }
     return deletedChannel;
   }

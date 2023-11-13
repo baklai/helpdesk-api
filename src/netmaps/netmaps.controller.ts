@@ -2,10 +2,11 @@ import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { NetmapsService } from './netmaps.service';
 import {
   ApiBadRequestResponse,
-  ApiBearerAuth,
   ApiNotFoundResponse,
   ApiOkResponse,
+  ApiBearerAuth,
   ApiOperation,
+  ApiParam,
   ApiTags
 } from '@nestjs/swagger';
 
@@ -13,7 +14,6 @@ import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { ScopesGuard } from 'src/common/guards/scopes.guard';
 import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
-import { Types } from 'mongoose';
 
 @ApiTags('Network maps')
 @Controller('netmaps')
@@ -25,13 +25,14 @@ export class NetmapsController {
   @Get(':id')
   @Scopes(Scope.NetmapRead)
   @ApiOperation({
-    summary: 'Get a location by ID',
-    description: 'Required user scopes: [' + [Scope.NetmapRead].join(',') + ']'
+    summary: 'Get record by ID',
+    description: 'Required scopes: [' + [Scope.NetmapRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success' })
-  @ApiNotFoundResponse({ description: 'Location not found' })
-  @ApiBadRequestResponse({ description: 'Invalid location ID' })
-  async networkMap(@Param('id') id: Types.ObjectId) {
+  @ApiOkResponse({ description: 'Success', type: Object })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  async networkMap(@Param('id') id: string) {
     return this.netmapsService.networkMap(id);
   }
 }

@@ -6,17 +6,16 @@ import {
   Body,
   Query,
   Delete,
+  UseGuards,
   Controller,
   UploadedFile,
-  UseInterceptors,
-  UseGuards
+  UseInterceptors
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Express, Response } from 'express';
 import { ApiBearerAuth, ApiExcludeController, ApiTags } from '@nestjs/swagger';
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-
 import { FtpclientService } from './ftpclient.service';
 
 @ApiTags('FTP Client')

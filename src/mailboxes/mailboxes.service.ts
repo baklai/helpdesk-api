@@ -1,10 +1,11 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { PaginateModel, PaginateResult, Types } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+
+import { Mailbox } from './schemas/mailbox.schema';
+import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 import { CreateMailboxDto } from './dto/create-mailbox.dto';
 import { UpdateMailboxDto } from './dto/update-mailbox.dto';
-import { InjectModel } from '@nestjs/mongoose';
-import { Mailbox } from './schemas/mailbox.schema';
-import { PaginateModel, PaginateResult, Types } from 'mongoose';
-import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 
 @Injectable()
 export class MailboxesService {
@@ -45,7 +46,7 @@ export class MailboxesService {
     );
   }
 
-  async findOneById(id: Types.ObjectId, populate: boolean): Promise<Mailbox> {
+  async findOneById(id: string, populate: boolean = false): Promise<Mailbox> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid mailbox ID');
     }
@@ -60,7 +61,7 @@ export class MailboxesService {
     return mailbox;
   }
 
-  async updateOneById(id: Types.ObjectId, updateMailboxDto: UpdateMailboxDto): Promise<Mailbox> {
+  async updateOneById(id: string, updateMailboxDto: UpdateMailboxDto): Promise<Mailbox> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid mailbox ID');
     }
@@ -73,7 +74,7 @@ export class MailboxesService {
     return updatedMailbox;
   }
 
-  async removeOneById(id: Types.ObjectId): Promise<Mailbox> {
+  async removeOneById(id: string): Promise<Mailbox> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid mailbox ID');
     }

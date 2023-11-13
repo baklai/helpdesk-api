@@ -5,7 +5,6 @@ import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { ScopesGuard } from 'src/common/guards/scopes.guard';
 import { Scope } from 'src/common/enums/scope.enum';
-
 import { ReportsService } from './reports.service';
 
 @ApiTags('Reports')
@@ -17,31 +16,31 @@ export class ReportsController {
   constructor(private readonly reportsService: ReportsService) {}
 
   @Get('unwanted-software')
-  @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'List of unwanted software',
-    description: 'Required user scopes: [' + [Scope.ReportRead].join(',') + ']'
+    description: 'Required scopes: [' + [Scope.ReportRead].join(',') + ']'
   })
+  @HttpCode(HttpStatus.OK)
   async getUnwantedSoftware() {
     return this.reportsService.getUnwantedSoftware();
   }
 
   @Get('internet-access')
-  @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'List of users with internet access',
-    description: 'Required user scopes: [' + [Scope.ReportRead].join(',') + ']'
+    description: 'Required scopes: [' + [Scope.ReportRead].join(',') + ']'
   })
+  @HttpCode(HttpStatus.OK)
   async getInternetAccess() {
     return this.reportsService.getInternetAccess();
   }
 
   @Get('users-email')
-  @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'List of users with email',
-    description: 'Required user scopes: [' + [Scope.ReportRead].join(',') + ']'
+    description: 'Required scopes: [' + [Scope.ReportRead].join(',') + ']'
   })
+  @HttpCode(HttpStatus.OK)
   async getEmails() {
     return this.reportsService.getUsersEmail();
   }

@@ -8,17 +8,15 @@ import { Ipaddress } from 'src/ipaddresses/schemas/ipaddress.schema';
 export class NetmapsService {
   constructor(@InjectModel(Ipaddress.name) private readonly ipaddressModel: Model<Ipaddress>) {}
 
-  async networkMap(id: Types.ObjectId) {
+  async networkMap(id: string) {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid location ID');
+      throw new BadRequestException('Invalid record ID');
     }
-
     const records = await this.ipaddressModel
       .find({ location: new Types.ObjectId(id) }, null, {
         autopopulate: true
       })
       .limit(255);
-
     return records.map((record: Record<string, any>) => {
       return {
         id: record.id,

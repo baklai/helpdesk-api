@@ -6,6 +6,7 @@ const nmap = require('libnmap');
 
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 import { Onmap } from './schemas/onmap.schema';
+import { CreateOnmapDto } from './dto/create-onmap.dto';
 
 @Injectable()
 export class OnmapsService {
@@ -13,7 +14,7 @@ export class OnmapsService {
     @InjectModel(Onmap.name) private readonly onmapModel: AggregatePaginateModel<Onmap>
   ) {}
 
-  async create(createOnmapDto: Record<string, any>) {
+  async create(createOnmapDto: CreateOnmapDto) {
     const { title, target, profile } = createOnmapDto;
     const opts = {
       json: true,
@@ -82,24 +83,24 @@ export class OnmapsService {
     });
   }
 
-  async findOneById(id: Types.ObjectId): Promise<Onmap> {
+  async findOneById(id: string): Promise<Onmap> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid report ID');
+      throw new BadRequestException('Invalid record ID');
     }
     const report = await this.onmapModel.findById(id).exec();
     if (!report) {
-      throw new NotFoundException('Report not found');
+      throw new NotFoundException('Record not found');
     }
     return report;
   }
 
-  async removeOneById(id: Types.ObjectId): Promise<Onmap> {
+  async removeOneById(id: string): Promise<Onmap> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid report ID');
+      throw new BadRequestException('Invalid record ID');
     }
     const deletedInspector = await this.onmapModel.findByIdAndRemove(id).exec();
     if (!deletedInspector) {
-      throw new NotFoundException('Report not found');
+      throw new NotFoundException('Record not found');
     }
     return deletedInspector;
   }

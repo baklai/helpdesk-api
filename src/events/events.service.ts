@@ -12,8 +12,7 @@ export class EventsService {
   constructor(@InjectModel(Event.name) private readonly eventModel: Model<Event>) {}
 
   async create(createEventDto: CreateEventDto): Promise<Event> {
-    const createdEvent = await this.eventModel.create(createEventDto);
-    return createdEvent;
+    return await this.eventModel.create(createEventDto);
   }
 
   async findAll(query: QueryEventDto): Promise<Event[]> {
@@ -24,37 +23,37 @@ export class EventsService {
       .exec();
   }
 
-  async findOneById(id: Types.ObjectId): Promise<Event> {
+  async findOneById(id: string): Promise<Event> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid event ID');
+      throw new BadRequestException('Invalid record ID');
     }
     const event = await this.eventModel.findById(id).exec();
     if (!event) {
-      throw new NotFoundException('Event not found');
+      throw new NotFoundException('Record not found');
     }
     return event;
   }
 
-  async updateOneById(id: Types.ObjectId, updateEventDto: UpdateEventDto): Promise<Event> {
+  async updateOneById(id: string, updateEventDto: UpdateEventDto): Promise<Event> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid event ID');
+      throw new BadRequestException('Invalid record ID');
     }
     const updatedEvent = await this.eventModel
       .findByIdAndUpdate(id, { $set: updateEventDto }, { new: true })
       .exec();
     if (!updatedEvent) {
-      throw new NotFoundException('Event not found');
+      throw new NotFoundException('Record not found');
     }
     return updatedEvent;
   }
 
-  async removeOneById(id: Types.ObjectId): Promise<Event> {
+  async removeOneById(id: string): Promise<Event> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid event ID');
+      throw new BadRequestException('Invalid record ID');
     }
     const deletedEvent = await this.eventModel.findByIdAndRemove(id).exec();
     if (!deletedEvent) {
-      throw new NotFoundException('Event not found');
+      throw new NotFoundException('Record not found');
     }
     return deletedEvent;
   }

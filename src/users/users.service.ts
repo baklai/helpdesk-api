@@ -1,7 +1,7 @@
 import {
-  BadRequestException,
   Injectable,
   NotFoundException,
+  BadRequestException,
   UnprocessableEntityException
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -10,7 +10,6 @@ import { Types, PaginateModel, PaginateResult } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
-
 import { User } from './schemas/user.schema';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -56,13 +55,13 @@ export class UsersService {
     return await this.userModel.find().select({ id: 1, login: 1, fullname: 1 }).exec();
   }
 
-  async findOneById(id: Types.ObjectId): Promise<User> {
+  async findOneById(id: string): Promise<User> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid user ID');
+      throw new BadRequestException('Invalid record ID');
     }
     const user = await this.userModel.findById(id).exec();
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Record not found');
     }
     return user;
   }
@@ -70,14 +69,14 @@ export class UsersService {
   async findOneByLogin(login: string): Promise<User> {
     const user = await this.userModel.findOne({ login }).exec();
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Record not found');
     }
     return user;
   }
 
-  async updateOneById(id: Types.ObjectId, updateUserDto: UpdateUserDto): Promise<User> {
+  async updateOneById(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid user ID');
+      throw new BadRequestException('Invalid record ID');
     }
     try {
       const updatedUser = await this.userModel
@@ -98,7 +97,7 @@ export class UsersService {
         )
         .exec();
       if (!updatedUser) {
-        throw new NotFoundException('User not found');
+        throw new NotFoundException('Record not found');
       }
       return updatedUser;
     } catch (error) {
@@ -106,13 +105,13 @@ export class UsersService {
     }
   }
 
-  async removeOneById(id: Types.ObjectId): Promise<User> {
+  async removeOneById(id: string): Promise<User> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid user ID');
+      throw new BadRequestException('Invalid record ID');
     }
     const deletedUser = await this.userModel.findByIdAndRemove(id).exec();
     if (!deletedUser) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Record not found');
     }
     return deletedUser;
   }

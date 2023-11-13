@@ -1,12 +1,14 @@
 import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  ApiBearerAuth,
   ApiConflictResponse,
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
+  ApiBearerAuth,
   ApiOperation,
+  ApiParam,
+  ApiBody,
   ApiTags
 } from '@nestjs/swagger';
 
@@ -31,12 +33,13 @@ export class UnitsController {
   @Post()
   @Scopes(Scope.UnitCreate)
   @ApiOperation({
-    summary: 'Create a new unit',
-    description: 'Required user scopes: [' + [Scope.UnitCreate].join(',') + ']'
+    summary: 'Create new record',
+    description: 'Required scopes: [' + [Scope.UnitCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Unit created successfully', type: Unit })
-  @ApiConflictResponse({ description: 'A unit with the same name already exists' })
+  @ApiCreatedResponse({ description: 'Success', type: Unit })
   @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiConflictResponse({ description: 'Conflict' })
+  @ApiBody({ description: 'Request body object', type: CreateUnitDto })
   async create(@Body() createUnitDto: CreateUnitDto): Promise<Unit> {
     return await this.unitsService.create(createUnitDto);
   }
@@ -44,10 +47,11 @@ export class UnitsController {
   @Get()
   @Scopes(Scope.UnitRead)
   @ApiOperation({
-    summary: 'Get all units',
-    description: 'Required user scopes: [' + [Scope.UnitRead].join(',') + ']'
+    summary: 'Get all records',
+    description: 'Required scopes: [' + [Scope.UnitRead].join(',') + ']'
   })
   @ApiOkResponse({ description: 'Success', type: [Unit] })
+  @ApiBadRequestResponse({ description: 'Bad request' })
   async findAll(): Promise<Unit[]> {
     return await this.unitsService.findAll();
   }
@@ -55,28 +59,31 @@ export class UnitsController {
   @Get(':id')
   @Scopes(Scope.UnitRead)
   @ApiOperation({
-    summary: 'Get a unit by ID',
-    description: 'Required user scopes: [' + [Scope.UnitRead].join(',') + ']'
+    summary: 'Get record by ID',
+    description: 'Required scopes: [' + [Scope.UnitRead].join(',') + ']'
   })
   @ApiOkResponse({ description: 'Success', type: Unit })
-  @ApiNotFoundResponse({ description: 'Unit not found' })
-  @ApiBadRequestResponse({ description: 'Invalid unit ID' })
-  async findOneById(@Param('id') id: Types.ObjectId): Promise<Unit> {
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  async findOneById(@Param('id') id: string): Promise<Unit> {
     return await this.unitsService.findOneById(id);
   }
 
   @Put(':id')
   @Scopes(Scope.UnitUpdate)
   @ApiOperation({
-    summary: 'Update a unit by ID',
-    description: 'Required user scopes: [' + [Scope.UnitUpdate].join(',') + ']'
+    summary: 'Update record by ID',
+    description: 'Required scopes: [' + [Scope.UnitUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Unit updated successfully', type: Unit })
-  @ApiNotFoundResponse({ description: 'Unit not found' })
-  @ApiConflictResponse({ description: 'A unit with the same name already exists' })
-  @ApiBadRequestResponse({ description: 'Invalid unit ID' })
+  @ApiOkResponse({ description: 'Success', type: Unit })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiConflictResponse({ description: 'Conflict' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiBody({ description: 'Request body object', type: UpdateUnitDto })
   async updateOneById(
-    @Param('id') id: Types.ObjectId,
+    @Param('id') id: string,
     @Body() updateUnitDto: UpdateUnitDto
   ): Promise<Unit> {
     return await this.unitsService.updateOneById(id, updateUnitDto);
@@ -85,13 +92,14 @@ export class UnitsController {
   @Delete(':id')
   @Scopes(Scope.UnitDelete)
   @ApiOperation({
-    summary: 'Delete a unit by ID',
-    description: 'Required user scopes: [' + [Scope.UnitDelete].join(',') + ']'
+    summary: 'Delete record by ID',
+    description: 'Required scopes: [' + [Scope.UnitDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Unit deleted successfully', type: Unit })
-  @ApiNotFoundResponse({ description: 'Unit not found' })
-  @ApiBadRequestResponse({ description: 'Invalid unit ID' })
-  async removeOneById(@Param('id') id: Types.ObjectId): Promise<Unit> {
+  @ApiOkResponse({ description: 'Success', type: Unit })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  async removeOneById(@Param('id') id: string): Promise<Unit> {
     return await this.unitsService.removeOneById(id);
   }
 }

@@ -32,29 +32,29 @@ export class SyslogsService {
   async removeAll(): Promise<string> {
     const deletedSyslog = await this.syslogModel.deleteMany().exec();
     if (!deletedSyslog) {
-      throw new NotFoundException('Syslog not found');
+      throw new NotFoundException('Record not found');
     }
     return 'Ok';
   }
 
-  async findOneById(id: Types.ObjectId): Promise<Syslog> {
+  async findOneById(id: string): Promise<Syslog> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid syslog ID');
+      throw new BadRequestException('Invalid record ID');
     }
     const syslog = await this.syslogModel.findById(id).exec();
     if (!syslog) {
-      throw new NotFoundException('Syslog not found');
+      throw new NotFoundException('Record not found');
     }
     return syslog;
   }
 
-  async removeOneById(id: Types.ObjectId): Promise<Syslog> {
+  async removeOneById(id: string): Promise<Syslog> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid syslog ID');
+      throw new BadRequestException('Invalid record ID');
     }
     const deletedSyslog = await this.syslogModel.findByIdAndRemove(id).exec();
     if (!deletedSyslog) {
-      throw new NotFoundException('Syslog not found');
+      throw new NotFoundException('Record not found');
     }
     return deletedSyslog;
   }

@@ -1,16 +1,18 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Types, AggregatePaginateModel, AggregatePaginateResult, Model } from 'mongoose';
+import { isIP } from 'class-validator';
 
 import { Filter } from 'src/filters/schemas/filter.schema';
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
-
 import { Inspector } from './schemas/inspector.schema';
+import { Ipaddress } from 'src/ipaddresses/schemas/ipaddress.schema';
 
 @Injectable()
 export class InspectorsService {
   constructor(
     @InjectModel(Inspector.name) private readonly inspectorModel: AggregatePaginateModel<Inspector>,
+    @InjectModel(Ipaddress.name) private readonly ipaddressModel: Model<Ipaddress>,
     @InjectModel(Filter.name) private readonly sysfilterModel: Model<Filter>
   ) {}
 
@@ -279,26 +281,55 @@ export class InspectorsService {
     });
   }
 
-  async findOneById(id: string): Promise<Inspector> {
+  async findOneById(
+    id: string,
+    populate: boolean = false,
+    aggregate: boolean = false
+  ): Promise<Inspector | any> {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('Invalid record ID');
+    }
     const inspector = await this.inspectorModel.findById(id).exec();
     if (!inspector) {
-      throw new NotFoundException('Inspector not found');
+      throw new NotFoundException('Record not found');
     }
-    return inspector;
+    if (!aggregate) return inspector;
+    const ipaddress = await this.ipaddressModel
+      .findOne({ ipaddress: inspector.host }, null, {
+        autopopulate: populate
+      })
+      .exec();
+    return { inspector, ipaddress };
   }
 
-  async findOneByIP(host: string): Promise<Inspector> {
+  async findOneByHost(
+    host: string,
+    populate: boolean = false,
+    aggregate: boolean = false
+  ): Promise<Inspector | any> {
+    if (!isIP(host)) {
+      throw new BadRequestException('Invalid field value');
+    }
     const inspector = await this.inspectorModel.findOne({ host }).exec();
     if (!inspector) {
-      throw new NotFoundException('Inspector not found');
+      throw new NotFoundException('Record not found');
     }
-    return inspector;
+    if (!aggregate) return inspector;
+    const ipaddress = await this.ipaddressModel
+      .findOne({ ipaddress: inspector.host }, null, {
+        autopopulate: populate
+      })
+      .exec();
+    return { inspector, ipaddress };
   }
 
   async removeOneById(id: string): Promise<Inspector> {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('Invalid record ID');
+    }
     const deletedInspector = await this.inspectorModel.findByIdAndRemove(id).exec();
     if (!deletedInspector) {
-      throw new NotFoundException('Inspector not found');
+      throw new NotFoundException('Record not found');
     }
     return deletedInspector;
   }

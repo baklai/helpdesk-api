@@ -1,35 +1,26 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseGuards,
-  Query,
-  Put
-} from '@nestjs/common';
+import { Controller, UseGuards, Get, Post, Body, Param, Delete, Query, Put } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  ApiBearerAuth,
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
+  ApiBearerAuth,
   ApiOperation,
-  ApiTags
+  ApiParam,
+  ApiQuery,
+  ApiTags,
+  ApiBody
 } from '@nestjs/swagger';
+import { PaginateResult } from 'mongoose';
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { ScopesGuard } from 'src/common/guards/scopes.guard';
-
 import { MailboxesService } from './mailboxes.service';
 import { CreateMailboxDto } from './dto/create-mailbox.dto';
 import { UpdateMailboxDto } from './dto/update-mailbox.dto';
 import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
 import { Mailbox, PaginateMailbox } from './schemas/mailbox.schema';
-import { PaginateResult, Types } from 'mongoose';
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 
 @ApiTags('Mailboxes')
@@ -42,11 +33,12 @@ export class MailboxesController {
   @Post()
   @Scopes(Scope.MailboxCreate)
   @ApiOperation({
-    summary: 'Create a new ipaddress',
-    description: 'Required user scopes: [' + [Scope.MailboxCreate].join(',') + ']'
+    summary: 'Create new record',
+    description: 'Required scopes: [' + [Scope.MailboxCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Mailbox created successfully', type: Mailbox })
+  @ApiCreatedResponse({ description: 'Success', type: Mailbox })
   @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiBody({ description: 'Request body object', type: CreateMailboxDto })
   async create(@Body() createMailboxDto: CreateMailboxDto): Promise<Mailbox> {
     return await this.mailboxesService.create(createMailboxDto);
   }
@@ -54,10 +46,11 @@ export class MailboxesController {
   @Get()
   @Scopes(Scope.MailboxRead)
   @ApiOperation({
-    summary: 'Get all mailboxes',
-    description: 'Required user scopes: [' + [Scope.MailboxRead].join(',') + ']'
+    summary: 'Get all records',
+    description: 'Required scopes: [' + [Scope.MailboxRead].join(',') + ']'
   })
   @ApiOkResponse({ description: 'Success', type: PaginateMailbox })
+  @ApiBadRequestResponse({ description: 'Bad request' })
   async findAll(@Query() query: PaginateQueryDto): Promise<PaginateResult<Mailbox>> {
     return await this.mailboxesService.findAll(query);
   }
@@ -65,14 +58,16 @@ export class MailboxesController {
   @Get(':id')
   @Scopes(Scope.MailboxRead)
   @ApiOperation({
-    summary: 'Get a mailbox by ID',
-    description: 'Required user scopes: [' + [Scope.MailboxRead].join(',') + ']'
+    summary: 'Get record by ID',
+    description: 'Required scopes: [' + [Scope.MailboxRead].join(',') + ']'
   })
   @ApiOkResponse({ description: 'Success', type: Mailbox })
-  @ApiNotFoundResponse({ description: 'Mailbox not found' })
-  @ApiBadRequestResponse({ description: 'Invalid mailbox ID' })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiQuery({ name: 'populate', description: 'The populate records', type: Boolean })
   async findOneById(
-    @Param('id') id: Types.ObjectId,
+    @Param('id') id: string,
     @Query('populate') populate: boolean
   ): Promise<Mailbox> {
     return await this.mailboxesService.findOneById(id, populate);
@@ -81,14 +76,16 @@ export class MailboxesController {
   @Put(':id')
   @Scopes(Scope.MailboxUpdate)
   @ApiOperation({
-    summary: 'Update a mailbox by ID',
-    description: 'Required user scopes: [' + [Scope.MailboxUpdate].join(',') + ']'
+    summary: 'Update record by ID',
+    description: 'Required scopes: [' + [Scope.MailboxUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Mailbox updated successfully', type: Mailbox })
-  @ApiNotFoundResponse({ description: 'Mailbox not found' })
-  @ApiBadRequestResponse({ description: 'Invalid mailbox ID' })
+  @ApiOkResponse({ description: 'Success', type: Mailbox })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiBody({ description: 'Request body object', type: UpdateMailboxDto })
   async updateOneById(
-    @Param('id') id: Types.ObjectId,
+    @Param('id') id: string,
     @Body() updateMailboxDto: UpdateMailboxDto
   ): Promise<Mailbox> {
     return await this.mailboxesService.updateOneById(id, updateMailboxDto);
@@ -97,13 +94,14 @@ export class MailboxesController {
   @Delete(':id')
   @Scopes(Scope.MailboxDelete)
   @ApiOperation({
-    summary: 'Delete a mailbox by ID',
-    description: 'Required user scopes: [' + [Scope.MailboxDelete].join(',') + ']'
+    summary: 'Delete record by ID',
+    description: 'Required scopes: [' + [Scope.MailboxDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Mailbox deleted successfully', type: Mailbox })
-  @ApiNotFoundResponse({ description: 'Mailbox not found' })
-  @ApiBadRequestResponse({ description: 'Invalid mailbox ID' })
-  async removeOneById(@Param('id') id: Types.ObjectId): Promise<Mailbox> {
+  @ApiOkResponse({ description: 'Success', type: Mailbox })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  async removeOneById(@Param('id') id: string): Promise<Mailbox> {
     return await this.mailboxesService.removeOneById(id);
   }
 }

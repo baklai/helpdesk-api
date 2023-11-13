@@ -11,13 +11,13 @@ import { QueryDto } from './dto/query-systool.dto';
 export class SystoolsController {
   constructor(private readonly systoolsService: SystoolsService) {}
 
-  @Get('/ping-online')
+  @Get('ping-online')
   @ApiOperation({ summary: 'Execute a ping command and return the response' })
   onCommandPing(@Query() query: QueryDto): Promise<pingResponse> {
     return this.systoolsService.commandPing(query);
   }
 
-  @Get('/inspector')
+  @Get('inspector')
   @ApiOperation({ summary: 'Retrieve a script for inspecting system information' })
   onScriptInspector(@Req() request: Request, @Res() res: Response) {
     const protocol = request.protocol;
@@ -26,14 +26,14 @@ export class SystoolsController {
     res.send(blob);
   }
 
-  @Get('/ping')
+  @Get('ping')
   @ApiOperation({ summary: 'Generate a ping link' })
   onLinkPing(@Query() query: QueryDto, @Res() res: Response) {
     const blob = this.systoolsService.linkPing(query);
     res.send(blob);
   }
 
-  @Get('/rdp')
+  @Get('rdp')
   @Header('content-type', 'application/octet-stream')
   @ApiOperation({ summary: 'Generate an RDP (Remote Desktop Protocol) link' })
   onLinkRDP(@Query() query: QueryDto, @Res() res: Response) {
@@ -41,7 +41,7 @@ export class SystoolsController {
     res.send(blob);
   }
 
-  @Get('/vnc')
+  @Get('vnc')
   @ApiOperation({ summary: 'Generate a VNC (Virtual Network Computing) link' })
   onLinkVNC(@Query() query: QueryDto, @Res() res: Response) {
     const blob = this.systoolsService.linkVNC(query);

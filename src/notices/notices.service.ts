@@ -14,16 +14,19 @@ export class NoticesService {
   }
 
   async findAll(userId: string): Promise<Notice[]> {
+    if (!Types.ObjectId.isValid(userId)) {
+      throw new BadRequestException('Invalid record ID');
+    }
     return await this.noticeModel.find({ userId }).exec();
   }
 
-  async removeOneById(id: Types.ObjectId, userId: string): Promise<Notice> {
+  async removeOneById(id: string, userId: string): Promise<Notice> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid notice ID');
+      throw new BadRequestException('Invalid record ID');
     }
     const deletedNotice = await this.noticeModel.findOneAndRemove({ _id: id, userId }).exec();
     if (!deletedNotice) {
-      throw new NotFoundException('Notice not found');
+      throw new NotFoundException('Record not found');
     }
     return deletedNotice;
   }

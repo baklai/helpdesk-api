@@ -1,12 +1,14 @@
 import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  ApiBearerAuth,
   ApiConflictResponse,
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
+  ApiBearerAuth,
   ApiOperation,
+  ApiParam,
+  ApiBody,
   ApiTags
 } from '@nestjs/swagger';
 
@@ -14,12 +16,10 @@ import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { ScopesGuard } from 'src/common/guards/scopes.guard';
 import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
-
 import { LocationsService } from './locations.service';
 import { Location } from './schemas/location.schema';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
-import { Types } from 'mongoose';
 
 @ApiTags('Locations')
 @Controller('locations')
@@ -31,12 +31,13 @@ export class LocationsController {
   @Post()
   @Scopes(Scope.LocationCreate)
   @ApiOperation({
-    summary: 'Create a new location',
-    description: 'Required user scopes: [' + [Scope.LocationCreate].join(',') + ']'
+    summary: 'Create new record',
+    description: 'Required scopes: [' + [Scope.LocationCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Location created successfully', type: Location })
-  @ApiConflictResponse({ description: 'A location with the same name already exists' })
+  @ApiCreatedResponse({ description: 'Success', type: Location })
   @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiConflictResponse({ description: 'Conflict' })
+  @ApiBody({ description: 'Request body object', type: CreateLocationDto })
   async create(@Body() createLocationDto: CreateLocationDto): Promise<Location> {
     return await this.locationsService.create(createLocationDto);
   }
@@ -44,10 +45,11 @@ export class LocationsController {
   @Get()
   @Scopes(Scope.LocationRead)
   @ApiOperation({
-    summary: 'Get all locations',
-    description: 'Required user scopes: [' + [Scope.LocationRead].join(',') + ']'
+    summary: 'Get all records',
+    description: 'Required scopes: [' + [Scope.LocationRead].join(',') + ']'
   })
   @ApiOkResponse({ description: 'Success', type: [Location] })
+  @ApiBadRequestResponse({ description: 'Bad request' })
   async findAll(): Promise<Location[]> {
     return await this.locationsService.findAll();
   }
@@ -55,28 +57,31 @@ export class LocationsController {
   @Get(':id')
   @Scopes(Scope.LocationRead)
   @ApiOperation({
-    summary: 'Get a location by ID',
-    description: 'Required user scopes: [' + [Scope.LocationRead].join(',') + ']'
+    summary: 'Get record by ID',
+    description: 'Required scopes: [' + [Scope.LocationRead].join(',') + ']'
   })
   @ApiOkResponse({ description: 'Success', type: Location })
-  @ApiNotFoundResponse({ description: 'Location not found' })
-  @ApiBadRequestResponse({ description: 'Invalid location ID' })
-  async findOneById(@Param('id') id: Types.ObjectId): Promise<Location> {
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  async findOneById(@Param('id') id: string): Promise<Location> {
     return await this.locationsService.findOneById(id);
   }
 
   @Put(':id')
   @Scopes(Scope.LocationUpdate)
   @ApiOperation({
-    summary: 'Update a location by ID',
-    description: 'Required user scopes: [' + [Scope.LocationUpdate].join(',') + ']'
+    summary: 'Update record by ID',
+    description: 'Required scopes: [' + [Scope.LocationUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Location updated successfully', type: Location })
-  @ApiNotFoundResponse({ description: 'Location not found' })
-  @ApiConflictResponse({ description: 'A location with the same name already exists' })
-  @ApiBadRequestResponse({ description: 'Invalid location ID' })
+  @ApiOkResponse({ description: 'Success', type: Location })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiConflictResponse({ description: 'Conflict' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiBody({ description: 'Request body object', type: UpdateLocationDto })
   async updateOneById(
-    @Param('id') id: Types.ObjectId,
+    @Param('id') id: string,
     @Body() updateLocationDto: UpdateLocationDto
   ): Promise<Location> {
     return await this.locationsService.updateOneById(id, updateLocationDto);
@@ -85,13 +90,14 @@ export class LocationsController {
   @Delete(':id')
   @Scopes(Scope.LocationDelete)
   @ApiOperation({
-    summary: 'Delete a location by ID',
-    description: 'Required user scopes: [' + [Scope.LocationDelete].join(',') + ']'
+    summary: 'Delete record by ID',
+    description: 'Required scopes: [' + [Scope.LocationDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Location deleted successfully', type: Location })
-  @ApiNotFoundResponse({ description: 'Location not found' })
-  @ApiBadRequestResponse({ description: 'Invalid location ID' })
-  async removeOneById(@Param('id') id: Types.ObjectId): Promise<Location> {
+  @ApiOkResponse({ description: 'Success', type: Location })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  async removeOneById(@Param('id') id: string): Promise<Location> {
     return await this.locationsService.removeOneById(id);
   }
 }

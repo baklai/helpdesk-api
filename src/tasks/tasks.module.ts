@@ -3,7 +3,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { Syslog, SyslogSchema } from 'src/syslogs/schemas/syslog.schema';
 import { Notice, NoticeSchema } from 'src/notices/schemas/notice.schema';
-
 import { TasksService } from './tasks.service';
 
 @Module({

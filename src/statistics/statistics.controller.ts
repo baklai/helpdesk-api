@@ -5,7 +5,6 @@ import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { ScopesGuard } from 'src/common/guards/scopes.guard';
 import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
-
 import { StatisticsService } from './statistics.service';
 
 @ApiTags('Statistics')
@@ -17,44 +16,44 @@ export class StatisticsController {
 
   @Get('network')
   @Scopes(Scope.StatisticNetworkRead)
-  @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Retrieve network statistics',
-    description: 'Required user scopes: [' + [Scope.StatisticNetworkRead].join(',') + ']'
+    description: 'Required scopes: [' + [Scope.StatisticNetworkRead].join(',') + ']'
   })
+  @HttpCode(HttpStatus.OK)
   async network() {
     return await this.statisticsService.network();
   }
 
   @Get('request')
   @Scopes(Scope.StatisticRequestRead)
-  @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Retrieve request statistics',
-    description: 'Required user scopes: [' + [Scope.StatisticRequestRead].join(',') + ']'
+    description: 'Required scopes: [' + [Scope.StatisticRequestRead].join(',') + ']'
   })
+  @HttpCode(HttpStatus.OK)
   async request() {
     return await this.statisticsService.request();
   }
 
   @Get('inspector')
   @Scopes(Scope.StatisticInspectorRead)
-  @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Retrieve inspector statistics',
-    description: 'Required user scopes: [' + [Scope.StatisticInspectorRead].join(',') + ']'
+    description: 'Required scopes: [' + [Scope.StatisticInspectorRead].join(',') + ']'
   })
+  @HttpCode(HttpStatus.OK)
   async inspector() {
     return await this.statisticsService.inspector();
   }
 
   @Get('dashboard')
   @Scopes(Scope.StatisticDashboardRead)
-  @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Retrieve dashboard statistics',
-    description: 'Required user scopes: [' + [Scope.StatisticDashboardRead].join(',') + ']'
+    description: 'Required scopes: [' + [Scope.StatisticDashboardRead].join(',') + ']'
   })
+  @HttpCode(HttpStatus.OK)
   async dashboard() {
     return await this.statisticsService.dashboard();
   }

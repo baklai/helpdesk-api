@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards } from '@nestjs/common';
+import { Get, Put, Post, Body, Param, Delete, UseGuards, Controller } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiNotFoundResponse,
@@ -7,19 +7,19 @@ import {
   ApiOkResponse,
   ApiBearerAuth,
   ApiOperation,
-  ApiTags
+  ApiParam,
+  ApiTags,
+  ApiBody
 } from '@nestjs/swagger';
 
 import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
 import { ScopesGuard } from 'src/common/guards/scopes.guard';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-
 import { BranchesService } from './branches.service';
 import { Branch } from './schemas/branch.schema';
 import { CreateBranchDto } from './dto/create-branch.dto';
 import { UpdateBranchDto } from './dto/update-branch.dto';
-import { Types } from 'mongoose';
 
 @ApiTags('Branches')
 @Controller('branches')
@@ -31,12 +31,13 @@ export class BranchesController {
   @Post()
   @Scopes(Scope.BranchCreate)
   @ApiOperation({
-    summary: 'Create a new branch',
-    description: 'Required user scopes: [' + [Scope.BranchCreate].join(',') + ']'
+    summary: 'Create new record',
+    description: 'Required scopes: [' + [Scope.BranchCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Branch created successfully', type: Branch })
-  @ApiConflictResponse({ description: 'A branch with the same name already exists' })
+  @ApiCreatedResponse({ description: 'Success', type: Branch })
   @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiConflictResponse({ description: 'Conflict' })
+  @ApiBody({ description: 'Request body object', type: CreateBranchDto })
   async create(@Body() createBranchDto: CreateBranchDto): Promise<Branch> {
     return await this.branchesService.create(createBranchDto);
   }
@@ -44,10 +45,11 @@ export class BranchesController {
   @Get()
   @Scopes(Scope.BranchRead)
   @ApiOperation({
-    summary: 'Get all branches',
-    description: 'Required user scopes: [' + [Scope.BranchRead].join(',') + ']'
+    summary: 'Get all records',
+    description: 'Required scopes: [' + [Scope.BranchRead].join(',') + ']'
   })
   @ApiOkResponse({ description: 'Success', type: [Branch] })
+  @ApiBadRequestResponse({ description: 'Bad request' })
   async findAll(): Promise<Branch[]> {
     return await this.branchesService.findAll();
   }
@@ -55,28 +57,31 @@ export class BranchesController {
   @Get(':id')
   @Scopes(Scope.BranchRead)
   @ApiOperation({
-    summary: 'Get a branch by ID',
-    description: 'Required user scopes: [' + [Scope.BranchRead].join(',') + ']'
+    summary: 'Get record by ID',
+    description: 'Required scopes: [' + [Scope.BranchRead].join(',') + ']'
   })
   @ApiOkResponse({ description: 'Success', type: Branch })
-  @ApiNotFoundResponse({ description: 'Branch not found' })
-  @ApiBadRequestResponse({ description: 'Invalid branch ID' })
-  async findOneById(@Param('id') id: Types.ObjectId): Promise<Branch> {
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  async findOneById(@Param('id') id: string): Promise<Branch> {
     return await this.branchesService.findOneById(id);
   }
 
   @Put(':id')
   @Scopes(Scope.BranchUpdate)
   @ApiOperation({
-    summary: 'Update a branch by ID',
-    description: 'Required user scopes: [' + [Scope.BranchUpdate].join(',') + ']'
+    summary: 'Update record by ID',
+    description: 'Required scopes: [' + [Scope.BranchUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Branch updated successfully', type: Branch })
-  @ApiNotFoundResponse({ description: 'Branch not found' })
-  @ApiConflictResponse({ description: 'A branch with the same name already exists' })
-  @ApiBadRequestResponse({ description: 'Invalid branch ID' })
+  @ApiOkResponse({ description: 'Success', type: Branch })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiConflictResponse({ description: 'Conflict' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiBody({ description: 'Request body object', type: UpdateBranchDto })
   async updateOneById(
-    @Param('id') id: Types.ObjectId,
+    @Param('id') id: string,
     @Body() updateBranchDto: UpdateBranchDto
   ): Promise<Branch> {
     return await this.branchesService.updateOneById(id, updateBranchDto);
@@ -85,13 +90,14 @@ export class BranchesController {
   @Delete(':id')
   @Scopes(Scope.BranchDelete)
   @ApiOperation({
-    summary: 'Delete a branch by ID',
-    description: 'Required user scopes: [' + [Scope.BranchDelete].join(',') + ']'
+    summary: 'Delete record by ID',
+    description: 'Required scopes: [' + [Scope.BranchDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Branch deleted successfully', type: Branch })
-  @ApiNotFoundResponse({ description: 'Branch not found' })
-  @ApiBadRequestResponse({ description: 'Invalid branch ID' })
-  async removeOneById(@Param('id') id: Types.ObjectId): Promise<Branch> {
+  @ApiOkResponse({ description: 'Success', type: Branch })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  async removeOneById(@Param('id') id: string): Promise<Branch> {
     return await this.branchesService.removeOneById(id);
   }
 }

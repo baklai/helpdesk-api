@@ -1,11 +1,13 @@
 import { Controller, Get, Post, Body, Param, Delete, Put, Query, UseGuards } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  ApiBearerAuth,
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
+  ApiBearerAuth,
   ApiOperation,
+  ApiParam,
+  ApiBody,
   ApiTags
 } from '@nestjs/swagger';
 
@@ -13,13 +15,11 @@ import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { ScopesGuard } from 'src/common/guards/scopes.guard';
 import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
-
 import { EventsService } from './events.service';
 import { Event } from './schemas/event.schema';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { QueryEventDto } from './dto/query-event.dto';
-import { Types } from 'mongoose';
 
 @ApiTags('Events')
 @Controller('events')
@@ -31,11 +31,12 @@ export class EventsController {
   @Post()
   @Scopes(Scope.EventCreate)
   @ApiOperation({
-    summary: 'Create a new event',
-    description: 'Required user scopes: [' + [Scope.EventCreate].join(',') + ']'
+    summary: 'Create new record',
+    description: 'Required scopes: [' + [Scope.EventCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Event created successfully', type: Event })
+  @ApiCreatedResponse({ description: 'Success', type: Event })
   @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiBody({ description: 'Request body object', type: CreateEventDto })
   async create(@Body() createEventDto: CreateEventDto): Promise<Event> {
     return await this.eventService.create(createEventDto);
   }
@@ -43,10 +44,11 @@ export class EventsController {
   @Get()
   @Scopes(Scope.EventRead)
   @ApiOperation({
-    summary: 'Get all events',
-    description: 'Required user scopes: [' + [Scope.EventRead].join(',') + ']'
+    summary: 'Get all records',
+    description: 'Required scopes: [' + [Scope.EventRead].join(',') + ']'
   })
   @ApiOkResponse({ description: 'Success', type: [Event] })
+  @ApiBadRequestResponse({ description: 'Bad request' })
   async findAll(@Query() query: QueryEventDto): Promise<Event[]> {
     return await this.eventService.findAll(query);
   }
@@ -54,27 +56,30 @@ export class EventsController {
   @Get(':id')
   @Scopes(Scope.EventRead)
   @ApiOperation({
-    summary: 'Get an event by ID',
-    description: 'Required user scopes: [' + [Scope.EventRead].join(',') + ']'
+    summary: 'Get record by ID',
+    description: 'Required scopes: [' + [Scope.EventRead].join(',') + ']'
   })
   @ApiOkResponse({ description: 'Success', type: Event })
-  @ApiNotFoundResponse({ description: 'Event not found' })
-  @ApiBadRequestResponse({ description: 'Invalid event ID' })
-  async findOneById(@Param('id') id: Types.ObjectId): Promise<Event> {
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  async findOneById(@Param('id') id: string): Promise<Event> {
     return await this.eventService.findOneById(id);
   }
 
   @Put(':id')
   @Scopes(Scope.EventUpdate)
   @ApiOperation({
-    summary: 'Update an event by ID',
-    description: 'Required user scopes: [' + [Scope.EventUpdate].join(',') + ']'
+    summary: 'Update record by ID',
+    description: 'Required scopes: [' + [Scope.EventUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Event updated successfully', type: Event })
-  @ApiNotFoundResponse({ description: 'Event not found' })
-  @ApiBadRequestResponse({ description: 'Invalid event ID' })
+  @ApiOkResponse({ description: 'Success', type: Event })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiBody({ description: 'Request body object', type: UpdateEventDto })
   async updateOneById(
-    @Param('id') id: Types.ObjectId,
+    @Param('id') id: string,
     @Body() updateEventDto: UpdateEventDto
   ): Promise<Event> {
     return await this.eventService.updateOneById(id, updateEventDto);
@@ -83,13 +88,14 @@ export class EventsController {
   @Delete(':id')
   @Scopes(Scope.EventDelete)
   @ApiOperation({
-    summary: 'Delete an event by ID',
-    description: 'Required user scopes: [' + [Scope.EventUpdate].join(',') + ']'
+    summary: 'Delete record by ID',
+    description: 'Required scopes: [' + [Scope.EventUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Event deleted successfully', type: Event })
-  @ApiNotFoundResponse({ description: 'Event not found' })
-  @ApiBadRequestResponse({ description: 'Invalid event ID' })
-  async removeOneById(@Param('id') id: Types.ObjectId): Promise<Event> {
+  @ApiOkResponse({ description: 'Success', type: Event })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  async removeOneById(@Param('id') id: string): Promise<Event> {
     return await this.eventService.removeOneById(id);
   }
 }

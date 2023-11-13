@@ -1,6 +1,6 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Types, PaginateModel, PaginateResult } from 'mongoose';
+import { PaginateModel, PaginateResult, Model, Types } from 'mongoose';
 import { Netmask } from 'netmask';
 
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
@@ -8,11 +8,14 @@ import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 import { Ipaddress } from './schemas/ipaddress.schema';
 import { CreateIpaddressDto } from './dto/create-ipaddress.dto';
 import { UpdateIpaddressDto } from './dto/update-ipaddress.dto';
+import { Inspector } from 'src/inspectors/schemas/inspector.schema';
+import { isIP } from 'class-validator';
 
 @Injectable()
 export class IpaddressesService {
   constructor(
-    @InjectModel(Ipaddress.name) private readonly ipaddressModel: PaginateModel<Ipaddress>
+    @InjectModel(Ipaddress.name) private readonly ipaddressModel: PaginateModel<Ipaddress>,
+    @InjectModel(Inspector.name) private readonly inspectorModel: Model<Inspector>
   ) {}
 
   async create(createIpaddressDto: CreateIpaddressDto): Promise<Ipaddress> {
@@ -56,58 +59,78 @@ export class IpaddressesService {
     );
   }
 
-  async findOneById(id: string, populate: boolean): Promise<Ipaddress> {
+  async findOneById(
+    id: string,
+    populate: boolean = false,
+    aggregate: boolean = false
+  ): Promise<Ipaddress | any> {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('Invalid record ID');
+    }
     const ipaddress = await this.ipaddressModel
       .findById(id, null, {
         autopopulate: populate
       })
       .exec();
     if (!ipaddress) {
-      throw new NotFoundException('IP Address not found');
+      throw new NotFoundException('Record not found');
     }
-    return ipaddress;
+    if (!aggregate) return ipaddress;
+    const inspector = await this.inspectorModel
+      .findOne({ host: ipaddress.ipaddress }, null, {
+        autopopulate: populate
+      })
+      .exec();
+    return { ipaddress, inspector };
   }
 
-  async findOneByIP(ip: string, populate: boolean): Promise<Ipaddress> {
+  async findOneByIP(
+    ip: string,
+    populate: boolean = false,
+    aggregate: boolean = false
+  ): Promise<Ipaddress | any> {
+    if (!isIP(ip)) {
+      throw new BadRequestException('Invalid field value');
+    }
     const ipaddress = await this.ipaddressModel
       .findOne({ ipaddress: ip }, null, {
         autopopulate: populate
       })
       .exec();
     if (!ipaddress) {
-      throw new NotFoundException('IP Address not found');
+      throw new NotFoundException('Record not found');
     }
-    return ipaddress;
-  }
-
-  async aggregatOneById(id: string, populate: boolean): Promise<Ipaddress> {
-    const ipaddress = await this.ipaddressModel
-      .findById(id, null, {
+    if (!aggregate) return ipaddress;
+    const inspector = await this.inspectorModel
+      .findOne({ host: ipaddress.ipaddress }, null, {
         autopopulate: populate
       })
       .exec();
-    if (!ipaddress) {
-      throw new NotFoundException('IP Address not found');
-    }
-    return ipaddress;
+    return { ipaddress, inspector };
   }
 
   async updateOneById(id: string, updateIpaddressDto: UpdateIpaddressDto): Promise<Ipaddress> {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('Invalid record ID');
+    }
     const { ipaddress } = updateIpaddressDto;
     const indexip = new Netmask(ipaddress).netLong;
     const updatedIpaddress = await this.ipaddressModel
       .findByIdAndUpdate(id, { $set: { ...updateIpaddressDto, indexip } }, { new: true })
       .exec();
     if (!updatedIpaddress) {
-      throw new NotFoundException('IP Address not found');
+      throw new NotFoundException('Record not found');
     }
     return updatedIpaddress;
   }
 
   async removeOneById(id: string): Promise<Ipaddress> {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('Invalid record ID');
+    }
     const deletedIpaddress = await this.ipaddressModel.findByIdAndRemove(id).exec();
     if (!deletedIpaddress) {
-      throw new NotFoundException('IP Address not found');
+      throw new NotFoundException('Record not found');
     }
     return deletedIpaddress;
   }

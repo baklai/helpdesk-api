@@ -1,25 +1,25 @@
 import { Controller, Get, Post, Body, Param, Delete, Put, Query, UseGuards } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  ApiBearerAuth,
-  ApiCreatedResponse,
   ApiNotFoundResponse,
+  ApiCreatedResponse,
+  ApiBearerAuth,
   ApiOkResponse,
   ApiOperation,
-  ApiTags
+  ApiTags,
+  ApiBody,
+  ApiParam
 } from '@nestjs/swagger';
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { ScopesGuard } from 'src/common/guards/scopes.guard';
 import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
-
 import { FiltersService } from './filters.service';
 import { Filter } from './schemas/filter.schema';
 import { CreateFilterDto } from './dto/create-filter.dto';
 import { UpdateFilterDto } from './dto/update-filter.dto';
 import { QueryFilterDto } from './dto/query-filter.dto';
-import { Types } from 'mongoose';
 
 @ApiTags('Filters')
 @Controller('filters')
@@ -31,11 +31,12 @@ export class FiltersController {
   @Post()
   @Scopes(Scope.FilterCreate)
   @ApiOperation({
-    summary: 'Create a new filter',
-    description: 'Required user scopes: [' + [Scope.FilterCreate].join(',') + ']'
+    summary: 'Create new record',
+    description: 'Required scopes: [' + [Scope.FilterCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Filter created successfully', type: Filter })
+  @ApiCreatedResponse({ description: 'Success', type: Filter })
   @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiBody({ description: 'Request body object', type: CreateFilterDto })
   async create(@Body() createFilterDto: CreateFilterDto): Promise<Filter> {
     return await this.filtersService.create(createFilterDto);
   }
@@ -43,10 +44,11 @@ export class FiltersController {
   @Get()
   @Scopes(Scope.FilterRead)
   @ApiOperation({
-    summary: 'Get all filters',
-    description: 'Required user scopes: [' + [Scope.FilterRead].join(',') + ']'
+    summary: 'Get all records',
+    description: 'Required scopes: [' + [Scope.FilterRead].join(',') + ']'
   })
   @ApiOkResponse({ description: 'Success', type: [Filter] })
+  @ApiBadRequestResponse({ description: 'Bad request' })
   async findAll(@Query() query: QueryFilterDto): Promise<Filter[]> {
     return await this.filtersService.findAll(query);
   }
@@ -54,27 +56,30 @@ export class FiltersController {
   @Get(':id')
   @Scopes(Scope.FilterRead)
   @ApiOperation({
-    summary: 'Get a filter by ID',
-    description: 'Required user scopes: [' + [Scope.FilterRead].join(',') + ']'
+    summary: 'Get record by ID',
+    description: 'Required scopes: [' + [Scope.FilterRead].join(',') + ']'
   })
   @ApiOkResponse({ description: 'Success', type: Filter })
-  @ApiNotFoundResponse({ description: 'Filter not found' })
-  @ApiBadRequestResponse({ description: 'Invalid filter ID' })
-  async findOneById(@Param('id') id: Types.ObjectId): Promise<Filter> {
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  async findOneById(@Param('id') id: string): Promise<Filter> {
     return await this.filtersService.findOneById(id);
   }
 
   @Put(':id')
   @Scopes(Scope.FilterUpdate)
   @ApiOperation({
-    summary: 'Update a filter by ID',
-    description: 'Required user scopes: [' + [Scope.FilterUpdate].join(',') + ']'
+    summary: 'Update record by ID',
+    description: 'Required scopes: [' + [Scope.FilterUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Filter updated successfully', type: Filter })
-  @ApiNotFoundResponse({ description: 'Filter not found' })
-  @ApiBadRequestResponse({ description: 'Invalid filter ID' })
+  @ApiOkResponse({ description: 'Success', type: Filter })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiBody({ description: 'Request body object', type: UpdateFilterDto })
   async updateOneById(
-    @Param('id') id: Types.ObjectId,
+    @Param('id') id: string,
     @Body() updateFilterDto: UpdateFilterDto
   ): Promise<Filter> {
     return await this.filtersService.updateOneById(id, updateFilterDto);
@@ -83,13 +88,14 @@ export class FiltersController {
   @Delete(':id')
   @Scopes(Scope.FilterDelete)
   @ApiOperation({
-    summary: 'Delete a filter by ID',
-    description: 'Required user scopes: [' + [Scope.FilterDelete].join(',') + ']'
+    summary: 'Delete record by ID',
+    description: 'Required scopes: [' + [Scope.FilterDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Filter deleted successfully', type: Filter })
-  @ApiNotFoundResponse({ description: 'Filter not found' })
-  @ApiBadRequestResponse({ description: 'Invalid filter ID' })
-  async removeOneById(@Param('id') id: Types.ObjectId): Promise<Filter> {
+  @ApiOkResponse({ description: 'Success', type: Filter })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  async removeOneById(@Param('id') id: string): Promise<Filter> {
     return await this.filtersService.removeOneById(id);
   }
 }

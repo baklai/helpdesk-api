@@ -1,25 +1,25 @@
 import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  ApiBearerAuth,
+  ApiNotFoundResponse,
   ApiConflictResponse,
   ApiCreatedResponse,
-  ApiNotFoundResponse,
+  ApiBearerAuth,
   ApiOkResponse,
   ApiOperation,
-  ApiTags
+  ApiTags,
+  ApiBody,
+  ApiParam
 } from '@nestjs/swagger';
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { ScopesGuard } from 'src/common/guards/scopes.guard';
 import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
-
 import { EnterprisesService } from './enterprises.service';
 import { Enterprise } from './schemas/enterprise.schema';
 import { CreateEnterpriseDto } from './dto/create-enterprise.dto';
 import { UpdateEnterpriseDto } from './dto/update-enterprise.dto';
-import { Types } from 'mongoose';
 
 @ApiTags('Enterprises')
 @Controller('enterprises')
@@ -31,12 +31,13 @@ export class EnterprisesController {
   @Post()
   @Scopes(Scope.EnterpriseCreate)
   @ApiOperation({
-    summary: 'Create a new enterprise',
-    description: 'Required user scopes: [' + [Scope.EnterpriseCreate].join(',') + ']'
+    summary: 'Create new record',
+    description: 'Required scopes: [' + [Scope.EnterpriseCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Enterprise created successfully', type: Enterprise })
-  @ApiConflictResponse({ description: 'A enterprise with the same name already exists' })
+  @ApiCreatedResponse({ description: 'Success', type: Enterprise })
   @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiConflictResponse({ description: 'Conflict' })
+  @ApiBody({ description: 'Request body object', type: CreateEnterpriseDto })
   async create(@Body() createEnterpriseDto: CreateEnterpriseDto): Promise<Enterprise> {
     return await this.enterprisesService.create(createEnterpriseDto);
   }
@@ -44,10 +45,11 @@ export class EnterprisesController {
   @Get()
   @Scopes(Scope.EnterpriseRead)
   @ApiOperation({
-    summary: 'Get all enterprise',
-    description: 'Required user scopes: [' + [Scope.EnterpriseRead].join(',') + ']'
+    summary: 'Get all records',
+    description: 'Required scopes: [' + [Scope.EnterpriseRead].join(',') + ']'
   })
   @ApiOkResponse({ description: 'Success', type: [Enterprise] })
+  @ApiBadRequestResponse({ description: 'Bad request' })
   async findAll(): Promise<Enterprise[]> {
     return await this.enterprisesService.findAll();
   }
@@ -55,28 +57,31 @@ export class EnterprisesController {
   @Get(':id')
   @Scopes(Scope.EnterpriseRead)
   @ApiOperation({
-    summary: 'Get a enterprise by ID',
-    description: 'Required user scopes: [' + [Scope.EnterpriseRead].join(',') + ']'
+    summary: 'Get record by ID',
+    description: 'Required scopes: [' + [Scope.EnterpriseRead].join(',') + ']'
   })
   @ApiOkResponse({ description: 'Success', type: Enterprise })
-  @ApiNotFoundResponse({ description: 'Enterprise not found' })
-  @ApiBadRequestResponse({ description: 'Invalid enterprise ID' })
-  async findOneById(@Param('id') id: Types.ObjectId): Promise<Enterprise> {
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  async findOneById(@Param('id') id: string): Promise<Enterprise> {
     return await this.enterprisesService.findOneById(id);
   }
 
   @Put(':id')
   @Scopes(Scope.EnterpriseUpdate)
   @ApiOperation({
-    summary: 'Update a enterprise by ID',
-    description: 'Required user scopes: [' + [Scope.EnterpriseUpdate].join(',') + ']'
+    summary: 'Update record by ID',
+    description: 'Required scopes: [' + [Scope.EnterpriseUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Enterprise updated successfully', type: Enterprise })
-  @ApiNotFoundResponse({ description: 'Enterprise not found' })
-  @ApiConflictResponse({ description: 'A enterprise with the same name already exists' })
-  @ApiBadRequestResponse({ description: 'Invalid enterprise ID' })
+  @ApiOkResponse({ description: 'Success', type: Enterprise })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiConflictResponse({ description: 'Conflict' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiBody({ description: 'Request body object', type: UpdateEnterpriseDto })
   async updateOneById(
-    @Param('id') id: Types.ObjectId,
+    @Param('id') id: string,
     @Body() updateEnterpriseDto: UpdateEnterpriseDto
   ): Promise<Enterprise> {
     return await this.enterprisesService.updateOneById(id, updateEnterpriseDto);
@@ -85,13 +90,14 @@ export class EnterprisesController {
   @Delete(':id')
   @Scopes(Scope.EnterpriseDelete)
   @ApiOperation({
-    summary: 'Delete a enterprise by ID',
-    description: 'Required user scopes: [' + [Scope.EnterpriseDelete].join(',') + ']'
+    summary: 'Delete record by ID',
+    description: 'Required scopes: [' + [Scope.EnterpriseDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Enterprise deleted successfully', type: Enterprise })
-  @ApiNotFoundResponse({ description: 'Enterprise not found' })
-  @ApiBadRequestResponse({ description: 'Invalid enterprise ID' })
-  async removeOneById(@Param('id') id: Types.ObjectId): Promise<Enterprise> {
+  @ApiOkResponse({ description: 'Success', type: Enterprise })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  async removeOneById(@Param('id') id: string): Promise<Enterprise> {
     return await this.enterprisesService.removeOneById(id);
   }
 }
