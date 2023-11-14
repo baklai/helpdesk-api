@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
+import mongoose, { HydratedDocument, Types } from 'mongoose';
 import { Netmask } from 'netmask';
 
 import { Unit } from 'src/units/schemas/unit.schema';
@@ -170,7 +170,7 @@ export class Ipaddress {
   @IsMongoId()
   @IsOptional()
   @Prop({
-    type: Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Unit',
     default: null,
     autopopulate: true
@@ -185,7 +185,7 @@ export class Ipaddress {
   @IsMongoId()
   @IsOptional()
   @Prop({
-    type: Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Location',
     default: null,
     autopopulate: true
@@ -200,7 +200,7 @@ export class Ipaddress {
   @IsMongoId()
   @IsOptional()
   @Prop({
-    type: Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Company',
     default: null,
     autopopulate: true
@@ -215,7 +215,7 @@ export class Ipaddress {
   @IsMongoId()
   @IsOptional()
   @Prop({
-    type: Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Branch',
     default: null,
     autopopulate: true
@@ -230,7 +230,7 @@ export class Ipaddress {
   @IsMongoId()
   @IsOptional()
   @Prop({
-    type: Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Enterprise',
     default: null,
     autopopulate: true
@@ -245,7 +245,7 @@ export class Ipaddress {
   @IsMongoId()
   @IsOptional()
   @Prop({
-    type: Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Department',
     default: null,
     autopopulate: true
@@ -260,7 +260,7 @@ export class Ipaddress {
   @IsMongoId()
   @IsOptional()
   @Prop({
-    type: Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Position',
     default: null,
     autopopulate: true

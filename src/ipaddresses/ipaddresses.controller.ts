@@ -63,8 +63,8 @@ export class IpaddressesController {
   })
   @ApiOkResponse({ description: 'Success', type: PaginateIpaddress })
   @ApiBadRequestResponse({ description: 'Bad Request' })
-  async findAll(@Query() paginateQueryDto: PaginateQueryDto): Promise<PaginateResult<Ipaddress>> {
-    return await this.ipaddressService.findAll(paginateQueryDto);
+  async findAll(@Query() query: PaginateQueryDto): Promise<PaginateResult<Ipaddress>> {
+    return await this.ipaddressService.findAll(query);
   }
 
   @Get('find')

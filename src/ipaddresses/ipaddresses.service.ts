@@ -25,6 +25,8 @@ export class IpaddressesService {
   }
 
   async findAll(query: PaginateQueryDto): Promise<PaginateResult<Ipaddress>> {
+    console.log(query.filters);
+
     const { offset = 0, limit = 5, sort = { indexip: 1 }, filters = {} } = query;
 
     if (filters?.internet) {
