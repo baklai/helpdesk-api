@@ -47,7 +47,7 @@ export class FtpclientService {
 
       return;
     } catch (err) {
-      console.log(err);
+      console.error(err);
       throw new Error('Failed to download the file from FTP');
     } finally {
       client.close();
@@ -65,7 +65,7 @@ export class FtpclientService {
       fileStream.push(null);
       return await client.uploadFrom(fileStream, `${path}/${file.originalname}`);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       throw new Error(err.message);
     } finally {
       client.close();
