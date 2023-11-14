@@ -12,7 +12,7 @@ export class Position {
   })
   @IsString()
   @IsMongoId()
-  readonly id: Types.ObjectId;
+  readonly id: string;
 
   @ApiProperty({
     description: 'The name of the position (must be unique)',

@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString, IsMongoId, IsIP, IsDate, IsOptional, IsArray } from 'class-validator';
-import { HydratedDocument, Types } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 
 import { PaginateResponseDto } from 'src/common/dto/paginate-response.dto';
 
@@ -14,7 +14,7 @@ export class Onmap {
   })
   @IsString()
   @IsMongoId()
-  readonly id: Types.ObjectId;
+  readonly id: string;
 
   @ApiProperty({ description: 'The target address', example: '192.168.1.1' })
   @IsIP()

@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString, IsMongoId, IsDate, IsEnum, IsOptional } from 'class-validator';
-import { HydratedDocument, Types } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 
 export enum EventType {
   EVENT = 'event',
@@ -20,7 +20,7 @@ export class Event {
   })
   @IsString()
   @IsMongoId()
-  readonly id: Types.ObjectId;
+  readonly id: string;
 
   @ApiProperty({ description: 'The title of the event', example: 'Meeting with Team' })
   @IsString()

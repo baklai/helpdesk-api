@@ -12,7 +12,7 @@ export class Branch {
   })
   @IsString()
   @IsMongoId()
-  readonly id: Types.ObjectId;
+  readonly id: string;
 
   @ApiProperty({
     description: 'The name of the branch (must be unique)',

@@ -81,7 +81,7 @@ export class Ipaddress {
   })
   @IsString()
   @IsMongoId()
-  readonly id: Types.ObjectId;
+  readonly id: string;
 
   @ApiProperty({ description: 'IP Address', example: '192.168.0.1' })
   @IsIP()

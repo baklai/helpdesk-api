@@ -12,7 +12,7 @@ export class Enterprise {
   })
   @IsString()
   @IsMongoId()
-  readonly id: Types.ObjectId;
+  readonly id: string;
 
   @ApiProperty({
     description: 'The name of the enterprise (must be unique)',

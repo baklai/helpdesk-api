@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString, IsMongoId, IsOptional, IsNumber, IsDate, IsArray } from 'class-validator';
-import { HydratedDocument, Types } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 import { PaginateResponseDto } from 'src/common/dto/paginate-response.dto';
 
 @Schema()
@@ -13,7 +13,7 @@ export class Syslog {
   })
   @IsString()
   @IsMongoId()
-  readonly id: Types.ObjectId;
+  readonly id: string;
 
   @ApiProperty({
     description: 'The ID of the record (unique)',

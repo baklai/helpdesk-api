@@ -21,7 +21,7 @@ export class Request {
   })
   @IsString()
   @IsMongoId()
-  readonly id: Types.ObjectId;
+  readonly id: string;
 
   @ApiProperty({ description: 'Full name of the requester', example: 'John Doe' })
   @IsString()

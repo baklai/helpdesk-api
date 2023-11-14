@@ -6,7 +6,7 @@ import { Request } from 'express';
 import { Types } from 'mongoose';
 
 type JwtPayload = {
-  id: Types.ObjectId;
+  id: string;
   login: string;
 };
 

@@ -23,7 +23,7 @@ export class Filter {
   })
   @IsString()
   @IsMongoId()
-  readonly id: Types.ObjectId;
+  readonly id: string;
 
   @ApiProperty({
     description: 'The regex of the filter',

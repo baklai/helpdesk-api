@@ -29,7 +29,7 @@ export class AuthService {
     private jwtService: JwtService
   ) {}
 
-  async me(id: Types.ObjectId): Promise<User> {
+  async me(id: string): Promise<User> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid user ID');
     }
@@ -116,7 +116,7 @@ export class AuthService {
   }
 
   async generateTokens(
-    id: Types.ObjectId,
+    id: string,
     login: string,
     isActive: boolean,
     isAdmin: boolean,

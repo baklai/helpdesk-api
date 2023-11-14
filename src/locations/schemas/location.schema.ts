@@ -12,7 +12,7 @@ export class Location {
   })
   @IsString()
   @IsMongoId()
-  readonly id: Types.ObjectId;
+  readonly id: string;
 
   @ApiProperty({
     description: 'The name of the location (must be unique)',

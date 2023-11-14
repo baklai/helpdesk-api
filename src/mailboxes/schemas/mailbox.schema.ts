@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsArray, IsDate, IsMongoId, IsOptional, IsString } from 'class-validator';
 
@@ -20,7 +20,7 @@ export class Mailbox {
   })
   @IsString()
   @IsMongoId()
-  readonly id: Types.ObjectId;
+  readonly id: string;
 
   @ApiProperty({
     description: 'Incoming letter number',
@@ -58,7 +58,7 @@ export class Mailbox {
   @IsMongoId()
   @IsOptional()
   @Prop({
-    type: Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Location',
     trim: true,
     default: null,
@@ -74,7 +74,7 @@ export class Mailbox {
   @IsMongoId()
   @IsOptional()
   @Prop({
-    type: Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Company',
     trim: true,
     default: null,
@@ -90,7 +90,7 @@ export class Mailbox {
   @IsMongoId()
   @IsOptional()
   @Prop({
-    type: Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Branch',
     trim: true,
     default: null,
@@ -106,7 +106,7 @@ export class Mailbox {
   @IsMongoId()
   @IsOptional()
   @Prop({
-    type: Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Enterprise',
     trim: true,
     default: null,
@@ -122,7 +122,7 @@ export class Mailbox {
   @IsMongoId()
   @IsOptional()
   @Prop({
-    type: Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Department',
     trim: true,
     default: null,
@@ -138,7 +138,7 @@ export class Mailbox {
   @IsMongoId()
   @IsOptional()
   @Prop({
-    type: Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Position',
     trim: true,
     default: null,

@@ -24,7 +24,7 @@ export class User {
   })
   @IsString()
   @IsMongoId()
-  readonly id: Types.ObjectId;
+  readonly id: string;
 
   @ApiProperty({ description: 'The login of the user', example: 'JohnDoe' })
   @IsString()
