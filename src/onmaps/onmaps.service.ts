@@ -56,11 +56,20 @@ export class OnmapsService {
 
     const aggregation = [
       {
+        $unwind: '$runstats'
+      },
+      {
+        $unwind: '$runstats.hosts'
+      },
+      {
         $match: filters
       },
       {
         $addFields: {
-          id: '$_id'
+          id: '$_id',
+          upHost: {
+            $toInt: '$runstats.hosts.item.up'
+          }
         }
       },
       {
@@ -71,6 +80,7 @@ export class OnmapsService {
           target: 1,
           profile: 1,
           flags: 1,
+          upHost: 1,
           updatedAt: 1
         }
       },
