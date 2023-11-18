@@ -11,12 +11,6 @@ import { QueryDto } from './dto/query-systool.dto';
 export class SystoolsController {
   constructor(private readonly systoolsService: SystoolsService) {}
 
-  @Get('ping-online')
-  @ApiOperation({ summary: 'Execute a ping command and return the response' })
-  onCommandPing(@Query() query: QueryDto): Promise<pingResponse> {
-    return this.systoolsService.commandPing(query);
-  }
-
   @Get('inspector')
   @ApiOperation({ summary: 'Retrieve a script for inspecting system information' })
   onScriptInspector(@Req() request: Request, @Res() res: Response) {

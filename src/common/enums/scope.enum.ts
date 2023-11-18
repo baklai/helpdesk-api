@@ -39,6 +39,10 @@ export enum Scope {
   OnmapUpdate = 'onmap:update',
   OnmapDelete = 'onmap:delete',
 
+  PingCreate = 'ping:create',
+  PingRead = 'ping:read',
+  PingDelete = 'ping:delete',
+
   CompanyCreate = 'company:create',
   CompanyRead = 'company:read',
   CompanyUpdate = 'company:update',

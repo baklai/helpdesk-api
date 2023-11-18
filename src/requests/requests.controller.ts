@@ -23,7 +23,7 @@ import { PaginateRequest, Request } from './schemas/request.schema';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
 
-@ApiTags('Requests')
+@ApiTags('Helpdesk requests')
 @Controller('requests')
 @ApiBearerAuth('JWT Guard')
 @UseGuards(AccessTokenGuard, ScopesGuard)

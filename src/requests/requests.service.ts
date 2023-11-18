@@ -43,7 +43,7 @@ export class RequestsService {
       {
         sort,
         offset,
-        limit: Number(limit) > 0 ? Number(limit) : await this.requestModel.countDocuments(),
+        limit,
         lean: false,
         allowDiskUse: true
       }

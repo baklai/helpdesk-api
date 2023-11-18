@@ -23,7 +23,7 @@ import { Scope } from 'src/common/enums/scope.enum';
 import { Mailbox, PaginateMailbox } from './schemas/mailbox.schema';
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 
-@ApiTags('Mailboxes')
+@ApiTags('Mail boxes')
 @Controller('mailboxes')
 @ApiBearerAuth('JWT Guard')
 @UseGuards(AccessTokenGuard, ScopesGuard)

@@ -52,7 +52,7 @@ export class IpaddressesService {
       {
         sort,
         offset,
-        limit: Number(limit) > 0 ? Number(limit) : await this.ipaddressModel.countDocuments(),
+        limit,
         lean: false,
         allowDiskUse: true
       }

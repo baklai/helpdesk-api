@@ -44,7 +44,7 @@ export class UsersService {
       {
         sort,
         offset,
-        limit: Number(limit) > 0 ? Number(limit) : await this.userModel.countDocuments(),
+        limit,
         lean: false,
         allowDiskUse: true
       }

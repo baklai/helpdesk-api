@@ -21,6 +21,7 @@ import { MailboxesModule } from './mailboxes/mailboxes.module';
 import { IpaddressesModule } from './ipaddresses/ipaddresses.module';
 import { InspectorsModule } from './inspectors/inspectors.module';
 import { OnmapsModule } from './onmaps/onmaps.module';
+import { PingsModule } from './pings/pings.module';
 import { RequestsModule } from './requests/requests.module';
 import { CompaniesModule } from './companies/companies.module';
 import { BranchesModule } from './branches/branches.module';
@@ -36,9 +37,9 @@ import { ReportsModule } from './reports/reports.module';
 import { SystoolsModule } from './systools/systools.module';
 import { SyslogsModule } from './syslogs/syslogs.module';
 import { TasksModule } from './tasks/tasks.module';
+import { FtpclientModule } from './ftpclient/ftpclient.module';
 
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
-import { FtpclientModule } from './ftpclient/ftpclient.module';
 
 @Module({
   imports: [
@@ -92,6 +93,7 @@ import { FtpclientModule } from './ftpclient/ftpclient.module';
     NetmapsModule,
     InspectorsModule,
     OnmapsModule,
+    PingsModule,
     NoticesModule,
     CompaniesModule,
     BranchesModule,

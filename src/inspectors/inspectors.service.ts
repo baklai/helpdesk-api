@@ -275,7 +275,7 @@ export class InspectorsService {
     const aggregateQuery = this.inspectorModel.aggregate(aggregation);
     return await this.inspectorModel.aggregatePaginate(aggregateQuery, {
       offset,
-      limit: Number(limit) > 0 ? Number(limit) : await this.inspectorModel.countDocuments(),
+      limit,
       lean: false,
       allowDiskUse: true
     });

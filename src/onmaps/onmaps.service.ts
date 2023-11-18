@@ -90,7 +90,7 @@ export class OnmapsService {
     const aggregateQuery = this.onmapModel.aggregate(aggregation);
     return await this.onmapModel.aggregatePaginate(aggregateQuery, {
       offset,
-      limit: Number(limit) > 0 ? Number(limit) : await this.onmapModel.countDocuments(),
+      limit,
       lean: false,
       allowDiskUse: true
     });

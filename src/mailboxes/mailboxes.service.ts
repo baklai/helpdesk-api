@@ -39,7 +39,7 @@ export class MailboxesService {
       {
         sort,
         offset,
-        limit: Number(limit) > 0 ? Number(limit) : await this.mailboxModel.countDocuments(),
+        limit,
         lean: false,
         allowDiskUse: true
       }

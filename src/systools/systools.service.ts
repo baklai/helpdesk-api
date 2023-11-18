@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import ping, { pingResponse } from 'pingman';
 
 import inspectorVBS from 'src/common/utils/inspector.util';
 
@@ -9,10 +8,6 @@ import { QueryDto } from './dto/query-systool.dto';
 @Injectable()
 export class SystoolsService {
   constructor(private readonly configService: ConfigService) {}
-
-  async commandPing({ host }: QueryDto): Promise<pingResponse> {
-    return await ping(host, { timeout: 3 });
-  }
 
   scriptInspector(protocol: string, host: string): Buffer {
     const apiInspector = `${protocol}://${host}/api/v1/inspectors`;

@@ -22,7 +22,7 @@ export class SyslogsService {
       {
         sort,
         offset,
-        limit: Number(limit) > 0 ? Number(limit) : await this.syslogModel.countDocuments(),
+        limit,
         lean: false,
         allowDiskUse: true
       }
