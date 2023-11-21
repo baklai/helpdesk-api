@@ -10,7 +10,7 @@ import {
   IsArray,
   IsDate
 } from 'class-validator';
-import { HydratedDocument, Types } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 
 import { PaginateResponseDto } from 'src/common/dto/paginate-response.dto';
 import { Scope } from 'src/common/enums/scope.enum';

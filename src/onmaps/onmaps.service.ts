@@ -28,7 +28,7 @@ export class OnmapsService {
       if (err) {
         return new Error(err.message);
       } else {
-        for (let item in report) {
+        for (const item in report) {
           try {
             await this.onmapModel.create({
               title: title || `ONMAP Scan ${target}`,

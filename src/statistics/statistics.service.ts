@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-
-const dayjs = require('dayjs');
+import * as dayjs from 'dayjs';
 
 import { Branch } from 'src/branches/schemas/branch.schema';
 import { Location } from 'src/locations/schemas/location.schema';
@@ -197,7 +196,11 @@ export class StatisticsService {
     const opened = await this.requestModel.countDocuments({ closed: { $eq: null } });
 
     const yearchar = await this.requestModel.aggregate([
-      { $match: { createdAt: { $gte: new Date(startOfYear), $lte: new Date(endOfYear) } } },
+      {
+        $match: {
+          createdAt: { $gte: new Date(startOfYear.toDate()), $lte: new Date(endOfYear.toDate()) }
+        }
+      },
       { $group: { _id: { $month: '$createdAt' }, count: { $sum: 1 } } },
       { $addFields: { month: '$_id' } },
       { $project: { _id: 0, month: 1, count: 1 } },
@@ -208,7 +211,11 @@ export class StatisticsService {
     const endOfMonth = dayjs().endOf('month');
 
     const monthchar = await this.requestModel.aggregate([
-      { $match: { createdAt: { $gte: new Date(startOfMonth), $lte: new Date(endOfMonth) } } },
+      {
+        $match: {
+          createdAt: { $gte: new Date(startOfMonth.toDate()), $lte: new Date(endOfMonth.toDate()) }
+        }
+      },
       { $group: { _id: { $dayOfMonth: '$createdAt' }, count: { $sum: 1 } } },
       { $addFields: { day: '$_id', date: '$createdAt' } },
       { $project: { _id: 0, day: 1, date: 1, count: 1 } },
@@ -229,7 +236,11 @@ export class StatisticsService {
     const endOfWeek = dayjs().endOf('week').endOf('day');
 
     const weekchar = await this.requestModel.aggregate([
-      { $match: { createdAt: { $gte: new Date(startOfWeek), $lte: new Date(endOfWeek) } } },
+      {
+        $match: {
+          createdAt: { $gte: new Date(startOfWeek.toDate()), $lte: new Date(endOfWeek.toDate()) }
+        }
+      },
       { $group: { _id: { $dayOfWeek: '$createdAt' }, count: { $sum: 1 } } },
       { $addFields: { day: '$_id' } },
       { $project: { _id: 0, day: 1, count: 1 } },

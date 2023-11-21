@@ -21,7 +21,6 @@ import { UnitsService } from './units.service';
 import { Unit } from './schemas/unit.schema';
 import { CreateUnitDto } from './dto/create-unit.dto';
 import { UpdateUnitDto } from './dto/update-unit.dto';
-import { Types } from 'mongoose';
 
 @ApiTags('Units')
 @Controller('units')

@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Transform, Type } from 'class-transformer';
-import { IsDefined, IsInt, IsNotEmpty, IsObject, IsOptional, Max, Min } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsInt, IsObject, IsOptional, Max, Min } from 'class-validator';
 
 function convertValuesToNumber(val: Record<string, any>) {
   const obj = { ...val };

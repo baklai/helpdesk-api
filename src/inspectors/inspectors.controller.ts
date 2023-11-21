@@ -11,7 +11,7 @@ import {
   ApiQuery,
   ApiTags
 } from '@nestjs/swagger';
-import { AggregatePaginateResult, Types } from 'mongoose';
+import { AggregatePaginateResult } from 'mongoose';
 
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';

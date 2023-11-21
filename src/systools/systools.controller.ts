@@ -1,6 +1,5 @@
 import { Controller, Get, Header, Query, Req, Res } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { pingResponse } from 'pingman';
 import { Request, Response } from 'express';
 
 import { SystoolsService } from './systools.service';
