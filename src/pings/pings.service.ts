@@ -13,14 +13,11 @@ export class PingsService {
 
   async create({ host }: CreatePingDto): Promise<Ping> {
     const response: pingResponse = await ping(host, { timeout: 3, IPV4: true });
-    const updatedPing = await this.pingModel.findOneAndUpdate({ host }, response, {
-      new: true,
-      upsert: true
-    });
-    if (!updatedPing) {
+    const createdPing = await this.pingModel.create({ ...response });
+    if (!createdPing) {
       throw new NotFoundException('Ping not found');
     }
-    return updatedPing;
+    return createdPing;
   }
 
   async findAll(query: PaginateQueryDto): Promise<PaginateResult<Ping>> {

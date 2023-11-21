@@ -35,7 +35,7 @@ export class PingsController {
     summary: 'Create new record',
     description: 'Required scopes: [' + [Scope.PingCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Success', type: Ping })
+  @ApiOkResponse({ description: 'Success', type: Ping })
   @ApiBadRequestResponse({ description: 'Bad request' })
   @ApiBody({ description: 'Request body object', type: CreatePingDto })
   async create(@Body() createPingDto: CreatePingDto): Promise<Ping> {
