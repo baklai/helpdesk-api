@@ -15,7 +15,7 @@ import { Position, PositionSchema } from 'src/positions/schemas/position.schema'
 import { Filter, FilterSchema } from 'src/filters/schemas/filter.schema';
 import { Unit, UnitSchema } from 'src/units/schemas/unit.schema';
 import { User, UserSchema } from 'src/users/schemas/user.schema';
-
+import { Syslog, SyslogSchema } from 'src/syslogs/schemas/syslog.schema';
 import { StatisticsService } from './statistics.service';
 import { StatisticsController } from './statistics.controller';
 
@@ -35,7 +35,8 @@ import { StatisticsController } from './statistics.controller';
       { name: Position.name, schema: PositionSchema },
       { name: Filter.name, schema: FilterSchema },
       { name: Unit.name, schema: UnitSchema },
-      { name: User.name, schema: UserSchema }
+      { name: User.name, schema: UserSchema },
+      { name: Syslog.name, schema: SyslogSchema }
     ])
   ],
   controllers: [StatisticsController],

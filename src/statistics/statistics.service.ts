@@ -16,6 +16,7 @@ import { Filter } from 'src/filters/schemas/filter.schema';
 import { Unit } from 'src/units/schemas/unit.schema';
 import { User } from 'src/users/schemas/user.schema';
 import { Mailbox } from 'src/mailboxes/schemas/mailbox.schema';
+import { Syslog } from 'src/syslogs/schemas/syslog.schema';
 
 @Injectable()
 export class StatisticsService {
@@ -33,7 +34,8 @@ export class StatisticsService {
     @InjectModel(Location.name) private readonly locationModel: Model<Location>,
     @InjectModel(Position.name) private readonly positionModel: Model<Position>,
     @InjectModel(Filter.name) private readonly filterModel: Model<Filter>,
-    @InjectModel(User.name) private readonly userModel: Model<User>
+    @InjectModel(User.name) private readonly userModel: Model<User>,
+    @InjectModel(Syslog.name) private readonly syslogModel: Model<Syslog>
   ) {}
 
   async network() {
@@ -493,6 +495,90 @@ export class StatisticsService {
       this.unitModel.countDocuments()
     ]);
 
+    const currentDate = new Date();
+    const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+    const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+
+    const activityUsers = await this.syslogModel.aggregate([
+      {
+        $match: {
+          createdAt: {
+            $gte: firstDayOfMonth,
+            $lte: lastDayOfMonth
+          },
+          user: {
+            $ne: 'anonymous'
+          }
+        }
+      },
+      {
+        $group: {
+          _id: {
+            user: '$user',
+            method: '$method'
+          },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $group: {
+          _id: '$_id.user',
+          methods: {
+            $push: {
+              method: '$_id.method',
+              count: '$count'
+            }
+          }
+        }
+      },
+      {
+        $project: {
+          user: '$_id',
+          methods: 1,
+          _id: 0
+        }
+      }
+    ]);
+
+    const activity = await this.syslogModel.aggregate([
+      {
+        $match: {
+          createdAt: {
+            $gte: firstDayOfMonth,
+            $lt: currentDate
+          }
+        }
+      },
+      {
+        $group: {
+          _id: {
+            year: { $year: '$createdAt' },
+            month: { $month: '$createdAt' },
+            day: { $dayOfMonth: '$createdAt' }
+          },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          date: {
+            $dateFromParts: {
+              year: '$_id.year',
+              month: '$_id.month',
+              day: '$_id.day'
+            }
+          },
+          count: 1
+        }
+      },
+      {
+        $sort: {
+          date: 1
+        }
+      }
+    ]);
+
     return {
       users,
       inspectors,
@@ -505,7 +591,9 @@ export class StatisticsService {
       departments,
       positions,
       locations,
-      units
+      units,
+      activity,
+      activityUsers
     };
   }
 }
