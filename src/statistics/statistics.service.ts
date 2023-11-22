@@ -467,6 +467,10 @@ export class StatisticsService {
   }
 
   async dashboard() {
+    const currentDate = new Date();
+    const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+    const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+
     const [
       users,
       inspectors,
@@ -479,7 +483,9 @@ export class StatisticsService {
       departments,
       positions,
       locations,
-      units
+      units,
+      activity,
+      activityUsers
     ] = await Promise.all([
       this.userModel.countDocuments(),
       this.inspectorModel.countDocuments(),
@@ -492,91 +498,85 @@ export class StatisticsService {
       this.departmentModel.countDocuments(),
       this.positionModel.countDocuments(),
       this.locationModel.countDocuments(),
-      this.unitModel.countDocuments()
-    ]);
-
-    const currentDate = new Date();
-    const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-    const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-
-    const activityUsers = await this.syslogModel.aggregate([
-      {
-        $match: {
-          createdAt: {
-            $gte: firstDayOfMonth,
-            $lte: lastDayOfMonth
-          },
-          user: {
-            $ne: 'anonymous'
-          }
-        }
-      },
-      {
-        $group: {
-          _id: {
-            user: '$user',
-            method: '$method'
-          },
-          count: { $sum: 1 }
-        }
-      },
-      {
-        $group: {
-          _id: '$_id.user',
-          methods: {
-            $push: {
-              method: '$_id.method',
-              count: '$count'
+      this.unitModel.countDocuments(),
+      this.syslogModel.aggregate([
+        {
+          $match: {
+            createdAt: {
+              $gte: firstDayOfMonth,
+              $lt: currentDate
             }
           }
-        }
-      },
-      {
-        $project: {
-          user: '$_id',
-          methods: 1,
-          _id: 0
-        }
-      }
-    ]);
-
-    const activity = await this.syslogModel.aggregate([
-      {
-        $match: {
-          createdAt: {
-            $gte: firstDayOfMonth,
-            $lt: currentDate
+        },
+        {
+          $group: {
+            _id: {
+              year: { $year: '$createdAt' },
+              month: { $month: '$createdAt' },
+              day: { $dayOfMonth: '$createdAt' }
+            },
+            count: { $sum: 1 }
+          }
+        },
+        {
+          $project: {
+            _id: 0,
+            date: {
+              $dateFromParts: {
+                year: '$_id.year',
+                month: '$_id.month',
+                day: '$_id.day'
+              }
+            },
+            count: 1
+          }
+        },
+        {
+          $sort: {
+            date: 1
           }
         }
-      },
-      {
-        $group: {
-          _id: {
-            year: { $year: '$createdAt' },
-            month: { $month: '$createdAt' },
-            day: { $dayOfMonth: '$createdAt' }
-          },
-          count: { $sum: 1 }
-        }
-      },
-      {
-        $project: {
-          _id: 0,
-          date: {
-            $dateFromParts: {
-              year: '$_id.year',
-              month: '$_id.month',
-              day: '$_id.day'
+      ]),
+      this.syslogModel.aggregate([
+        {
+          $match: {
+            createdAt: {
+              $gte: firstDayOfMonth,
+              $lte: lastDayOfMonth
+            },
+            user: {
+              $ne: 'anonymous'
             }
-          },
-          count: 1
+          }
+        },
+        {
+          $group: {
+            _id: {
+              user: '$user',
+              method: '$method'
+            },
+            count: { $sum: 1 }
+          }
+        },
+        {
+          $group: {
+            _id: '$_id.user',
+            methods: {
+              $push: {
+                method: '$_id.method',
+                count: '$count'
+              }
+            }
+          }
+        },
+        {
+          $project: {
+            user: '$_id',
+            methods: 1,
+            _id: 0
+          }
         }
-      },
-      {
-        $sort: {
-          date: 1
-        }
-      }
+      ])
     ]);
 
     return {
