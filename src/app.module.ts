@@ -120,7 +120,6 @@ export class AppModule implements NestModule {
       .exclude(
         { path: '/notices', method: RequestMethod.GET },
         { path: '/syslogs', method: RequestMethod.GET },
-        { path: '/inspectors', method: RequestMethod.POST },
         { path: '/reports/:params', method: RequestMethod.GET },
         { path: '/systools/:params', method: RequestMethod.GET },
         { path: '/auth/:params', method: RequestMethod.GET },
