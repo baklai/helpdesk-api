@@ -36,7 +36,7 @@ import { StatisticsModule } from './statistics/statistics.module';
 import { ReportsModule } from './reports/reports.module';
 import { SystoolsModule } from './systools/systools.module';
 import { SyslogsModule } from './syslogs/syslogs.module';
-import { TasksModule } from './tasks/tasks.module';
+import { OptionsModule } from './options/options.module';
 import { FtpclientModule } from './ftpclient/ftpclient.module';
 
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
@@ -107,7 +107,7 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
     ReportsModule,
     SystoolsModule,
     SyslogsModule,
-    TasksModule,
+    OptionsModule,
     FtpclientModule
   ],
   controllers: [AppController],

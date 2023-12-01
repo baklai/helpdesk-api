@@ -176,6 +176,9 @@ export class InspectorsService {
           cpu: 1,
           ram: 1,
           hdd: 1,
+          fixupdate: {
+            $size: { $ifNull: ['$fixupdate', []] }
+          },
           inspector: {
             useraccount: {
               count: {

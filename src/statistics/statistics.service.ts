@@ -545,7 +545,7 @@ export class StatisticsService {
               $lte: lastDayOfMonth
             },
             user: {
-              $ne: 'anonymous'
+              $nin: ['anonymous', 'system']
             }
           }
         },

@@ -93,5 +93,10 @@ export enum Scope {
   FilterDelete = 'filter:delete',
 
   SyslogRead = 'syslog:read',
-  SyslogDelete = 'syslog:delete'
+  SyslogDelete = 'syslog:delete',
+
+  OptionCreate = 'option:create',
+  OptionRead = 'option:read',
+  OptionUpdate = 'option:update',
+  OptionDelete = 'option:delete'
 }
