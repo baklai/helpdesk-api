@@ -468,8 +468,12 @@ export class StatisticsService {
 
   async dashboard() {
     const currentDate = new Date();
-    const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-    const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+    const firstDayOfPreviousMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() - 1,
+      1
+    );
+    const lastDayOfPreviousMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
 
     const [
       users,
@@ -503,7 +507,7 @@ export class StatisticsService {
         {
           $match: {
             createdAt: {
-              $gte: firstDayOfMonth,
+              $gte: firstDayOfPreviousMonth,
               $lt: currentDate
             }
           }
@@ -541,8 +545,8 @@ export class StatisticsService {
         {
           $match: {
             createdAt: {
-              $gte: firstDayOfMonth,
-              $lte: lastDayOfMonth
+              $gte: firstDayOfPreviousMonth,
+              $lte: lastDayOfPreviousMonth
             },
             user: {
               $nin: ['anonymous', 'system']

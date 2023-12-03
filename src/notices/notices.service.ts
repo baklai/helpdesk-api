@@ -7,6 +7,7 @@ import { CreateNoticeDto } from './dto/create-notice.dto';
 
 @Injectable()
 export class NoticesService {
+  syslogModel: any;
   constructor(@InjectModel(Notice.name) private readonly noticeModel: Model<Notice>) {}
 
   async create(createNoticeDto: CreateNoticeDto): Promise<Notice> {

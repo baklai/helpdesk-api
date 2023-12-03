@@ -36,10 +36,10 @@ import { StatisticsModule } from './statistics/statistics.module';
 import { ReportsModule } from './reports/reports.module';
 import { SystoolsModule } from './systools/systools.module';
 import { SyslogsModule } from './syslogs/syslogs.module';
-import { OptionsModule } from './options/options.module';
 import { FtpclientModule } from './ftpclient/ftpclient.module';
 
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
@@ -107,8 +107,8 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
     ReportsModule,
     SystoolsModule,
     SyslogsModule,
-    OptionsModule,
-    FtpclientModule
+    FtpclientModule,
+    TasksModule
   ],
   controllers: [AppController],
   providers: [AppService]
