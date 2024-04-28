@@ -43,20 +43,15 @@ export enum Scope {
   PingRead = 'ping:read',
   PingDelete = 'ping:delete',
 
-  CompanyCreate = 'company:create',
-  CompanyRead = 'company:read',
-  CompanyUpdate = 'company:update',
-  CompanyDelete = 'company:delete',
+  OrganizationCreate = 'organization:create',
+  OrganizationRead = 'organization:read',
+  OrganizationUpdate = 'organization:update',
+  OrganizationDelete = 'organization:delete',
 
-  BranchCreate = 'branch:create',
-  BranchRead = 'branch:read',
-  BranchUpdate = 'branch:update',
-  BranchDelete = 'branch:delete',
-
-  EnterpriseCreate = 'enterprise:create',
-  EnterpriseRead = 'enterprise:read',
-  EnterpriseUpdate = 'enterprise:update',
-  EnterpriseDelete = 'enterprise:delete',
+  SubdivisionCreate = 'subdivision:create',
+  SubdivisionRead = 'subdivision:read',
+  SubdivisionUpdate = 'subdivision:update',
+  SubdivisionDelete = 'subdivision:delete',
 
   DepartmentCreate = 'department:create',
   DepartmentRead = 'department:read',

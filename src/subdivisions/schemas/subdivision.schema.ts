@@ -1,10 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString, IsMongoId, IsOptional, IsDate } from 'class-validator';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
+import { Organization } from 'src/organizations/schemas/organization.schema';
 
 @Schema()
-export class Enterprise {
+export class Subdivision {
   @ApiProperty({
     description: 'The ID of the record (unique)',
     example: '6299b5cebf44864bfcea36d4',
@@ -14,8 +15,17 @@ export class Enterprise {
   @IsMongoId()
   readonly id: string;
 
+  @ApiPropertyOptional({
+    description: 'The code of the subdivision',
+    example: 'TSInc'
+  })
+  @IsString()
+  @IsOptional()
+  @Prop({ type: String, trim: true })
+  readonly code: string;
+
   @ApiProperty({
-    description: 'The name of the enterprise (must be unique)',
+    description: 'The name of the subdivision (must be unique)',
     example: 'Tech Solutions Inc.'
   })
   @IsString()
@@ -23,7 +33,7 @@ export class Enterprise {
   readonly name: string;
 
   @ApiPropertyOptional({
-    description: 'The address of the enterprise',
+    description: 'The address of the subdivision',
     example: '123 Tech Street, Innovation City'
   })
   @IsString()
@@ -32,13 +42,28 @@ export class Enterprise {
   readonly address: string;
 
   @ApiPropertyOptional({
-    description: 'A description about the enterprise',
-    example: 'A cutting-edge technology company specializing in software solutions.'
+    description: 'A description about the subdivision',
+    example: 'A cutting-edge technology subdivision specializing in software solutions'
   })
   @IsString()
   @IsOptional()
   @Prop({ type: String, trim: true })
   readonly description: string;
+
+  @ApiProperty({
+    description: 'Document of the associated Organization',
+    example: Organization
+  })
+  @IsString()
+  @IsMongoId()
+  @IsOptional()
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Organization',
+    default: null,
+    autopopulate: true
+  })
+  readonly organization: Organization;
 
   @ApiPropertyOptional({
     description: 'The created date of the record',
@@ -57,6 +82,6 @@ export class Enterprise {
   readonly updatedAt: Date;
 }
 
-export type EnterpriseDocument = HydratedDocument<Enterprise>;
+export type SubdivisionDocument = HydratedDocument<Subdivision>;
 
-export const EnterpriseSchema = SchemaFactory.createForClass(Enterprise);
+export const SubdivisionSchema = SchemaFactory.createForClass(Subdivision);

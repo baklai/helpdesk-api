@@ -23,9 +23,8 @@ import { InspectorsModule } from './inspectors/inspectors.module';
 import { OnmapsModule } from './onmaps/onmaps.module';
 import { PingsModule } from './pings/pings.module';
 import { RequestsModule } from './requests/requests.module';
-import { CompaniesModule } from './companies/companies.module';
-import { BranchesModule } from './branches/branches.module';
-import { EnterprisesModule } from './enterprises/enterprises.module';
+import { OrganizationsModule } from './organizations/organizations.module';
+import { SubdivisionsModule } from './subdivisions/subdivisions.module';
 import { DepartmentsModule } from './departments/departments.module';
 import { PositionsModule } from './positions/positions.module';
 import { UnitsModule } from './units/units.module';
@@ -95,9 +94,8 @@ import { TasksModule } from './tasks/tasks.module';
     OnmapsModule,
     PingsModule,
     NoticesModule,
-    CompaniesModule,
-    BranchesModule,
-    EnterprisesModule,
+    OrganizationsModule,
+    SubdivisionsModule,
     DepartmentsModule,
     PositionsModule,
     LocationsModule,

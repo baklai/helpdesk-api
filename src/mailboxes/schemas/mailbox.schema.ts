@@ -4,9 +4,8 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsArray, IsDate, IsMongoId, IsOptional, IsString } from 'class-validator';
 
 import { Location } from 'src/locations/schemas/location.schema';
-import { Company } from 'src/companies/schemas/company.schema';
-import { Branch } from 'src/branches/schemas/branch.schema';
-import { Enterprise } from 'src/enterprises/schemas/enterprise.schema';
+import { Subdivision } from 'src/subdivisions/schemas/subdivision.schema';
+import { Organization } from 'src/organizations/schemas/organization.schema';
 import { Department } from 'src/departments/schemas/department.schema';
 import { Position } from 'src/positions/schemas/position.schema';
 import { PaginateResponseDto } from 'src/common/dto/paginate-response.dto';
@@ -67,52 +66,36 @@ export class Mailbox {
   readonly location: Location;
 
   @ApiPropertyOptional({
-    description: 'Document of the associated Company',
-    example: Company
+    description: 'Document of the associated Organization',
+    example: Organization
   })
   @IsString()
   @IsMongoId()
   @IsOptional()
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Company',
+    ref: 'Organization',
     trim: true,
     default: null,
     autopopulate: true
   })
-  readonly company: Company;
+  readonly organization: Organization;
 
   @ApiPropertyOptional({
-    description: 'Document of the associated Branch',
-    example: Branch
+    description: 'Document of the associated Subdivision',
+    example: Subdivision
   })
   @IsString()
   @IsMongoId()
   @IsOptional()
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Branch',
+    ref: 'Subdivision',
     trim: true,
     default: null,
     autopopulate: true
   })
-  readonly branch: Branch;
-
-  @ApiPropertyOptional({
-    description: 'Document of the associated Enterprise',
-    example: Enterprise
-  })
-  @IsString()
-  @IsMongoId()
-  @IsOptional()
-  @Prop({
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Enterprise',
-    trim: true,
-    default: null,
-    autopopulate: true
-  })
-  readonly enterprise: Enterprise;
+  readonly subdivision: Subdivision;
 
   @ApiPropertyOptional({
     description: 'Document of the associated Department',

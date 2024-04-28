@@ -1,14 +1,3 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
-import { Netmask } from 'netmask';
-
-import { Unit } from 'src/units/schemas/unit.schema';
-import { Location } from 'src/locations/schemas/location.schema';
-import { Company } from 'src/companies/schemas/company.schema';
-import { Branch } from 'src/branches/schemas/branch.schema';
-import { Enterprise } from 'src/enterprises/schemas/enterprise.schema';
-import { Department } from 'src/departments/schemas/department.schema';
-import { Position } from 'src/positions/schemas/position.schema';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsString,
@@ -20,19 +9,17 @@ import {
   IsOptional,
   IsArray
 } from 'class-validator';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
+import { Netmask } from 'netmask';
+
+import { Unit } from 'src/units/schemas/unit.schema';
+import { Location } from 'src/locations/schemas/location.schema';
+import { Organization } from 'src/organizations/schemas/organization.schema';
+import { Subdivision } from 'src/subdivisions/schemas/subdivision.schema';
+import { Department } from 'src/departments/schemas/department.schema';
+import { Position } from 'src/positions/schemas/position.schema';
 import { PaginateResponseDto } from 'src/common/dto/paginate-response.dto';
-
-// export interface Internet {
-//   reqnum: string;
-//   dateOpen: Date;
-//   dateClose: Date;
-//   comment: string;
-// }
-
-// export interface CIDR {
-//   value: number;
-//   mask: string;
-// }
 
 export class CIDR {
   @ApiProperty({ description: 'CIDR Value', example: 24 })
@@ -140,12 +127,6 @@ export class Ipaddress {
   @ValidateNested()
   @IsOptional()
   @Prop({
-    // type: {
-    //   reqnum: { type: String, default: null, trim: true },
-    //   dateOpen: { type: Date, default: null, trim: true },
-    //   dateClose: { type: Date, default: null, trim: true },
-    //   comment: { type: String, default: null, trim: true }
-    // },
     type: Object,
     default: {
       reqnum: null,
@@ -193,49 +174,34 @@ export class Ipaddress {
   readonly location: Location;
 
   @ApiPropertyOptional({
-    description: 'Document of the associated Company',
-    example: Company
+    description: 'Document of the associated Organization',
+    example: Organization
   })
   @IsString()
   @IsMongoId()
   @IsOptional()
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Company',
+    ref: 'Organization',
     default: null,
     autopopulate: true
   })
-  readonly company: Company;
+  readonly organization: Organization;
 
   @ApiPropertyOptional({
-    description: 'Document of the associated Branch',
-    example: Branch
+    description: 'Document of the associated Subdivision',
+    example: Subdivision
   })
   @IsString()
   @IsMongoId()
   @IsOptional()
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Branch',
+    ref: 'Subdivision',
     default: null,
     autopopulate: true
   })
-  readonly branch: Branch;
-
-  @ApiPropertyOptional({
-    description: 'Document of the associated Enterprise',
-    example: Enterprise
-  })
-  @IsString()
-  @IsMongoId()
-  @IsOptional()
-  @Prop({
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Enterprise',
-    default: null,
-    autopopulate: true
-  })
-  readonly enterprise: Enterprise;
+  readonly subdivision: Subdivision;
 
   @ApiPropertyOptional({
     description: 'Document of the associated Department',

@@ -1,16 +1,16 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsString } from 'class-validator';
 
-export class CreateCompanyDto {
+export class CreateOrganizationDto {
   @ApiProperty({
-    description: 'The name of the company (must be unique)',
+    description: 'The name of the organization (must be unique)',
     example: 'ABC Corporation'
   })
   @IsString()
   readonly name: string;
 
   @ApiPropertyOptional({
-    description: 'The address of the company',
+    description: 'The address of the organization',
     example: '456 Business Avenue, Townsville'
   })
   @IsString()
@@ -18,7 +18,7 @@ export class CreateCompanyDto {
   readonly address: string;
 
   @ApiPropertyOptional({
-    description: 'A description about the company',
+    description: 'A description about the organization',
     example: 'A leading provider of innovative solutions.'
   })
   @IsString()

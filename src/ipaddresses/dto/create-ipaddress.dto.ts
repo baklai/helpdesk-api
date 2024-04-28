@@ -65,31 +65,22 @@ export class CreateIpaddressDto {
   readonly location: string;
 
   @ApiPropertyOptional({
-    description: 'ID of the associated Company',
+    description: 'ID of the associated Organization',
     example: '6299b5cfbf44864bfcea3b0e'
   })
   @IsString()
   @IsMongoId()
   @IsOptional()
-  readonly company: string;
+  readonly organization: string;
 
   @ApiPropertyOptional({
-    description: 'ID of the associated Branch',
+    description: 'ID of the associated Subdivision',
     example: '6299b5cebf44864bfcea36d2'
   })
   @IsString()
   @IsMongoId()
   @IsOptional()
-  readonly branch: string;
-
-  @ApiPropertyOptional({
-    description: 'ID of the associated Enterprise',
-    example: '6299b5cebf44864bfcea372a'
-  })
-  @IsString()
-  @IsMongoId()
-  @IsOptional()
-  readonly enterprise: string;
+  readonly subdivision: string;
 
   @ApiPropertyOptional({
     description: 'ID of the associated Department',

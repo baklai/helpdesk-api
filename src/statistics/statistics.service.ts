@@ -3,12 +3,11 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as dayjs from 'dayjs';
 
-import { Branch } from 'src/branches/schemas/branch.schema';
 import { Location } from 'src/locations/schemas/location.schema';
 import { Channel } from 'src/channels/schemas/channel.schema';
-import { Company } from 'src/companies/schemas/company.schema';
+import { Organization } from 'src/organizations/schemas/organization.schema';
+import { Subdivision } from 'src/subdivisions/schemas/subdivision.schema';
 import { Department } from 'src/departments/schemas/department.schema';
-import { Enterprise } from 'src/enterprises/schemas/enterprise.schema';
 import { Inspector } from 'src/inspectors/schemas/inspector.schema';
 import { Ipaddress } from 'src/ipaddresses/schemas/ipaddress.schema';
 import { Position } from 'src/positions/schemas/position.schema';
@@ -26,9 +25,8 @@ export class StatisticsService {
     @InjectModel(Ipaddress.name) private readonly ipaddressModel: Model<Ipaddress>,
     @InjectModel(Request.name) private readonly requestModel: Model<Request>,
     @InjectModel(Inspector.name) private readonly inspectorModel: Model<Inspector>,
-    @InjectModel(Company.name) private readonly companyModel: Model<Company>,
-    @InjectModel(Branch.name) private readonly branchModel: Model<Branch>,
-    @InjectModel(Enterprise.name) private readonly enterpriseModel: Model<Enterprise>,
+    @InjectModel(Organization.name) private readonly organizationModel: Model<Organization>,
+    @InjectModel(Subdivision.name) private readonly subdivisionModel: Model<Subdivision>,
     @InjectModel(Department.name) private readonly departmentModel: Model<Department>,
     @InjectModel(Unit.name) private readonly unitModel: Model<Unit>,
     @InjectModel(Location.name) private readonly locationModel: Model<Location>,
@@ -51,16 +49,13 @@ export class StatisticsService {
       units,
       statistic,
       barUnits,
-      barLocations,
-      barBranches,
-      barEnterprises
+      barLocations
     ] = await Promise.all([
       this.channelModel.countDocuments(),
       this.mailboxModel.countDocuments(),
       this.ipaddressModel.countDocuments(),
-      this.companyModel.countDocuments(),
-      this.branchModel.countDocuments(),
-      this.enterpriseModel.countDocuments(),
+      this.organizationModel.countDocuments(),
+      this.subdivisionModel.countDocuments(),
       this.departmentModel.countDocuments(),
       this.locationModel.countDocuments(),
       this.unitModel.countDocuments(),
@@ -172,9 +167,7 @@ export class StatisticsService {
       locations,
       units,
       barUnits,
-      barLocations,
-      barBranches,
-      barEnterprises
+      barLocations
     };
   }
 
@@ -182,12 +175,11 @@ export class StatisticsService {
     const startOfYear = dayjs().startOf('year');
     const endOfYear = dayjs().endOf('year');
 
-    const [requests, companies, branches, enterprises, departments, locations, positions, units] =
+    const [requests, organizations, subdivisions, departments, locations, positions, units] =
       await Promise.all([
         this.requestModel.countDocuments(),
-        this.companyModel.countDocuments(),
-        this.branchModel.countDocuments(),
-        this.enterpriseModel.countDocuments(),
+        this.organizationModel.countDocuments(),
+        this.subdivisionModel.countDocuments(),
         this.departmentModel.countDocuments(),
         this.locationModel.countDocuments(),
         this.positionModel.countDocuments(),
@@ -256,9 +248,8 @@ export class StatisticsService {
       yearchar,
       monthchar: data,
       weekchar,
-      companies,
-      branches,
-      enterprises,
+      organizations,
+      subdivisions,
       departments,
       locations,
       positions,
@@ -481,9 +472,8 @@ export class StatisticsService {
       requests,
       ipaddress,
       channels,
-      companies,
-      branches,
-      enterprises,
+      organizations,
+      subdivisions,
       departments,
       positions,
       locations,
@@ -496,9 +486,8 @@ export class StatisticsService {
       this.requestModel.countDocuments(),
       this.ipaddressModel.countDocuments(),
       this.channelModel.countDocuments(),
-      this.companyModel.countDocuments(),
-      this.branchModel.countDocuments(),
-      this.enterpriseModel.countDocuments(),
+      this.organizationModel.countDocuments(),
+      this.subdivisionModel.countDocuments(),
       this.departmentModel.countDocuments(),
       this.positionModel.countDocuments(),
       this.locationModel.countDocuments(),
@@ -589,9 +578,8 @@ export class StatisticsService {
       requests,
       ipaddress,
       channels,
-      companies,
-      branches,
-      enterprises,
+      organizations,
+      subdivisions,
       departments,
       positions,
       locations,

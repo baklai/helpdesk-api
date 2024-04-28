@@ -1,10 +1,10 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsDate, IsMongoId, IsOptional, IsString } from 'class-validator';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { IsString, IsMongoId, IsOptional, IsDate } from 'class-validator';
 import { HydratedDocument } from 'mongoose';
 
 @Schema()
-export class Branch {
+export class Organization {
   @ApiProperty({
     description: 'The ID of the record (unique)',
     example: '6299b5cebf44864bfcea36d4',
@@ -15,16 +15,16 @@ export class Branch {
   readonly id: string;
 
   @ApiProperty({
-    description: 'The name of the branch (must be unique)',
-    example: 'Downtown Branch'
+    description: 'The name of the organization (must be unique)',
+    example: 'ABC Corporation'
   })
   @IsString()
   @Prop({ type: String, required: true, unique: true, uniqueCaseInsensitive: true, trim: true })
   readonly name: string;
 
   @ApiPropertyOptional({
-    description: 'The address of the branch',
-    example: '123 Main Street, Cityville'
+    description: 'The address of the organization',
+    example: '456 Business Avenue, Townsville'
   })
   @IsString()
   @IsOptional()
@@ -32,8 +32,8 @@ export class Branch {
   readonly address: string;
 
   @ApiPropertyOptional({
-    description: 'A description about the branch',
-    example: 'This branch is located in the heart of the city.'
+    description: 'A description about the organization',
+    example: 'A leading provider of innovative solutions.'
   })
   @IsString()
   @IsOptional()
@@ -57,6 +57,6 @@ export class Branch {
   readonly updatedAt: Date;
 }
 
-export type BranchDocument = HydratedDocument<Branch>;
+export type OrganizationDocument = HydratedDocument<Organization>;
 
-export const BranchSchema = SchemaFactory.createForClass(Branch);
+export const OrganizationSchema = SchemaFactory.createForClass(Organization);

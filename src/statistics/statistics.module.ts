@@ -2,12 +2,11 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { RequestSchema } from 'src/requests/schemas/request.schema';
-import { Branch, BranchSchema } from 'src/branches/schemas/branch.schema';
 import { Channel, ChannelSchema } from 'src/channels/schemas/channel.schema';
 import { Mailbox, MailboxSchema } from 'src/mailboxes/schemas/mailbox.schema';
-import { Company, CompanySchema } from 'src/companies/schemas/company.schema';
+import { Organization, OrganizationSchema } from 'src/organizations/schemas/organization.schema';
+import { Subdivision, SubdivisionSchema } from 'src/subdivisions/schemas/subdivision.schema';
 import { Department, DepartmentSchema } from 'src/departments/schemas/department.schema';
-import { Enterprise, EnterpriseSchema } from 'src/enterprises/schemas/enterprise.schema';
 import { Inspector, InspectorSchema } from 'src/inspectors/schemas/inspector.schema';
 import { Ipaddress, IpaddressSchema } from 'src/ipaddresses/schemas/ipaddress.schema';
 import { Location, LocationSchema } from 'src/locations/schemas/location.schema';
@@ -27,9 +26,8 @@ import { StatisticsController } from './statistics.controller';
       { name: Mailbox.name, schema: MailboxSchema },
       { name: Request.name, schema: RequestSchema },
       { name: Inspector.name, schema: InspectorSchema },
-      { name: Company.name, schema: CompanySchema },
-      { name: Branch.name, schema: BranchSchema },
-      { name: Enterprise.name, schema: EnterpriseSchema },
+      { name: Organization.name, schema: OrganizationSchema },
+      { name: Subdivision.name, schema: SubdivisionSchema },
       { name: Department.name, schema: DepartmentSchema },
       { name: Location.name, schema: LocationSchema },
       { name: Position.name, schema: PositionSchema },
