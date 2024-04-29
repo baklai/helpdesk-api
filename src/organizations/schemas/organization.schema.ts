@@ -28,7 +28,7 @@ export class Organization {
   })
   @IsString()
   @IsOptional()
-  @Prop({ type: String, trim: true })
+  @Prop({ type: String, trim: true, default: null })
   readonly address: string;
 
   @ApiPropertyOptional({
@@ -37,7 +37,7 @@ export class Organization {
   })
   @IsString()
   @IsOptional()
-  @Prop({ type: String, trim: true })
+  @Prop({ type: String, trim: true, default: null })
   readonly description: string;
 
   @ApiPropertyOptional({

@@ -21,7 +21,7 @@ export class Subdivision {
   })
   @IsString()
   @IsOptional()
-  @Prop({ type: String, trim: true })
+  @Prop({ type: String, trim: true, default: null })
   readonly code: string;
 
   @ApiProperty({
@@ -29,7 +29,7 @@ export class Subdivision {
     example: 'Tech Solutions Inc.'
   })
   @IsString()
-  @Prop({ type: String, required: true, unique: true, uniqueCaseInsensitive: true, trim: true })
+  @Prop({ type: String, required: true, trim: true })
   readonly name: string;
 
   @ApiPropertyOptional({
@@ -38,7 +38,7 @@ export class Subdivision {
   })
   @IsString()
   @IsOptional()
-  @Prop({ type: String, trim: true })
+  @Prop({ type: String, trim: true, default: null })
   readonly address: string;
 
   @ApiPropertyOptional({
@@ -47,7 +47,7 @@ export class Subdivision {
   })
   @IsString()
   @IsOptional()
-  @Prop({ type: String, trim: true })
+  @Prop({ type: String, trim: true, default: null })
   readonly description: string;
 
   @ApiProperty({
@@ -60,7 +60,7 @@ export class Subdivision {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Organization',
-    default: null,
+    required: true,
     autopopulate: true
   })
   readonly organization: Organization;
