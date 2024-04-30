@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsInt, IsObject, IsOptional, Max, Min } from 'class-validator';
+import { IsInt, IsObject, IsOptional, IsString, Max, Min } from 'class-validator';
 
 function convertValuesToNumber(val: Record<string, any>) {
   const obj = { ...val };
@@ -29,19 +29,20 @@ export class PaginateQueryDto {
   readonly offset: number;
 
   @ApiPropertyOptional({
-    description: 'Sorting criteria (e.g., sort[field]=asc)',
+    description: 'Sorting string (e.g., sort={"field":"asc"})',
     type: String
   })
   @IsObject()
   @IsOptional()
-  @Transform(({ value }) => (value ? convertValuesToNumber(value) : {}))
-  readonly sort: Record<number | string, any>;
+  @Transform(({ value }) => (value ? JSON.parse(value) : {}))
+  readonly sort: Record<string, any>;
 
   @ApiPropertyOptional({
-    description: 'Filtering criteria (e.g., filters[field]=value)',
+    description: 'Filtering string (e.g., filters={"field":"value"})',
     type: String
   })
   @IsObject()
   @IsOptional()
+  @Transform(({ value }) => (value ? JSON.parse(value) : {}))
   readonly filters: Record<string, any>;
 }
