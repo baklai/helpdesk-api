@@ -29,7 +29,7 @@ export class OrganizationsService {
   }
 
   async findAll(): Promise<Organization[]> {
-    return await this.organizationModel.find().select({ createdAt: 0, updatedAt: 0 }).exec();
+    return await this.organizationModel.find().exec();
   }
 
   async findOneById(id: string): Promise<Organization> {

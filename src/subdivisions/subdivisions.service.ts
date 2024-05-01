@@ -29,7 +29,18 @@ export class SubdivisionsService {
   }
 
   async findAll(): Promise<Subdivision[]> {
-    return await this.subdivisionModel.find().select({ createdAt: 0, updatedAt: 0 }).exec();
+    return await this.subdivisionModel.find().exec();
+  }
+
+  async findAllByOrganizationId(id: string): Promise<Subdivision[]> {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('Invalid record ID');
+    }
+    return await this.subdivisionModel
+      .find({ organization: id }, null, {
+        autopopulate: false
+      })
+      .exec();
   }
 
   async findOneById(id: string): Promise<Subdivision> {

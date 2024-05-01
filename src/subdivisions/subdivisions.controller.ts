@@ -55,6 +55,20 @@ export class SubdivisionsController {
     return await this.subdivisionsService.findAll();
   }
 
+  @Get('organization/:id')
+  @Scopes(Scope.SubdivisionRead)
+  @ApiOperation({
+    summary: 'Get all record by Organization ID',
+    description: 'Required scopes: [' + [Scope.SubdivisionRead].join(',') + ']'
+  })
+  @ApiOkResponse({ description: 'Success', type: [Subdivision] })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  async findAllByOrganizationId(@Param('id') id: string): Promise<Subdivision[]> {
+    return await this.subdivisionsService.findAllByOrganizationId(id);
+  }
+
   @Get(':id')
   @Scopes(Scope.SubdivisionRead)
   @ApiOperation({
