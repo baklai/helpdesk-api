@@ -19,7 +19,7 @@ export class Location {
     example: 'Headquarters'
   })
   @IsString()
-  @Prop({ type: String, required: true, unique: true, uniqueCaseInsensitive: true, trim: true })
+  @Prop({ type: String, required: true, trim: true })
   readonly name: string;
 
   @ApiPropertyOptional({
