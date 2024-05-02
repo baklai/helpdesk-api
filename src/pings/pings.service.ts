@@ -1,15 +1,20 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { PaginateModel, PaginateResult, Types } from 'mongoose';
+import { Model, PaginateModel, PaginateResult, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { Cron } from '@nestjs/schedule';
 import ping, { pingResponse } from 'pingman';
 
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
+import { Syslog } from 'src/syslogs/schemas/syslog.schema';
 import { CreatePingDto } from './dto/create-ping.dto';
 import { Ping } from './schemas/ping.schema';
 
 @Injectable()
 export class PingsService {
-  constructor(@InjectModel(Ping.name) private readonly pingModel: PaginateModel<Ping>) {}
+  constructor(
+    @InjectModel(Ping.name) private readonly pingModel: PaginateModel<Ping>,
+    @InjectModel(Syslog.name) private readonly syslogModel: Model<Syslog>
+  ) {}
 
   async create({ host }: CreatePingDto): Promise<Ping> {
     const response: pingResponse = await ping(host, { timeout: 3, IPV4: true });
@@ -59,5 +64,30 @@ export class PingsService {
       throw new NotFoundException('Ping not found');
     }
     return deletedPing;
+  }
+
+  @Cron('0 0 * * *')
+  async handleTaskPing() {
+    let error = false;
+    const monthOffcet = new Date();
+    monthOffcet.setMonth(monthOffcet.getMonth() - 6);
+    try {
+      await this.pingModel.deleteMany({ createdAt: { $lt: monthOffcet } }).exec();
+    } catch (err) {
+      error = true;
+    } finally {
+      console.info(`127.0.0.1 [system] TASK ${error ? 500 : 200} - CLEAR PINGs`);
+      await this.syslogModel.create({
+        host: '127.0.0.1',
+        user: 'system',
+        method: 'TASK',
+        baseUrl: 'CLEAR PINGs',
+        params: null,
+        query: null,
+        body: null,
+        status: error ? 500 : 200,
+        userAgent: null
+      });
+    }
   }
 }

@@ -38,7 +38,6 @@ import { SyslogsModule } from './syslogs/syslogs.module';
 import { FtpclientModule } from './ftpclient/ftpclient.module';
 
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
-import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
@@ -105,8 +104,7 @@ import { TasksModule } from './tasks/tasks.module';
     ReportsModule,
     SystoolsModule,
     SyslogsModule,
-    FtpclientModule,
-    TasksModule
+    FtpclientModule
   ],
   controllers: [AppController],
   providers: [AppService]
