@@ -29,7 +29,7 @@ export class IpaddressesService {
 
     const emails = await this.usersService.findAllSubscription();
 
-    this.mailerService.removeIPAddress(emails, newIpaddress);
+    this.mailerService.createIPAddress(emails, newIpaddress);
 
     return newIpaddress;
   }
