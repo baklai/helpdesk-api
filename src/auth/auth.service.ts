@@ -72,7 +72,7 @@ export class AuthService {
     }
     const passwordHash = await bcrypt.hash(
       signupAuthDto.password,
-      this.configService.get('bcryptSalt')
+      Number(this.configService.get<number>('BCRYPT_SALT'))
     );
 
     try {
@@ -126,15 +126,15 @@ export class AuthService {
       this.jwtService.signAsync(
         { id, login, isActive, isAdmin, scope },
         {
-          secret: this.configService.get('jwtAccessSecret'),
-          expiresIn: this.configService.get('jwtAccessExpiresIn')
+          secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
+          expiresIn: this.configService.get<string>('JWT_ACCESS_EXPIRES_IN')
         }
       ),
       this.jwtService.signAsync(
         { id, login },
         {
-          secret: this.configService.get('jwtRefreshSecret'),
-          expiresIn: this.configService.get('jwtRefreshExpiresIn')
+          secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
+          expiresIn: this.configService.get<string>('JWT_REFRESH_EXPIRES_IN')
         }
       )
     ]);
@@ -145,8 +145,9 @@ export class AuthService {
   async updateRefreshToken(userId: string, refreshToken: string) {
     const hashedRefreshToken = await bcrypt.hash(
       refreshToken,
-      this.configService.get('bcryptSalt')
+      Number(this.configService.get<number>('BCRYPT_SALT'))
     );
+
     await this.refreshTokenModel
       .findOneAndUpdate(
         { userId },

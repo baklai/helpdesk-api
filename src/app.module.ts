@@ -7,7 +7,7 @@ import * as mongooseAutopopulate from 'mongoose-autopopulate';
 const mongooseAggregatePaginate = require('mongoose-aggregate-paginate-v2');
 import * as mongoosePaginate from 'mongoose-paginate-v2';
 
-import appConfig from './config/configuration';
+import appConfig from './config/app.config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -36,6 +36,7 @@ import { ReportsModule } from './reports/reports.module';
 import { SystoolsModule } from './systools/systools.module';
 import { SyslogsModule } from './syslogs/syslogs.module';
 import { FtpclientModule } from './ftpclient/ftpclient.module';
+import { MailerModule } from './mailer/mailer.module';
 
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 
@@ -47,11 +48,23 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
       load: [appConfig]
     }),
     ScheduleModule.forRoot(),
+    MailerModule.forRootAsync({
+      inject: [ConfigService],
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        host: configService.get<string>('MAILER_HOST'),
+        port: configService.get<string>('MAILER_PORT'),
+        auth: {
+          user: configService.get<string>('MAILER_USER'),
+          pass: configService.get<string>('MAILER_PASSWORD')
+        }
+      })
+    }),
     MongooseModule.forRootAsync({
       inject: [ConfigService],
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        uri: configService.get('mongoURI'),
+        uri: configService.get<string>('MONGO_URI'),
         connectionFactory: connection => {
           connection.plugin((schema: Schema) => {
             schema.set('autoCreate', false);
@@ -104,7 +117,8 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
     ReportsModule,
     SystoolsModule,
     SyslogsModule,
-    FtpclientModule
+    FtpclientModule,
+    MailerModule
   ],
   controllers: [AppController],
   providers: [AppService]

@@ -24,7 +24,7 @@ export class UsersService {
   async create(createUserDto: CreateUserDto): Promise<User> {
     const passwordHash = await bcrypt.hash(
       createUserDto.password,
-      this.configService.get('bcryptSalt')
+      Number(this.configService.get<number>('BCRYPT_SALT'))
     );
     try {
       return await this.userModel.create({
@@ -53,6 +53,12 @@ export class UsersService {
 
   async findAllMe(): Promise<User[]> {
     return await this.userModel.find().select({ id: 1, login: 1, fullname: 1 }).exec();
+  }
+
+  async findAllSubscription(): Promise<string[]> {
+    const users = await this.userModel.find({ isSubscription: true }).select({ email: 1 });
+
+    return users.map((user: User) => user.email);
   }
 
   async findOneById(id: string): Promise<User> {
@@ -88,7 +94,7 @@ export class UsersService {
                   ...updateUserDto,
                   password: await bcrypt.hash(
                     updateUserDto.password,
-                    this.configService.get('bcryptSalt')
+                    Number(this.configService.get<number>('BCRYPT_SALT'))
                   )
                 }
               : updateUserDto

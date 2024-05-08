@@ -71,8 +71,8 @@ async function bootstrap() {
     customSiteTitle: 'API Helpdesk | Swagger'
   });
 
-  const port = configService.get('port');
-  const host = configService.get('host');
+  const port = configService.get<number>('PORT');
+  const host = configService.get<string>('HOST');
 
   await app.listen(port, host, async () => {
     console.info(`Application is running on: ${await app.getUrl()}/`);

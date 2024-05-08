@@ -11,11 +11,11 @@ export class FtpclientService {
 
   ftpConfig() {
     return {
-      host: this.configService.get('ftpHost'),
-      port: this.configService.get('ftpPort'),
-      user: this.configService.get('ftpUser'),
-      password: this.configService.get('ftpPassword'),
-      secure: this.configService.get('ftpSecure')
+      host: this.configService.get<string>('FTP_HOST'),
+      port: this.configService.get<number>('FTP_PORT'),
+      user: this.configService.get<string>('FTP_USER'),
+      password: this.configService.get<string>('FTP_PASSWORD'),
+      secure: this.configService.get<boolean>('FTP_SECURE')
     };
   }
 

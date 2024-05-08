@@ -57,6 +57,15 @@ export class CreateUserDto {
   readonly isAdmin: boolean;
 
   @ApiPropertyOptional({
+    description: 'Flag indicating if the user is on subscription',
+    default: false,
+    example: false
+  })
+  @IsBoolean()
+  @IsOptional()
+  readonly isSubscription: boolean;
+
+  @ApiPropertyOptional({
     description: "The user's scope",
     default: [],
     example: [

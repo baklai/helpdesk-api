@@ -1,27 +1,37 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { PaginateModel, PaginateResult, Model, Types } from 'mongoose';
+import { isIP } from 'class-validator';
 import { Netmask } from 'netmask';
 
+import { MailerService } from 'src/mailer/mailer.service';
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
+import { Inspector } from 'src/inspectors/schemas/inspector.schema';
 
 import { Ipaddress } from './schemas/ipaddress.schema';
 import { CreateIpaddressDto } from './dto/create-ipaddress.dto';
 import { UpdateIpaddressDto } from './dto/update-ipaddress.dto';
-import { Inspector } from 'src/inspectors/schemas/inspector.schema';
-import { isIP } from 'class-validator';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class IpaddressesService {
   constructor(
     @InjectModel(Ipaddress.name) private readonly ipaddressModel: PaginateModel<Ipaddress>,
-    @InjectModel(Inspector.name) private readonly inspectorModel: Model<Inspector>
+    @InjectModel(Inspector.name) private readonly inspectorModel: Model<Inspector>,
+    private readonly mailerService: MailerService,
+    private readonly usersService: UsersService
   ) {}
 
   async create(createIpaddressDto: CreateIpaddressDto): Promise<Ipaddress> {
     const { ipaddress } = createIpaddressDto;
     const indexip = new Netmask(ipaddress).netLong;
-    return await this.ipaddressModel.create({ ...createIpaddressDto, indexip });
+    const newIpaddress = await this.ipaddressModel.create({ ...createIpaddressDto, indexip });
+
+    const emails = await this.usersService.findAllSubscription();
+
+    this.mailerService.removeIPAddress(emails, newIpaddress);
+
+    return newIpaddress;
   }
 
   async findAll(query: PaginateQueryDto): Promise<PaginateResult<Ipaddress>> {
@@ -128,10 +138,19 @@ export class IpaddressesService {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid record ID');
     }
+
+    const ipaddress = await this.ipaddressModel.findById(id);
+
     const deletedIpaddress = await this.ipaddressModel.findByIdAndRemove(id).exec();
+
     if (!deletedIpaddress) {
       throw new NotFoundException('Record not found');
     }
+
+    const emails = await this.usersService.findAllSubscription();
+
+    this.mailerService.removeIPAddress(emails, ipaddress);
+
     return deletedIpaddress;
   }
 }

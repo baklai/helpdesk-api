@@ -11,7 +11,7 @@ export class SystoolsService {
 
   scriptInspector(protocol: string, host: string): Buffer {
     const apiInspector = `${protocol}://${host}/api/v1/inspectors`;
-    const publicToken = this.configService.get('HDPublicToken');
+    const publicToken = this.configService.get<string>('HD_PUBLIC_TOKEN');
     const vbs = inspectorVBS(apiInspector, publicToken);
     return Buffer.from(vbs);
   }
