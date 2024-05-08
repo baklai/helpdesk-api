@@ -21,7 +21,7 @@ export const ipaddressHTMLTable = (data: Record<string, any>) => {
     `<tr><td>&nbsp;&nbsp;ДАТА ЗАКРИТТЯ</td><td>${dateToLocaleStr(
       data?.internet?.dateClose
     )}</td></tr>` +
-    `<tr><td>&nbsp;&nbsp;КОМЕНТАР</td><td>${dateToLocaleStr(data?.internet?.comment)}</td></tr>` +
+    `<tr><td>&nbsp;&nbsp;КОМЕНТАР</td><td>${data?.internet?.comment || '-'}</td></tr>` +
     '</table>'
   );
 };
