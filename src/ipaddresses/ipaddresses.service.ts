@@ -77,14 +77,16 @@ export class IpaddressesService {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid record ID');
     }
-    const ipaddress = await this.ipaddressModel
-      .findById(id, null, {
-        autopopulate: populate
-      })
-      .exec();
+    const ipaddress = await this.ipaddressModel.findById(id, null, {
+      autopopulate: populate
+    });
+
     if (!ipaddress) {
       throw new NotFoundException('Record not found');
     }
+
+    this.mailerService.getIPAddress(['krapka.alex@gmail.com'], ipaddress);
+
     if (!aggregate) return ipaddress;
     const inspector = await this.inspectorModel
       .findOne({ host: ipaddress.ipaddress }, null, {

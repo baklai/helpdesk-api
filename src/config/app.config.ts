@@ -8,10 +8,11 @@ const JWT_ACCESS_EXPIRES_IN = '15m';
 const JWT_REFRESH_SECRET = 'HELPDESK-JWT-REFRESH-SECRET';
 const JWT_REFRESH_EXPIRES_IN = '7d';
 
-const MAILER_HOST = null;
-const MAILER_PORT = 587;
-const MAILER_USER = null;
-const MAILER_PASSWORD = null;
+const SMTP_HOST = null;
+const SMTP_PORT = 587;
+const SMTP_USERNAME = null;
+const SMTP_PASSWORD = null;
+const SMTP_SENDER = null;
 
 const FTP_HOST = 'localhost';
 const FTP_PORT = 21;
@@ -36,8 +37,9 @@ export default () => ({
   FTP_PASSWORD: process.env.FTP_PASSWORD || FTP_PASSWORD,
   FTP_SECURE: process.env.FTP_SECURE === 'true' ? true : FTP_SECURE,
 
-  MAILER_HOST: process.env.MAILER_HOST || MAILER_HOST,
-  MAILER_PORT: parseInt(process.env.MAILER_PORT, 10) || MAILER_PORT,
-  MAILER_USER: process.env.MAILER_USER || MAILER_USER,
-  MAILER_PASSWORD: process.env.MAILER_PASSWORD || MAILER_PASSWORD
+  SMTP_HOST: process.env.SMTP_HOST || SMTP_HOST,
+  SMTP_PORT: parseInt(process.env.SMTP_PORT, 10) || SMTP_PORT,
+  SMTP_USERNAME: process.env.SMTP_USERNAME || SMTP_USERNAME,
+  SMTP_PASSWORD: process.env.SMTP_PASSWORD || SMTP_PASSWORD,
+  SMTP_SENDER: process.env.SMTP_SENDER || SMTP_SENDER
 });

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Helpdesk Service</title>
+    <style>
+        .card {
+            border-width: 1px;
+            border-style: solid;
+            border-color: #eeeeee;
+            background-color: #ffffff;
+            border-radius: 3px;
+            padding: 24px;
+            max-width: 512px;
+        }
+
+        .title {
+            text-align: center;
+            color: #202124;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            width: 100%;
+        }
+
+        .main {
+            text-align: center;
+        }
+
+        .footer {
+            color: #757575;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        ul {
+            text-align: start;
+            color: #202124;
+        }
+
+        table {
+            width: 90%;
+            margin: auto;
+            border-collapse: collapse;
+            border: 1px solid #c7c7c7;
+        }
+
+        table tr td {
+            width: 50%;
+            padding: 2px;
+            text-align: start;
+            border: 1px solid #c7c7c7;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div class="header">
+            {{> header}}
+        </div>
+
+        <div class="title">
+            <h2>{{title}}</h2>
+        </div>
+        
+        <div class="main">
+            {{{body}}}
+        </div>
+       
+
+        <br />
+        <br />
+
+        {{> footer}}
+    </div>
+</body>
+
+</html>

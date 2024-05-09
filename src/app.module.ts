@@ -52,12 +52,13 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
       inject: [ConfigService],
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        host: configService.get<string>('MAILER_HOST'),
-        port: configService.get<string>('MAILER_PORT'),
+        host: configService.get<string>('SMTP_HOST'),
+        port: configService.get<string>('SMTP_PORT'),
         auth: {
-          user: configService.get<string>('MAILER_USER'),
-          pass: configService.get<string>('MAILER_PASSWORD')
-        }
+          user: configService.get<string>('SMTP_USERNAME'),
+          pass: configService.get<string>('SMTP_PASSWORD')
+        },
+        sender: configService.get<string>('SMTP_SENDER')
       })
     }),
     MongooseModule.forRootAsync({
