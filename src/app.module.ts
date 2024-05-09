@@ -20,7 +20,6 @@ import { ChannelsModule } from './channels/channels.module';
 import { MailboxesModule } from './mailboxes/mailboxes.module';
 import { IpaddressesModule } from './ipaddresses/ipaddresses.module';
 import { InspectorsModule } from './inspectors/inspectors.module';
-import { OnmapsModule } from './onmaps/onmaps.module';
 import { PingsModule } from './pings/pings.module';
 import { RequestsModule } from './requests/requests.module';
 import { OrganizationsModule } from './organizations/organizations.module';
@@ -104,7 +103,6 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
     RequestsModule,
     NetmapsModule,
     InspectorsModule,
-    OnmapsModule,
     PingsModule,
     NoticesModule,
     OrganizationsModule,
