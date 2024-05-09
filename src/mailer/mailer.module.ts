@@ -53,6 +53,12 @@ export class MailerModule {
               })
             );
 
+            transporter.verify((err, success) => {
+              if (err) {
+                console.error(err);
+              }
+            });
+
             return transporter;
           },
           inject: options.inject || []
