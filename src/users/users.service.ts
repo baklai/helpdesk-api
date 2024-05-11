@@ -127,15 +127,13 @@ export class UsersService {
       throw new NotFoundException('Record not found');
     }
 
-    await this.requestModel.updateMany(
-      { workerOpen: deletedUser.id },
-      { $set: { workerOpen: null } }
-    );
+    await this.requestModel.deleteMany({
+      workerOpen: deletedUser.id
+    });
 
-    await this.requestModel.updateMany(
-      { workerClose: deletedUser.id },
-      { $set: { workerClose: null } }
-    );
+    await this.requestModel.deleteMany({
+      workerClose: deletedUser.id
+    });
 
     await this.noticeModel.deleteMany({
       userId: deletedUser.id
