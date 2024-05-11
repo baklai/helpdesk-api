@@ -7,6 +7,10 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 
+import { Ipaddress } from 'src/ipaddresses/schemas/ipaddress.schema';
+import { Mailbox } from 'src/mailboxes/schemas/mailbox.schema';
+import { Request } from 'src/requests/schemas/request.schema';
+
 import { Subdivision } from './schemas/subdivision.schema';
 import { CreateSubdivisionDto } from './dto/create-subdivision.dto';
 import { UpdateSubdivisionDto } from './dto/update-subdivision.dto';
@@ -14,7 +18,10 @@ import { UpdateSubdivisionDto } from './dto/update-subdivision.dto';
 @Injectable()
 export class SubdivisionsService {
   constructor(
-    @InjectModel(Subdivision.name) private readonly subdivisionModel: Model<Subdivision>
+    @InjectModel(Subdivision.name) private readonly subdivisionModel: Model<Subdivision>,
+    @InjectModel(Ipaddress.name) private readonly ipaddressModel: Model<Ipaddress>,
+    @InjectModel(Mailbox.name) private readonly mailboxModel: Model<Mailbox>,
+    @InjectModel(Request.name) private readonly requestModel: Model<Request>
   ) {}
 
   async create(createSubdivisionDto: CreateSubdivisionDto): Promise<Subdivision> {
@@ -81,10 +88,26 @@ export class SubdivisionsService {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid record ID');
     }
+
     const deletedSubdivision = await this.subdivisionModel.findByIdAndRemove(id).exec();
+
     if (!deletedSubdivision) {
       throw new NotFoundException('Record not found');
     }
+
+    await this.ipaddressModel.updateMany(
+      { subdivision: deletedSubdivision.id },
+      { $set: { subdivision: null } }
+    );
+    await this.mailboxModel.updateMany(
+      { subdivision: deletedSubdivision.id },
+      { $set: { subdivision: null } }
+    );
+    await this.requestModel.updateMany(
+      { subdivision: deletedSubdivision.id },
+      { $set: { subdivision: null } }
+    );
+
     return deletedSubdivision;
   }
 }

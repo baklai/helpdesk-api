@@ -7,13 +7,22 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 
+import { Ipaddress } from 'src/ipaddresses/schemas/ipaddress.schema';
+import { Mailbox } from 'src/mailboxes/schemas/mailbox.schema';
+import { Request } from 'src/requests/schemas/request.schema';
+
 import { Department } from './schemas/department.schema';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { UpdateDepartmentDto } from './dto/update-department.dto';
 
 @Injectable()
 export class DepartmentsService {
-  constructor(@InjectModel(Department.name) private readonly departmentModel: Model<Department>) {}
+  constructor(
+    @InjectModel(Department.name) private readonly departmentModel: Model<Department>,
+    @InjectModel(Ipaddress.name) private readonly ipaddressModel: Model<Ipaddress>,
+    @InjectModel(Mailbox.name) private readonly mailboxModel: Model<Mailbox>,
+    @InjectModel(Request.name) private readonly requestModel: Model<Request>
+  ) {}
 
   async create(createDepartmentDto: CreateDepartmentDto): Promise<Department> {
     try {
@@ -65,10 +74,26 @@ export class DepartmentsService {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid record ID');
     }
+
     const deletedDepartment = await this.departmentModel.findByIdAndRemove(id).exec();
+
     if (!deletedDepartment) {
       throw new NotFoundException('Record not found');
     }
+
+    await this.ipaddressModel.updateMany(
+      { department: deletedDepartment.id },
+      { $set: { department: null } }
+    );
+    await this.mailboxModel.updateMany(
+      { department: deletedDepartment.id },
+      { $set: { department: null } }
+    );
+    await this.requestModel.updateMany(
+      { department: deletedDepartment.id },
+      { $set: { department: null } }
+    );
+
     return deletedDepartment;
   }
 }

@@ -6,10 +6,13 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
-import { Types, PaginateModel, PaginateResult } from 'mongoose';
+import { Types, PaginateModel, PaginateResult, Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
+import { Request } from 'src/requests/schemas/request.schema';
+import { Notice } from 'src/notices/schemas/notice.schema';
+
 import { User } from './schemas/user.schema';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -18,6 +21,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersService {
   constructor(
     @InjectModel(User.name) private readonly userModel: PaginateModel<User>,
+    @InjectModel(Request.name) private readonly requestModel: Model<Request>,
+    @InjectModel(Notice.name) private readonly noticeModel: Model<Notice>,
     private configService: ConfigService
   ) {}
 
@@ -115,10 +120,27 @@ export class UsersService {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid record ID');
     }
+
     const deletedUser = await this.userModel.findByIdAndRemove(id).exec();
+
     if (!deletedUser) {
       throw new NotFoundException('Record not found');
     }
+
+    await this.requestModel.updateMany(
+      { workerOpen: deletedUser.id },
+      { $set: { workerOpen: null } }
+    );
+
+    await this.requestModel.updateMany(
+      { workerClose: deletedUser.id },
+      { $set: { workerClose: null } }
+    );
+
+    await this.noticeModel.deleteMany({
+      userId: deletedUser.id
+    });
+
     return deletedUser;
   }
 }
