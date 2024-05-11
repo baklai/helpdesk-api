@@ -61,7 +61,9 @@ export class UsersService {
   }
 
   async findAllSubscription(): Promise<string[]> {
-    const users = await this.userModel.find({ isSubscription: true }).select({ email: 1 });
+    const users = await this.userModel
+      .find({ isSubscription: true, isActive: true })
+      .select({ email: 1 });
 
     return users.map((user: User) => user.email);
   }
