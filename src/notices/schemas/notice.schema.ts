@@ -16,12 +16,12 @@ export class Notice {
   readonly id: string;
 
   @ApiProperty({
-    description: 'The name of the notice',
+    description: 'The title of the notice',
     example: 'Important Announcement'
   })
   @IsString()
   @Prop({ type: String, required: true, trim: true })
-  name: string;
+  readonly title: string;
 
   @ApiProperty({
     description: 'The text of the notice',
@@ -43,7 +43,7 @@ export class Notice {
     required: true,
     autopopulate: false
   })
-  readonly userId: User;
+  readonly user: User;
 
   @ApiPropertyOptional({
     description: 'The created date of the record',

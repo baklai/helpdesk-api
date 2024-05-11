@@ -5,14 +5,44 @@ import { dateToLocaleStr } from 'src/common/utils/lib.util';
 export class MailerService {
   constructor(@Inject('MAILER') private readonly transporter: any) {}
 
-  async verifyConnection() {
+  private verifyConnection() {
     return this.transporter.verify();
+  }
+
+  private async sendMailWithDefaultContext(options: Record<string, any>) {
+    const defaultContext = {
+      copyright: `Copyright © ${new Date().getFullYear()}. All rights reserved.`
+    };
+
+    return this.transporter.sendMail({
+      ...options,
+      context: {
+        ...defaultContext,
+        ...(options.context || {})
+      }
+    });
+  }
+
+  async sendNotice(emails: string[], data: Record<string, any>) {
+    if (!emails?.length) return;
+
+    const info = await this.sendMailWithDefaultContext({
+      to: emails,
+      subject: 'HD | Повідомлення',
+      template: 'notice',
+      context: {
+        title: data.title,
+        text: data.text
+      }
+    });
+
+    console.info('Message sent: %s', info.messageId);
   }
 
   async getIPAddress(emails: string[], data: Record<string, any>) {
     if (!emails?.length) return;
 
-    const info = await this.transporter.sendMail({
+    const info = await this.sendMailWithDefaultContext({
       to: emails,
       subject: `HD | IP Адреса ${data?.ipaddress || ''}`,
       template: 'ipaddress',
@@ -44,7 +74,7 @@ export class MailerService {
   async createIPAddress(emails: string[], data: Record<string, any>) {
     if (!emails?.length) return;
 
-    const info = await this.transporter.sendMail({
+    const info = await this.sendMailWithDefaultContext({
       to: emails,
       subject: `HD | Додавання IP Адреси ${data?.ipaddress || ''}`,
       template: 'ipaddress',
@@ -76,7 +106,7 @@ export class MailerService {
   async removeIPAddress(emails: string[], data: Record<string, any>) {
     if (!emails?.length) return;
 
-    const info = await this.transporter.sendMail({
+    const info = await this.sendMailWithDefaultContext({
       to: emails,
       subject: `HD | Видалення IP Адреси ${data?.ipaddress || ''}`,
       template: 'ipaddress',

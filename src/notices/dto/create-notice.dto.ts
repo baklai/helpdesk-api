@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsMongoId, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ArrayUnique, IsArray, IsMongoId, IsString } from 'class-validator';
 
 export class CreateNoticeDto {
   @ApiProperty({
@@ -7,7 +8,7 @@ export class CreateNoticeDto {
     example: 'Important Announcement'
   })
   @IsString()
-  readonly name: string;
+  readonly title: string;
 
   @ApiProperty({
     description: 'The text of the notice',
@@ -18,9 +19,11 @@ export class CreateNoticeDto {
 
   @ApiProperty({
     description: 'User ID associated with the notification',
-    example: '6299b5cebf44864bfcea37a5'
+    example: '["6299b5cebf44864bfcea37a5"]'
   })
-  @IsString()
-  @IsMongoId()
-  readonly userId: string;
+  @IsArray()
+  @ArrayUnique()
+  @IsMongoId({ each: true })
+  @Type(() => String)
+  readonly users: string[];
 }

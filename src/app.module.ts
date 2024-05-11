@@ -34,10 +34,10 @@ import { StatisticsModule } from './statistics/statistics.module';
 import { ReportsModule } from './reports/reports.module';
 import { SystoolsModule } from './systools/systools.module';
 import { SyslogsModule } from './syslogs/syslogs.module';
+import { StorageModule } from './storage/storage.module';
 import { MailerModule } from './mailer/mailer.module';
 
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
-import { StorageModule } from './storage/storage.module';
 
 @Module({
   imports: [

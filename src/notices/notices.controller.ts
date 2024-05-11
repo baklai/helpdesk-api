@@ -32,10 +32,10 @@ export class NoticesController {
     summary: 'Create new record',
     description: 'Required scopes: [' + [Scope.NoticeCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Success', type: Notice })
+  @ApiCreatedResponse({ description: 'Success', type: [Notice] })
   @ApiBadRequestResponse({ description: 'Bad request' })
   @ApiBody({ description: 'Request body object', type: CreateNoticeDto })
-  async create(@Body() createNoticeDto: CreateNoticeDto): Promise<Notice> {
+  async create(@Body() createNoticeDto: CreateNoticeDto): Promise<Notice[]> {
     return await this.noticesService.create(createNoticeDto);
   }
 

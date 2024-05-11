@@ -31,6 +31,7 @@ export class UsersService {
       createUserDto.password,
       Number(this.configService.get<number>('BCRYPT_SALT'))
     );
+
     try {
       return await this.userModel.create({
         ...createUserDto,
@@ -72,18 +73,23 @@ export class UsersService {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid record ID');
     }
+
     const user = await this.userModel.findById(id).exec();
+
     if (!user) {
       throw new NotFoundException('Record not found');
     }
+
     return user;
   }
 
   async findOneByLogin(login: string): Promise<User> {
     const user = await this.userModel.findOne({ login }).exec();
+
     if (!user) {
       throw new NotFoundException('Record not found');
     }
+
     return user;
   }
 
@@ -91,6 +97,7 @@ export class UsersService {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid record ID');
     }
+
     try {
       const updatedUser = await this.userModel
         .findByIdAndUpdate(
@@ -109,9 +116,11 @@ export class UsersService {
           { new: true }
         )
         .exec();
+
       if (!updatedUser) {
         throw new NotFoundException('Record not found');
       }
+
       return updatedUser;
     } catch (error) {
       throw new UnprocessableEntityException(error.message);
@@ -138,7 +147,7 @@ export class UsersService {
     });
 
     await this.noticeModel.deleteMany({
-      userId: deletedUser.id
+      user: deletedUser.id
     });
 
     return deletedUser;

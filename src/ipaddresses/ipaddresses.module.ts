@@ -2,11 +2,11 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { Inspector, InspectorSchema } from 'src/inspectors/schemas/inspector.schema';
+import { UsersModule } from 'src/users/users.module';
+
 import { Ipaddress, IpaddressSchema } from './schemas/ipaddress.schema';
 import { IpaddressesController } from './ipaddresses.controller';
 import { IpaddressesService } from './ipaddresses.service';
-import { UsersService } from 'src/users/users.service';
-import { UsersModule } from 'src/users/users.module';
 
 @Module({
   imports: [
