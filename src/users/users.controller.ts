@@ -28,7 +28,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 @ApiBearerAuth('JWT Guard')
 @UseGuards(AccessTokenGuard, ScopesGuard)
 export class UsersController {
-  constructor(private readonly userService: UsersService) {}
+  constructor(private readonly usersService: UsersService) {}
 
   @Post()
   @Scopes(Scope.UserCreate)
@@ -41,7 +41,7 @@ export class UsersController {
   @ApiConflictResponse({ description: 'Conflict' })
   @ApiBody({ description: 'Request body object', type: CreateUserDto })
   async create(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return await this.userService.create(createUserDto);
+    return await this.usersService.create(createUserDto);
   }
 
   @Get()
@@ -53,7 +53,7 @@ export class UsersController {
   @ApiOkResponse({ description: 'Success', type: PaginateUser })
   @ApiBadRequestResponse({ description: 'Bad request' })
   async findAll(@Query() query: PaginateQueryDto): Promise<PaginateResult<User>> {
-    return await this.userService.findAll(query);
+    return await this.usersService.findAll(query);
   }
 
   @Get('me')
@@ -64,7 +64,7 @@ export class UsersController {
   @ApiOkResponse({ description: 'Success', type: User })
   @ApiBadRequestResponse({ description: 'Bad request' })
   async findAllMe(): Promise<User[]> {
-    return await this.userService.findAllMe();
+    return await this.usersService.findAllMe();
   }
 
   @Get(':id')
@@ -78,7 +78,7 @@ export class UsersController {
   @ApiNotFoundResponse({ description: 'Not found' })
   @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
   async findOneById(@Param('id') id: string): Promise<User> {
-    return await this.userService.findOneById(id);
+    return await this.usersService.findOneById(id);
   }
 
   @Put(':id')
@@ -97,7 +97,7 @@ export class UsersController {
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto
   ): Promise<User> {
-    return await this.userService.updateOneById(id, updateUserDto);
+    return await this.usersService.updateOneById(id, updateUserDto);
   }
 
   @Delete(':id')
@@ -111,6 +111,6 @@ export class UsersController {
   @ApiNotFoundResponse({ description: 'Not found' })
   @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
   async removeOneById(@Param('id') id: string): Promise<User> {
-    return await this.userService.removeOneById(id);
+    return await this.usersService.removeOneById(id);
   }
 }

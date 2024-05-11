@@ -5,13 +5,13 @@ import { isIP } from 'class-validator';
 import { Netmask } from 'netmask';
 
 import { MailerService } from 'src/mailer/mailer.service';
+import { UsersService } from 'src/users/users.service';
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 import { Inspector } from 'src/inspectors/schemas/inspector.schema';
 
 import { Ipaddress } from './schemas/ipaddress.schema';
 import { CreateIpaddressDto } from './dto/create-ipaddress.dto';
 import { UpdateIpaddressDto } from './dto/update-ipaddress.dto';
-import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class IpaddressesService {
@@ -24,10 +24,12 @@ export class IpaddressesService {
 
   async create(createIpaddressDto: CreateIpaddressDto): Promise<Ipaddress> {
     const { ipaddress } = createIpaddressDto;
+
     const indexip = new Netmask(ipaddress).netLong;
+
     const newIpaddress = await this.ipaddressModel.create({ ...createIpaddressDto, indexip });
 
-    const emails = await this.usersService.findAllSubscription();
+    const emails = await this.usersService.findEmailsForUsersIsSubscribed();
 
     this.mailerService.createIPAddress(emails, newIpaddress);
 
@@ -147,7 +149,7 @@ export class IpaddressesService {
       throw new NotFoundException('Record not found');
     }
 
-    const emails = await this.usersService.findAllSubscription();
+    const emails = await this.usersService.findEmailsForUsersIsSubscribed();
 
     this.mailerService.removeIPAddress(emails, ipaddress);
 

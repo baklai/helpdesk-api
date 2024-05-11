@@ -90,7 +90,7 @@ export class User {
   @IsBoolean()
   @IsOptional()
   @Prop({ type: Boolean, default: false })
-  readonly isSubscription: boolean;
+  readonly isSubscribed: boolean;
 
   @ApiPropertyOptional({
     description: "The user's scope",

@@ -3,43 +3,35 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Cron } from '@nestjs/schedule';
 import { Model, Types } from 'mongoose';
 
-import { User } from 'src/users/schemas/user.schema';
+import { MailerService } from 'src/mailer/mailer.service';
+import { UsersService } from 'src/users/users.service';
 import { Syslog } from 'src/syslogs/schemas/syslog.schema';
 
 import { Notice } from './schemas/notice.schema';
 import { CreateNoticeDto } from './dto/create-notice.dto';
-import { MailerService } from 'src/mailer/mailer.service';
 
 @Injectable()
 export class NoticesService {
   constructor(
-    @InjectModel(User.name) private readonly userModel: Model<User>,
     @InjectModel(Notice.name) private readonly noticeModel: Model<Notice>,
     @InjectModel(Syslog.name) private readonly syslogModel: Model<Syslog>,
-    private readonly mailerService: MailerService
+    private readonly mailerService: MailerService,
+    private readonly usersService: UsersService
   ) {}
 
   async create(createNoticeDto: CreateNoticeDto): Promise<Notice[]> {
-    const users = await this.userModel
-      .find({ isActive: true, _id: { $in: createNoticeDto.users } })
-      .select({ id: 1, email: 1 });
-
-    const notices = users.map(user => {
-      return {
-        title: createNoticeDto.title,
-        text: createNoticeDto.text,
-        user: user.id
-      };
-    });
-
-    const emails = users.map(({ email }) => email);
+    const { users, emails } = await this.usersService.findUsersForNotice(createNoticeDto.users);
 
     this.mailerService.sendNotice(emails, {
       title: createNoticeDto.title,
       text: createNoticeDto.text
     });
 
-    return await this.noticeModel.create(notices);
+    return await this.noticeModel.create(
+      users.map(user => {
+        return { user, title: createNoticeDto.title, text: createNoticeDto.text };
+      })
+    );
   }
 
   async findAll(user: string): Promise<Notice[]> {

@@ -63,7 +63,7 @@ export class CreateUserDto {
   })
   @IsBoolean()
   @IsOptional()
-  readonly isSubscription: boolean;
+  readonly isSubscribed: boolean;
 
   @ApiPropertyOptional({
     description: "The user's scope",
