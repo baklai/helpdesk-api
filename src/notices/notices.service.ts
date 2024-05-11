@@ -21,7 +21,7 @@ export class NoticesService {
 
   async create(createNoticeDto: CreateNoticeDto): Promise<Notice[]> {
     const users = await this.userModel
-      .find({ _id: { $in: createNoticeDto.users } })
+      .find({ isActive: true, _id: { $in: createNoticeDto.users } })
       .select({ id: 1, email: 1 });
 
     const notices = users.map(user => {
