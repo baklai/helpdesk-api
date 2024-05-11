@@ -53,11 +53,12 @@ $ npm install
 | `JWT_ACCESS_EXPIRES_IN`  | Access token expires in  |
 | `JWT_REFRESH_SECRET`     | Refresh token secret key |
 | `JWT_REFRESH_EXPIRES_IN` | Refresh token expires in |
-| `FTP_HOST`               | FTP host (optional)      |
-| `FTP_PORT`               | FTP port (optional)      |
-| `FTP_USER`               | FTP user (optional)      |
-| `FTP_PASSWORD`           | FTP password (optional)  |
-| `FTP_SECURE`             | FTP secure (optional)    |
+| `STORAGE_PATH`           | Storage path (optional)  |
+| `SMTP_HOST`              | Email service host       |
+| `SMTP_PORT`              | Email service port       |
+| `SMTP_USERNAME`          | Email service login      |
+| `SMTP_PASSWORD`          | Email service password   |
+| `SMTP_SENDER`            | Email sender             |
 
 ## Swagger documentation
 

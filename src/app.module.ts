@@ -34,10 +34,10 @@ import { StatisticsModule } from './statistics/statistics.module';
 import { ReportsModule } from './reports/reports.module';
 import { SystoolsModule } from './systools/systools.module';
 import { SyslogsModule } from './syslogs/syslogs.module';
-import { FtpclientModule } from './ftpclient/ftpclient.module';
 import { MailerModule } from './mailer/mailer.module';
 
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
+import { StorageModule } from './storage/storage.module';
 
 @Module({
   imports: [
@@ -94,6 +94,7 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
         }
       })
     }),
+
     AuthModule,
     UsersModule,
     EventsModule,
@@ -116,7 +117,7 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
     ReportsModule,
     SystoolsModule,
     SyslogsModule,
-    FtpclientModule,
+    StorageModule,
     MailerModule
   ],
   controllers: [AppController],

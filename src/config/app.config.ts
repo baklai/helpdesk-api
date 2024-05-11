@@ -8,17 +8,13 @@ const JWT_ACCESS_EXPIRES_IN = '15m';
 const JWT_REFRESH_SECRET = 'HELPDESK-JWT-REFRESH-SECRET';
 const JWT_REFRESH_EXPIRES_IN = '7d';
 
+const STORAGE_PATH = null;
+
 const SMTP_HOST = null;
 const SMTP_PORT = 587;
 const SMTP_USERNAME = null;
 const SMTP_PASSWORD = null;
 const SMTP_SENDER = null;
-
-const FTP_HOST = 'localhost';
-const FTP_PORT = 21;
-const FTP_USER = '';
-const FTP_PASSWORD = '';
-const FTP_SECURE = false;
 
 export default () => ({
   HOST: process.env.HOST || HOST,
@@ -31,11 +27,7 @@ export default () => ({
   JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET || JWT_REFRESH_SECRET,
   JWT_REFRESH_EXPIRES_IN: process.env.JWT_REFRESH_EXPIRES_IN || JWT_REFRESH_EXPIRES_IN,
 
-  FTP_HOST: process.env.FTP_HOST || FTP_HOST,
-  FTP_PORT: parseInt(process.env.FTP_PORT, 10) || FTP_PORT,
-  FTP_USER: process.env.FTP_USER || FTP_USER,
-  FTP_PASSWORD: process.env.FTP_PASSWORD || FTP_PASSWORD,
-  FTP_SECURE: process.env.FTP_SECURE === 'true' ? true : FTP_SECURE,
+  STORAGE_PATH: process.env.STORAGE_PATH || STORAGE_PATH,
 
   SMTP_HOST: process.env.SMTP_HOST || SMTP_HOST,
   SMTP_PORT: parseInt(process.env.SMTP_PORT, 10) || SMTP_PORT,
