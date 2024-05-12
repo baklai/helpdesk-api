@@ -12,24 +12,24 @@ import { PaginateResult } from 'mongoose';
 
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { ScopesGuard } from 'src/common/guards/scopes.guard';
-import { Scopes } from 'src/common/decorators/scopes.decorator';
-import { Scope } from 'src/common/enums/scope.enum';
+import { AdminRequired } from 'src/common/decorators/admin.decorator';
+import { AdminGuard } from 'src/common/guards/administrator.guard';
+
 import { PaginateSyslog, Syslog } from './schemas/syslog.schema';
 import { SyslogsService } from './syslogs.service';
 
 @ApiTags('System Logs')
 @Controller('syslogs')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard, ScopesGuard)
+@UseGuards(AccessTokenGuard, AdminGuard)
 export class SyslogsController {
   constructor(private readonly syslogService: SyslogsService) {}
 
   @Get()
-  @Scopes(Scope.SyslogRead)
+  @AdminRequired()
   @ApiOperation({
     summary: 'Get all records',
-    description: 'Required scopes: [' + [Scope.SyslogRead].join(',') + ']'
+    description: 'Required admin'
   })
   @ApiOkResponse({ description: 'Success', type: PaginateSyslog })
   @ApiBadRequestResponse({ description: 'Bad request' })
@@ -38,10 +38,10 @@ export class SyslogsController {
   }
 
   @Delete()
-  @Scopes(Scope.SyslogDelete)
+  @AdminRequired()
   @ApiOperation({
     summary: 'Delete all records',
-    description: 'Required scopes: [' + [Scope.SyslogDelete].join(',') + ']'
+    description: 'Required admin'
   })
   @ApiOkResponse({ description: 'Success', type: String })
   @ApiBadRequestResponse({ description: 'Bad request' })
@@ -50,10 +50,10 @@ export class SyslogsController {
   }
 
   @Get(':id')
-  @Scopes(Scope.SyslogRead)
+  @AdminRequired()
   @ApiOperation({
     summary: 'Get record by ID',
-    description: 'Required scopes: [' + [Scope.SyslogRead].join(',') + ']'
+    description: 'Required admin'
   })
   @ApiOkResponse({ description: 'Success', type: Syslog })
   @ApiBadRequestResponse({ description: 'Bad request' })
@@ -64,10 +64,10 @@ export class SyslogsController {
   }
 
   @Delete(':id')
-  @Scopes(Scope.SyslogDelete)
+  @AdminRequired()
   @ApiOperation({
     summary: 'Delete record by ID',
-    description: 'Required scopes: [' + [Scope.SyslogDelete].join(',') + ']'
+    description: 'Required admin'
   })
   @ApiOkResponse({ description: 'Success', type: Syslog })
   @ApiBadRequestResponse({ description: 'Bad request' })

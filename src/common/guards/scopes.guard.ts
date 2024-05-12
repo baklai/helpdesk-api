@@ -20,7 +20,7 @@ export class ScopesGuard implements CanActivate {
 
     const { user } = context.switchToHttp().getRequest();
 
-    if (!user?.isActive) {
+    if (!user?.isActivated) {
       return false;
     }
 

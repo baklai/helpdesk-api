@@ -11,16 +11,16 @@ export class CreateSyslogDto {
   readonly host: string;
 
   @ApiPropertyOptional({
-    description: 'The ID of User',
+    description: 'The ID of Profile',
     example: '6299b5cebf44864bfcea36d4'
   })
   @IsString()
   @IsOptional()
-  readonly user: string;
+  readonly profile: string;
 
   @ApiPropertyOptional({
     description: 'The params of request',
-    example: '{"0":"users"}'
+    example: '{"0":"profiles"}'
   })
   @IsString()
   @IsOptional()

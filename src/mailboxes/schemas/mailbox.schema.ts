@@ -137,7 +137,7 @@ export class Mailbox {
 
   @ApiPropertyOptional({
     description: 'Comment about email',
-    example: 'This user has several mailboxes'
+    example: 'This profile has several mailboxes'
   })
   @IsString()
   @IsOptional()

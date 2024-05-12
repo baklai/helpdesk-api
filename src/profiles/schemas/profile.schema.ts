@@ -16,7 +16,7 @@ import { PaginateResponseDto } from 'src/common/dto/paginate-response.dto';
 import { Scope } from 'src/common/enums/scope.enum';
 
 @Schema()
-export class User {
+export class Profile {
   @ApiProperty({
     description: 'The ID of the record (unique)',
     example: '6299b5cebf44864bfcea36d4',
@@ -26,20 +26,7 @@ export class User {
   @IsMongoId()
   readonly id: string;
 
-  @ApiProperty({ description: 'The login of the user', example: 'JohnDoe' })
-  @IsString()
-  @Prop({ type: String, required: true, unique: true, uniqueCaseInsensitive: true, trim: true })
-  readonly login: string;
-
-  @Prop({ type: String, required: true, trim: true, minLength: 6, select: false })
-  readonly password: string;
-
-  @ApiProperty({ description: 'The full name of the user', example: 'John Doe' })
-  @IsString()
-  @Prop({ type: String, required: true, trim: true })
-  readonly fullname: string;
-
-  @ApiProperty({ description: 'The email of the user', example: 'john@example.com' })
+  @ApiProperty({ description: 'The email of the profile', example: 'john@example.com' })
   @IsEmail()
   @IsString()
   @Prop({
@@ -52,7 +39,15 @@ export class User {
   })
   readonly email: string;
 
-  @ApiProperty({ description: 'The phone number of the user', example: '+38(234)567-89-10' })
+  @Prop({ type: String, required: true, trim: true, minLength: 6, select: false })
+  readonly password: string;
+
+  @ApiProperty({ description: 'The full name of the profile', example: 'John Doe' })
+  @IsString()
+  @Prop({ type: String, required: true, trim: true })
+  readonly fullname: string;
+
+  @ApiProperty({ description: 'The phone number of the profile', example: '+38(234)567-89-10' })
   @IsString()
   @IsPhoneNumber()
   @Prop({
@@ -63,17 +58,17 @@ export class User {
   readonly phone: string;
 
   @ApiPropertyOptional({
-    description: 'Flag indicating if the user is active',
+    description: 'Flag indicating if the profile is active',
     default: false,
     example: true
   })
   @IsBoolean()
   @IsOptional()
   @Prop({ type: Boolean, default: false })
-  readonly isActive: boolean;
+  readonly isActivated: boolean;
 
   @ApiPropertyOptional({
-    description: 'Flag indicating if the user is an admin',
+    description: 'Flag indicating if the profile is an admin',
     default: false,
     example: false
   })
@@ -83,17 +78,7 @@ export class User {
   readonly isAdmin: boolean;
 
   @ApiPropertyOptional({
-    description: 'Flag indicating if the user is on subscription',
-    default: false,
-    example: false
-  })
-  @IsBoolean()
-  @IsOptional()
-  @Prop({ type: Boolean, default: false })
-  readonly isSubscribed: boolean;
-
-  @ApiPropertyOptional({
-    description: "The user's scope",
+    description: "The profile's scope",
     default: [],
     example: [
       Scope.EventRead,
@@ -101,12 +86,13 @@ export class User {
       Scope.IpaddressRead,
       Scope.RequestRead,
       Scope.InspectorRead,
-      Scope.ChannelRead,
       Scope.OrganizationRead,
       Scope.SubdivisionRead,
       Scope.DepartmentRead,
       Scope.PositionRead,
+      Scope.LocationRead,
       Scope.UnitRead,
+      Scope.FilterRead,
       Scope.StatisticNetworkRead,
       Scope.StatisticRequestRead,
       Scope.StatisticInspectorRead
@@ -135,11 +121,11 @@ export class User {
   readonly updatedAt: Date;
 }
 
-export class PaginateUser extends PaginateResponseDto {
-  @ApiProperty({ type: [User], description: 'Array of documents' })
-  docs: User[];
+export class PaginateProfile extends PaginateResponseDto {
+  @ApiProperty({ type: [Profile], description: 'Array of documents' })
+  docs: Profile[];
 }
 
-export type UserDocument = HydratedDocument<User>;
+export type ProfileDocument = HydratedDocument<Profile>;
 
-export const UserSchema = SchemaFactory.createForClass(User);
+export const ProfileSchema = SchemaFactory.createForClass(Profile);

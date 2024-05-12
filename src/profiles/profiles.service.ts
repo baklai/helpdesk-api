@@ -13,27 +13,27 @@ import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 import { Request } from 'src/requests/schemas/request.schema';
 import { Notice } from 'src/notices/schemas/notice.schema';
 
-import { User } from './schemas/user.schema';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { Profile } from './schemas/profile.schema';
+import { CreateProfileDto } from './dto/create-profile.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 
 @Injectable()
-export class UsersService {
+export class ProfilesService {
   constructor(
-    @InjectModel(User.name) private readonly userModel: PaginateModel<User>,
+    @InjectModel(Profile.name) private readonly profileModel: PaginateModel<Profile>,
     @InjectModel(Request.name) private readonly requestModel: Model<Request>,
     @InjectModel(Notice.name) private readonly noticeModel: Model<Notice>,
     private configService: ConfigService
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateProfileDto): Promise<Profile> {
     const passwordHash = await bcrypt.hash(
       createUserDto.password,
       Number(this.configService.get<number>('BCRYPT_SALT'))
     );
 
     try {
-      return await this.userModel.create({
+      return await this.profileModel.create({
         ...createUserDto,
         password: passwordHash
       });
@@ -42,10 +42,10 @@ export class UsersService {
     }
   }
 
-  async findAll(query: PaginateQueryDto): Promise<PaginateResult<User>> {
+  async findAll(query: PaginateQueryDto): Promise<PaginateResult<Profile>> {
     const { offset = 0, limit = 5, sort = { fullname: 1 }, filters = {} } = query;
 
-    return await this.userModel.paginate(
+    return await this.profileModel.paginate(
       { ...filters },
       {
         sort,
@@ -57,41 +57,37 @@ export class UsersService {
     );
   }
 
-  async findAllMe(): Promise<User[]> {
-    return await this.userModel.find().select({ id: 1, login: 1, fullname: 1 }).exec();
-  }
-
-  async findOneById(id: string): Promise<User> {
+  async findOneById(id: string): Promise<Profile> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid record ID');
     }
 
-    const user = await this.userModel.findById(id).exec();
+    const profile = await this.profileModel.findById(id).exec();
 
-    if (!user) {
+    if (!profile) {
       throw new NotFoundException('Record not found');
     }
 
-    return user;
+    return profile;
   }
 
-  async findOneByLogin(login: string): Promise<User> {
-    const user = await this.userModel.findOne({ login }).exec();
+  async findOneByEmail(email: string): Promise<Profile> {
+    const profile = await this.profileModel.findOne({ email }).exec();
 
-    if (!user) {
+    if (!profile) {
       throw new NotFoundException('Record not found');
     }
 
-    return user;
+    return profile;
   }
 
-  async updateOneById(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+  async updateOneById(id: string, updateUserDto: UpdateProfileDto): Promise<Profile> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid record ID');
     }
 
     try {
-      const updatedUser = await this.userModel
+      const updatedUser = await this.profileModel
         .findByIdAndUpdate(
           id,
           {
@@ -119,12 +115,12 @@ export class UsersService {
     }
   }
 
-  async removeOneById(id: string): Promise<User> {
+  async removeOneById(id: string): Promise<Profile> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid record ID');
     }
 
-    const deletedUser = await this.userModel.findByIdAndRemove(id).exec();
+    const deletedUser = await this.profileModel.findByIdAndRemove(id).exec();
 
     if (!deletedUser) {
       throw new NotFoundException('Record not found');
@@ -139,7 +135,7 @@ export class UsersService {
     });
 
     await this.noticeModel.deleteMany({
-      user: deletedUser.id
+      profile: deletedUser.id
     });
 
     return deletedUser;
@@ -147,22 +143,33 @@ export class UsersService {
 
   /* PUBLIC METHODS */
 
-  async findEmailsForUsersIsSubscribed() {
-    const users = await this.userModel
-      .find({ isSubscribed: true, isActive: true })
+  async findEmailsIsNotice(scope: string) {
+    const profiles = await this.profileModel
+      .find({
+        isActivated: true,
+        $or: [{ scope: { $eq: scope } }, { isAdmin: true }]
+      })
       .select({ email: 1 });
 
-    return users.map(({ email }) => email);
+    return profiles.map(({ email }) => email);
   }
 
-  async findUsersForNotice(records: string[]) {
-    const users = await this.userModel
-      .find({ isActive: true, _id: { $in: records } })
+  async findEmailsIsAdmin() {
+    const profiles = await this.profileModel
+      .find({ isActivated: true, isAdmin: true })
+      .select({ email: 1 });
+
+    return profiles.map(({ email }) => email);
+  }
+
+  async findProfilesForNotice(records: string[]) {
+    const profiles = await this.profileModel
+      .find({ isActivated: true, _id: { $in: records } })
       .select({ id: 1, email: 1 });
 
     return {
-      users: users.map(({ id }) => id),
-      emails: users.map(({ email }) => email)
+      profiles: profiles.map(({ id }) => id),
+      emails: profiles.map(({ email }) => email)
     };
   }
 }

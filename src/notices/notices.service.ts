@@ -4,7 +4,7 @@ import { Cron } from '@nestjs/schedule';
 import { Model, Types } from 'mongoose';
 
 import { MailerService } from 'src/mailer/mailer.service';
-import { UsersService } from 'src/users/users.service';
+import { ProfilesService } from 'src/profiles/profiles.service';
 import { Syslog } from 'src/syslogs/schemas/syslog.schema';
 
 import { Notice } from './schemas/notice.schema';
@@ -16,11 +16,13 @@ export class NoticesService {
     @InjectModel(Notice.name) private readonly noticeModel: Model<Notice>,
     @InjectModel(Syslog.name) private readonly syslogModel: Model<Syslog>,
     private readonly mailerService: MailerService,
-    private readonly usersService: UsersService
+    private readonly profilesService: ProfilesService
   ) {}
 
   async create(createNoticeDto: CreateNoticeDto): Promise<Notice[]> {
-    const { users, emails } = await this.usersService.findUsersForNotice(createNoticeDto.users);
+    const { profiles, emails } = await this.profilesService.findProfilesForNotice(
+      createNoticeDto.profiles
+    );
 
     this.mailerService.sendNotice(emails, {
       title: createNoticeDto.title,
@@ -28,26 +30,26 @@ export class NoticesService {
     });
 
     return await this.noticeModel.create(
-      users.map(user => {
-        return { user, title: createNoticeDto.title, text: createNoticeDto.text };
+      profiles.map(profile => {
+        return { profile, title: createNoticeDto.title, text: createNoticeDto.text };
       })
     );
   }
 
-  async findAll(user: string): Promise<Notice[]> {
-    if (!Types.ObjectId.isValid(user)) {
+  async findAll(profile: string): Promise<Notice[]> {
+    if (!Types.ObjectId.isValid(profile)) {
       throw new BadRequestException('Invalid record ID');
     }
 
-    return await this.noticeModel.find({ user }).exec();
+    return await this.noticeModel.find({ profile }).exec();
   }
 
-  async removeOneById(id: string, user: string): Promise<Notice> {
+  async removeOneById(id: string, profile: string): Promise<Notice> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid record ID');
     }
 
-    const deletedNotice = await this.noticeModel.findOneAndRemove({ _id: id, user }).exec();
+    const deletedNotice = await this.noticeModel.findOneAndRemove({ _id: id, profile }).exec();
 
     if (!deletedNotice) {
       throw new NotFoundException('Record not found');
@@ -71,7 +73,7 @@ export class NoticesService {
 
       await this.syslogModel.create({
         host: '127.0.0.1',
-        user: 'system',
+        profile: 'system',
         method: 'TASK',
         baseUrl: 'CLEAR NOTICES',
         params: null,

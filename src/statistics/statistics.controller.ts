@@ -2,15 +2,18 @@ import { Controller, Get, HttpCode, HttpStatus, UseGuards } from '@nestjs/common
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
+import { AdminGuard } from 'src/common/guards/administrator.guard';
 import { ScopesGuard } from 'src/common/guards/scopes.guard';
+import { AdminRequired } from 'src/common/decorators/admin.decorator';
 import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
+
 import { StatisticsService } from './statistics.service';
 
 @ApiTags('Statistics')
 @Controller('statistics')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard, ScopesGuard)
+@UseGuards(AccessTokenGuard, AdminGuard, ScopesGuard)
 export class StatisticsController {
   constructor(private readonly statisticsService: StatisticsService) {}
 
@@ -48,10 +51,10 @@ export class StatisticsController {
   }
 
   @Get('dashboard')
-  @Scopes(Scope.StatisticDashboardRead)
+  @AdminRequired()
   @ApiOperation({
     summary: 'Retrieve dashboard statistics',
-    description: 'Required scopes: [' + [Scope.StatisticDashboardRead].join(',') + ']'
+    description: 'Required admin'
   })
   @HttpCode(HttpStatus.OK)
   async dashboard() {

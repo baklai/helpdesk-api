@@ -5,7 +5,8 @@ import { isIP } from 'class-validator';
 import { Netmask } from 'netmask';
 
 import { MailerService } from 'src/mailer/mailer.service';
-import { UsersService } from 'src/users/users.service';
+import { ProfilesService } from 'src/profiles/profiles.service';
+import { Scope } from 'src/common/enums/scope.enum';
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 import { Inspector } from 'src/inspectors/schemas/inspector.schema';
 
@@ -19,7 +20,7 @@ export class IpaddressesService {
     @InjectModel(Ipaddress.name) private readonly ipaddressModel: PaginateModel<Ipaddress>,
     @InjectModel(Inspector.name) private readonly inspectorModel: Model<Inspector>,
     private readonly mailerService: MailerService,
-    private readonly usersService: UsersService
+    private readonly profilesService: ProfilesService
   ) {}
 
   async create(createIpaddressDto: CreateIpaddressDto): Promise<Ipaddress> {
@@ -29,9 +30,9 @@ export class IpaddressesService {
 
     const newIpaddress = await this.ipaddressModel.create({ ...createIpaddressDto, indexip });
 
-    const emails = await this.usersService.findEmailsForUsersIsSubscribed();
+    const emails = await this.profilesService.findEmailsIsNotice(Scope.IpaddressNotice);
 
-    this.mailerService.createIPAddress(emails, newIpaddress);
+    this.mailerService.sendIPAddress(emails, newIpaddress, 'Додавання IP Адреси');
 
     return newIpaddress;
   }
@@ -149,9 +150,9 @@ export class IpaddressesService {
       throw new NotFoundException('Record not found');
     }
 
-    const emails = await this.usersService.findEmailsForUsersIsSubscribed();
+    const emails = await this.profilesService.findEmailsIsNotice(Scope.IpaddressNotice);
 
-    this.mailerService.removeIPAddress(emails, ipaddress);
+    this.mailerService.sendIPAddress(emails, ipaddress, 'Видалення IP Адреси');
 
     return deletedIpaddress;
   }
