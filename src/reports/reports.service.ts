@@ -54,7 +54,7 @@ export class ReportsService {
     });
   }
 
-  async getUsersEmail() {
+  async getProfilesEmail() {
     const data = await this.mailboxModel.find({}, null, { autopopulate: true });
     return data.map((item, index) => {
       return {

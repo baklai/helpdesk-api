@@ -5,8 +5,9 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 
 type JwtPayload = {
   id: string;
-  login: string;
-  isActive: boolean;
+  email: string;
+  fullname: string;
+  isActivated: boolean;
   isAdmin: boolean;
   scope: string[];
 };

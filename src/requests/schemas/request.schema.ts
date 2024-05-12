@@ -3,7 +3,7 @@ import { IsString, IsMongoId, IsIP, IsOptional, IsDate, IsArray } from 'class-va
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 
-import { User } from 'src/users/schemas/user.schema';
+import { Profile } from 'src/profiles/schemas/profile.schema';
 import { Location } from 'src/locations/schemas/location.schema';
 import { Position } from 'src/positions/schemas/position.schema';
 import { Organization } from 'src/organizations/schemas/organization.schema';
@@ -67,32 +67,32 @@ export class Request {
   readonly conclusion: string;
 
   @ApiProperty({
-    description: 'Document of the associated User',
-    example: User
+    description: 'Document of the associated Profile',
+    example: Profile
   })
   @IsString()
   @IsMongoId()
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'Profile',
     required: true,
     autopopulate: true
   })
-  readonly workerOpen: User;
+  readonly workerOpen: Profile;
 
   @ApiPropertyOptional({
-    description: 'Document of the associated User',
-    example: User
+    description: 'Document of the associated Profile',
+    example: Profile
   })
   @IsString()
   @IsMongoId()
   @IsOptional()
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'Profile',
     autopopulate: true
   })
-  readonly workerClose: User;
+  readonly workerClose: Profile;
 
   @ApiPropertyOptional({
     description: 'Document of the associated Position',

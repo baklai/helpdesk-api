@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { Inspector, InspectorSchema } from 'src/inspectors/schemas/inspector.schema';
-import { UsersModule } from 'src/users/users.module';
+import { ProfilesModule } from 'src/profiles/profiles.module';
 
 import { Ipaddress, IpaddressSchema } from './schemas/ipaddress.schema';
 import { IpaddressesController } from './ipaddresses.controller';
@@ -14,7 +14,7 @@ import { IpaddressesService } from './ipaddresses.service';
       { name: Ipaddress.name, schema: IpaddressSchema },
       { name: Inspector.name, schema: InspectorSchema }
     ]),
-    UsersModule
+    ProfilesModule
   ],
   controllers: [IpaddressesController],
   providers: [IpaddressesService]

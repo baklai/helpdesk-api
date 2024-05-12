@@ -3,7 +3,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 
-import { User, UserSchema } from 'src/users/schemas/user.schema';
+import { Profile, ProfileSchema } from 'src/profiles/schemas/profile.schema';
+import { ProfilesModule } from 'src/profiles/profiles.module';
 
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
@@ -14,8 +15,9 @@ import { RefreshTokenStrategy } from './strategies/refreshToken.strategy';
 @Module({
   imports: [
     ConfigModule,
+    ProfilesModule,
     MongooseModule.forFeature([
-      { name: User.name, schema: UserSchema },
+      { name: Profile.name, schema: ProfileSchema },
       { name: RefreshToken.name, schema: RefreshTokenSchema }
     ]),
     JwtModule.register({ global: true })

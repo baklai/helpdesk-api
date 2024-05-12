@@ -3,7 +3,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString, IsMongoId, IsDate, IsOptional } from 'class-validator';
 import mongoose, { HydratedDocument } from 'mongoose';
 
-import { User } from 'src/users/schemas/user.schema';
+import { Profile } from 'src/profiles/schemas/profile.schema';
 
 @Schema()
 export class Notice {
@@ -32,18 +32,18 @@ export class Notice {
   readonly text: string;
 
   @ApiProperty({
-    description: 'User ID associated with the notification',
+    description: 'Profile ID associated with the notification',
     example: '6299b5cebf44864bfcea37a5'
   })
   @IsString()
   @IsMongoId()
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'Profile',
     required: true,
     autopopulate: false
   })
-  readonly user: User;
+  readonly profile: Profile;
 
   @ApiPropertyOptional({
     description: 'The created date of the record',

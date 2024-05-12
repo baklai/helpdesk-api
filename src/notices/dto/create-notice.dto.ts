@@ -18,12 +18,12 @@ export class CreateNoticeDto {
   readonly text: string;
 
   @ApiProperty({
-    description: 'User ID associated with the notification',
+    description: 'Profile ID associated with the notification',
     example: '["6299b5cebf44864bfcea37a5"]'
   })
   @IsArray()
   @ArrayUnique()
   @IsMongoId({ each: true })
   @Type(() => String)
-  readonly users: string[];
+  readonly profiles: string[];
 }

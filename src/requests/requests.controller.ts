@@ -97,7 +97,7 @@ export class RequestsController {
   @Scopes(Scope.RequestDelete)
   @ApiOperation({
     summary: 'Delete record by ID',
-    description: 'Required user scopes: [' + [Scope.RequestDelete].join(',') + ']'
+    description: 'Required profile scopes: [' + [Scope.RequestDelete].join(',') + ']'
   })
   @ApiOkResponse({ description: 'Success', type: Request })
   @ApiBadRequestResponse({ description: 'Bad request' })

@@ -12,9 +12,7 @@ import {
 } from '@nestjs/swagger';
 
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { ScopesGuard } from 'src/common/guards/scopes.guard';
-import { Scopes } from 'src/common/decorators/scopes.decorator';
-import { Scope } from 'src/common/enums/scope.enum';
+import { AdminGuard } from 'src/common/guards/administrator.guard';
 import { NoticesService } from './notices.service';
 import { Notice } from './schemas/notice.schema';
 import { CreateNoticeDto } from './dto/create-notice.dto';
@@ -22,15 +20,15 @@ import { CreateNoticeDto } from './dto/create-notice.dto';
 @ApiTags('Notices')
 @Controller('notices')
 @ApiBearerAuth('JWT Guard')
-@UseGuards(AccessTokenGuard, ScopesGuard)
+@UseGuards(AccessTokenGuard)
 export class NoticesController {
   constructor(private readonly noticesService: NoticesService) {}
 
   @Post()
-  @Scopes(Scope.NoticeCreate)
+  @UseGuards(AdminGuard)
   @ApiOperation({
     summary: 'Create new record',
-    description: 'Required scopes: [' + [Scope.NoticeCreate].join(',') + ']'
+    description: 'Required admin'
   })
   @ApiCreatedResponse({ description: 'Success', type: [Notice] })
   @ApiBadRequestResponse({ description: 'Bad request' })

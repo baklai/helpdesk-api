@@ -39,7 +39,7 @@ export class CreateRequestDto {
   readonly conclusion: string;
 
   @ApiProperty({
-    description: 'ID of the associated User',
+    description: 'ID of the associated Profile',
     example: '6299f5cebf44864bfcea39fa'
   })
   @IsString()
@@ -47,7 +47,7 @@ export class CreateRequestDto {
   readonly workerOpen: string;
 
   @ApiPropertyOptional({
-    description: 'ID of the associated User',
+    description: 'ID of the associated Profile',
     example: '6299f5cebf44864bfcea39fa'
   })
   @IsString()

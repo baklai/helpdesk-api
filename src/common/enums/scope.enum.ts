@@ -1,13 +1,9 @@
 export enum Scope {
-  UserCreate = 'user:create',
-  UserRead = 'user:read',
-  UserUpdate = 'user:update',
-  UserDelete = 'user:delete',
-
   EventCreate = 'event:create',
   EventRead = 'event:read',
   EventUpdate = 'event:update',
   EventDelete = 'event:delete',
+  EventNotice = 'event:notice',
 
   NetmapRead = 'netmap:read',
 
@@ -15,83 +11,79 @@ export enum Scope {
   ChannelRead = 'channel:read',
   ChannelUpdate = 'channel:update',
   ChannelDelete = 'channel:delete',
+  ChannelNotice = 'channel:notice',
 
   IpaddressCreate = 'ipaddress:create',
   IpaddressRead = 'ipaddress:read',
   IpaddressUpdate = 'ipaddress:update',
   IpaddressDelete = 'ipaddress:delete',
+  IpaddressNotice = 'ipaddress:notice',
 
   MailboxCreate = 'mailbox:create',
   MailboxRead = 'mailbox:read',
   MailboxUpdate = 'mailbox:update',
   MailboxDelete = 'mailbox:delete',
+  MailboxNotice = 'mailbox:notice',
 
   RequestCreate = 'request:create',
   RequestRead = 'request:read',
   RequestUpdate = 'request:update',
   RequestDelete = 'request:delete',
+  RequestNotice = 'request:notice',
 
   InspectorRead = 'inspector:read',
-  InspectorDelete = 'inspector:delete',
 
-  OnmapCreate = 'onmap:create',
-  OnmapRead = 'onmap:read',
-  OnmapUpdate = 'onmap:update',
-  OnmapDelete = 'onmap:delete',
+  ReportRead = 'report:read',
 
   PingCreate = 'ping:create',
   PingRead = 'ping:read',
+  PingUpdate = 'ping:update',
   PingDelete = 'ping:delete',
+  PingNotice = 'ping:notice',
 
   OrganizationCreate = 'organization:create',
   OrganizationRead = 'organization:read',
   OrganizationUpdate = 'organization:update',
   OrganizationDelete = 'organization:delete',
+  OrganizationNotice = 'organization:notice',
 
   SubdivisionCreate = 'subdivision:create',
   SubdivisionRead = 'subdivision:read',
   SubdivisionUpdate = 'subdivision:update',
   SubdivisionDelete = 'subdivision:delete',
+  SubdivisionNotice = 'subdivision:notice',
 
   DepartmentCreate = 'department:create',
   DepartmentRead = 'department:read',
   DepartmentUpdate = 'department:update',
   DepartmentDelete = 'department:delete',
+  DepartmentNotice = 'department:notice',
 
   LocationCreate = 'location:create',
   LocationRead = 'location:read',
   LocationUpdate = 'location:update',
   LocationDelete = 'location:delete',
+  LocationNotice = 'location:notice',
 
   PositionCreate = 'position:create',
   PositionRead = 'position:read',
   PositionUpdate = 'position:update',
   PositionDelete = 'position:delete',
+  PositionNotice = 'position:notice',
 
   UnitCreate = 'unit:create',
   UnitRead = 'unit:read',
   UnitUpdate = 'unit:update',
   UnitDelete = 'unit:delete',
-
-  NoticeCreate = 'notice:create',
-
-  StatisticNetworkRead = 'statistic:network:read',
-  StatisticRequestRead = 'statistic:request:read',
-  StatisticInspectorRead = 'statistic:inspector:read',
-  StatisticDashboardRead = 'statistic:dashboard:read',
-
-  ReportRead = 'report:read',
+  UnitNotice = 'unit:notice',
 
   FilterCreate = 'filter:create',
   FilterRead = 'filter:read',
   FilterUpdate = 'filter:update',
   FilterDelete = 'filter:delete',
+  FilterNotice = 'filter:notice',
 
-  SyslogRead = 'syslog:read',
-  SyslogDelete = 'syslog:delete',
-
-  OptionCreate = 'option:create',
-  OptionRead = 'option:read',
-  OptionUpdate = 'option:update',
-  OptionDelete = 'option:delete'
+  StatisticNetworkRead = 'statistic:network:read',
+  StatisticRequestRead = 'statistic:request:read',
+  StatisticInspectorRead = 'statistic:inspector:read'
 }

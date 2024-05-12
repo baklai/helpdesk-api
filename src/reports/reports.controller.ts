@@ -27,7 +27,7 @@ export class ReportsController {
 
   @Get('internet-access')
   @ApiOperation({
-    summary: 'List of users with internet access',
+    summary: 'List of profiles with internet access',
     description: 'Required scopes: [' + [Scope.ReportRead].join(',') + ']'
   })
   @HttpCode(HttpStatus.OK)
@@ -35,13 +35,13 @@ export class ReportsController {
     return this.reportsService.getInternetAccess();
   }
 
-  @Get('users-email')
+  @Get('profiles-email')
   @ApiOperation({
-    summary: 'List of users with email',
+    summary: 'List of profiles with email',
     description: 'Required scopes: [' + [Scope.ReportRead].join(',') + ']'
   })
   @HttpCode(HttpStatus.OK)
   async getEmails() {
-    return this.reportsService.getUsersEmail();
+    return this.reportsService.getProfilesEmail();
   }
 }

@@ -79,7 +79,7 @@ export class PingsService {
       console.info(`127.0.0.1 [system] TASK ${error ? 500 : 200} - CLEAR PINGs`);
       await this.syslogModel.create({
         host: '127.0.0.1',
-        user: 'system',
+        profile: 'system',
         method: 'TASK',
         baseUrl: 'CLEAR PINGs',
         params: null,

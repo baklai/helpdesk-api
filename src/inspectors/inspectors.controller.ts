@@ -15,9 +15,11 @@ import { AggregatePaginateResult } from 'mongoose';
 
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
+import { AdminGuard } from 'src/common/guards/administrator.guard';
 import { ScopesGuard } from 'src/common/guards/scopes.guard';
 import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
+
 import { InspectorsService } from './inspectors.service';
 import { Inspector, PaginateInspector } from './schemas/inspector.schema';
 
@@ -98,11 +100,10 @@ export class InspectorsController {
 
   @Delete(':id')
   @ApiBearerAuth('JWT Guard')
-  @UseGuards(AccessTokenGuard, ScopesGuard)
-  @Scopes(Scope.InspectorDelete)
+  @UseGuards(AccessTokenGuard, AdminGuard)
   @ApiOperation({
     summary: 'Delete record by ID',
-    description: 'Required scopes: [' + [Scope.InspectorDelete].join(',') + ']'
+    description: 'Required admin'
   })
   @ApiOkResponse({ description: 'Success', type: Inspector })
   @ApiBadRequestResponse({ description: 'Bad request' })

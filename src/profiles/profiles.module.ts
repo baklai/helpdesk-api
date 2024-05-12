@@ -4,20 +4,20 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Request, RequestSchema } from 'src/requests/schemas/request.schema';
 import { Notice, NoticeSchema } from 'src/notices/schemas/notice.schema';
 
-import { User, UserSchema } from './schemas/user.schema';
-import { UsersController } from './users.controller';
-import { UsersService } from './users.service';
+import { Profile, ProfileSchema } from './schemas/profile.schema';
+import { ProfilesController } from './profiles.controller';
+import { ProfilesService } from './profiles.service';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: User.name, schema: UserSchema },
+      { name: Profile.name, schema: ProfileSchema },
       { name: Request.name, schema: RequestSchema },
       { name: Notice.name, schema: NoticeSchema }
     ])
   ],
-  controllers: [UsersController],
-  providers: [UsersService],
-  exports: [UsersService]
+  controllers: [ProfilesController],
+  providers: [ProfilesService],
+  exports: [ProfilesService]
 })
-export class UsersModule {}
+export class ProfilesModule {}

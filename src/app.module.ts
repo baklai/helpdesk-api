@@ -13,7 +13,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
+import { ProfilesModule } from './profiles/profiles.module';
 import { EventsModule } from './events/events.module';
 import { NetmapsModule } from './netmaps/netmaps.module';
 import { ChannelsModule } from './channels/channels.module';
@@ -96,7 +96,7 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
     }),
 
     AuthModule,
-    UsersModule,
+    ProfilesModule,
     EventsModule,
     ChannelsModule,
     IpaddressesModule,

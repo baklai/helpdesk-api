@@ -13,7 +13,7 @@ import { Ipaddress } from 'src/ipaddresses/schemas/ipaddress.schema';
 import { Position } from 'src/positions/schemas/position.schema';
 import { Filter } from 'src/filters/schemas/filter.schema';
 import { Unit } from 'src/units/schemas/unit.schema';
-import { User } from 'src/users/schemas/user.schema';
+import { Profile } from 'src/profiles/schemas/profile.schema';
 import { Mailbox } from 'src/mailboxes/schemas/mailbox.schema';
 import { Syslog } from 'src/syslogs/schemas/syslog.schema';
 
@@ -32,7 +32,7 @@ export class StatisticsService {
     @InjectModel(Location.name) private readonly locationModel: Model<Location>,
     @InjectModel(Position.name) private readonly positionModel: Model<Position>,
     @InjectModel(Filter.name) private readonly filterModel: Model<Filter>,
-    @InjectModel(User.name) private readonly userModel: Model<User>,
+    @InjectModel(Profile.name) private readonly profileModel: Model<Profile>,
     @InjectModel(Syslog.name) private readonly syslogModel: Model<Syslog>
   ) {}
 
@@ -467,7 +467,7 @@ export class StatisticsService {
     const lastDayOfPreviousMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
 
     const [
-      users,
+      profiles,
       inspectors,
       requests,
       ipaddress,
@@ -479,9 +479,9 @@ export class StatisticsService {
       locations,
       units,
       activity,
-      activityUsers
+      activityProfiles
     ] = await Promise.all([
-      this.userModel.countDocuments(),
+      this.profileModel.countDocuments(),
       this.inspectorModel.countDocuments(),
       this.requestModel.countDocuments(),
       this.ipaddressModel.countDocuments(),
@@ -537,7 +537,7 @@ export class StatisticsService {
               $gte: firstDayOfPreviousMonth,
               $lte: lastDayOfPreviousMonth
             },
-            user: {
+            profile: {
               $nin: ['anonymous', 'system']
             }
           }
@@ -545,7 +545,7 @@ export class StatisticsService {
         {
           $group: {
             _id: {
-              user: '$user',
+              profile: '$profile',
               method: '$method'
             },
             count: { $sum: 1 }
@@ -553,7 +553,7 @@ export class StatisticsService {
         },
         {
           $group: {
-            _id: '$_id.user',
+            _id: '$_id.profile',
             methods: {
               $push: {
                 method: '$_id.method',
@@ -564,7 +564,7 @@ export class StatisticsService {
         },
         {
           $project: {
-            user: '$_id',
+            profile: '$_id',
             methods: 1,
             _id: 0
           }
@@ -573,7 +573,7 @@ export class StatisticsService {
     ]);
 
     return {
-      users,
+      profiles,
       inspectors,
       requests,
       ipaddress,
@@ -585,7 +585,7 @@ export class StatisticsService {
       locations,
       units,
       activity,
-      activityUsers
+      activityProfiles
     };
   }
 }
