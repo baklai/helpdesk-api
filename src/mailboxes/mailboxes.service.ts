@@ -2,17 +2,31 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { PaginateModel, PaginateResult, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
-import { Mailbox } from './schemas/mailbox.schema';
+import { Scope } from 'src/common/enums/scope.enum';
+import { MailerService } from 'src/mailer/mailer.service';
+import { ProfilesService } from 'src/profiles/profiles.service';
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
+
+import { Mailbox } from './schemas/mailbox.schema';
 import { CreateMailboxDto } from './dto/create-mailbox.dto';
 import { UpdateMailboxDto } from './dto/update-mailbox.dto';
 
 @Injectable()
 export class MailboxesService {
-  constructor(@InjectModel(Mailbox.name) private readonly mailboxModel: PaginateModel<Mailbox>) {}
+  constructor(
+    @InjectModel(Mailbox.name) private readonly mailboxModel: PaginateModel<Mailbox>,
+    private readonly mailerService: MailerService,
+    private readonly profilesService: ProfilesService
+  ) {}
 
   async create(createMailboxDto: CreateMailboxDto): Promise<Mailbox> {
-    return await this.mailboxModel.create(createMailboxDto);
+    const mailbox = await this.mailboxModel.create(createMailboxDto);
+
+    const emails = await this.profilesService.findEmailsIsNotice(Scope.MailboxNotice);
+
+    this.mailerService.sendMailbox(emails, mailbox, 'Adding Email');
+
+    return mailbox;
   }
 
   async findAll(query: PaginateQueryDto): Promise<PaginateResult<Mailbox>> {
@@ -78,10 +92,19 @@ export class MailboxesService {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid mailbox ID');
     }
+
+    const mailbox = await this.mailboxModel.findById(id);
+
     const deletedMailbox = await this.mailboxModel.findByIdAndRemove(id).exec();
+
     if (!deletedMailbox) {
       throw new NotFoundException('Mailbox not found');
     }
+
+    const emails = await this.profilesService.findEmailsIsNotice(Scope.MailboxNotice);
+
+    this.mailerService.sendMailbox(emails, mailbox, 'Deleting Email');
+
     return deletedMailbox;
   }
 }

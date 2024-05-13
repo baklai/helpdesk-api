@@ -64,12 +64,11 @@ export class MailerService {
       template: 'ipaddress',
       context: {
         title: `IP Address ${data?.ipaddress || ''}`,
-        copyright: `Copyright © ${new Date().getFullYear()}. All rights reserved.`,
         ipaddress: data?.ipaddress || '-',
         mask: data?.mask || '-',
         gateway: data?.gateway || '-',
         reqnum: data?.reqnum || '-',
-        date: dateToLocaleStr(data?.date || '-'),
+        date: dateToLocaleStr(data?.date),
         fullname: data?.fullname || '-',
         phone: data?.phone || '-',
         organization: data?.organization?.name || '-',
@@ -81,6 +80,34 @@ export class MailerService {
         internetDateOpen: dateToLocaleStr(data?.internet?.dateOpen),
         internetDateClose: dateToLocaleStr(data?.internet?.dateClose),
         internetComment: data?.internet?.comment || '-'
+      }
+    });
+  }
+
+  async sendMailbox(
+    emails: string[],
+    data: Record<string, any>,
+    subject: string | undefined | null
+  ) {
+    if (!emails?.length) return;
+
+    return await this.sendMailWithDefaultContext({
+      to: emails,
+      subject: subject ? `HD | ${subject} ${data?.login || ''}` : `HD | EMAIL ${data?.login || ''}`,
+      template: 'mailbox',
+      context: {
+        title: `Login ${data?.login || ''}`,
+        login: data?.login || '',
+        reqnum: data?.reqnum || '-',
+        dateOpen: dateToLocaleStr(data?.dateOpen),
+        dateClose: dateToLocaleStr(data?.dateClose || new Date()),
+        fullname: data?.fullname || '-',
+        phone: data?.phone || '-',
+        organization: data?.organization?.name || '-',
+        subdivision: data?.subdivision?.name || '-',
+        department: data?.department?.name || '-',
+        position: data?.position?.name || '-',
+        comment: data?.comment || '-'
       }
     });
   }
