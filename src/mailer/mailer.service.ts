@@ -5,39 +5,48 @@ import { dateToLocaleStr } from 'src/common/utils/lib.util';
 export class MailerService {
   constructor(@Inject('MAILER') private readonly transporter: any) {}
 
-  private verifyConnection() {
-    return this.transporter.verify();
+  private async verifyConnection() {
+    return await this.transporter.verify();
   }
 
   private async sendMailWithDefaultContext(options: Record<string, any>) {
     const defaultContext = {
-      title: 'Повідомлення',
+      title: 'Notification',
       copyright: `Copyright © ${new Date().getFullYear()}. All rights reserved.`
     };
 
-    return this.transporter.sendMail({
-      ...options,
-      context: {
-        ...defaultContext,
-        ...(options.context || {})
-      }
-    });
+    try {
+      const response = await this.transporter.sendMail({
+        ...options,
+        subject: options?.subject?.toUpperCase() || '',
+        context: {
+          ...defaultContext,
+          ...(options.context || {})
+        }
+      });
+
+      console.info('MESSAGE SENT: %s', response.messageId, response.accepted);
+
+      return response;
+    } catch (err) {
+      console.error(err.message);
+
+      return;
+    }
   }
 
   async sendNotice(emails: string[], data: Record<string, any>) {
     if (!emails?.length) return;
 
-    const info = await this.sendMailWithDefaultContext({
+    return await this.sendMailWithDefaultContext({
       to: emails,
-      subject: 'HD | Повідомлення',
+      subject: 'HD | Notification',
       template: 'notice',
       context: {
         title: data.title,
         text: data.text
       }
     });
-
-    console.info('Message sent: %s', info.messageId);
   }
 
   async sendIPAddress(
@@ -47,14 +56,14 @@ export class MailerService {
   ) {
     if (!emails?.length) return;
 
-    const info = await this.sendMailWithDefaultContext({
+    return await this.sendMailWithDefaultContext({
       to: emails,
       subject: subject
         ? `HD | ${subject} ${data?.ipaddress || ''}`
-        : `HD | IP Адреса ${data?.ipaddress || ''}`,
+        : `HD | IP Address ${data?.ipaddress || ''}`,
       template: 'ipaddress',
       context: {
-        title: `IP Адреса ${data?.ipaddress || ''}`,
+        title: `IP Address ${data?.ipaddress || ''}`,
         copyright: `Copyright © ${new Date().getFullYear()}. All rights reserved.`,
         ipaddress: data?.ipaddress || '-',
         mask: data?.mask || '-',
@@ -74,61 +83,53 @@ export class MailerService {
         internetComment: data?.internet?.comment || '-'
       }
     });
-
-    console.info('Message sent: %s', info.messageId);
   }
 
   async sendProfile(email: string, data: Record<string, any>) {
     if (!email?.length) return;
 
-    const info = await this.sendMailWithDefaultContext({
+    return await this.sendMailWithDefaultContext({
       to: email,
-      subject: 'HD | Авторизація',
+      subject: 'HD | Authorization',
       template: 'profile',
       context: {
-        title: 'Успішна авторизація',
+        title: 'Successful authorization',
         email: data.email,
         password: data.password,
         fullname: data.fullname
       }
     });
-
-    console.info('Message sent: %s', info.messageId);
   }
 
   async sendProfileNotice(email: string[], data: Record<string, any>) {
     if (!email?.length) return;
 
-    const info = await this.sendMailWithDefaultContext({
+    return await this.sendMailWithDefaultContext({
       to: email,
-      subject: 'HD | Авторизація',
+      subject: 'HD | Authorization',
       template: 'profile',
       context: {
-        title: 'Новий профіль',
+        title: 'New profile',
         email: data.email,
         phone: data.phone,
         fullname: data.fullname
       }
     });
-
-    console.info('Message sent: %s', info.messageId);
   }
 
   async sendResetPassword(email: string, data: Record<string, any>) {
     if (!email?.length) return;
 
-    const info = await this.sendMailWithDefaultContext({
+    return await this.sendMailWithDefaultContext({
       to: email,
-      subject: 'HD | Авторизація',
+      subject: 'HD | Authorization',
       template: 'profile',
       context: {
-        title: 'Відновлення паролю',
+        title: 'Password recovery',
         email: data.email,
         password: data.password,
         fullname: data.fullname
       }
     });
-
-    console.info('Message sent: %s', info.messageId);
   }
 }

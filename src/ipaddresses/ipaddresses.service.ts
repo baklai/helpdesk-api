@@ -32,7 +32,7 @@ export class IpaddressesService {
 
     const emails = await this.profilesService.findEmailsIsNotice(Scope.IpaddressNotice);
 
-    this.mailerService.sendIPAddress(emails, newIpaddress, 'Додавання IP Адреси');
+    this.mailerService.sendIPAddress(emails, newIpaddress, 'Adding IP Addresses');
 
     return newIpaddress;
   }
@@ -152,7 +152,7 @@ export class IpaddressesService {
 
     const emails = await this.profilesService.findEmailsIsNotice(Scope.IpaddressNotice);
 
-    this.mailerService.sendIPAddress(emails, ipaddress, 'Видалення IP Адреси');
+    this.mailerService.sendIPAddress(emails, ipaddress, 'Deleting IP Addresses');
 
     return deletedIpaddress;
   }
