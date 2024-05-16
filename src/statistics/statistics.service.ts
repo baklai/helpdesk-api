@@ -63,8 +63,8 @@ export class StatisticsService {
       locations,
       units,
       statistic,
-      barUnits,
-      barLocations
+      IPByUnits,
+      IPByLocations
     ] = await Promise.all([
       this.channelModel.countDocuments(),
       this.mailboxModel.countDocuments(),
@@ -180,8 +180,8 @@ export class StatisticsService {
       departments,
       locations,
       units,
-      barUnits,
-      barLocations
+      IPByUnits,
+      IPByLocations
     };
   }
 
