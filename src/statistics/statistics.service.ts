@@ -57,9 +57,8 @@ export class StatisticsService {
       channels,
       mailboxes,
       ipaddresses,
-      companies,
-      branches,
-      enterprises,
+      organizations,
+      subdivisions,
       departments,
       locations,
       units,
@@ -176,9 +175,8 @@ export class StatisticsService {
       channels,
       mailboxes,
       ipaddresses,
-      companies,
-      branches,
-      enterprises,
+      organizations,
+      subdivisions,
       departments,
       locations,
       units,
@@ -475,14 +473,16 @@ export class StatisticsService {
 
   async dashboard() {
     const currentDate = new Date();
+
     const firstDayOfPreviousMonth = new Date(
       currentDate.getFullYear(),
       currentDate.getMonth() - 1,
       1
     );
+
     const lastDayOfPreviousMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
 
-    const { startOfWeek, endOfWeek } = this.getStartAndEndDateOfWeek(new Date());
+    const { startOfWeek, endOfWeek } = this.getStartAndEndDateOfWeek(currentDate);
 
     const [
       profiles,
