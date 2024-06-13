@@ -100,7 +100,7 @@ export class MailerService {
         login: data?.login || '',
         reqnum: data?.reqnum || '-',
         dateOpen: dateToLocaleStr(data?.dateOpen),
-        dateClose: dateToLocaleStr(data?.dateClose || new Date()),
+        dateClose: dateToLocaleStr(data?.dateClose),
         fullname: data?.fullname || '-',
         phone: data?.phone || '-',
         organization: data?.organization?.name || '-',

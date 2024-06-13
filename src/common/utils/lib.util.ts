@@ -1,4 +1,5 @@
 export const dateToLocaleStr = (value: string, locale: string = 'uk-UA') => {
+  if (!value) return '-';
   return value
     ? new Date(value).toLocaleDateString(locale, {
         year: 'numeric',
