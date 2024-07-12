@@ -140,7 +140,7 @@ export class InspectorsService {
                   },
                   {
                     $not: {
-                      $in: ['$$item.Name', [...EXCEPTION_USERACCOUNTS.map(item => item.regex)]]
+                      $in: ['$$item.Name', [...EXCEPTION_USERACCOUNTS.map(({ regex }) => regex)]]
                     }
                   }
                 ]
@@ -226,7 +226,7 @@ export class InspectorsService {
                             $size: {
                               $setIntersection: [
                                 { $ifNull: ['$product.Name', []] },
-                                [...UNWANTED_SOFTWARE.map(item => item.regex)]
+                                [...UNWANTED_SOFTWARE.map(({ regex }) => regex)]
                               ]
                             }
                           },

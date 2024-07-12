@@ -33,7 +33,11 @@ export enum Scope {
 
   InspectorRead = 'inspector:read',
 
+  ReportCreate = 'report:create',
   ReportRead = 'report:read',
+  ReportUpdate = 'report:update',
+  ReportDelete = 'report:delete',
+  ReportNotice = 'report:notice',
 
   PingCreate = 'ping:create',
   PingRead = 'ping:read',
