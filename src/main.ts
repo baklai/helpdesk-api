@@ -67,7 +67,6 @@ async function bootstrap() {
 
   SwaggerModule.setup(SWAGGER_API_PATH, app, document, {
     explorer: false,
-    customCss: fs.readFileSync('src/common/themes/dark.css', 'utf8'),
     customSiteTitle: 'API Helpdesk | Swagger'
   });
 
