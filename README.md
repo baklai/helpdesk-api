@@ -77,6 +77,18 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+### Lint with [ESLint](https://eslint.org/)
+
+```bash
+npm run lint
+```
+
+### Format with [Prettier](https://prettier.io/)
+
+```bash
+npm run format
+```
+
 ### Compile and Minify for Production
 
 ```bash
@@ -111,18 +123,6 @@ docker buildx inspect --bootstrap
 ```bash
 # Use Docker registry
 docker login
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```bash
-npm run lint
-```
-
-### Format with [Prettier](https://prettier.io/)
-
-```bash
-npm run format
 ```
 
 ### Quick Start
