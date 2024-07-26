@@ -135,22 +135,22 @@ npm run start
 
 ```bash
 # Start application
-pm2 start ecosystem.config.js
+pm2 start ecosystem.json
 
 # Stop application
-pm2 stop ecosystem.config.js
+pm2 stop ecosystem.json
 
 # Restart application
-pm2 restart ecosystem.config.js
+pm2 restart ecosystem.json
 
 # Reload application
-pm2 reload ecosystem.config.js
+pm2 reload ecosystem.json
 
 # Delete application
-pm2 delete ecosystem.config.js
+pm2 delete ecosystem.json
 
 # Logs application
-pm2 logs open-petition-bot
+pm2 logs helpdesk-api
 ```
 
 ### Docker Quick Start
