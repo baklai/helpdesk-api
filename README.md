@@ -183,7 +183,7 @@ docker logs -f helpdesk-api
 
 ```bash
 # Restart application
-docker copmpose down && docker rmi baklai/helpdesk-api-v1 && docker compose up -d && docker logs -f helpdesk-api
+docker compose down && docker rmi baklai/helpdesk-api-v1 && docker compose up -d && docker logs -f helpdesk-api
 ```
 
 In the terminal, run the following command to stop the application.
