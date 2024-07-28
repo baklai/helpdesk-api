@@ -1,5 +1,5 @@
 const PORT = 3000;
-const HOST = '0.0.0.0';
+const HOST = '127.0.0.1';
 const MONGO_URI = 'mongodb://localhost:27017/helpdesk';
 const BCRYPT_SALT = 10;
 const PUBLIC_TOKEN = 'HELPDESK-PUBLIC-TOKEN';
@@ -26,9 +26,7 @@ export default () => ({
   JWT_ACCESS_EXPIRES_IN: process.env.JWT_ACCESS_EXPIRES_IN || JWT_ACCESS_EXPIRES_IN,
   JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET || JWT_REFRESH_SECRET,
   JWT_REFRESH_EXPIRES_IN: process.env.JWT_REFRESH_EXPIRES_IN || JWT_REFRESH_EXPIRES_IN,
-
   STORAGE_PATH: process.env.STORAGE_PATH || STORAGE_PATH,
-
   SMTP_HOST: process.env.SMTP_HOST || SMTP_HOST,
   SMTP_PORT: parseInt(process.env.SMTP_PORT, 10) || SMTP_PORT,
   SMTP_USERNAME: process.env.SMTP_USERNAME || SMTP_USERNAME,
