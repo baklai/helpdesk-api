@@ -100,9 +100,5 @@ npm run format
 npm run start
 ```
 
-## Default login to the application
-
-The service administrator is created during the first registration on the service
-
 After starting the app on port (3000 as default) you can open
 in your browser helpdesk api by typing http://localhost:3000/api.
