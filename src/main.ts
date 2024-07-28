@@ -1,4 +1,3 @@
-import * as fs from 'fs';
 import { NestFactory } from '@nestjs/core';
 import type { NestExpressApplication } from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
@@ -65,10 +64,7 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
 
-  SwaggerModule.setup(SWAGGER_API_PATH, app, document, {
-    explorer: false,
-    customSiteTitle: 'API Helpdesk | Swagger'
-  });
+  SwaggerModule.setup(GLOBAL_PREFIX, app, document);
 
   const port = configService.get<number>('PORT');
   const host = configService.get<string>('HOST');

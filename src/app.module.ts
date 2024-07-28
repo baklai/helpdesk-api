@@ -1,8 +1,10 @@
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { ScheduleModule } from '@nestjs/schedule';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Schema } from 'mongoose';
+import { join } from 'path';
 import * as mongooseAutopopulate from 'mongoose-autopopulate';
 const mongooseAggregatePaginate = require('mongoose-aggregate-paginate-v2');
 import * as mongoosePaginate from 'mongoose-paginate-v2';
@@ -38,6 +40,18 @@ import { StorageModule } from './storage/storage.module';
 import { MailerModule } from './mailer/mailer.module';
 
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
+import { existsSync } from 'fs';
+
+const clientPath = join(__dirname, '..', 'client');
+
+const serveStaticModule = existsSync(clientPath)
+  ? [
+      ServeStaticModule.forRoot({
+        rootPath: clientPath,
+        exclude: ['/api/(.*)']
+      })
+    ]
+  : [];
 
 @Module({
   imports: [
@@ -46,6 +60,7 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
       envFilePath: ['.env'],
       load: [appConfig]
     }),
+    ...serveStaticModule,
     ScheduleModule.forRoot(),
     MailerModule.forRootAsync({
       inject: [ConfigService],
