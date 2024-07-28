@@ -1,5 +1,5 @@
 const PORT = 3000;
-const HOST = 'localhost';
+const HOST = '0.0.0.0';
 const MONGO_URI = 'mongodb://localhost:27017/helpdesk';
 const BCRYPT_SALT = 10;
 const PUBLIC_TOKEN = 'HELPDESK-PUBLIC-TOKEN';
