@@ -10,7 +10,7 @@ import { AppModule } from './app.module';
 const SWAGGER_API_TITLE = 'API Helpdesk';
 const SWAGGER_API_DESCRIPTION = 'The Helpdesk API documentation';
 const SWAGGER_API_VERSION = '1.0';
-const SWAGGER_API_PATH = '/';
+const SWAGGER_API_PATH = '/api';
 
 const GLOBAL_PREFIX = '/api/v1';
 
@@ -64,7 +64,7 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
 
-  SwaggerModule.setup(GLOBAL_PREFIX, app, document);
+  SwaggerModule.setup(SWAGGER_API_PATH, app, document);
 
   const port = configService.get<number>('PORT');
   const host = configService.get<string>('HOST');

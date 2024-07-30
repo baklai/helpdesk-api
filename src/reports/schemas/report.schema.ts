@@ -16,7 +16,7 @@ export class Report {
 
   @ApiProperty({
     description: 'The creator of the report',
-    example: String
+    example: 'John Doe'
   })
   @IsString()
   @Prop({ type: String, required: true, trim: true })

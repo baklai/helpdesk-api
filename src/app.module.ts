@@ -5,6 +5,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Schema } from 'mongoose';
 import { join } from 'path';
+import { existsSync } from 'fs';
 import * as mongooseAutopopulate from 'mongoose-autopopulate';
 const mongooseAggregatePaginate = require('mongoose-aggregate-paginate-v2');
 import * as mongoosePaginate from 'mongoose-paginate-v2';
@@ -40,17 +41,11 @@ import { StorageModule } from './storage/storage.module';
 import { MailerModule } from './mailer/mailer.module';
 
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
-import { existsSync } from 'fs';
 
 const clientPath = join(__dirname, '..', 'client');
 
 const serveStaticModule = existsSync(clientPath)
-  ? [
-      ServeStaticModule.forRoot({
-        rootPath: clientPath,
-        exclude: ['/api/(.*)']
-      })
-    ]
+  ? [ServeStaticModule.forRoot({ rootPath: clientPath, exclude: ['/api/(.*)'] })]
   : [];
 
 @Module({
@@ -60,8 +55,11 @@ const serveStaticModule = existsSync(clientPath)
       envFilePath: ['.env'],
       load: [appConfig]
     }),
+
     ...serveStaticModule,
+
     ScheduleModule.forRoot(),
+
     MailerModule.forRootAsync({
       inject: [ConfigService],
       imports: [ConfigModule],
@@ -75,6 +73,7 @@ const serveStaticModule = existsSync(clientPath)
         sender: configService.get<string>('SMTP_SENDER')
       })
     }),
+
     MongooseModule.forRootAsync({
       inject: [ConfigService],
       imports: [ConfigModule],
