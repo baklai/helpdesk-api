@@ -19,8 +19,6 @@ Helpdesk API of technical support
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-api-v1/netmask)
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-api-v1/pingman)
 
-## Demo application: [Helpdesk API V1](https://helpdesk-api-l8pk.onrender.com/api/v1)
-
 ## Prerequisites
 
 - Git - [Download & Install Git](https://git-scm.com/downloads).
