@@ -1,7 +1,6 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
 import { createTransport } from 'nodemailer';
 import * as handlebars from 'nodemailer-express-handlebars';
-import { join } from 'path';
 
 import { MailerService } from './mailer.service';
 
@@ -44,11 +43,11 @@ export class MailerModule {
               handlebars({
                 viewEngine: {
                   extname: '.hbs',
-                  layoutsDir: join(__dirname, 'templates', 'layouts'),
+                  layoutsDir: './templates/layouts',
                   defaultLayout: 'main',
-                  partialsDir: join(__dirname, 'templates', 'partials')
+                  partialsDir: './templates/partials'
                 },
-                viewPath: join(__dirname, 'templates'),
+                viewPath: './templates',
                 extName: '.hbs'
               })
             );
