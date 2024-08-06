@@ -1,6 +1,7 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
 import { createTransport } from 'nodemailer';
 import * as handlebars from 'nodemailer-express-handlebars';
+import { join } from 'path';
 
 import { MailerService } from './mailer.service';
 
@@ -21,7 +22,7 @@ export class MailerModule {
         {
           provide: 'MAILER',
           useFactory: async (...args: Record<string, any>[]) => {
-            const { host, port, auth, sender } = await options.useFactory(...args);
+            const { host, port, templates, auth, sender } = await options.useFactory(...args);
             const transporter = createTransport(
               {
                 host: host,
@@ -43,11 +44,11 @@ export class MailerModule {
               handlebars({
                 viewEngine: {
                   extname: '.hbs',
-                  layoutsDir: './templates/layouts',
+                  layoutsDir: join(templates, 'templates', 'layouts'),
                   defaultLayout: 'main',
-                  partialsDir: './templates/partials'
+                  partialsDir: join(templates, 'templates', 'partials')
                 },
-                viewPath: './templates',
+                viewPath: join(templates, 'templates'),
                 extName: '.hbs'
               })
             );

@@ -44,6 +44,8 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
 
 const clientPath = join(__dirname, '..', 'client');
 
+const templatesPath = join(__dirname, 'mailer');
+
 const serveStaticModule = existsSync(clientPath)
   ? [ServeStaticModule.forRoot({ rootPath: clientPath, exclude: ['/api/(.*)'] })]
   : [];
@@ -66,6 +68,7 @@ const serveStaticModule = existsSync(clientPath)
       useFactory: (configService: ConfigService) => ({
         host: configService.get<string>('SMTP_HOST'),
         port: configService.get<string>('SMTP_PORT'),
+        templates: templatesPath,
         auth: {
           user: configService.get<string>('SMTP_USERNAME'),
           pass: configService.get<string>('SMTP_PASSWORD')
