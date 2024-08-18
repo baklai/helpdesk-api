@@ -25,11 +25,11 @@ export class CreateReportDto {
   readonly description: string;
 
   @ApiProperty({
-    description: 'The collection of the report',
+    description: 'The data collection of the report',
     example: 'Senior Software Engineer'
   })
   @IsString()
-  readonly collection: string;
+  readonly datacollection: string;
 
   @ApiPropertyOptional({
     description: 'The fields of the report',

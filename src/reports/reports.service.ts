@@ -103,7 +103,7 @@ export class ReportsService {
       throw new NotFoundException('Record not found');
     }
 
-    const { collection, fields = '{}', sorts = '{"createdAt": 1}', filters = '{}' } = report;
+    const { datacollection, fields = '{}', sorts = '{"createdAt": 1}', filters = '{}' } = report;
 
     const reportData = [];
 
@@ -111,7 +111,7 @@ export class ReportsService {
     const jsonFields = JSON.parse(fields);
     const jsonFilters = JSON.parse(filters);
 
-    switch (collection) {
+    switch (datacollection) {
       case 'ipaddresses':
         if (jsonFilters?.internet) {
           switch (jsonFilters?.internet['$regex']) {
@@ -420,7 +420,7 @@ export class ReportsService {
         reportData.push(...inspectors);
         break;
       default:
-        throw new NotFoundException('Collection not found');
+        throw new NotFoundException('Data collection not found');
     }
 
     return reportData.map((item, index) => {

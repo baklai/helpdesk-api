@@ -40,12 +40,12 @@ export class Report {
   readonly description: string;
 
   @ApiProperty({
-    description: 'The collection of the report',
+    description: 'The data collection of the report',
     example: 'Router TP-Link'
   })
   @IsString()
   @Prop({ type: String, required: true, trim: true })
-  readonly collection: string;
+  readonly datacollection: string;
 
   @ApiPropertyOptional({
     description: 'A sort of the report',
