@@ -75,6 +75,14 @@ export class InspectorsService {
         $match: filters
       },
       {
+        $lookup: {
+          from: 'ipaddresses',
+          localField: 'host',
+          foreignField: 'ipaddress',
+          as: 'hostAndIp'
+        }
+      },
+      {
         $addFields: {
           id: '$_id',
 
@@ -163,6 +171,10 @@ export class InspectorsService {
                 ]
               }
             }
+          },
+
+          isIPAddress: {
+            $cond: { if: { $gt: [{ $size: '$hostAndIp' }, 0] }, then: true, else: false }
           }
         }
       },
@@ -268,6 +280,7 @@ export class InspectorsService {
               }
             }
           },
+          isIPAddress: 1,
           updatedAt: 1
         }
       },
