@@ -45,6 +45,9 @@ export class InspectorsService {
 
     if (filters?.warning) {
       switch (filters.warning) {
+        case 'ipaddress':
+          inspector['ipaddress'] = false;
+          break;
         case 'useraccount':
           inspector['inspector.useraccount.warning'] = true;
           break;
@@ -173,7 +176,7 @@ export class InspectorsService {
             }
           },
 
-          isIPAddress: {
+          ipaddress: {
             $cond: { if: { $gt: [{ $size: '$hostAndIp' }, 0] }, then: true, else: false }
           }
         }
@@ -280,7 +283,7 @@ export class InspectorsService {
               }
             }
           },
-          isIPAddress: 1,
+          ipaddress: 1,
           updatedAt: 1
         }
       },
