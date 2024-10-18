@@ -2,47 +2,46 @@
 # If you need more help, visit the Dockerfile reference guide at
 # https://docs.docker.com/go/dockerfile-reference/
 
-ARG NODE_VERSION=20.16.0
+ARG NODE_VERSION=20
 
 # Building layer API
 FROM node:${NODE_VERSION}-alpine AS build-api
 
-# Install dependencies from package.json
+# Устанавливаем рабочую директорию
+WORKDIR /app
+
+# Копируем package.json и устанавливаем зависимости
+COPY package*.json ./
 RUN npm install
 
-# Build application (produces dist/folder)
+# Копируем остальной код и строим приложение (produces dist/folder)
+COPY . .
 RUN npm run build
 
-# Runtime (production) layer
-FROM node:${NODE_VERSION}-alpine AS production
-
 # Defining an argument for a port
-ARG PORT
+ARG PORT=3000
 
 # Defining an argument for a host
-ARG HOST
+ARG HOST=0.0.0.0
+
+# Устанавливаем рабочую директорию для финального образа
+FROM node:${NODE_VERSION}-alpine AS production
 
 WORKDIR /app
 
-# Copy configuration files
-COPY --from=build-api /app/tsconfig*.json ./
+# Копируем файлы конфигурации и зависимости
 COPY --from=build-api /app/package*.json ./
-COPY --from=build-api /app/nest-cli.json ./
+COPY --from=build-api /app/dist ./dist/
 
-# Install runtime dependecies (without dev/test dependecies)
-RUN npm i --omit=dev
+# Устанавливаем только продакшн зависимости
+RUN npm install --omit=dev
 
-# Copy production build
-COPY --from=build-api /app/dist/ ./dist/
-
-# Opening the port
+# Открываем порт
 EXPOSE ${PORT}
 
-# Defining an environment variable for an application
+# Задаем переменные окружения для приложения
 ENV PORT=${PORT}
-
-# Defining an environment variable for an application
 ENV HOST=${HOST}
 
-# Let's launch node
-CMD [ "node", "dist/main.js" ]
+# Запускаем приложение
+CMD ["node", "dist/main.js"]
