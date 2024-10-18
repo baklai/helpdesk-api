@@ -7,14 +7,14 @@ ARG NODE_VERSION=20
 # Building layer API
 FROM node:${NODE_VERSION}-alpine AS build-api
 
-# Устанавливаем рабочую директорию
+# Set the working directory
 WORKDIR /app
 
-# Копируем package.json и устанавливаем зависимости
+# Copy package.json and install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Копируем остальной код и строим приложение (produces dist/folder)
+# Copy the rest of the code and build the application (produces dist/folder)
 COPY . .
 RUN npm run build
 
@@ -24,22 +24,22 @@ ARG PORT=3000
 # Defining an argument for a host
 ARG HOST=0.0.0.0
 
-# Устанавливаем рабочую директорию для финального образа
+# Set the working directory for the final image
 FROM node:${NODE_VERSION}-alpine AS production
 
 WORKDIR /app
 
-# Копируем файлы конфигурации и зависимости
+# Copy configuration files and dependencies
 COPY --from=build-api /app/package*.json ./
 COPY --from=build-api /app/dist ./dist/
 
-# Устанавливаем только продакшн зависимости
+# We install only production dependencies
 RUN npm install --omit=dev
 
-# Открываем порт
+# Opening the port
 EXPOSE ${PORT}
 
-# Задаем переменные окружения для приложения
+# Setting environment variables for the application
 ENV PORT=${PORT}
 ENV HOST=${HOST}
 
