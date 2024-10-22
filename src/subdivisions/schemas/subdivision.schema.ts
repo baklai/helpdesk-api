@@ -7,7 +7,7 @@ import { Organization } from 'src/organizations/schemas/organization.schema';
 @Schema()
 export class Subdivision {
   @ApiProperty({
-    description: 'The ID of the record (unique)',
+    description: 'ID запису (унікальний)',
     example: '6299b5cebf44864bfcea36d4',
     type: String
   })
@@ -16,7 +16,7 @@ export class Subdivision {
   readonly id: string;
 
   @ApiPropertyOptional({
-    description: 'The code of the subdivision',
+    description: 'Код підрозділу',
     example: 'TSInc'
   })
   @IsString()
@@ -25,7 +25,7 @@ export class Subdivision {
   readonly code: string;
 
   @ApiProperty({
-    description: 'The name of the subdivision (must be unique)',
+    description: 'Назва підрозділу (має бути унікальною)',
     example: 'Tech Solutions Inc.'
   })
   @IsString()
@@ -33,7 +33,7 @@ export class Subdivision {
   readonly name: string;
 
   @ApiPropertyOptional({
-    description: 'The address of the subdivision',
+    description: 'Адреса підрозділу',
     example: '123 Tech Street, Innovation City'
   })
   @IsString()
@@ -42,8 +42,8 @@ export class Subdivision {
   readonly address: string;
 
   @ApiPropertyOptional({
-    description: 'A description about the subdivision',
-    example: 'A cutting-edge technology subdivision specializing in software solutions'
+    description: 'Опис підрозділа',
+    example: 'Підрозділ передових технологій, що спеціалізується на програмних рішеннях'
   })
   @IsString()
   @IsOptional()
@@ -51,7 +51,7 @@ export class Subdivision {
   readonly description: string;
 
   @ApiProperty({
-    description: 'Document of the associated Organization',
+    description: 'Документ асоційованої організації',
     example: Organization
   })
   @IsString()
@@ -66,7 +66,7 @@ export class Subdivision {
   readonly organization: Organization;
 
   @ApiPropertyOptional({
-    description: 'The created date of the record',
+    description: 'Дата створення запису',
     example: new Date()
   })
   @IsDate()
@@ -74,7 +74,7 @@ export class Subdivision {
   readonly createdAt: Date;
 
   @ApiPropertyOptional({
-    description: 'The updated date of the record',
+    description: 'Дата оновлення запису',
     example: new Date()
   })
   @IsDate()

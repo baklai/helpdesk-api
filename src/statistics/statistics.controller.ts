@@ -10,7 +10,7 @@ import { Scope } from 'src/common/enums/scope.enum';
 
 import { StatisticsService } from './statistics.service';
 
-@ApiTags('Statistics')
+@ApiTags('Статистика')
 @Controller('statistics')
 @ApiBearerAuth('JWT Guard')
 @UseGuards(AccessTokenGuard, AdminGuard, ScopesGuard)
@@ -20,8 +20,8 @@ export class StatisticsController {
   @Get('network')
   @Scopes(Scope.StatisticNetworkRead)
   @ApiOperation({
-    summary: 'Retrieve network statistics',
-    description: 'Required scopes: [' + [Scope.StatisticNetworkRead].join(',') + ']'
+    summary: 'Отримати статистику мережі',
+    description: 'Необхідні дозволи: [' + [Scope.StatisticNetworkRead].join(',') + ']'
   })
   @HttpCode(HttpStatus.OK)
   async network() {
@@ -31,8 +31,8 @@ export class StatisticsController {
   @Get('request')
   @Scopes(Scope.StatisticRequestRead)
   @ApiOperation({
-    summary: 'Retrieve request statistics',
-    description: 'Required scopes: [' + [Scope.StatisticRequestRead].join(',') + ']'
+    summary: 'Отримати статистику запитів',
+    description: 'Необхідні дозволи: [' + [Scope.StatisticRequestRead].join(',') + ']'
   })
   @HttpCode(HttpStatus.OK)
   async request() {
@@ -42,8 +42,8 @@ export class StatisticsController {
   @Get('inspector')
   @Scopes(Scope.StatisticInspectorRead)
   @ApiOperation({
-    summary: 'Retrieve inspector statistics',
-    description: 'Required scopes: [' + [Scope.StatisticInspectorRead].join(',') + ']'
+    summary: 'Отримати статистику інспектора',
+    description: 'Необхідні дозволи: [' + [Scope.StatisticInspectorRead].join(',') + ']'
   })
   @HttpCode(HttpStatus.OK)
   async inspector() {
@@ -53,8 +53,8 @@ export class StatisticsController {
   @Get('dashboard')
   @AdminRequired()
   @ApiOperation({
-    summary: 'Retrieve dashboard statistics',
-    description: 'Required admin'
+    summary: 'Отримати статистику інформаційної панелі',
+    description: 'Потрібені права адміністратора'
   })
   @HttpCode(HttpStatus.OK)
   async dashboard() {

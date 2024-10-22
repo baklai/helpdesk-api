@@ -8,14 +8,14 @@ import { PaginateResponseDto } from 'src/common/dto/paginate-response.dto';
 @Schema({ strict: false })
 export class Inspector {
   @ApiProperty({
-    description: 'The ID of the record (unique)',
+    description: 'ID запису (унікальний)',
     example: '6299b5cebf44864bfcea36d4'
   })
   @IsString()
   @IsMongoId()
   readonly id: string;
 
-  @ApiProperty({ description: 'The host address', example: '192.168.1.1' })
+  @ApiProperty({ description: 'Адреса хоста', example: '192.168.1.1' })
   @IsIP()
   @IsString()
   @Prop({ type: String, required: true, unique: true, trim: true })
@@ -82,7 +82,7 @@ export class Inspector {
   readonly useradmin: string[];
 
   @ApiPropertyOptional({
-    description: 'The created date of the record',
+    description: 'Дата створення запису',
     example: new Date()
   })
   @IsDate()
@@ -90,7 +90,7 @@ export class Inspector {
   readonly createdAt: Date;
 
   @ApiPropertyOptional({
-    description: 'The updated date of the record',
+    description: 'Дата оновлення запису',
     example: new Date()
   })
   @IsDate()
@@ -99,7 +99,7 @@ export class Inspector {
 }
 
 export class PaginateInspector extends PaginateResponseDto {
-  @ApiPropertyOptional({ type: [Inspector], description: 'Array of documents' })
+  @ApiPropertyOptional({ type: [Inspector], description: 'Масив документів' })
   @IsArray()
   @IsOptional()
   docs: Inspector[];

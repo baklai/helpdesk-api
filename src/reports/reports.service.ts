@@ -33,7 +33,7 @@ export class ReportsService {
       return await this.reportModel.create(createReportDto);
     } catch (error) {
       if (error.code === 11000 && error?.keyPattern && error?.keyPattern.name) {
-        throw new ConflictException('A record with the same name already exists');
+        throw new ConflictException('Запис із такою назвою вже існує');
       }
       throw error;
     }
@@ -49,30 +49,30 @@ export class ReportsService {
 
   async findOneById(id: string): Promise<Report> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     const report = await this.reportModel.findById(id).exec();
     if (!report) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     return report;
   }
 
   async updateOneById(id: string, updateReportDto: UpdateReportDto): Promise<Report> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     try {
       const updatedReport = await this.reportModel
         .findByIdAndUpdate(id, { $set: updateReportDto }, { new: true })
         .exec();
       if (!updatedReport) {
-        throw new NotFoundException('record not found');
+        throw new NotFoundException('Запис не знайдено');
       }
       return updatedReport;
     } catch (error) {
       if (error.code === 11000 && error?.keyPattern && error?.keyPattern.name) {
-        throw new ConflictException('A record with the same name already exists');
+        throw new ConflictException('Запис із такою назвою вже існує');
       }
       throw error;
     }
@@ -80,13 +80,13 @@ export class ReportsService {
 
   async removeOneById(id: string): Promise<Report> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
 
     const deletedReport = await this.reportModel.findByIdAndRemove(id).exec();
 
     if (!deletedReport) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
 
     return deletedReport;
@@ -94,13 +94,13 @@ export class ReportsService {
 
   async reportOneById(id: string): Promise<Record<string, any>> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
 
     const report = await this.reportModel.findById(id).exec();
 
     if (!report) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
 
     const { datacollection, fields = '{}', sorts = '{"createdAt": 1}', filters = '{}' } = report;
@@ -420,7 +420,7 @@ export class ReportsService {
         reportData.push(...inspectors);
         break;
       default:
-        throw new NotFoundException('Data collection not found');
+        throw new NotFoundException('Збір даних не знайдено');
     }
 
     return reportData.map((item, index) => {

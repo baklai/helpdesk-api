@@ -20,7 +20,7 @@ export class PingsService {
     const response: pingResponse = await ping(host, { timeout: 3, IPV4: true });
     const createdPing = await this.pingModel.create({ ...response });
     if (!createdPing) {
-      throw new NotFoundException('Ping not found');
+      throw new NotFoundException('Ping не знайдено');
     }
     return createdPing;
   }
@@ -42,7 +42,7 @@ export class PingsService {
 
   async findOneById(id: string, populate: boolean = false): Promise<Ping> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid mailbox ID');
+      throw new BadRequestException('Недійсний ідентифікатор поштової скриньки');
     }
     const mailbox = await this.pingModel
       .findById(id, null, {
@@ -50,18 +50,18 @@ export class PingsService {
       })
       .exec();
     if (!mailbox) {
-      throw new NotFoundException('Ping not found');
+      throw new NotFoundException('Пінг не знайдено');
     }
     return mailbox;
   }
 
   async removeOneById(id: string): Promise<Ping> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid mailbox ID');
+      throw new BadRequestException('Недійсний ідентифікатор поштової скриньки');
     }
     const deletedPing = await this.pingModel.findByIdAndRemove(id).exec();
     if (!deletedPing) {
-      throw new NotFoundException('Ping not found');
+      throw new NotFoundException('Пінг не знайдено');
     }
     return deletedPing;
   }

@@ -3,7 +3,7 @@ import { IsDate } from 'class-validator';
 
 export class QueryEventDto {
   @ApiProperty({
-    description: 'Start date for filtering events',
+    description: 'Дата початку фільтрації подій',
     example: new Date(),
     required: true
   })
@@ -11,7 +11,7 @@ export class QueryEventDto {
   readonly startDate: Date;
 
   @ApiProperty({
-    description: 'End date for filtering events',
+    description: 'Кінцева дата для фільтрації подій',
     example: new Date(),
     required: true
   })

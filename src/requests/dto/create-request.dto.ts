@@ -2,44 +2,44 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsIP, IsMongoId, IsOptional, IsString } from 'class-validator';
 
 export class CreateRequestDto {
-  @ApiProperty({ description: 'Full name of the requester', example: 'John Doe' })
+  @ApiProperty({ description: 'П.І.Б. запитувача', example: 'John Doe' })
   @IsString()
   readonly fullname: string;
 
-  @ApiProperty({ description: 'Phone number of the requester', example: '12-34-567' })
+  @ApiProperty({ description: 'Номер телефону запитувача', example: '12-34-567' })
   @IsString()
   readonly phone: string;
 
-  @ApiPropertyOptional({ description: 'IP Address of the requester', example: '192.168.1.1' })
+  @ApiPropertyOptional({ description: 'IP-адреса запитувача', example: '192.168.1.1' })
   @IsIP()
   @IsString()
   @IsOptional()
   readonly ipaddress: string;
 
   @ApiPropertyOptional({
-    description: 'Incoming request number of the requester',
+    description: 'Номер вхідного запиту запитувача',
     example: '№125987/01'
   })
   @IsString()
   @IsOptional()
   readonly reqnum: string;
 
-  @ApiProperty({ description: 'Request message', example: 'Please fix the issue' })
+  @ApiProperty({ description: 'Запит повідомлення', example: 'Будь ласка, вирішіть проблему' })
   @IsString()
   readonly request: string;
 
-  @ApiPropertyOptional({ description: 'Comment about the request', example: 'Fixed the issue' })
+  @ApiPropertyOptional({ description: 'Прокоментуйте запит', example: 'Виправлено проблему' })
   @IsString()
   @IsOptional()
   readonly comment: string;
 
-  @ApiPropertyOptional({ description: 'Conclusion about the request', example: 'Issue resolved' })
+  @ApiPropertyOptional({ description: 'Висновок про запит', example: 'Питання вирішено' })
   @IsString()
   @IsOptional()
   readonly conclusion: string;
 
   @ApiProperty({
-    description: 'ID of the associated Profile',
+    description: "ID пов'язаного профілю",
     example: '6299f5cebf44864bfcea39fa'
   })
   @IsString()
@@ -47,7 +47,7 @@ export class CreateRequestDto {
   readonly workerOpen: string;
 
   @ApiPropertyOptional({
-    description: 'ID of the associated Profile',
+    description: "ID пов'язаного профілю",
     example: '6299f5cebf44864bfcea39fa'
   })
   @IsString()
@@ -56,7 +56,7 @@ export class CreateRequestDto {
   readonly workerClose: string;
 
   @ApiPropertyOptional({
-    description: 'ID of the associated Location',
+    description: 'ID пов’язаного розташування',
     example: '6299b5cebf44864bfcea39da'
   })
   @IsString()
@@ -65,7 +65,7 @@ export class CreateRequestDto {
   readonly location: string;
 
   @ApiPropertyOptional({
-    description: 'ID of the associated Organization',
+    description: 'ID асоційованої організації',
     example: '6299b5cfbf44864bfcea3b0e'
   })
   @IsString()
@@ -74,7 +74,7 @@ export class CreateRequestDto {
   readonly organization: string;
 
   @ApiPropertyOptional({
-    description: 'ID of the associated Subdivision',
+    description: "Ідентифікатор пов'язаного підрозділу",
     example: '6299b5cebf44864bfcea36d2'
   })
   @IsString()
@@ -83,7 +83,7 @@ export class CreateRequestDto {
   readonly subdivision: string;
 
   @ApiPropertyOptional({
-    description: 'ID of the associated Department',
+    description: "Ідентифікатор пов'язаного відділу",
     example: '6299b5cebf44864bfcea3772'
   })
   @IsString()
@@ -92,7 +92,7 @@ export class CreateRequestDto {
   readonly department: string;
 
   @ApiPropertyOptional({
-    description: 'ID of the associated Position',
+    description: "Ідентифікатор пов'язаної посади",
     example: '6299b5cebf44864bfcea391a'
   })
   @IsString()

@@ -23,19 +23,19 @@ import { Scope } from 'src/common/enums/scope.enum';
 import { InspectorsService } from './inspectors.service';
 import { Inspector, PaginateInspector } from './schemas/inspector.schema';
 
-@ApiTags('PC SysInspectors')
+@ApiTags('ПК SysInspectors')
 @Controller('inspectors')
 export class InspectorsController {
   constructor(private readonly inspectorService: InspectorsService) {}
 
   @Post()
   @ApiOperation({
-    summary: 'Create new record',
-    description: 'Required scopes: []'
+    summary: 'Створити новий запис',
+    description: 'Необхідні дозволи: []'
   })
   @ApiExcludeEndpoint()
-  @ApiCreatedResponse({ description: 'Success' })
-  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiCreatedResponse({ description: 'Успіх' })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
   async create(
     @Ip() ip: string,
     @Query() query: Record<string, any>,
@@ -49,11 +49,11 @@ export class InspectorsController {
   @UseGuards(AccessTokenGuard, ScopesGuard)
   @Scopes(Scope.InspectorRead)
   @ApiOperation({
-    summary: 'Get all records',
-    description: 'Required scopes: [' + [Scope.InspectorRead].join(',') + ']'
+    summary: 'Отримати всі записи',
+    description: 'Необхідні дозволи: [' + [Scope.InspectorRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: PaginateInspector })
-  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiOkResponse({ description: 'Успіх', type: PaginateInspector })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
   async findAll(@Query() query: PaginateQueryDto): Promise<AggregatePaginateResult<Inspector>> {
     return await this.inspectorService.findAll(query);
   }
@@ -63,15 +63,15 @@ export class InspectorsController {
   @UseGuards(AccessTokenGuard, ScopesGuard)
   @Scopes(Scope.InspectorRead)
   @ApiOperation({
-    summary: 'Get record by field',
-    description: 'Required scopes: [' + [Scope.InspectorRead].join(',') + ']'
+    summary: 'Отримати запис за полем',
+    description: 'Необхідні дозволи: [' + [Scope.InspectorRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Inspector })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiQuery({ name: 'host', description: 'The value of the field', type: String })
-  @ApiQuery({ name: 'populate', description: 'The populate records', type: Boolean })
-  @ApiQuery({ name: 'aggregate', description: 'The aggregate records', type: Boolean })
+  @ApiOkResponse({ description: 'Успіх', type: Inspector })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiQuery({ name: 'host', description: 'Значення поля', type: String })
+  @ApiQuery({ name: 'populate', description: "Отримати пов'язані записи", type: Boolean })
+  @ApiQuery({ name: 'aggregate', description: 'Сукупні записи', type: Boolean })
   async findOneByHost(@Param('host') host: string): Promise<Inspector> {
     return await this.inspectorService.findOneByHost(host);
   }
@@ -81,15 +81,15 @@ export class InspectorsController {
   @UseGuards(AccessTokenGuard, ScopesGuard)
   @Scopes(Scope.InspectorRead)
   @ApiOperation({
-    summary: 'Get record by ID',
-    description: 'Required scopes: [' + [Scope.InspectorRead].join(',') + ']'
+    summary: 'Отримати запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.InspectorRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Inspector })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
-  @ApiQuery({ name: 'populate', description: 'The populate records', type: Boolean })
-  @ApiQuery({ name: 'aggregate', description: 'The aggregate records', type: Boolean })
+  @ApiOkResponse({ description: 'Успіх', type: Inspector })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
+  @ApiQuery({ name: 'populate', description: "Отримати пов'язані записи", type: Boolean })
+  @ApiQuery({ name: 'aggregate', description: 'Сукупні записи', type: Boolean })
   async findOneById(
     @Param('id') id: string,
     @Query('populate') populate: boolean,
@@ -102,13 +102,13 @@ export class InspectorsController {
   @ApiBearerAuth('JWT Guard')
   @UseGuards(AccessTokenGuard, AdminGuard)
   @ApiOperation({
-    summary: 'Delete record by ID',
-    description: 'Required admin'
+    summary: 'Видалити запис за ID',
+    description: 'Потрібені права адміністратора'
   })
-  @ApiOkResponse({ description: 'Success', type: Inspector })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Inspector })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async removeOneById(@Param('id') id: string): Promise<Inspector> {
     return await this.inspectorService.removeOneById(id);
   }

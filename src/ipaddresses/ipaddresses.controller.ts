@@ -24,7 +24,7 @@ import { IpaddressesService } from './ipaddresses.service';
 import { CreateIpaddressDto } from './dto/create-ipaddress.dto';
 import { UpdateIpaddressDto } from './dto/update-ipaddress.dto';
 
-@ApiTags('IP Addresses')
+@ApiTags('IP-адреси')
 @Controller('ipaddresses')
 @ApiBearerAuth('JWT Guard')
 @UseGuards(AccessTokenGuard, ScopesGuard)
@@ -34,11 +34,11 @@ export class IpaddressesController {
   @Post()
   @Scopes(Scope.IpaddressCreate)
   @ApiOperation({
-    summary: 'Create new record',
-    description: 'Required scopes: [' + [Scope.IpaddressCreate].join(',') + ']'
+    summary: 'Створити новий запис',
+    description: 'Необхідні дозволи: [' + [Scope.IpaddressCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Success', type: Ipaddress })
-  @ApiBadRequestResponse({ description: 'Bad Request' })
+  @ApiCreatedResponse({ description: 'Успіх', type: Ipaddress })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
   async create(@Body() createIpaddressDto: CreateIpaddressDto): Promise<Ipaddress> {
     return await this.ipaddressService.create(createIpaddressDto);
   }
@@ -46,11 +46,11 @@ export class IpaddressesController {
   @Get()
   @Scopes(Scope.IpaddressRead)
   @ApiOperation({
-    summary: 'Get all records',
-    description: 'Required scopes: [' + [Scope.IpaddressRead].join(',') + ']'
+    summary: 'Отримати всі записи',
+    description: 'Необхідні дозволи: [' + [Scope.IpaddressRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: PaginateIpaddress })
-  @ApiBadRequestResponse({ description: 'Bad Request' })
+  @ApiOkResponse({ description: 'Успіх', type: PaginateIpaddress })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
   async findAll(@Query() query: PaginateQueryDto): Promise<PaginateResult<Ipaddress>> {
     return await this.ipaddressService.findAll(query);
   }
@@ -58,15 +58,15 @@ export class IpaddressesController {
   @Get('find')
   @Scopes(Scope.IpaddressRead)
   @ApiOperation({
-    summary: 'Get record by field',
-    description: 'Required scopes: [' + [Scope.IpaddressRead].join(',') + ']'
+    summary: 'Отримати запис за полем',
+    description: 'Необхідні дозволи: [' + [Scope.IpaddressRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Ipaddress })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiQuery({ name: 'ipaddress', description: 'The value of the field', type: String })
-  @ApiQuery({ name: 'populate', description: 'The populate records', type: Boolean })
-  @ApiQuery({ name: 'aggregate', description: 'The aggregate records', type: Boolean })
+  @ApiOkResponse({ description: 'Успіх', type: Ipaddress })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiQuery({ name: 'ipaddress', description: 'Значення поля', type: String })
+  @ApiQuery({ name: 'populate', description: "Отримати пов'язані записи", type: Boolean })
+  @ApiQuery({ name: 'aggregate', description: 'Сукупні записи', type: Boolean })
   async findOneByIP(
     @Query('ipaddress') ipaddress: string,
     @Query('populate') populate: boolean,
@@ -78,15 +78,15 @@ export class IpaddressesController {
   @Get(':id')
   @Scopes(Scope.IpaddressRead)
   @ApiOperation({
-    summary: 'Get record by ID',
-    description: 'Required scopes: [' + [Scope.IpaddressRead].join(',') + ']'
+    summary: 'Отримати запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.IpaddressRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Ipaddress })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
-  @ApiQuery({ name: 'populate', description: 'The populate records', type: Boolean })
-  @ApiQuery({ name: 'aggregate', description: 'The aggregate records', type: Boolean })
+  @ApiOkResponse({ description: 'Успіх', type: Ipaddress })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
+  @ApiQuery({ name: 'populate', description: "Отримати пов'язані записи", type: Boolean })
+  @ApiQuery({ name: 'aggregate', description: 'Сукупні записи', type: Boolean })
   async findOneById(
     @Param('id') id: string,
     @Query('populate') populate: boolean,
@@ -98,14 +98,14 @@ export class IpaddressesController {
   @Put(':id')
   @Scopes(Scope.IpaddressUpdate)
   @ApiOperation({
-    summary: 'Update record by ID',
-    description: 'Required scopes: [' + [Scope.IpaddressUpdate].join(',') + ']'
+    summary: 'Оновити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.IpaddressUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Ipaddress })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
-  @ApiBody({ description: 'Request body object', type: UpdateIpaddressDto })
+  @ApiOkResponse({ description: 'Успіх', type: Ipaddress })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: UpdateIpaddressDto })
   async updateOneById(
     @Param('id') id: string,
     @Body() updateIpaddressDto: UpdateIpaddressDto
@@ -116,13 +116,13 @@ export class IpaddressesController {
   @Delete(':id')
   @Scopes(Scope.IpaddressDelete)
   @ApiOperation({
-    summary: 'Delete record by ID',
-    description: 'Required scopes: [' + [Scope.IpaddressDelete].join(',') + ']'
+    summary: 'Видалити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.IpaddressDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Ipaddress })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Ipaddress })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async removeOneById(@Param('id') id: string): Promise<Ipaddress> {
     return await this.ipaddressService.removeOneById(id);
   }

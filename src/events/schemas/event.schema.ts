@@ -14,7 +14,7 @@ export enum EventType {
 @Schema()
 export class Event {
   @ApiProperty({
-    description: 'The ID of the record (unique)',
+    description: 'ID запису (унікальний)',
     example: '6299b5cebf44864bfcea36d4',
     type: String
   })
@@ -22,12 +22,12 @@ export class Event {
   @IsMongoId()
   readonly id: string;
 
-  @ApiProperty({ description: 'The title of the event', example: 'Meeting with Team' })
+  @ApiProperty({ description: 'Назва заходу', example: 'Зустріч з командою' })
   @IsString()
   @Prop({ type: String, required: true, trim: true })
   readonly title: string;
 
-  @ApiProperty({ description: 'The date and time of the event', example: new Date() })
+  @ApiProperty({ description: 'Дата і час проведення', example: new Date() })
   @IsDate()
   @Prop({ type: Date, required: true, default: Date.now() })
   readonly datetime: Date;
@@ -36,9 +36,9 @@ export class Event {
     enum: EventType,
     enumName: 'EventType',
     example: EventType.EVENT,
-    description: 'The type of the event'
+    description: 'Тип події'
   })
-  @IsEnum(EventType, { message: 'Invalid event type' })
+  @IsEnum(EventType, { message: 'Недійсний тип події' })
   @Prop({
     type: String,
     required: true,
@@ -48,8 +48,8 @@ export class Event {
   readonly eventType: EventType;
 
   @ApiPropertyOptional({
-    description: 'The description of the event',
-    example: 'Discussing project updates'
+    description: 'Опис події',
+    example: 'Обговорення оновлень проекту'
   })
   @IsString()
   @IsOptional()
@@ -57,7 +57,7 @@ export class Event {
   readonly description: string;
 
   @ApiPropertyOptional({
-    description: 'The created date of the record',
+    description: 'Дата створення запису',
     example: new Date()
   })
   @IsDate()
@@ -65,7 +65,7 @@ export class Event {
   readonly createdAt: Date;
 
   @ApiPropertyOptional({
-    description: 'The updated date of the record',
+    description: 'Дата оновлення запису',
     example: new Date()
   })
   @IsDate()

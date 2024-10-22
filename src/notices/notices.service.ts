@@ -38,7 +38,7 @@ export class NoticesService {
 
   async findAll(profile: string): Promise<Notice[]> {
     if (!Types.ObjectId.isValid(profile)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
 
     return await this.noticeModel.find({ profile }).exec();
@@ -46,13 +46,13 @@ export class NoticesService {
 
   async removeOneById(id: string, profile: string): Promise<Notice> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
 
     const deletedNotice = await this.noticeModel.findOneAndRemove({ _id: id, profile }).exec();
 
     if (!deletedNotice) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
 
     return deletedNotice;

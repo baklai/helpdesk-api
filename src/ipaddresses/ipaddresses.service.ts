@@ -32,7 +32,7 @@ export class IpaddressesService {
 
     const emails = await this.profilesService.findEmailsIsNotice(Scope.IpaddressNotice);
 
-    this.mailerService.sendIPAddress(emails, newIpaddress, 'Adding IP Addresses');
+    this.mailerService.sendIPAddress(emails, newIpaddress, 'Додавання IP-адреси');
 
     return newIpaddress;
   }
@@ -78,14 +78,14 @@ export class IpaddressesService {
     aggregate: boolean = false
   ): Promise<Ipaddress | any> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     const ipaddress = await this.ipaddressModel.findById(id, null, {
       autopopulate: populate
     });
 
     if (!ipaddress) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
 
     if (!aggregate) return ipaddress;
@@ -103,7 +103,7 @@ export class IpaddressesService {
     aggregate: boolean = false
   ): Promise<Ipaddress | any> {
     if (!isIP(ip)) {
-      throw new BadRequestException('Invalid field value');
+      throw new BadRequestException('Недійсне значення поля');
     }
     const ipaddress = await this.ipaddressModel
       .findOne({ ipaddress: ip }, null, {
@@ -111,7 +111,7 @@ export class IpaddressesService {
       })
       .exec();
     if (!ipaddress) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     if (!aggregate) return ipaddress;
     const inspector = await this.inspectorModel
@@ -124,7 +124,7 @@ export class IpaddressesService {
 
   async updateOneById(id: string, updateIpaddressDto: UpdateIpaddressDto): Promise<Ipaddress> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     const { ipaddress } = updateIpaddressDto;
     const indexip = new Netmask(ipaddress).netLong;
@@ -132,14 +132,14 @@ export class IpaddressesService {
       .findByIdAndUpdate(id, { $set: { ...updateIpaddressDto, indexip } }, { new: true })
       .exec();
     if (!updatedIpaddress) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     return updatedIpaddress;
   }
 
   async removeOneById(id: string): Promise<Ipaddress> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
 
     const ipaddress = await this.ipaddressModel.findById(id);
@@ -147,12 +147,12 @@ export class IpaddressesService {
     const deletedIpaddress = await this.ipaddressModel.findByIdAndRemove(id).exec();
 
     if (!deletedIpaddress) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
 
     const emails = await this.profilesService.findEmailsIsNotice(Scope.IpaddressNotice);
 
-    this.mailerService.sendIPAddress(emails, ipaddress, 'Deleting IP Addresses');
+    this.mailerService.sendIPAddress(emails, ipaddress, 'Видалення IP-адреси');
 
     return deletedIpaddress;
   }

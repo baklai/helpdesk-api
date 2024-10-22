@@ -21,7 +21,7 @@ import { CreateFilterDto } from './dto/create-filter.dto';
 import { UpdateFilterDto } from './dto/update-filter.dto';
 import { QueryFilterDto } from './dto/query-filter.dto';
 
-@ApiTags('Filters')
+@ApiTags('Фільтри')
 @Controller('filters')
 @ApiBearerAuth('JWT Guard')
 @UseGuards(AccessTokenGuard, ScopesGuard)
@@ -31,12 +31,12 @@ export class FiltersController {
   @Post()
   @Scopes(Scope.FilterCreate)
   @ApiOperation({
-    summary: 'Create new record',
-    description: 'Required scopes: [' + [Scope.FilterCreate].join(',') + ']'
+    summary: 'Створити новий запис',
+    description: 'Необхідні дозволи: [' + [Scope.FilterCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Success', type: Filter })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiBody({ description: 'Request body object', type: CreateFilterDto })
+  @ApiCreatedResponse({ description: 'Успіх', type: Filter })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: CreateFilterDto })
   async create(@Body() createFilterDto: CreateFilterDto): Promise<Filter> {
     return await this.filtersService.create(createFilterDto);
   }
@@ -44,11 +44,11 @@ export class FiltersController {
   @Get()
   @Scopes(Scope.FilterRead)
   @ApiOperation({
-    summary: 'Get all records',
-    description: 'Required scopes: [' + [Scope.FilterRead].join(',') + ']'
+    summary: 'Отримати всі записи',
+    description: 'Необхідні дозволи: [' + [Scope.FilterRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: [Filter] })
-  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiOkResponse({ description: 'Успіх', type: [Filter] })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
   async findAll(@Query() query: QueryFilterDto): Promise<Filter[]> {
     return await this.filtersService.findAll(query);
   }
@@ -56,13 +56,13 @@ export class FiltersController {
   @Get(':id')
   @Scopes(Scope.FilterRead)
   @ApiOperation({
-    summary: 'Get record by ID',
-    description: 'Required scopes: [' + [Scope.FilterRead].join(',') + ']'
+    summary: 'Отримати запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.FilterRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Filter })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Filter })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async findOneById(@Param('id') id: string): Promise<Filter> {
     return await this.filtersService.findOneById(id);
   }
@@ -70,14 +70,14 @@ export class FiltersController {
   @Put(':id')
   @Scopes(Scope.FilterUpdate)
   @ApiOperation({
-    summary: 'Update record by ID',
-    description: 'Required scopes: [' + [Scope.FilterUpdate].join(',') + ']'
+    summary: 'Оновити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.FilterUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Filter })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
-  @ApiBody({ description: 'Request body object', type: UpdateFilterDto })
+  @ApiOkResponse({ description: 'Успіх', type: Filter })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: UpdateFilterDto })
   async updateOneById(
     @Param('id') id: string,
     @Body() updateFilterDto: UpdateFilterDto
@@ -88,13 +88,13 @@ export class FiltersController {
   @Delete(':id')
   @Scopes(Scope.FilterDelete)
   @ApiOperation({
-    summary: 'Delete record by ID',
-    description: 'Required scopes: [' + [Scope.FilterDelete].join(',') + ']'
+    summary: 'Видалити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.FilterDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Filter })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Filter })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async removeOneById(@Param('id') id: string): Promise<Filter> {
     return await this.filtersService.removeOneById(id);
   }

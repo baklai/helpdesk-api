@@ -3,14 +3,14 @@ import { IsOptional, IsString } from 'class-validator';
 
 export class CreateLocationDto {
   @ApiProperty({
-    description: 'The name of the location (must be unique)',
+    description: 'Назва локації (має бути унікальною)',
     example: 'Headquarters'
   })
   @IsString()
   readonly name: string;
 
   @ApiPropertyOptional({
-    description: 'The region of the location',
+    description: 'Регіон розташування',
     example: 'North America'
   })
   @IsString()

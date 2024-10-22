@@ -6,7 +6,7 @@ import { HydratedDocument } from 'mongoose';
 @Schema()
 export class Report {
   @ApiProperty({
-    description: 'The ID of the record (unique)',
+    description: 'ID запису (унікальний)',
     example: '6299b5cebf44864bfcea36d4',
     type: String
   })
@@ -15,7 +15,7 @@ export class Report {
   readonly id: string;
 
   @ApiProperty({
-    description: 'The creator of the report',
+    description: 'Творець звіту',
     example: 'John Doe'
   })
   @IsString()
@@ -23,7 +23,7 @@ export class Report {
   readonly creator: string;
 
   @ApiProperty({
-    description: 'The name of the report (must be unique)',
+    description: 'Назва звіту (має бути унікальною)',
     example: 'Router TP-Link'
   })
   @IsString()
@@ -31,8 +31,8 @@ export class Report {
   readonly name: string;
 
   @ApiPropertyOptional({
-    description: 'A description about the report',
-    example: 'Core router for the main network.'
+    description: 'Опис про звіт',
+    example: 'Основний маршрутизатор для основної мережі.'
   })
   @IsString()
   @IsOptional()
@@ -40,7 +40,7 @@ export class Report {
   readonly description: string;
 
   @ApiProperty({
-    description: 'The data collection of the report',
+    description: 'Збір даних звіту',
     example: 'Router TP-Link'
   })
   @IsString()
@@ -75,7 +75,7 @@ export class Report {
   readonly filters: string;
 
   @ApiPropertyOptional({
-    description: 'The created date of the record',
+    description: 'Дата створення запису',
     example: new Date()
   })
   @IsDate()
@@ -83,7 +83,7 @@ export class Report {
   readonly createdAt: Date;
 
   @ApiPropertyOptional({
-    description: 'The updated date of the record',
+    description: 'Дата оновлення запису',
     example: new Date()
   })
   @IsDate()

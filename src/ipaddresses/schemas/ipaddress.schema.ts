@@ -22,37 +22,37 @@ import { Position } from 'src/positions/schemas/position.schema';
 import { PaginateResponseDto } from 'src/common/dto/paginate-response.dto';
 
 export class CIDR {
-  @ApiProperty({ description: 'CIDR Value', example: 24 })
+  @ApiProperty({ description: 'CIDR Значення', example: 24 })
   @IsNumber()
   readonly value: number;
 
-  @ApiProperty({ description: 'CIDR Mask', example: '255.255.255.0' })
+  @ApiProperty({ description: 'CIDR Маска', example: '255.255.255.0' })
   @IsString()
   readonly mask: string;
 }
 
 export class Internet {
   @ApiPropertyOptional({
-    description: 'Incoming letter number',
+    description: 'Номер вхідного листа',
     example: 'Letter number №548925 from 12/07/2023'
   })
   @IsString()
   @IsOptional()
   readonly reqnum: string;
 
-  @ApiPropertyOptional({ description: 'Date when internet was opened', example: new Date() })
+  @ApiPropertyOptional({ description: 'Дата відкриття Інтернету', example: new Date() })
   @IsDate()
   @IsOptional()
   readonly dateOpen: Date;
 
-  @ApiPropertyOptional({ description: 'Date when internet was closed', example: new Date() })
+  @ApiPropertyOptional({ description: 'Дата, коли Інтернет був закритий', example: new Date() })
   @IsDate()
   @IsOptional()
   readonly dateClose: Date;
 
   @ApiPropertyOptional({
-    description: 'Comment about internet',
-    example: 'Internet is closed of №1234/560'
+    description: 'Коментар про Інтернет',
+    example: 'Інтернет закрито №1234/560'
   })
   @IsString()
   @IsOptional()
@@ -62,7 +62,7 @@ export class Internet {
 @Schema()
 export class Ipaddress {
   @ApiProperty({
-    description: 'The ID of the record (unique)',
+    description: 'ID запису (унікальний)',
     example: '6299b5cebf44864bfcea36d4',
     type: String
   })
@@ -70,13 +70,13 @@ export class Ipaddress {
   @IsMongoId()
   readonly id: string;
 
-  @ApiProperty({ description: 'IP Address', example: '192.168.0.1' })
+  @ApiProperty({ description: 'IP-адреса', example: '192.168.0.1' })
   @IsIP()
   @IsString()
   @Prop({ type: String, required: true, unique: true, trim: true })
   readonly ipaddress: string;
 
-  @ApiProperty({ description: 'Index IP Address', example: 3232235521 })
+  @ApiProperty({ description: 'Індекс IP-адреси', example: 3232235521 })
   @IsNumber()
   @Prop({
     type: Number,
@@ -89,39 +89,39 @@ export class Ipaddress {
   })
   readonly indexip: number;
 
-  @ApiProperty({ description: 'CIDR Information', example: CIDR })
+  @ApiProperty({ description: 'Інформація CIDR', example: CIDR })
   @ValidateNested()
   @Prop({ type: Object, required: true, default: { value: 24, mask: '255.255.255.0' } })
   readonly cidr: CIDR;
 
-  @ApiProperty({ description: 'Incoming request number', example: '№1234/56' })
+  @ApiProperty({ description: 'Номер вхідного запиту', example: '№1234/56' })
   @IsString()
   @Prop({ type: String, required: true, default: null, trim: true })
   readonly reqnum: string;
 
-  @ApiProperty({ description: 'Date of create record', example: new Date() })
+  @ApiProperty({ description: 'Дата створення запису', example: new Date() })
   @IsDate()
   @Prop({ type: Date, required: true, trim: true })
   readonly date: Date;
 
-  @ApiProperty({ description: 'Client full name', example: 'John Doe' })
+  @ApiProperty({ description: "Повне ім'я клієнта", example: 'John Doe' })
   @IsString()
   @Prop({ type: String, required: true, trim: true })
   readonly fullname: string;
 
-  @ApiProperty({ description: 'Client phone number', example: '1234-56-78' })
+  @ApiProperty({ description: 'Номер телефону власника електронної пошти', example: '1234-56-78' })
   @IsString()
   @Prop({ type: String, required: true, trim: true })
   phone: string;
 
-  @ApiPropertyOptional({ description: 'Autoanswer', example: '(12 3456 7)89' })
+  @ApiPropertyOptional({ description: 'Автовідповідь', example: '(12 3456 7)89' })
   @IsString()
   @IsOptional()
   @Prop({ type: String, trim: true })
   readonly autoanswer: string;
 
   @ApiPropertyOptional({
-    description: 'Internet information',
+    description: 'Інформація по Інтернет',
     example: Internet
   })
   @ValidateNested()
@@ -137,14 +137,14 @@ export class Ipaddress {
   })
   readonly internet: Internet;
 
-  @ApiPropertyOptional({ description: 'Comment text', example: 'Network access limited' })
+  @ApiPropertyOptional({ description: 'Текст коментаря', example: 'Доступ до мережі обмежено' })
   @IsString()
   @IsOptional()
   @Prop({ type: String, trim: true })
   readonly comment: string;
 
   @ApiPropertyOptional({
-    description: 'Document of the associated Unit',
+    description: 'Документ асоційованого пристрою',
     example: Unit
   })
   @IsString()
@@ -159,7 +159,7 @@ export class Ipaddress {
   readonly unit: Unit;
 
   @ApiPropertyOptional({
-    description: 'Document of the associated Location',
+    description: "Документ пов'язаного місцезнаходження",
     example: Location
   })
   @IsString()
@@ -174,7 +174,7 @@ export class Ipaddress {
   readonly location: Location;
 
   @ApiPropertyOptional({
-    description: 'Document of the associated Organization',
+    description: 'Документ асоційованої організації',
     example: Organization
   })
   @IsString()
@@ -189,7 +189,7 @@ export class Ipaddress {
   readonly organization: Organization;
 
   @ApiPropertyOptional({
-    description: 'Document of the associated Subdivision',
+    description: 'Документ асоційованого підрозділу',
     example: Subdivision
   })
   @IsString()
@@ -204,7 +204,7 @@ export class Ipaddress {
   readonly subdivision: Subdivision;
 
   @ApiPropertyOptional({
-    description: 'Document of the associated Department',
+    description: 'Документ асоційованого відділу',
     example: Department
   })
   @IsString()
@@ -219,7 +219,7 @@ export class Ipaddress {
   readonly department: Department;
 
   @ApiPropertyOptional({
-    description: 'Document of the associated Position',
+    description: "Документ пов'язаної посади",
     example: Position
   })
   @IsString()
@@ -234,7 +234,7 @@ export class Ipaddress {
   readonly position: Position;
 
   @ApiPropertyOptional({
-    description: 'The created date of the record',
+    description: 'Дата створення запису',
     example: new Date()
   })
   @IsDate()
@@ -242,7 +242,7 @@ export class Ipaddress {
   readonly createdAt: Date;
 
   @ApiPropertyOptional({
-    description: 'The updated date of the record',
+    description: 'Дата оновлення запису',
     example: new Date()
   })
   @IsDate()
@@ -251,7 +251,7 @@ export class Ipaddress {
 }
 
 export class PaginateIpaddress extends PaginateResponseDto {
-  @ApiPropertyOptional({ type: [Ipaddress], description: 'Array of documents' })
+  @ApiPropertyOptional({ type: [Ipaddress], description: 'Масив документів' })
   @IsArray()
   @IsOptional()
   docs: Ipaddress[];

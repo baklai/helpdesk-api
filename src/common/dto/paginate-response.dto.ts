@@ -3,58 +3,65 @@ import { IsBoolean, IsNumber, IsOptional } from 'class-validator';
 
 export class PaginateResponseDto {
   @ApiPropertyOptional({
-    description: 'Total number of documents in collection that match a query',
+    description: 'Загальна кількість документів у колекції, які відповідають запиту',
     example: 100
   })
   @IsNumber()
   @IsOptional()
   totalDocs: number;
 
-  @ApiPropertyOptional({ description: 'Limit that was used', example: 1 })
+  @ApiPropertyOptional({ description: 'Використаний ліміт', example: 1 })
   @IsNumber()
   @IsOptional()
   limit: number;
 
   @ApiPropertyOptional({
-    description: 'Only if specified or default page/offset values were used',
+    description: 'Лише якщо використовувалися вказані або типові значення сторінки/зміщення',
     example: 10
   })
   @IsNumber()
   @IsOptional()
   offset: number;
 
-  @ApiPropertyOptional({ description: 'Availability of prev page', example: true })
+  @ApiPropertyOptional({ description: 'Наявність попередньої сторінки', example: true })
   @IsBoolean()
   @IsOptional()
   hasPrevPage: boolean;
 
-  @ApiPropertyOptional({ description: 'Availability of next page', example: true })
+  @ApiPropertyOptional({ description: 'Наявність наступної сторінки', example: true })
   @IsBoolean()
   @IsOptional()
   hasNextPage: boolean;
 
-  @ApiPropertyOptional({ description: 'Current page number', example: 11 })
+  @ApiPropertyOptional({ description: 'Номер поточної сторінки', example: 11 })
   @IsNumber()
   @IsOptional()
   page: number;
 
-  @ApiPropertyOptional({ description: 'Total number of pages', example: 100 })
+  @ApiPropertyOptional({ description: 'Загальна кількість сторінок', example: 100 })
   @IsNumber()
   @IsOptional()
   totalPages: number;
 
-  @ApiPropertyOptional({ description: 'Previous page number if available or NULL', example: 10 })
+  @ApiPropertyOptional({
+    description: 'Номер попередньої сторінки, якщо доступний, або NULL',
+    example: 10
+  })
   @IsNumber()
   @IsOptional()
   prevPage: number;
 
-  @ApiPropertyOptional({ description: 'Next page number if available or NULL', example: 12 })
+  @ApiPropertyOptional({
+    description: 'Номер наступної сторінки, якщо доступний, або NULL',
+    example: 12
+  })
   @IsNumber()
   @IsOptional()
   nextPage: number;
 
   @ApiPropertyOptional({
-    description: 'The starting index/serial/chronological number of first document in current page',
+    description:
+      'Початковий індекс/серійний/хронологічний номер першого документа на поточній сторінці',
     example: 11
   })
   @IsNumber()

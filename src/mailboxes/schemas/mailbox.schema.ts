@@ -13,7 +13,7 @@ import { PaginateResponseDto } from 'src/common/dto/paginate-response.dto';
 @Schema()
 export class Mailbox {
   @ApiProperty({
-    description: 'The ID of the record (unique)',
+    description: 'ID запису (унікальний)',
     example: '6299b5cebf44864bfcea36d4',
     type: String
   })
@@ -22,35 +22,35 @@ export class Mailbox {
   readonly id: string;
 
   @ApiProperty({
-    description: 'Incoming letter number',
-    example: 'Letter number №548925 from 12/12/2023'
+    description: 'Номер вхідного листа',
+    example: 'Номер вхідного листа №548925 від 12/12/2023'
   })
   @IsString()
   @Prop({ type: String, required: true, trim: true })
   readonly reqnum: string;
 
-  @ApiProperty({ description: 'E-Mail login', example: 'john.doe1985' })
+  @ApiProperty({ description: 'Логін електронної пошти', example: 'john.doe1985' })
   @IsString()
   @Prop({ type: String, required: true, trim: true })
   readonly login: string;
 
-  @ApiProperty({ description: 'Date when email was opened', example: new Date() })
+  @ApiProperty({ description: 'Дата відкриття електронної пошти', example: new Date() })
   @IsDate()
   @Prop({ type: Date, required: true, trim: true })
   readonly dateOpen: Date;
 
-  @ApiProperty({ description: 'Fullname of email owner', example: 'John Doe' })
+  @ApiProperty({ description: "Повне ім'я власника електронної пошти", example: 'John Doe' })
   @IsString()
   @Prop({ type: String, trim: true })
   fullname: string;
 
-  @ApiProperty({ description: 'Client phone number', example: '1234-56-78' })
+  @ApiProperty({ description: 'Номер телефону власника електронної пошти', example: '1234-56-78' })
   @IsString()
   @Prop({ type: String, trim: true })
   readonly phone: string;
 
   @ApiPropertyOptional({
-    description: 'Document of the associated Location',
+    description: "Документ пов'язаного місцезнаходження",
     example: Location
   })
   @IsString()
@@ -66,7 +66,7 @@ export class Mailbox {
   readonly location: Location;
 
   @ApiPropertyOptional({
-    description: 'Document of the associated Organization',
+    description: 'Документ асоційованої організації',
     example: Organization
   })
   @IsString()
@@ -82,7 +82,7 @@ export class Mailbox {
   readonly organization: Organization;
 
   @ApiPropertyOptional({
-    description: 'Document of the associated Subdivision',
+    description: 'Документ асоційованого підрозділу',
     example: Subdivision
   })
   @IsString()
@@ -98,7 +98,7 @@ export class Mailbox {
   readonly subdivision: Subdivision;
 
   @ApiPropertyOptional({
-    description: 'Document of the associated Department',
+    description: 'Документ асоційованого відділу',
     example: Department
   })
   @IsString()
@@ -114,7 +114,7 @@ export class Mailbox {
   readonly department: Department;
 
   @ApiPropertyOptional({
-    description: 'Document of the associated Position',
+    description: "Документ пов'язаної посади",
     example: Position
   })
   @IsString()
@@ -129,15 +129,18 @@ export class Mailbox {
   })
   readonly position: Position;
 
-  @ApiPropertyOptional({ description: 'Date when email was closed', example: new Date() })
+  @ApiPropertyOptional({
+    description: 'Дата, коли електронна пошта була закрита',
+    example: new Date()
+  })
   @IsDate()
   @IsOptional()
   @Prop({ type: Date, trim: true })
   readonly dateClose: Date;
 
   @ApiPropertyOptional({
-    description: 'Comment about email',
-    example: 'This profile has several mailboxes'
+    description: 'Коментар про електронну пошту',
+    example: 'Цей профіль має кілька поштових скриньок'
   })
   @IsString()
   @IsOptional()
@@ -145,7 +148,7 @@ export class Mailbox {
   readonly comment: string;
 
   @ApiPropertyOptional({
-    description: 'The created date of the record',
+    description: 'Дата створення запису',
     example: new Date()
   })
   @IsDate()
@@ -153,7 +156,7 @@ export class Mailbox {
   readonly createdAt: Date;
 
   @ApiPropertyOptional({
-    description: 'The updated date of the record',
+    description: 'Дата оновлення запису',
     example: new Date()
   })
   @IsDate()
@@ -162,7 +165,7 @@ export class Mailbox {
 }
 
 export class PaginateMailbox extends PaginateResponseDto {
-  @ApiPropertyOptional({ type: [Mailbox], description: 'Array of documents' })
+  @ApiPropertyOptional({ type: [Mailbox], description: 'Масив документів' })
   @IsArray()
   @IsOptional()
   docs: Mailbox[];

@@ -4,21 +4,21 @@ import { ArrayUnique, IsArray, IsMongoId, IsString } from 'class-validator';
 
 export class CreateNoticeDto {
   @ApiProperty({
-    description: 'The name of the notice',
-    example: 'Important Announcement'
+    description: 'Назва повідомлення',
+    example: 'Важливе оголошення'
   })
   @IsString()
   readonly title: string;
 
   @ApiProperty({
-    description: 'The text of the notice',
-    example: 'Please be informed about the upcoming maintenance on...'
+    description: 'Текст повідомлення',
+    example: 'Повідомляємо про майбутні ремонтні роботи на...'
   })
   @IsString()
   readonly text: string;
 
   @ApiProperty({
-    description: 'Profile ID associated with the notification',
+    description: 'Ідентифікатор профілю, пов’язаний зі сповіщенням',
     example: '["6299b5cebf44864bfcea37a5"]'
   })
   @IsArray()

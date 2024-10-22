@@ -42,13 +42,26 @@ import { MailerModule } from './mailer/mailer.module';
 
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 
-const clientPath = join(__dirname, '..', 'client');
+function createStaticModule(directory: string, serveRoot: string) {
+  if (!directory || !serveRoot) return [];
 
-const templatesPath = join(__dirname, 'mailer');
+  const filePath = join(__dirname, '..', directory, 'index.html');
 
-const serveStaticModule = existsSync(clientPath)
-  ? [ServeStaticModule.forRoot({ rootPath: clientPath, exclude: ['/api/(.*)'] })]
-  : [];
+  return existsSync(filePath)
+    ? [
+        ServeStaticModule.forRoot({
+          rootPath: join(__dirname, '..', directory),
+          serveRoot,
+          exclude: ['/api/(.*)']
+        })
+      ]
+    : [];
+}
+
+const AppStaticModule = createStaticModule('/', '/app');
+const DocsStaticModule = createStaticModule('docs', '/docs');
+
+const mailerTemplatesPath = join(__dirname, 'mailer');
 
 @Module({
   imports: [
@@ -58,7 +71,8 @@ const serveStaticModule = existsSync(clientPath)
       load: [appConfig]
     }),
 
-    ...serveStaticModule,
+    ...AppStaticModule,
+    ...DocsStaticModule,
 
     ScheduleModule.forRoot(),
 
@@ -68,7 +82,7 @@ const serveStaticModule = existsSync(clientPath)
       useFactory: (configService: ConfigService) => ({
         host: configService.get<string>('SMTP_HOST'),
         port: configService.get<string>('SMTP_PORT'),
-        templates: templatesPath,
+        templates: mailerTemplatesPath,
         auth: {
           user: configService.get<string>('SMTP_USERNAME'),
           pass: configService.get<string>('SMTP_PASSWORD')

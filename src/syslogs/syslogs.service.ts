@@ -33,29 +33,29 @@ export class SyslogsService {
   async removeAll(): Promise<string> {
     const deletedSyslog = await this.syslogModel.deleteMany().exec();
     if (!deletedSyslog) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     return 'Ok';
   }
 
   async findOneById(id: string): Promise<Syslog> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     const syslog = await this.syslogModel.findById(id).exec();
     if (!syslog) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     return syslog;
   }
 
   async removeOneById(id: string): Promise<Syslog> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     const deletedSyslog = await this.syslogModel.findByIdAndRemove(id).exec();
     if (!deletedSyslog) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     return deletedSyslog;
   }

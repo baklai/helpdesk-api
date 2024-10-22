@@ -3,21 +3,21 @@ import { IsOptional, IsString } from 'class-validator';
 
 export class CreateReportDto {
   @ApiProperty({
-    description: 'The creator of the report',
+    description: 'Творець звіту',
     example: 'John Doe'
   })
   @IsString()
   readonly creator: string;
 
   @ApiProperty({
-    description: 'The name of the report',
-    example: 'Senior Software Engineer'
+    description: 'Назва звіту',
+    example: 'Старший інженер-програміст'
   })
   @IsString()
   readonly name: string;
 
   @ApiPropertyOptional({
-    description: 'The description of the report',
+    description: 'Опис звіту',
     example: 'Senior Software Engineer'
   })
   @IsString()
@@ -25,7 +25,7 @@ export class CreateReportDto {
   readonly description: string;
 
   @ApiProperty({
-    description: 'The data collection of the report',
+    description: 'Збір даних звіту',
     example: 'Senior Software Engineer'
   })
   @IsString()

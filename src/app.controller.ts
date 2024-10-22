@@ -10,5 +10,7 @@ export class AppController {
 
   @Get()
   @ApiExcludeEndpoint()
-  redirect() {}
+  redirect() {
+    return this.appService.getAboutAPI();
+  }
 }

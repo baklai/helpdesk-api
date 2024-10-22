@@ -6,7 +6,7 @@ import { HydratedDocument } from 'mongoose';
 @Schema()
 export class Unit {
   @ApiProperty({
-    description: 'The ID of the record (unique)',
+    description: 'ID запису (унікальний)',
     example: '6299b5cebf44864bfcea36d4',
     type: String
   })
@@ -14,14 +14,17 @@ export class Unit {
   @IsMongoId()
   readonly id: string;
 
-  @ApiProperty({ description: 'The name of the unit (must be unique)', example: 'Router TP-Link' })
+  @ApiProperty({
+    description: 'Назва пристрою (повинна бути унікальною)',
+    example: 'Маршрутизатор TP-Link'
+  })
   @IsString()
   @Prop({ type: String, required: true, unique: true, uniqueCaseInsensitive: true, trim: true })
   readonly name: string;
 
   @ApiPropertyOptional({
-    description: 'A description about the unit',
-    example: 'Core router for the main network.'
+    description: 'Опис пристрою',
+    example: 'Основний маршрутизатор для головної мережі.'
   })
   @IsString()
   @IsOptional()
@@ -29,7 +32,7 @@ export class Unit {
   readonly description: string;
 
   @ApiPropertyOptional({
-    description: 'The created date of the record',
+    description: 'Дата створення запису',
     example: new Date()
   })
   @IsDate()
@@ -37,7 +40,7 @@ export class Unit {
   readonly createdAt: Date;
 
   @ApiPropertyOptional({
-    description: 'The updated date of the record',
+    description: 'Дата оновлення запису',
     example: new Date()
   })
   @IsDate()

@@ -3,7 +3,7 @@ import { IsString } from 'class-validator';
 
 export class CreatePositionDto {
   @ApiProperty({
-    description: 'The name of the position (must be unique)',
+    description: 'Назва посади (має бути унікальною)',
     example: 'Senior Software Engineer'
   })
   @IsString()

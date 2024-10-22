@@ -5,17 +5,21 @@
 ARG NODE_VERSION=20
 
 # Building layer API
-FROM node:${NODE_VERSION}-alpine AS build-api
+FROM node:${NODE_VERSION}-alpine AS build
 
 # Set the working directory
 WORKDIR /app
 
-# Copy package.json and install dependencies
+# Copy package.json
 COPY package*.json ./
+
+# Install dependencies
 RUN npm install
 
-# Copy the rest of the code and build the application (produces dist/folder)
+# Copy the rest of the code
 COPY . .
+
+# Build the application (produces dist/folder)
 RUN npm run build
 
 # Defining an argument for a port

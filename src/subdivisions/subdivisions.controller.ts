@@ -22,7 +22,7 @@ import { CreateSubdivisionDto } from './dto/create-subdivision.dto';
 import { UpdateSubdivisionDto } from './dto/update-subdivision.dto';
 import { Subdivision } from './schemas/subdivision.schema';
 
-@ApiTags('Subdivisions')
+@ApiTags('Підрозділи')
 @Controller('subdivisions')
 @ApiBearerAuth('JWT Guard')
 @UseGuards(AccessTokenGuard, ScopesGuard)
@@ -32,13 +32,13 @@ export class SubdivisionsController {
   @Post()
   @Scopes(Scope.SubdivisionCreate)
   @ApiOperation({
-    summary: 'Create new record',
-    description: 'Required scopes: [' + [Scope.SubdivisionCreate].join(',') + ']'
+    summary: 'Створити новий запис',
+    description: 'Необхідні дозволи: [' + [Scope.SubdivisionCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Success', type: Subdivision })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiConflictResponse({ description: 'Conflict' })
-  @ApiBody({ description: 'Request body object', type: CreateSubdivisionDto })
+  @ApiCreatedResponse({ description: 'Успіх', type: Subdivision })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiConflictResponse({ description: 'Конфлікт даних' })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: CreateSubdivisionDto })
   async create(@Body() createSubdivisionDto: CreateSubdivisionDto): Promise<Subdivision> {
     return await this.subdivisionsService.create(createSubdivisionDto);
   }
@@ -46,11 +46,11 @@ export class SubdivisionsController {
   @Get()
   @Scopes(Scope.SubdivisionRead)
   @ApiOperation({
-    summary: 'Get all records',
-    description: 'Required scopes: [' + [Scope.SubdivisionRead].join(',') + ']'
+    summary: 'Отримати всі записи',
+    description: 'Необхідні дозволи: [' + [Scope.SubdivisionRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: [Subdivision] })
-  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiOkResponse({ description: 'Успіх', type: [Subdivision] })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
   async findAll(): Promise<Subdivision[]> {
     return await this.subdivisionsService.findAll();
   }
@@ -58,13 +58,13 @@ export class SubdivisionsController {
   @Get('organization/:id')
   @Scopes(Scope.SubdivisionRead)
   @ApiOperation({
-    summary: 'Get all record by Organization ID',
-    description: 'Required scopes: [' + [Scope.SubdivisionRead].join(',') + ']'
+    summary: 'Отримати всі записи за ідентифікатором організації',
+    description: 'Необхідні дозволи: [' + [Scope.SubdivisionRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: [Subdivision] })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: [Subdivision] })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async findAllByOrganizationId(@Param('id') id: string): Promise<Subdivision[]> {
     return await this.subdivisionsService.findAllByOrganizationId(id);
   }
@@ -72,13 +72,13 @@ export class SubdivisionsController {
   @Get(':id')
   @Scopes(Scope.SubdivisionRead)
   @ApiOperation({
-    summary: 'Get record by ID',
-    description: 'Required scopes: [' + [Scope.SubdivisionRead].join(',') + ']'
+    summary: 'Отримати запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.SubdivisionRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Subdivision })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Subdivision })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async findOneById(@Param('id') id: string): Promise<Subdivision> {
     return await this.subdivisionsService.findOneById(id);
   }
@@ -86,15 +86,15 @@ export class SubdivisionsController {
   @Put(':id')
   @Scopes(Scope.SubdivisionUpdate)
   @ApiOperation({
-    summary: 'Update record by ID',
-    description: 'Required scopes: [' + [Scope.SubdivisionUpdate].join(',') + ']'
+    summary: 'Оновити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.SubdivisionUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Subdivision })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiConflictResponse({ description: 'Conflict' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
-  @ApiBody({ description: 'Request body object', type: UpdateSubdivisionDto })
+  @ApiOkResponse({ description: 'Успіх', type: Subdivision })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiConflictResponse({ description: 'Конфлікт даних' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: UpdateSubdivisionDto })
   async updateOneById(
     @Param('id') id: string,
     @Body() updateSubdivisionDto: UpdateSubdivisionDto
@@ -105,13 +105,13 @@ export class SubdivisionsController {
   @Delete(':id')
   @Scopes(Scope.SubdivisionDelete)
   @ApiOperation({
-    summary: 'Delete record by ID',
-    description: 'Required scopes: [' + [Scope.SubdivisionDelete].join(',') + ']'
+    summary: 'Видалити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.SubdivisionDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Subdivision })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Subdivision })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async removeOneById(@Param('id') id: string): Promise<Subdivision> {
     return await this.subdivisionsService.removeOneById(id);
   }

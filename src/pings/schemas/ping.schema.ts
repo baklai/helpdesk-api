@@ -8,7 +8,7 @@ import { PaginateResponseDto } from 'src/common/dto/paginate-response.dto';
 @Schema({ strict: false })
 export class Ping {
   @ApiProperty({
-    description: 'The ID of the record (unique)',
+    description: 'ID запису (унікальний)',
     example: '6299b5cebf44864bfcea36d4',
     type: String
   })
@@ -16,14 +16,14 @@ export class Ping {
   @IsMongoId()
   readonly id: string;
 
-  @ApiProperty({ description: 'The host address', example: '192.168.1.1' })
+  @ApiProperty({ description: 'Адреса хоста', example: '192.168.1.1' })
   @IsIP()
   @IsString()
   @Prop({ type: String, trim: true })
   readonly host: string;
 
   @ApiPropertyOptional({
-    description: 'The created date of the record',
+    description: 'Дата створення запису',
     example: new Date()
   })
   @IsDate()
@@ -31,7 +31,7 @@ export class Ping {
   readonly createdAt: Date;
 
   @ApiPropertyOptional({
-    description: 'The updated date of the record',
+    description: 'Дата оновлення запису',
     example: new Date()
   })
   @IsDate()
@@ -40,7 +40,7 @@ export class Ping {
 }
 
 export class PaginatePing extends PaginateResponseDto {
-  @ApiPropertyOptional({ type: [Ping], description: 'Array of documents' })
+  @ApiPropertyOptional({ type: [Ping], description: 'Масив документів' })
   @IsArray()
   @IsOptional()
   docs: Ping[];

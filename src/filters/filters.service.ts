@@ -21,35 +21,35 @@ export class FiltersService {
 
   async findOneById(id: string): Promise<Filter> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     const filter = await this.filterModel.findById(id).exec();
     if (!filter) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     return filter;
   }
 
   async updateOneById(id: string, updateFilterDto: UpdateFilterDto): Promise<Filter> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     const updatedFilter = await this.filterModel
       .findByIdAndUpdate(id, { $set: updateFilterDto }, { new: true })
       .exec();
     if (!updatedFilter) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     return updatedFilter;
   }
 
   async removeOneById(id: string): Promise<Filter> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     const deletedFilter = await this.filterModel.findByIdAndRemove(id).exec();
     if (!deletedFilter) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     return deletedFilter;
   }

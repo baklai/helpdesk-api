@@ -3,15 +3,15 @@ import { IsOptional, IsString } from 'class-validator';
 
 export class CreateDepartmentDto {
   @ApiProperty({
-    description: 'The name of the department (must be unique)',
-    example: 'Sales Department'
+    description: 'Назва відділу (повинні бути унікальними)',
+    example: 'Відділ продажів'
   })
   @IsString()
   readonly name: string;
 
   @ApiPropertyOptional({
-    description: 'The description of the department',
-    example: 'Responsible for driving sales and customer engagement.'
+    description: 'Опис відділу',
+    example: 'Відповідає за підвищення продажів і залучення клієнтів.'
   })
   @IsString()
   @IsOptional()

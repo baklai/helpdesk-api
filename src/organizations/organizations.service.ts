@@ -31,7 +31,7 @@ export class OrganizationsService {
       return await this.organizationModel.create(createOrganizationDto);
     } catch (error) {
       if (error.code === 11000 && error?.keyPattern && error?.keyPattern.name) {
-        throw new ConflictException('A organization with the same name already exists');
+        throw new ConflictException('Організація з такою назвою вже існує');
       }
       throw error;
     }
@@ -43,11 +43,11 @@ export class OrganizationsService {
 
   async findOneById(id: string): Promise<Organization> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     const organization = await this.organizationModel.findById(id).exec();
     if (!organization) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     return organization;
   }
@@ -57,19 +57,19 @@ export class OrganizationsService {
     updateOrganizationDto: UpdateOrganizationDto
   ): Promise<Organization> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     try {
       const updatedOrganization = await this.organizationModel
         .findByIdAndUpdate(id, { $set: updateOrganizationDto }, { new: true })
         .exec();
       if (!updatedOrganization) {
-        throw new NotFoundException('Record not found');
+        throw new NotFoundException('Запис не знайдено');
       }
       return updatedOrganization;
     } catch (error) {
       if (error.code === 11000 && error?.keyPattern && error?.keyPattern.name) {
-        throw new ConflictException('A record with the same name already exists');
+        throw new ConflictException('Запис із такою назвою вже існує');
       }
       throw error;
     }
@@ -77,13 +77,13 @@ export class OrganizationsService {
 
   async removeOneById(id: string): Promise<Organization> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
 
     const deletedOrganization = await this.organizationModel.findByIdAndRemove(id).exec();
 
     if (!deletedOrganization) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
 
     await this.subdivisionModel.deleteMany({ organization: deletedOrganization.id });

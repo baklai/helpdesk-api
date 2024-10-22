@@ -5,7 +5,7 @@ import { FilterStatus, FilterType } from '../schemas/filter.schema';
 
 export class QueryFilterDto {
   @ApiPropertyOptional({
-    description: 'Filter type',
+    description: 'Тип фільтра',
     example: FilterType.SOFTWARE
   })
   @IsString()
@@ -13,7 +13,7 @@ export class QueryFilterDto {
   readonly type: FilterType;
 
   @ApiPropertyOptional({
-    description: 'Filter status',
+    description: 'Статус фільтра',
     example: FilterStatus.DENY
   })
   @IsString()

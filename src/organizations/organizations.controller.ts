@@ -22,7 +22,7 @@ import { CreateOrganizationDto } from './dto/create-organization.dto';
 import { UpdateOrganizationDto } from './dto/update-organization.dto';
 import { Organization } from './schemas/organization.schema';
 
-@ApiTags('Organizations')
+@ApiTags('Організації')
 @Controller('organizations')
 @ApiBearerAuth('JWT Guard')
 @UseGuards(AccessTokenGuard, ScopesGuard)
@@ -32,13 +32,13 @@ export class OrganizationsController {
   @Post()
   @Scopes(Scope.OrganizationCreate)
   @ApiOperation({
-    summary: 'Create new record',
-    description: 'Required scopes: [' + [Scope.OrganizationCreate].join(',') + ']'
+    summary: 'Створити новий запис',
+    description: 'Необхідні дозволи: [' + [Scope.OrganizationCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Success', type: Organization })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiConflictResponse({ description: 'Conflict' })
-  @ApiBody({ description: 'Request body object', type: CreateOrganizationDto })
+  @ApiCreatedResponse({ description: 'Успіх', type: Organization })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiConflictResponse({ description: 'Конфлікт даних' })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: CreateOrganizationDto })
   async create(@Body() createOrganizationDto: CreateOrganizationDto): Promise<Organization> {
     return await this.organizationsService.create(createOrganizationDto);
   }
@@ -46,11 +46,11 @@ export class OrganizationsController {
   @Get()
   @Scopes(Scope.OrganizationRead)
   @ApiOperation({
-    summary: 'Get all records',
-    description: 'Required scopes: [' + [Scope.OrganizationRead].join(',') + ']'
+    summary: 'Отримати всі записи',
+    description: 'Необхідні дозволи: [' + [Scope.OrganizationRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: [Organization] })
-  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiOkResponse({ description: 'Успіх', type: [Organization] })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
   async findAll(): Promise<Organization[]> {
     return await this.organizationsService.findAll();
   }
@@ -58,13 +58,13 @@ export class OrganizationsController {
   @Get(':id')
   @Scopes(Scope.OrganizationRead)
   @ApiOperation({
-    summary: 'Get record by ID',
-    description: 'Required scopes: [' + [Scope.OrganizationRead].join(',') + ']'
+    summary: 'Отримати запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.OrganizationRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Organization })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Organization })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async findOneById(@Param('id') id: string): Promise<Organization> {
     return await this.organizationsService.findOneById(id);
   }
@@ -72,15 +72,15 @@ export class OrganizationsController {
   @Put(':id')
   @Scopes(Scope.OrganizationUpdate)
   @ApiOperation({
-    summary: 'Update record by ID',
-    description: 'Required scopes: [' + [Scope.OrganizationUpdate].join(',') + ']'
+    summary: 'Оновити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.OrganizationUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Organization })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiConflictResponse({ description: 'Conflict' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
-  @ApiBody({ description: 'Request body object', type: UpdateOrganizationDto })
+  @ApiOkResponse({ description: 'Успіх', type: Organization })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiConflictResponse({ description: 'Конфлікт даних' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: UpdateOrganizationDto })
   async updateOneById(
     @Param('id') id: string,
     @Body() updateOrganizationDto: UpdateOrganizationDto
@@ -91,13 +91,13 @@ export class OrganizationsController {
   @Delete(':id')
   @Scopes(Scope.OrganizationDelete)
   @ApiOperation({
-    summary: 'Delete record by ID',
-    description: 'Required scopes: [' + [Scope.OrganizationDelete].join(',') + ']'
+    summary: 'Видалити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.OrganizationDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Organization })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Organization })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async removeOneById(@Param('id') id: string): Promise<Organization> {
     return await this.organizationsService.removeOneById(id);
   }

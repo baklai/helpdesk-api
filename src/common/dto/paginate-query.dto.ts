@@ -17,19 +17,23 @@ function convertValuesToNumber(val: Record<string, any>) {
 }
 
 export class PaginateQueryDto {
-  @ApiProperty({ description: 'Number of items per page', example: 5, type: Number })
+  @ApiProperty({ description: 'Кількість записів на сторінці', example: 5, type: Number })
   @Min(0)
   @Max(50)
   @IsInt()
   readonly limit: number;
 
-  @ApiProperty({ description: 'Number of items to skip', example: 0, type: Number })
+  @ApiProperty({
+    description: 'Кількість записів, які потрібно пропустити',
+    example: 0,
+    type: Number
+  })
   @Min(0)
   @IsInt()
   readonly offset: number;
 
   @ApiPropertyOptional({
-    description: 'Sorting string (e.g., sort={"field":"asc"})',
+    description: 'Рядок сортування (наприклад, sort={"field":"asc"})',
     type: String
   })
   @IsObject()
@@ -38,7 +42,7 @@ export class PaginateQueryDto {
   readonly sort: Record<string, any>;
 
   @ApiPropertyOptional({
-    description: 'Filtering string (e.g., filters={"field":"value"})',
+    description: 'Рядок фільтрації (наприклад, filters={"field":"value"})',
     type: String
   })
   @IsObject()

@@ -21,7 +21,7 @@ import { Department } from './schemas/department.schema';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { UpdateDepartmentDto } from './dto/update-department.dto';
 
-@ApiTags('Departments')
+@ApiTags('Відділи')
 @Controller('departments')
 @ApiBearerAuth('JWT Guard')
 @UseGuards(AccessTokenGuard, ScopesGuard)
@@ -31,13 +31,13 @@ export class DepartmentsController {
   @Post()
   @Scopes(Scope.DepartmentCreate)
   @ApiOperation({
-    summary: 'Create new record',
-    description: 'Required scopes: [' + [Scope.DepartmentCreate].join(',') + ']'
+    summary: 'Створити новий запис',
+    description: 'Необхідні дозволи: [' + [Scope.DepartmentCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Success', type: Department })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiConflictResponse({ description: 'Conflict' })
-  @ApiBody({ description: 'Request body object', type: CreateDepartmentDto })
+  @ApiCreatedResponse({ description: 'Успіх', type: Department })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiConflictResponse({ description: 'Конфлікт даних' })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: CreateDepartmentDto })
   async create(@Body() createDepartmentDto: CreateDepartmentDto): Promise<Department> {
     return await this.departmentsService.create(createDepartmentDto);
   }
@@ -45,11 +45,11 @@ export class DepartmentsController {
   @Get()
   @Scopes(Scope.DepartmentRead)
   @ApiOperation({
-    summary: 'Get all records',
-    description: 'Required scopes: [' + [Scope.DepartmentRead].join(',') + ']'
+    summary: 'Отримати всі записи',
+    description: 'Необхідні дозволи: [' + [Scope.DepartmentRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: [Department] })
-  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiOkResponse({ description: 'Успіх', type: [Department] })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
   async findAll(): Promise<Department[]> {
     return await this.departmentsService.findAll();
   }
@@ -57,13 +57,13 @@ export class DepartmentsController {
   @Get(':id')
   @Scopes(Scope.DepartmentRead)
   @ApiOperation({
-    summary: 'Get record by ID',
-    description: 'Required scopes: [' + [Scope.DepartmentRead].join(',') + ']'
+    summary: 'Отримати запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.DepartmentRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Department })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Department })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async findOneById(@Param('id') id: string): Promise<Department> {
     return await this.departmentsService.findOneById(id);
   }
@@ -71,15 +71,15 @@ export class DepartmentsController {
   @Put(':id')
   @Scopes(Scope.DepartmentUpdate)
   @ApiOperation({
-    summary: 'Update record by ID',
-    description: 'Required scopes: [' + [Scope.DepartmentUpdate].join(',') + ']'
+    summary: 'Оновити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.DepartmentUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Department })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiConflictResponse({ description: 'Conflict' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
-  @ApiBody({ description: 'Request body object', type: UpdateDepartmentDto })
+  @ApiOkResponse({ description: 'Успіх', type: Department })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiConflictResponse({ description: 'Конфлікт даних' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: UpdateDepartmentDto })
   async updateOneById(
     @Param('id') id: string,
     @Body() updateDepartmentDto: UpdateDepartmentDto
@@ -90,13 +90,13 @@ export class DepartmentsController {
   @Delete(':id')
   @Scopes(Scope.DepartmentDelete)
   @ApiOperation({
-    summary: 'Delete record by ID',
-    description: 'Required scopes: [' + [Scope.DepartmentDelete].join(',') + ']'
+    summary: 'Видалити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.DepartmentDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Department })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Department })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async removeOneById(@Param('id') id: string): Promise<Department> {
     return await this.departmentsService.removeOneById(id);
   }

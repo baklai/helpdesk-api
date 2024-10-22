@@ -12,30 +12,30 @@ import {
 import { Scope } from 'src/common/enums/scope.enum';
 
 export class CreateProfileDto {
-  @ApiProperty({ description: 'The email of the profile', example: 'john@example.com' })
+  @ApiProperty({ description: 'Електронна адреса профілю', example: 'john@example.com' })
   @IsEmail()
   @IsString()
   readonly email: string;
 
   @ApiProperty({
-    description: 'The password of the profile (minimum 6 characters)',
+    description: 'Пароль профілю (мінімум 6 символів)',
     example: 'vJaPk2eg9UaN'
   })
   @IsString()
-  @MinLength(6, { message: 'Password must be at least 6 characters' })
+  @MinLength(6, { message: 'Пароль має бути не менше 6 символів' })
   readonly password: string;
 
-  @ApiProperty({ description: 'The full name of the profile', example: 'John Doe' })
+  @ApiProperty({ description: "Повне ім'я профілю", example: 'John Doe' })
   @IsString()
   readonly fullname: string;
 
-  @ApiProperty({ description: 'The phone number of the profile', example: '+38(234)567-89-10' })
+  @ApiProperty({ description: 'Номер телефону в профілі', example: '+38(234)567-89-10' })
   @IsString()
   @IsPhoneNumber()
   readonly phone: string;
 
   @ApiPropertyOptional({
-    description: 'Flag indicating if the profile is active',
+    description: 'Прапорець, що вказує, чи активний профіль',
     default: false,
     example: true
   })
@@ -44,7 +44,7 @@ export class CreateProfileDto {
   readonly isActivated: boolean;
 
   @ApiPropertyOptional({
-    description: 'Flag indicating if the profile is an admin',
+    description: 'Прапорець, що вказує, чи профіль є адміністратором',
     default: false,
     example: false
   })
@@ -53,7 +53,7 @@ export class CreateProfileDto {
   readonly isAdmin: boolean;
 
   @ApiPropertyOptional({
-    description: "The profile's scope",
+    description: 'Дозволи по профілю',
     default: [],
     example: [
       Scope.EventRead,

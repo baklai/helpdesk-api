@@ -21,7 +21,7 @@ import { PingsService } from './pings.service';
 import { CreatePingDto } from './dto/create-ping.dto';
 import { Ping, PaginatePing } from './schemas/ping.schema';
 
-@ApiTags('Ping service')
+@ApiTags('Пінг-сервіс')
 @Controller('pings')
 @ApiBearerAuth('JWT Guard')
 @UseGuards(AccessTokenGuard, ScopesGuard)
@@ -31,12 +31,12 @@ export class PingsController {
   @Post()
   @Scopes(Scope.PingCreate)
   @ApiOperation({
-    summary: 'Create new record',
-    description: 'Required scopes: [' + [Scope.PingCreate].join(',') + ']'
+    summary: 'Створити новий запис',
+    description: 'Необхідні дозволи: [' + [Scope.PingCreate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Ping })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiBody({ description: 'Request body object', type: CreatePingDto })
+  @ApiOkResponse({ description: 'Успіх', type: Ping })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: CreatePingDto })
   async create(@Body() createPingDto: CreatePingDto): Promise<Ping> {
     return await this.pingsService.create(createPingDto);
   }
@@ -44,11 +44,11 @@ export class PingsController {
   @Get()
   @Scopes(Scope.PingRead)
   @ApiOperation({
-    summary: 'Get all records',
-    description: 'Required scopes: [' + [Scope.PingRead].join(',') + ']'
+    summary: 'Отримати всі записи',
+    description: 'Необхідні дозволи: [' + [Scope.PingRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: PaginatePing })
-  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiOkResponse({ description: 'Успіх', type: PaginatePing })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
   async findAll(@Query() query: PaginateQueryDto): Promise<PaginateResult<Ping>> {
     return await this.pingsService.findAll(query);
   }
@@ -56,14 +56,14 @@ export class PingsController {
   @Get(':id')
   @Scopes(Scope.PingRead)
   @ApiOperation({
-    summary: 'Get record by ID',
-    description: 'Required scopes: [' + [Scope.PingRead].join(',') + ']'
+    summary: 'Отримати запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.PingRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Ping })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
-  @ApiQuery({ name: 'populate', description: 'The populate records', type: Boolean })
+  @ApiOkResponse({ description: 'Успіх', type: Ping })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
+  @ApiQuery({ name: 'populate', description: "Отримати пов'язані записи", type: Boolean })
   async findOneById(@Param('id') id: string, @Query('populate') populate: boolean): Promise<Ping> {
     return await this.pingsService.findOneById(id, populate);
   }
@@ -71,13 +71,13 @@ export class PingsController {
   @Delete(':id')
   @Scopes(Scope.PingDelete)
   @ApiOperation({
-    summary: 'Delete record by ID',
-    description: 'Required scopes: [' + [Scope.PingDelete].join(',') + ']'
+    summary: 'Видалити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.PingDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Ping })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Ping })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async removeOneById(@Param('id') id: string): Promise<Ping> {
     return await this.pingsService.removeOneById(id);
   }

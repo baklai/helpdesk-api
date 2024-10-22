@@ -3,7 +3,7 @@ import { IsMongoId, IsOptional, IsString } from 'class-validator';
 
 export class CreateSubdivisionDto {
   @ApiPropertyOptional({
-    description: 'The code of the subdivision',
+    description: 'Код підрозділу',
     example: 'TSInc'
   })
   @IsString()
@@ -11,14 +11,14 @@ export class CreateSubdivisionDto {
   readonly code: string;
 
   @ApiProperty({
-    description: 'The name of the subdivision (must be unique)',
+    description: 'Назва підрозділу (має бути унікальною)',
     example: 'Tech Solutions Inc.'
   })
   @IsString()
   readonly name: string;
 
   @ApiPropertyOptional({
-    description: 'The address of the subdivision',
+    description: 'Адреса підрозділу',
     example: '123 Tech Street, Innovation City'
   })
   @IsString()
@@ -26,15 +26,15 @@ export class CreateSubdivisionDto {
   readonly address: string;
 
   @ApiPropertyOptional({
-    description: 'A description about the subdivision',
-    example: 'A cutting-edge technology subdivision specializing in software solutions.'
+    description: 'Опис підрозділа',
+    example: 'Підрозділ передових технологій, що спеціалізується на програмних рішеннях.'
   })
   @IsString()
   @IsOptional()
   readonly description: string;
 
   @ApiProperty({
-    description: 'ID of the associated Organization',
+    description: 'ID асоційованої організації',
     example: '6299b5cebf44864bfcea39da'
   })
   @IsString()

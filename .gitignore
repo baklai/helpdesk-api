@@ -153,4 +153,6 @@ certs
 .tern-port
 
 # Static content
+app/
+docs/
 client/

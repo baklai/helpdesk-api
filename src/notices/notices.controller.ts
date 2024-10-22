@@ -17,7 +17,7 @@ import { NoticesService } from './notices.service';
 import { Notice } from './schemas/notice.schema';
 import { CreateNoticeDto } from './dto/create-notice.dto';
 
-@ApiTags('Notices')
+@ApiTags('Повідомлення')
 @Controller('notices')
 @ApiBearerAuth('JWT Guard')
 @UseGuards(AccessTokenGuard)
@@ -27,33 +27,33 @@ export class NoticesController {
   @Post()
   @UseGuards(AdminGuard)
   @ApiOperation({
-    summary: 'Create new record',
-    description: 'Required admin'
+    summary: 'Створити новий запис',
+    description: 'Потрібені права адміністратора'
   })
-  @ApiCreatedResponse({ description: 'Success', type: [Notice] })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiBody({ description: 'Request body object', type: CreateNoticeDto })
+  @ApiCreatedResponse({ description: 'Успіх', type: [Notice] })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: CreateNoticeDto })
   async create(@Body() createNoticeDto: CreateNoticeDto): Promise<Notice[]> {
     return await this.noticesService.create(createNoticeDto);
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get all records by ID', description: 'Required scopes: []' })
-  @ApiOkResponse({ description: 'Success', type: [Notice] })
-  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiOperation({ summary: 'Get all records by ID', description: 'Необхідні дозволи: []' })
+  @ApiOkResponse({ description: 'Успіх', type: [Notice] })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
   async findAll(@Request() req: Record<string, any>): Promise<Notice[]> {
     return await this.noticesService.findAll(req.user.id);
   }
 
   @Delete(':id')
   @ApiOperation({
-    summary: 'Delete record by ID',
-    description: 'Required scopes: []'
+    summary: 'Видалити запис за ID',
+    description: 'Необхідні дозволи: []'
   })
-  @ApiOkResponse({ description: 'Success', type: Notice })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Notice })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async removeOneById(
     @Param('id') id: string,
     @Request() req: Record<string, any>

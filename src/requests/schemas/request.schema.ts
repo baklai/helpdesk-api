@@ -15,7 +15,7 @@ import { PaginateResponseDto } from 'src/common/dto/paginate-response.dto';
 @Schema()
 export class Request {
   @ApiProperty({
-    description: 'The ID of the record (unique)',
+    description: 'ID запису (унікальний)',
     example: '6299b5cebf44864bfcea36d4',
     type: String
   })
@@ -23,17 +23,17 @@ export class Request {
   @IsMongoId()
   readonly id: string;
 
-  @ApiProperty({ description: 'Full name of the requester', example: 'John Doe' })
+  @ApiProperty({ description: 'П.І.Б. запитувача', example: 'John Doe' })
   @IsString()
   @Prop({ type: String, required: true, trim: true })
   readonly fullname: string;
 
-  @ApiProperty({ description: 'Phone number of the requester', example: '12-34-567' })
+  @ApiProperty({ description: 'Номер телефону запитувача', example: '12-34-567' })
   @IsString()
   @Prop({ type: String, required: true, trim: true })
   readonly phone: string;
 
-  @ApiPropertyOptional({ description: 'IP Address of the requester', example: '192.168.1.1' })
+  @ApiPropertyOptional({ description: 'IP-адреса запитувача', example: '192.168.1.1' })
   @IsIP()
   @IsString()
   @IsOptional()
@@ -41,7 +41,7 @@ export class Request {
   readonly ipaddress: string;
 
   @ApiPropertyOptional({
-    description: 'Incoming request number of the requester',
+    description: 'Номер вхідного запиту запитувача',
     example: '№125987/01'
   })
   @IsString()
@@ -49,25 +49,25 @@ export class Request {
   @Prop({ type: String, trim: true })
   readonly reqnum: string;
 
-  @ApiProperty({ description: 'Request message', example: 'Please fix the issue' })
+  @ApiProperty({ description: 'Запит повідомлення', example: 'Будь ласка, вирішіть проблему' })
   @IsString()
   @Prop({ type: String, required: true, trim: true })
   readonly request: string;
 
-  @ApiPropertyOptional({ description: 'Comment about the request', example: 'Fixed the issue' })
+  @ApiPropertyOptional({ description: 'Прокоментуйте запит', example: 'Виправлено проблему' })
   @IsString()
   @IsOptional()
   @Prop({ type: String, trim: true })
   readonly comment: string;
 
-  @ApiPropertyOptional({ description: 'Conclusion about the request', example: 'Issue resolved' })
+  @ApiPropertyOptional({ description: 'Висновок про запит', example: 'Питання вирішено' })
   @IsString()
   @IsOptional()
   @Prop({ type: String, trim: true })
   readonly conclusion: string;
 
   @ApiProperty({
-    description: 'Document of the associated Profile',
+    description: "Документ пов'язаного профілю",
     example: Profile
   })
   @IsString()
@@ -81,7 +81,7 @@ export class Request {
   readonly workerOpen: Profile;
 
   @ApiPropertyOptional({
-    description: 'Document of the associated Profile',
+    description: "Документ пов'язаного профілю",
     example: Profile
   })
   @IsString()
@@ -95,7 +95,7 @@ export class Request {
   readonly workerClose: Profile;
 
   @ApiPropertyOptional({
-    description: 'Document of the associated Position',
+    description: 'Документ про відповідну посаду',
     example: Position
   })
   @IsString()
@@ -110,7 +110,7 @@ export class Request {
   readonly position: Position;
 
   @ApiPropertyOptional({
-    description: 'Document of the associated Location',
+    description: 'Документ про відповідне місцезнаходження',
     example: Location
   })
   @IsString()
@@ -125,7 +125,7 @@ export class Request {
   readonly location: Location;
 
   @ApiPropertyOptional({
-    description: 'Document of the associated Organization',
+    description: 'Документ асоційованої організації',
     example: Organization
   })
   @IsString()
@@ -140,7 +140,7 @@ export class Request {
   readonly organization: Organization;
 
   @ApiPropertyOptional({
-    description: 'Document of the associated Subdivision',
+    description: 'Документ асоційованого підрозділу',
     example: Subdivision
   })
   @IsString()
@@ -155,7 +155,7 @@ export class Request {
   readonly subdivision: Subdivision;
 
   @ApiPropertyOptional({
-    description: 'Document of the associated Department',
+    description: 'Документ асоційованого відділу',
     example: Department
   })
   @IsString()
@@ -170,7 +170,7 @@ export class Request {
   readonly department: Department;
 
   @ApiPropertyOptional({
-    description: 'The created date of the record',
+    description: 'Дата створення запису',
     example: new Date()
   })
   @IsDate()
@@ -178,7 +178,7 @@ export class Request {
   readonly createdAt: Date;
 
   @ApiPropertyOptional({
-    description: 'The updated date of the record',
+    description: 'Дата оновлення запису',
     example: new Date()
   })
   @IsDate()
@@ -187,7 +187,7 @@ export class Request {
 }
 
 export class PaginateRequest extends PaginateResponseDto {
-  @ApiPropertyOptional({ type: [Request], description: 'Array of documents' })
+  @ApiPropertyOptional({ type: [Request], description: 'Масив документів' })
   @IsArray()
   @IsOptional()
   docs: Request[];

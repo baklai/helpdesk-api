@@ -21,7 +21,7 @@ import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { QueryEventDto } from './dto/query-event.dto';
 
-@ApiTags('Events')
+@ApiTags('Події')
 @Controller('events')
 @ApiBearerAuth('JWT Guard')
 @UseGuards(AccessTokenGuard, ScopesGuard)
@@ -31,12 +31,12 @@ export class EventsController {
   @Post()
   @Scopes(Scope.EventCreate)
   @ApiOperation({
-    summary: 'Create new record',
-    description: 'Required scopes: [' + [Scope.EventCreate].join(',') + ']'
+    summary: 'Створити новий запис',
+    description: 'Необхідні дозволи: [' + [Scope.EventCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Success', type: Event })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiBody({ description: 'Request body object', type: CreateEventDto })
+  @ApiCreatedResponse({ description: 'Успіх', type: Event })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: CreateEventDto })
   async create(@Body() createEventDto: CreateEventDto): Promise<Event> {
     return await this.eventService.create(createEventDto);
   }
@@ -44,11 +44,11 @@ export class EventsController {
   @Get()
   @Scopes(Scope.EventRead)
   @ApiOperation({
-    summary: 'Get all records',
-    description: 'Required scopes: [' + [Scope.EventRead].join(',') + ']'
+    summary: 'Отримати всі записи',
+    description: 'Необхідні дозволи: [' + [Scope.EventRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: [Event] })
-  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiOkResponse({ description: 'Успіх', type: [Event] })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
   async findAll(@Query() query: QueryEventDto): Promise<Event[]> {
     return await this.eventService.findAll(query);
   }
@@ -56,13 +56,13 @@ export class EventsController {
   @Get(':id')
   @Scopes(Scope.EventRead)
   @ApiOperation({
-    summary: 'Get record by ID',
-    description: 'Required scopes: [' + [Scope.EventRead].join(',') + ']'
+    summary: 'Отримати запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.EventRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Event })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Event })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async findOneById(@Param('id') id: string): Promise<Event> {
     return await this.eventService.findOneById(id);
   }
@@ -70,14 +70,14 @@ export class EventsController {
   @Put(':id')
   @Scopes(Scope.EventUpdate)
   @ApiOperation({
-    summary: 'Update record by ID',
-    description: 'Required scopes: [' + [Scope.EventUpdate].join(',') + ']'
+    summary: 'Оновити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.EventUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Event })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
-  @ApiBody({ description: 'Request body object', type: UpdateEventDto })
+  @ApiOkResponse({ description: 'Успіх', type: Event })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: UpdateEventDto })
   async updateOneById(
     @Param('id') id: string,
     @Body() updateEventDto: UpdateEventDto
@@ -88,13 +88,13 @@ export class EventsController {
   @Delete(':id')
   @Scopes(Scope.EventDelete)
   @ApiOperation({
-    summary: 'Delete record by ID',
-    description: 'Required scopes: [' + [Scope.EventUpdate].join(',') + ']'
+    summary: 'Видалити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.EventUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Event })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Event })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async removeOneById(@Param('id') id: string): Promise<Event> {
     return await this.eventService.removeOneById(id);
   }

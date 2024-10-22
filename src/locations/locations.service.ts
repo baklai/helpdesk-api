@@ -30,7 +30,7 @@ export class LocationsService {
       return createdLocation;
     } catch (error) {
       if (error.code === 11000 && error?.keyPattern && error?.keyPattern.name) {
-        throw new ConflictException('A record with the same name already exists');
+        throw new ConflictException('Запис із такою назвою вже існує');
       }
       throw error;
     }
@@ -42,30 +42,30 @@ export class LocationsService {
 
   async findOneById(id: string): Promise<Location> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     const location = await this.locationModel.findById(id).exec();
     if (!location) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     return location;
   }
 
   async updateOneById(id: string, updateLocationDto: UpdateLocationDto): Promise<Location> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     try {
       const updatedLocation = await this.locationModel
         .findByIdAndUpdate(id, { $set: updateLocationDto }, { new: true })
         .exec();
       if (!updatedLocation) {
-        throw new NotFoundException('Record not found');
+        throw new NotFoundException('Запис не знайдено');
       }
       return updatedLocation;
     } catch (error) {
       if (error.code === 11000 && error?.keyPattern && error?.keyPattern.name) {
-        throw new ConflictException('A record with the same name already exists');
+        throw new ConflictException('Запис із такою назвою вже існує');
       }
       throw error;
     }
@@ -73,13 +73,13 @@ export class LocationsService {
 
   async removeOneById(id: string): Promise<Location> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
 
     const deletedLocation = await this.locationModel.findByIdAndRemove(id).exec();
 
     if (!deletedLocation) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
 
     await this.ipaddressModel.updateMany(
