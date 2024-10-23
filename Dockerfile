@@ -34,8 +34,8 @@ FROM node:${NODE_VERSION}-alpine AS production
 WORKDIR /app
 
 # Copy configuration files and dependencies
-COPY --from=build-api /app/package*.json ./
-COPY --from=build-api /app/dist ./dist/
+COPY --from=build /app/package*.json ./
+COPY --from=build /app/dist ./dist/
 
 # We install only production dependencies
 RUN npm install --omit=dev
