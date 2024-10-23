@@ -1,7 +1,7 @@
 {
-  "name": "helpdesk-api-v1",
+  "name": "helpdesk-api",
   "version": "1.0.0",
-  "description": "Helpdesk API V1 - API of technical support",
+  "description": "Helpdesk API - API-додаток технічної підтримки",
   "author": {
     "name": "Dmitrii Baklai",
     "email": "d.n.baklai@gmail.com",
@@ -12,13 +12,13 @@
       "linkedin": "https://www.linkedin.com/in/baklai/"
     }
   },
-  "homepage": "https://github.com/baklai/helpdesk-api-v1#readme",
+  "homepage": "https://github.com/baklai/helpdesk-api#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/baklai/helpdesk-api-v1.git"
+    "url": "git+https://github.com/baklai/helpdesk-api.git"
   },
   "bugs": {
-    "url": "https://github.com/baklai/helpdesk-api-v1/issues"
+    "url": "https://github.com/baklai/helpdesk-api/issues"
   },
   "keywords": [
     "nodejs",
