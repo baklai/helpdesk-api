@@ -6,7 +6,7 @@ import { HydratedDocument } from 'mongoose';
 @Schema()
 export class Department {
   @ApiProperty({
-    description: 'The ID of the record (unique)',
+    description: 'ID запису (унікальний)',
     example: '6299b5cebf44864bfcea36d4',
     type: String
   })
@@ -15,16 +15,16 @@ export class Department {
   readonly id: string;
 
   @ApiProperty({
-    description: 'The name of the department (must be unique)',
-    example: 'Sales Department'
+    description: 'Назва відділу (повинні бути унікальними)',
+    example: 'Відділ продажів'
   })
   @IsString()
   @Prop({ type: String, required: true, unique: true, uniqueCaseInsensitive: true, trim: true })
   readonly name: string;
 
   @ApiPropertyOptional({
-    description: 'The description of the department',
-    example: 'Responsible for driving sales and customer engagement.'
+    description: 'Опис відділу',
+    example: 'Відповідає за підвищення продажів і залучення клієнтів.'
   })
   @IsString()
   @IsOptional()
@@ -32,7 +32,7 @@ export class Department {
   readonly description: string;
 
   @ApiPropertyOptional({
-    description: 'The created date of the record',
+    description: 'Дата створення запису',
     example: new Date()
   })
   @IsDate()
@@ -40,7 +40,7 @@ export class Department {
   readonly createdAt: Date;
 
   @ApiPropertyOptional({
-    description: 'The updated date of the record',
+    description: 'Дата оновлення запису',
     example: new Date()
   })
   @IsDate()

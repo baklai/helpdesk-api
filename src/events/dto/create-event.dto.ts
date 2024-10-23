@@ -4,11 +4,11 @@ import { IsDate, IsEnum, IsOptional, IsString } from 'class-validator';
 import { EventType } from '../schemas/event.schema';
 
 export class CreateEventDto {
-  @ApiProperty({ description: 'The title of the event', example: 'Meeting with Team' })
+  @ApiProperty({ description: 'Назва заходу', example: 'Зустріч з командою' })
   @IsString()
   readonly title: string;
 
-  @ApiProperty({ description: 'The date and time of the event', example: new Date() })
+  @ApiProperty({ description: 'Дата і час проведення', example: new Date() })
   @IsDate()
   readonly datetime: Date;
 
@@ -16,14 +16,14 @@ export class CreateEventDto {
     enum: EventType,
     enumName: 'EventType',
     example: EventType.EVENT,
-    description: 'The type of the event'
+    description: 'Тип події'
   })
-  @IsEnum(EventType, { message: 'Invalid event type' })
+  @IsEnum(EventType, { message: 'Недійсний тип події' })
   readonly eventType: EventType;
 
   @ApiPropertyOptional({
-    description: 'The description of the event',
-    example: 'Discussing project updates'
+    description: 'Опис події',
+    example: 'Обговорення оновлень проекту'
   })
   @IsString()
   @IsOptional()

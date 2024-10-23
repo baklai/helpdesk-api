@@ -22,7 +22,7 @@ import { ReportsService } from './reports.service';
 import { CreateReportDto } from './dto/create-report.dto';
 import { UpdateReportDto } from './dto/update-report.dto';
 
-@ApiTags('Reports')
+@ApiTags('Звіти')
 @Controller('reports')
 @ApiBearerAuth('JWT Guard')
 @UseGuards(AccessTokenGuard, ScopesGuard)
@@ -32,13 +32,13 @@ export class ReportsController {
   @Post()
   @Scopes(Scope.ReportCreate)
   @ApiOperation({
-    summary: 'Create new record',
-    description: 'Required scopes: [' + [Scope.ReportCreate].join(',') + ']'
+    summary: 'Створити новий запис',
+    description: 'Необхідні дозволи: [' + [Scope.ReportCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Success', type: Report })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiConflictResponse({ description: 'Conflict' })
-  @ApiBody({ description: 'Request body object', type: CreateReportDto })
+  @ApiCreatedResponse({ description: 'Успіх', type: Report })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiConflictResponse({ description: 'Конфлікт даних' })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: CreateReportDto })
   async create(@Body() createReportDto: CreateReportDto): Promise<Report> {
     return await this.reportsService.create(createReportDto);
   }
@@ -46,11 +46,11 @@ export class ReportsController {
   @Get()
   @Scopes(Scope.ReportRead)
   @ApiOperation({
-    summary: 'Get all records',
-    description: 'Required scopes: [' + [Scope.ReportRead].join(',') + ']'
+    summary: 'Отримати всі записи',
+    description: 'Необхідні дозволи: [' + [Scope.ReportRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: [Report] })
-  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiOkResponse({ description: 'Успіх', type: [Report] })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
   async findAll(): Promise<Report[]> {
     return await this.reportsService.findAll();
   }
@@ -58,13 +58,13 @@ export class ReportsController {
   @Get(':id')
   @Scopes(Scope.ReportRead)
   @ApiOperation({
-    summary: 'Get record by ID',
-    description: 'Required scopes: [' + [Scope.ReportRead].join(',') + ']'
+    summary: 'Отримати запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.ReportRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Report })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Report })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async findOneById(@Param('id') id: string): Promise<Report> {
     return await this.reportsService.findOneById(id);
   }
@@ -72,15 +72,15 @@ export class ReportsController {
   @Put(':id')
   @Scopes(Scope.ReportUpdate)
   @ApiOperation({
-    summary: 'Update record by ID',
-    description: 'Required scopes: [' + [Scope.ReportUpdate].join(',') + ']'
+    summary: 'Оновити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.ReportUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Report })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiConflictResponse({ description: 'Conflict' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
-  @ApiBody({ description: 'Request body object', type: UpdateReportDto })
+  @ApiOkResponse({ description: 'Успіх', type: Report })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiConflictResponse({ description: 'Конфлікт даних' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: UpdateReportDto })
   async updateOneById(
     @Param('id') id: string,
     @Body() updateReportDto: UpdateReportDto
@@ -91,13 +91,13 @@ export class ReportsController {
   @Delete(':id')
   @Scopes(Scope.ReportDelete)
   @ApiOperation({
-    summary: 'Delete record by ID',
-    description: 'Required scopes: [' + [Scope.ReportDelete].join(',') + ']'
+    summary: 'Видалити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.ReportDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Report })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Report })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async removeOneById(@Param('id') id: string): Promise<Report> {
     return await this.reportsService.removeOneById(id);
   }
@@ -105,13 +105,13 @@ export class ReportsController {
   @Get(':id/report')
   @Scopes(Scope.ReportRead)
   @ApiOperation({
-    summary: 'Get record by ID',
-    description: 'Required scopes: [' + [Scope.ReportRead].join(',') + ']'
+    summary: 'Отримати запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.ReportRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Report })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Report })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async reportOneById(@Param('id') id: string): Promise<Record<string, any>> {
     return await this.reportsService.reportOneById(id);
   }

@@ -1,6 +1,6 @@
-# Helpdesk API V1 («Heldesk Service»)
+# Helpdesk API («Heldesk Service»)
 
-Helpdesk API of technical support
+API-додаток технічної підтримки
 
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-api-v1/@nestjs/common)
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-api-v1/@nestjs/config)
@@ -19,93 +19,87 @@ Helpdesk API of technical support
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-api-v1/netmask)
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-api-v1/pingman)
 
-## Prerequisites
+## Передумови
 
-- Git - [Download & Install Git](https://git-scm.com/downloads).
-- Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
-- Docker - [Download & Install Docker](https://docs.docker.com/engine/install/).
+- Git - [Завантажте та встановіть Git](https://git-scm.com/downloads).
+- Node.js - [Завантажте та встановіть Node.js](https://nodejs.org/en/download/) і менеджер пакетів npm.
+- Docker - [Завантажте та встановіть Docker](https://docs.docker.com/engine/install/).
 
-## Downloading
+## Завантаження
 
 ```bash
 git clone
 ```
 
-## Installing NPM modules
+## Встановлення NPM модулів
 
 ```bash
-# install dependencies
 $ npm install
 ```
 
 ## Project env variables
 
-| Key                      | Comment                  |
-| ------------------------ | ------------------------ |
-| `PORT`                   | API port (optional)      |
-| `HOST`                   | API host (optional)      |
-| `MONGO_URI`              | Mongo uri                |
-| `BCRYPT_SALT`            | Crypt salt (optional)    |
-| `PUBLIC_TOKEN`           | Public token (optional)  |
-| `JWT_ACCESS_SECRET`      | Access token secret key  |
-| `JWT_ACCESS_EXPIRES_IN`  | Access token expires in  |
-| `JWT_REFRESH_SECRET`     | Refresh token secret key |
-| `JWT_REFRESH_EXPIRES_IN` | Refresh token expires in |
-| `STORAGE_PATH`           | Storage path (optional)  |
-| `SMTP_HOST`              | Email service host       |
-| `SMTP_PORT`              | Email service port       |
-| `SMTP_USERNAME`          | Email service login      |
-| `SMTP_PASSWORD`          | Email service password   |
-| `SMTP_SENDER`            | Email sender             |
+| Ключ                     | Коментар                             |
+| ------------------------ | ------------------------------------ |
+| `PORT`                   | Порт API (необов'язковий)            |
+| `HOST`                   | Хост API (необов'язковий)            |
+| `MONGO_URI`              | URI Mongo                            |
+| `BCRYPT_SALT`            | Сіль для шифрування (необов'язкова)  |
+| `PUBLIC_TOKEN`           | Публічний токен (необов'язковий)     |
+| `JWT_ACCESS_SECRET`      | Секретний ключ токена доступу        |
+| `JWT_ACCESS_EXPIRES_IN`  | Термін дії токена доступу            |
+| `JWT_REFRESH_SECRET`     | Секретний ключ токена оновлення      |
+| `JWT_REFRESH_EXPIRES_IN` | Термін дії токена оновлення          |
+| `STORAGE_PATH`           | Шлях до сховища (необов'язковий)     |
+| `SMTP_HOST`              | Хост сервісу електронної пошти       |
+| `SMTP_PORT`              | Порт сервісу електронної пошти       |
+| `SMTP_USERNAME`          | Логін для сервісу електронної пошти  |
+| `SMTP_PASSWORD`          | Пароль для сервісу електронної пошти |
+| `SMTP_SENDER`            | Відправник електронної пошти         |
 
-## Swagger documentation
+## Swagger документація
 
-After starting the API you can open Swagger documentation in your browser by `/api` route path
+Після запуску API ви можете відкрити документацію Swagger у своєму браузері за маршрутом `/api`
 
-## Running the app
+## Запуск програми
+
+### Компіляція та гаряче перезавантаження для розробки
 
 ```bash
-# production mode
-$ npm run start
-
-# development watch mode
-$ npm run start:dev
-
-# debug mode
-$ npm run start:prod
+npm run dev
 ```
 
-### Compile and Minify for Production
+### Компіляція та мінімізація для виробництва
 
 ```bash
 npm run build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+### Перевікра з [ESLint](https://eslint.org/)
 
 ```bash
 npm run lint
 ```
 
-### Format with [Prettier](https://prettier.io/)
+### Формат з [Prettier](https://prettier.io/)
 
 ```bash
 npm run format
 ```
 
-### Quick Start
+### Швидкий старт
 
 ```bash
 npm run start
 ```
 
-After starting the app on port (3000 as default) you can open
-in your browser helpdesk api by typing http://localhost:3000/api.
+Після запуску програми на порту (3000 за замовчуванням) ви можете відкрити
+у вашому веб-переглядачі служба підтримки API, ввівши http://localhost:3000/api.
 
-## Docker Quick Start
+## Швидкий старт з Docker
 
 ```bash
-# Create custom docker compose file compose.yaml
+# Створіть спеціальний файл компонування докера compose.yaml
 services:
   api:
     image: baklai/helpdesk-api:latest
@@ -121,56 +115,56 @@ services:
 ```
 
 ```bash
-# Start application
+# Запустіть додаток
 docker compose up -d
 ```
 
 ```bash
-# Logs application
+# Журнали програми
 docker logs --tail 30 -f helpdesk-api
 ```
 
 ```bash
-# Restart application
+# Перезапустіть програму
 docker compose down && docker rmi baklai/helpdesk-api && docker compose up -d && docker logs -f helpdesk-api
 ```
 
 In the terminal, run the following command to stop the application.
 
 ```bash
-# Delete application
+# Видалити програму
 docker compose down
 ```
 
-After starting the app on port (3000 as default) you can open
-in your browser helpdesk by typing http://localhost:3000/.
+Після запуску програми на порту (3000 за замовчуванням) ви можете відкрити
+у вашому веб-переглядачі служба підтримки API, ввівши http://localhost:3000/api.
 
-## Build Docker images
+## Створення зображень Docker
 
 ```bash
-# Build docker image
+# Створення образу докера
 docker compose build
 
-# Build docker multiplatform images and Pushes images to the repository
+# Створюйте мультиплатформенні образи докерів і надсилайте зображення до репозиторію
 docker compose build --builder multibuilder --no-cache --push
 ```
 
-If your cloud uses a different CPU architecture than your development
-machine (e.g., you are on a Mac M1 and your cloud provider is amd64),
-you'll want to build the image for that platform, e.g.:
+Якщо у вас використовується інша архітектура процесора, ніж на вашій машині для розробки
+(наприклад, ви працюєте на Mac M1, а ваш хмарний провайдер використовує amd64), вам потрібно буде
+зібрати образ для цієї платформи, наприклад:
 
 ```bash
-# Make sure you have buildx installed. If it is not installed, install it as follows
+# Переконайтеся, що у вас встановлено buildx. Якщо він не встановлений, встановіть його наступним чином
 docker buildx install
 
-# Build and switch to buildx builder
+# Збірка та перехід на buildx builder
 docker buildx create --platform linux/amd64,linux/i386,linux/arm/v5,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x --name multibuilder --use
 
-# Start the builder instance
+# Запустіть екземпляр конструктора
 docker buildx inspect --bootstrap
 ```
 
 ```bash
-# Use Docker registry
+# Використовуйте реєстр Docker
 docker login
 ```

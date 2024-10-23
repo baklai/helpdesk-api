@@ -31,35 +31,35 @@ export class ChannelsService {
 
   async findOneById(id: string): Promise<Channel> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     const channel = await this.channelModel.findById(id).exec();
     if (!channel) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     return channel;
   }
 
   async updateOneById(id: string, updateChannelDto: UpdateChannelDto): Promise<Channel> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     const updatedChannel = await this.channelModel
       .findByIdAndUpdate(id, { $set: updateChannelDto }, { new: true })
       .exec();
     if (!updatedChannel) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     return updatedChannel;
   }
 
   async removeOneById(id: string): Promise<Channel> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     const deletedChannel = await this.channelModel.findByIdAndRemove(id).exec();
     if (!deletedChannel) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     return deletedChannel;
   }

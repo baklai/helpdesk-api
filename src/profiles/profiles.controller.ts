@@ -23,7 +23,7 @@ import { PaginateProfile, Profile } from './schemas/profile.schema';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 
-@ApiTags('Profiles')
+@ApiTags('Профілі')
 @Controller('profiles')
 @ApiBearerAuth('JWT Guard')
 @AdminRequired()
@@ -33,52 +33,52 @@ export class ProfilesController {
 
   @Post()
   @ApiOperation({
-    summary: 'Create new record',
-    description: 'Required admin'
+    summary: 'Створити новий запис',
+    description: 'Потрібені права адміністратора'
   })
-  @ApiCreatedResponse({ description: 'Success', type: Profile })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiConflictResponse({ description: 'Conflict' })
-  @ApiBody({ description: 'Request body object', type: CreateProfileDto })
+  @ApiCreatedResponse({ description: 'Успіх', type: Profile })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiConflictResponse({ description: 'Конфлікт даних' })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: CreateProfileDto })
   async create(@Body() createUserDto: CreateProfileDto): Promise<Profile> {
     return await this.profilesService.create(createUserDto);
   }
 
   @Get()
   @ApiOperation({
-    summary: 'Get all records',
-    description: 'Required admin'
+    summary: 'Отримати всі записи',
+    description: 'Потрібені права адміністратора'
   })
-  @ApiOkResponse({ description: 'Success', type: PaginateProfile })
-  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiOkResponse({ description: 'Успіх', type: PaginateProfile })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
   async findAll(@Query() query: PaginateQueryDto): Promise<PaginateResult<Profile>> {
     return await this.profilesService.findAll(query);
   }
 
   @Get(':id')
   @ApiOperation({
-    summary: 'Get record by ID',
-    description: 'Required admin'
+    summary: 'Отримати запис за ID',
+    description: 'Потрібені права адміністратора'
   })
-  @ApiOkResponse({ description: 'Success', type: Profile })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Profile })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async findOneById(@Param('id') id: string): Promise<Profile> {
     return await this.profilesService.findOneById(id);
   }
 
   @Put(':id')
   @ApiOperation({
-    summary: 'Update record by ID',
-    description: 'Required admin'
+    summary: 'Оновити запис за ID',
+    description: 'Потрібені права адміністратора'
   })
-  @ApiOkResponse({ description: 'Success', type: Profile })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiConflictResponse({ description: 'Conflict' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
-  @ApiBody({ description: 'Request body object', type: UpdateProfileDto })
+  @ApiOkResponse({ description: 'Успіх', type: Profile })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiConflictResponse({ description: 'Конфлікт даних' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: UpdateProfileDto })
   async updateOneById(
     @Param('id') id: string,
     @Body() updateProfileDto: UpdateProfileDto
@@ -88,13 +88,13 @@ export class ProfilesController {
 
   @Delete(':id')
   @ApiOperation({
-    summary: 'Delete record by ID',
-    description: 'Required admin'
+    summary: 'Видалити запис за ID',
+    description: 'Потрібені права адміністратора'
   })
-  @ApiOkResponse({ description: 'Success', type: Profile })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Profile })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async removeOneById(@Param('id') id: string): Promise<Profile> {
     return await this.profilesService.removeOneById(id);
   }

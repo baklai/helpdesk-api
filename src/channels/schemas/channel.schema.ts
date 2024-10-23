@@ -8,7 +8,7 @@ import { PaginateResponseDto } from 'src/common/dto/paginate-response.dto';
 @Schema()
 export class Channel {
   @ApiProperty({
-    description: 'The ID of the record (unique)',
+    description: 'ID запису (унікальний)',
     example: '6299b5cebf44864bfcea36d4',
     type: String
   })
@@ -67,7 +67,7 @@ export class Channel {
   readonly composition: string;
 
   @ApiPropertyOptional({
-    description: 'The created date of the record',
+    description: 'Дата створення запису',
     example: new Date()
   })
   @IsDate()
@@ -75,7 +75,7 @@ export class Channel {
   readonly createdAt: Date;
 
   @ApiPropertyOptional({
-    description: 'The updated date of the record',
+    description: 'Дата оновлення запису',
     example: new Date()
   })
   @IsDate()
@@ -84,7 +84,7 @@ export class Channel {
 }
 
 export class PaginateChannel extends PaginateResponseDto {
-  @ApiPropertyOptional({ type: [Channel], description: 'Array of documents' })
+  @ApiPropertyOptional({ type: [Channel], description: 'Масив документів' })
   @IsArray()
   @IsOptional()
   docs: Channel[];

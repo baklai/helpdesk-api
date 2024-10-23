@@ -8,7 +8,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 const SWAGGER_API_TITLE = 'API Helpdesk';
-const SWAGGER_API_DESCRIPTION = 'The Helpdesk API documentation';
+const SWAGGER_API_DESCRIPTION = 'Документація API служби підтримки';
 const SWAGGER_API_VERSION = '1.0';
 const SWAGGER_API_PATH = '/api';
 
@@ -55,7 +55,7 @@ async function bootstrap() {
         scheme: 'bearer',
         bearerFormat: 'JWT',
         name: 'JWT Guard',
-        description: 'Enter JWT Bearer token',
+        description: 'Введіть JWT Bearer токен',
         in: 'header'
       },
       'JWT Guard'
@@ -70,7 +70,7 @@ async function bootstrap() {
   const host = configService.get<string>('HOST');
 
   await app.listen(port, host, async () => {
-    console.info(`Application is running on: ${await app.getUrl()}/`);
+    console.info(`Application is running on: ${await app.getUrl()}/api`);
   });
 }
 bootstrap();

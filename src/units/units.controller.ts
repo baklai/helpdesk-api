@@ -22,7 +22,7 @@ import { Unit } from './schemas/unit.schema';
 import { CreateUnitDto } from './dto/create-unit.dto';
 import { UpdateUnitDto } from './dto/update-unit.dto';
 
-@ApiTags('Units')
+@ApiTags('Пристрої')
 @Controller('units')
 @ApiBearerAuth('JWT Guard')
 @UseGuards(AccessTokenGuard, ScopesGuard)
@@ -32,13 +32,13 @@ export class UnitsController {
   @Post()
   @Scopes(Scope.UnitCreate)
   @ApiOperation({
-    summary: 'Create new record',
-    description: 'Required scopes: [' + [Scope.UnitCreate].join(',') + ']'
+    summary: 'Створити новий запис',
+    description: 'Необхідні дозволи: [' + [Scope.UnitCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Success', type: Unit })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiConflictResponse({ description: 'Conflict' })
-  @ApiBody({ description: 'Request body object', type: CreateUnitDto })
+  @ApiCreatedResponse({ description: 'Успіх', type: Unit })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiConflictResponse({ description: 'Конфлікт даних' })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: CreateUnitDto })
   async create(@Body() createUnitDto: CreateUnitDto): Promise<Unit> {
     return await this.unitsService.create(createUnitDto);
   }
@@ -46,11 +46,11 @@ export class UnitsController {
   @Get()
   @Scopes(Scope.UnitRead)
   @ApiOperation({
-    summary: 'Get all records',
-    description: 'Required scopes: [' + [Scope.UnitRead].join(',') + ']'
+    summary: 'Отримати всі записи',
+    description: 'Необхідні дозволи: [' + [Scope.UnitRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: [Unit] })
-  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiOkResponse({ description: 'Успіх', type: [Unit] })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
   async findAll(): Promise<Unit[]> {
     return await this.unitsService.findAll();
   }
@@ -58,13 +58,13 @@ export class UnitsController {
   @Get(':id')
   @Scopes(Scope.UnitRead)
   @ApiOperation({
-    summary: 'Get record by ID',
-    description: 'Required scopes: [' + [Scope.UnitRead].join(',') + ']'
+    summary: 'Отримати запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.UnitRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Unit })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Unit })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async findOneById(@Param('id') id: string): Promise<Unit> {
     return await this.unitsService.findOneById(id);
   }
@@ -72,15 +72,15 @@ export class UnitsController {
   @Put(':id')
   @Scopes(Scope.UnitUpdate)
   @ApiOperation({
-    summary: 'Update record by ID',
-    description: 'Required scopes: [' + [Scope.UnitUpdate].join(',') + ']'
+    summary: 'Оновити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.UnitUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Unit })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiConflictResponse({ description: 'Conflict' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
-  @ApiBody({ description: 'Request body object', type: UpdateUnitDto })
+  @ApiOkResponse({ description: 'Успіх', type: Unit })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiConflictResponse({ description: 'Конфлікт даних' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: UpdateUnitDto })
   async updateOneById(
     @Param('id') id: string,
     @Body() updateUnitDto: UpdateUnitDto
@@ -91,13 +91,13 @@ export class UnitsController {
   @Delete(':id')
   @Scopes(Scope.UnitDelete)
   @ApiOperation({
-    summary: 'Delete record by ID',
-    description: 'Required scopes: [' + [Scope.UnitDelete].join(',') + ']'
+    summary: 'Видалити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.UnitDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Unit })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Unit })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async removeOneById(@Param('id') id: string): Promise<Unit> {
     return await this.unitsService.removeOneById(id);
   }

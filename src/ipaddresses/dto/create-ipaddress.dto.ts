@@ -4,50 +4,50 @@ import { IsIP, IsDate, IsString, IsMongoId, ValidateNested, IsOptional } from 'c
 import { CIDR, Internet } from '../schemas/ipaddress.schema';
 
 export class CreateIpaddressDto {
-  @ApiProperty({ description: 'IP Address', example: '192.168.0.1' })
+  @ApiProperty({ description: 'IP-адреса', example: '192.168.0.1' })
   @IsIP()
   @IsString()
   readonly ipaddress: string;
 
-  @ApiProperty({ description: 'CIDR Information', example: CIDR })
+  @ApiProperty({ description: 'Інформація CIDR', example: CIDR })
   @ValidateNested()
   readonly cidr: CIDR;
 
-  @ApiProperty({ description: 'Incoming request number', example: '№1234/56' })
+  @ApiProperty({ description: 'Номер вхідного запиту', example: '№1234/56' })
   @IsString()
   readonly reqnum: string;
 
-  @ApiProperty({ description: 'Date of create record', example: new Date() })
+  @ApiProperty({ description: 'Дата створення запису', example: new Date() })
   @IsDate()
   readonly date: Date;
 
-  @ApiProperty({ description: 'Client full name', example: 'John Doe' })
+  @ApiProperty({ description: "Повне ім'я клієнта", example: 'John Doe' })
   @IsString()
   readonly fullname: string;
 
-  @ApiProperty({ description: 'Client phone number', example: '1234-56-78' })
+  @ApiProperty({ description: 'Номер телефону власника електронної пошти', example: '1234-56-78' })
   @IsString()
   readonly phone: string;
 
-  @ApiPropertyOptional({ description: 'Comment text', example: 'Network access limited' })
+  @ApiPropertyOptional({ description: 'Текст коментаря', example: 'Доступ до мережі обмежено' })
   @IsString()
   @IsOptional()
   readonly comment: string;
 
   @ApiPropertyOptional({
-    description: 'Internet information',
+    description: 'Інформація по Інтернет',
     example: Internet
   })
   @IsOptional()
   readonly internet: Internet;
 
-  @ApiPropertyOptional({ description: 'Autoanswer', example: '(12 3456 7)89' })
+  @ApiPropertyOptional({ description: 'Автовідповідь', example: '(12 3456 7)89' })
   @IsString()
   @IsOptional()
   readonly autoanswer: string;
 
   @ApiPropertyOptional({
-    description: 'ID of the associated Unit',
+    description: "Ідентифікатор пов'язаного пристрою",
     example: '6299b5cebf44864bfcea39da'
   })
   @IsString()
@@ -56,7 +56,7 @@ export class CreateIpaddressDto {
   readonly unit: string;
 
   @ApiPropertyOptional({
-    description: 'ID of the associated Location',
+    description: 'ID пов’язаного розташування',
     example: '6299b5cebf44864bfcea39da'
   })
   @IsString()
@@ -65,7 +65,7 @@ export class CreateIpaddressDto {
   readonly location: string;
 
   @ApiPropertyOptional({
-    description: 'ID of the associated Organization',
+    description: 'ID асоційованої організації',
     example: '6299b5cfbf44864bfcea3b0e'
   })
   @IsString()
@@ -74,7 +74,7 @@ export class CreateIpaddressDto {
   readonly organization: string;
 
   @ApiPropertyOptional({
-    description: 'ID of the associated Subdivision',
+    description: "Ідентифікатор пов'язаного підрозділу",
     example: '6299b5cebf44864bfcea36d2'
   })
   @IsString()
@@ -83,7 +83,7 @@ export class CreateIpaddressDto {
   readonly subdivision: string;
 
   @ApiPropertyOptional({
-    description: 'ID of the associated Department',
+    description: "Ідентифікатор пов'язаного відділу",
     example: '6299b5cebf44864bfcea3772'
   })
   @IsString()
@@ -92,7 +92,7 @@ export class CreateIpaddressDto {
   readonly department: string;
 
   @ApiPropertyOptional({
-    description: 'ID of the associated Position',
+    description: "Ідентифікатор пов'язаної посади",
     example: '6299b5cebf44864bfcea391a'
   })
   @IsString()

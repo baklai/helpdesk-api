@@ -18,7 +18,7 @@ import { Scope } from 'src/common/enums/scope.enum';
 @Schema()
 export class Profile {
   @ApiProperty({
-    description: 'The ID of the record (unique)',
+    description: 'ID запису (унікальний)',
     example: '6299b5cebf44864bfcea36d4',
     type: String
   })
@@ -26,7 +26,7 @@ export class Profile {
   @IsMongoId()
   readonly id: string;
 
-  @ApiProperty({ description: 'The email of the profile', example: 'john@example.com' })
+  @ApiProperty({ description: 'Електронна адреса профілю', example: 'john@example.com' })
   @IsEmail()
   @IsString()
   @Prop({
@@ -42,12 +42,12 @@ export class Profile {
   @Prop({ type: String, required: true, trim: true, minLength: 6, select: false })
   readonly password: string;
 
-  @ApiProperty({ description: 'The full name of the profile', example: 'John Doe' })
+  @ApiProperty({ description: "Повне ім'я профілю", example: 'John Doe' })
   @IsString()
   @Prop({ type: String, required: true, trim: true })
   readonly fullname: string;
 
-  @ApiProperty({ description: 'The phone number of the profile', example: '+38(234)567-89-10' })
+  @ApiProperty({ description: 'Номер телефону в профілі', example: '+38(234)567-89-10' })
   @IsString()
   @IsPhoneNumber()
   @Prop({
@@ -58,7 +58,7 @@ export class Profile {
   readonly phone: string;
 
   @ApiPropertyOptional({
-    description: 'Flag indicating if the profile is active',
+    description: 'Прапорець, що вказує, чи активний профіль',
     default: false,
     example: true
   })
@@ -68,7 +68,7 @@ export class Profile {
   readonly isActivated: boolean;
 
   @ApiPropertyOptional({
-    description: 'Flag indicating if the profile is an admin',
+    description: 'Прапорець, що вказує, чи профіль є адміністратором',
     default: false,
     example: false
   })
@@ -78,7 +78,7 @@ export class Profile {
   readonly isAdmin: boolean;
 
   @ApiPropertyOptional({
-    description: "The profile's scope",
+    description: 'Дозволи по профілю',
     default: [],
     example: [
       Scope.EventRead,
@@ -105,7 +105,7 @@ export class Profile {
   readonly scope: Scope;
 
   @ApiPropertyOptional({
-    description: 'The created date of the record',
+    description: 'Дата створення запису',
     example: new Date()
   })
   @IsDate()
@@ -113,7 +113,7 @@ export class Profile {
   readonly createdAt: Date;
 
   @ApiPropertyOptional({
-    description: 'The updated date of the record',
+    description: 'Дата оновлення запису',
     example: new Date()
   })
   @IsDate()
@@ -122,7 +122,7 @@ export class Profile {
 }
 
 export class PaginateProfile extends PaginateResponseDto {
-  @ApiProperty({ type: [Profile], description: 'Array of documents' })
+  @ApiProperty({ type: [Profile], description: 'Масив документів' })
   docs: Profile[];
 }
 

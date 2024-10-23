@@ -21,7 +21,7 @@ import { Location } from './schemas/location.schema';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
 
-@ApiTags('Locations')
+@ApiTags('Розташування')
 @Controller('locations')
 @ApiBearerAuth('JWT Guard')
 @UseGuards(AccessTokenGuard, ScopesGuard)
@@ -31,13 +31,13 @@ export class LocationsController {
   @Post()
   @Scopes(Scope.LocationCreate)
   @ApiOperation({
-    summary: 'Create new record',
-    description: 'Required scopes: [' + [Scope.LocationCreate].join(',') + ']'
+    summary: 'Створити новий запис',
+    description: 'Необхідні дозволи: [' + [Scope.LocationCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Success', type: Location })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiConflictResponse({ description: 'Conflict' })
-  @ApiBody({ description: 'Request body object', type: CreateLocationDto })
+  @ApiCreatedResponse({ description: 'Успіх', type: Location })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiConflictResponse({ description: 'Конфлікт даних' })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: CreateLocationDto })
   async create(@Body() createLocationDto: CreateLocationDto): Promise<Location> {
     return await this.locationsService.create(createLocationDto);
   }
@@ -45,11 +45,11 @@ export class LocationsController {
   @Get()
   @Scopes(Scope.LocationRead)
   @ApiOperation({
-    summary: 'Get all records',
-    description: 'Required scopes: [' + [Scope.LocationRead].join(',') + ']'
+    summary: 'Отримати всі записи',
+    description: 'Необхідні дозволи: [' + [Scope.LocationRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: [Location] })
-  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiOkResponse({ description: 'Успіх', type: [Location] })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
   async findAll(): Promise<Location[]> {
     return await this.locationsService.findAll();
   }
@@ -57,13 +57,13 @@ export class LocationsController {
   @Get(':id')
   @Scopes(Scope.LocationRead)
   @ApiOperation({
-    summary: 'Get record by ID',
-    description: 'Required scopes: [' + [Scope.LocationRead].join(',') + ']'
+    summary: 'Отримати запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.LocationRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Location })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Location })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async findOneById(@Param('id') id: string): Promise<Location> {
     return await this.locationsService.findOneById(id);
   }
@@ -71,15 +71,15 @@ export class LocationsController {
   @Put(':id')
   @Scopes(Scope.LocationUpdate)
   @ApiOperation({
-    summary: 'Update record by ID',
-    description: 'Required scopes: [' + [Scope.LocationUpdate].join(',') + ']'
+    summary: 'Оновити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.LocationUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Location })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiConflictResponse({ description: 'Conflict' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
-  @ApiBody({ description: 'Request body object', type: UpdateLocationDto })
+  @ApiOkResponse({ description: 'Успіх', type: Location })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiConflictResponse({ description: 'Конфлікт даних' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: UpdateLocationDto })
   async updateOneById(
     @Param('id') id: string,
     @Body() updateLocationDto: UpdateLocationDto
@@ -90,13 +90,13 @@ export class LocationsController {
   @Delete(':id')
   @Scopes(Scope.LocationDelete)
   @ApiOperation({
-    summary: 'Delete record by ID',
-    description: 'Required scopes: [' + [Scope.LocationDelete].join(',') + ']'
+    summary: 'Видалити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.LocationDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Location })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Location })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async removeOneById(@Param('id') id: string): Promise<Location> {
     return await this.locationsService.removeOneById(id);
   }

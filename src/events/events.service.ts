@@ -25,35 +25,35 @@ export class EventsService {
 
   async findOneById(id: string): Promise<Event> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     const event = await this.eventModel.findById(id).exec();
     if (!event) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     return event;
   }
 
   async updateOneById(id: string, updateEventDto: UpdateEventDto): Promise<Event> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     const updatedEvent = await this.eventModel
       .findByIdAndUpdate(id, { $set: updateEventDto }, { new: true })
       .exec();
     if (!updatedEvent) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     return updatedEvent;
   }
 
   async removeOneById(id: string): Promise<Event> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     const deletedEvent = await this.eventModel.findByIdAndRemove(id).exec();
     if (!deletedEvent) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     return deletedEvent;
   }

@@ -35,7 +35,7 @@ export class StorageService {
 
   private saveFile(file: Express.Multer.File, filePath: string): Promise<void> {
     if (!this.isStorage()) {
-      throw new NotFoundException('Starage Not found');
+      throw new NotFoundException('Файлове сховище не знайдено');
     }
 
     return new Promise((resolve, reject) => {
@@ -51,17 +51,17 @@ export class StorageService {
 
   async files(path: string): Promise<Record<string, any>[]> {
     if (!this.isStorage()) {
-      throw new NotFoundException('Starage Not found');
+      throw new NotFoundException('Файлове сховище не знайдено');
     }
 
     const fullPath = this.getFullPath(path);
 
     if (!this.isPathInsideStorage(path)) {
-      throw new BadRequestException('Invalid path');
+      throw new BadRequestException('Недійсний шлях');
     }
 
     if (!existsSync(fullPath) || !statSync(fullPath).isDirectory()) {
-      throw new NotFoundException('Not found');
+      throw new NotFoundException('Не знайдено');
     }
 
     const files = await promises.readdir(fullPath);
@@ -83,17 +83,17 @@ export class StorageService {
 
   async download(path: string, filename: string): Promise<ReadStream> {
     if (!this.isStorage()) {
-      throw new NotFoundException('Starage Not found');
+      throw new NotFoundException('Файлове сховище не знайдено');
     }
 
     const filePath = this.getFullPath(normalize(`${path}/${filename}`));
 
     if (!this.isPathInsideStorage(path)) {
-      throw new BadRequestException('Invalid path');
+      throw new BadRequestException('Недійсний шлях');
     }
 
     if (!existsSync(filePath) || statSync(filePath).isDirectory()) {
-      throw new NotFoundException('File not found');
+      throw new NotFoundException('Файл не знайдено');
     }
 
     return createReadStream(filePath);
@@ -101,7 +101,7 @@ export class StorageService {
 
   async uploadFiles(path: string, files: Express.Multer.File[]): Promise<string[]> {
     if (!this.isStorage()) {
-      throw new NotFoundException('Starage Not found');
+      throw new NotFoundException('Файлове сховище не знайдено');
     }
 
     const uploadedFiles: string[] = [];
@@ -109,11 +109,11 @@ export class StorageService {
     const fullPath = this.getFullPath(path);
 
     if (!this.isPathInsideStorage(path)) {
-      throw new BadRequestException('Invalid path');
+      throw new BadRequestException('Недійсний шлях');
     }
 
     if (!existsSync(fullPath) || !statSync(fullPath).isDirectory()) {
-      throw new NotFoundException('Not found');
+      throw new NotFoundException('Не знайдено');
     }
 
     for (const file of files) {
@@ -127,13 +127,13 @@ export class StorageService {
 
   async uploadFolder(path: string): Promise<void> {
     if (!this.isStorage()) {
-      throw new NotFoundException('Starage Not found');
+      throw new NotFoundException('Файлове сховище не знайдено');
     }
 
     const fullPath = this.getFullPath(path);
 
     if (existsSync(fullPath)) {
-      throw new BadRequestException('Directory already exists');
+      throw new BadRequestException('Каталог уже існує');
     }
 
     mkdirSync(fullPath, { recursive: true });
@@ -141,17 +141,17 @@ export class StorageService {
 
   async rename(path: string, newPath: string): Promise<void> {
     if (!this.isStorage()) {
-      throw new NotFoundException('Starage Not found');
+      throw new NotFoundException('Файлове сховище не знайдено');
     }
 
     if (!this.isPathInsideStorage(path)) {
-      throw new BadRequestException('Invalid path');
+      throw new BadRequestException('Недійсний шлях');
     }
 
     const oldFilePath = this.getFullPath(path);
 
     if (!existsSync(oldFilePath)) {
-      throw new NotFoundException('Not found');
+      throw new NotFoundException('Не знайдено');
     }
 
     const newFilePath = this.getFullPath(newPath);
@@ -161,17 +161,17 @@ export class StorageService {
 
   async remove(path: string): Promise<void> {
     if (!this.isStorage()) {
-      throw new NotFoundException('Starage Not found');
+      throw new NotFoundException('Файлове сховище не знайдено');
     }
 
     if (!this.isPathInsideStorage(path)) {
-      throw new BadRequestException('Invalid path');
+      throw new BadRequestException('Недійсний шлях');
     }
 
     const filePath = this.getFullPath(path);
 
     if (!existsSync(filePath)) {
-      throw new NotFoundException('Not found');
+      throw new NotFoundException('Не знайдено');
     }
 
     return unlinkSync(filePath);

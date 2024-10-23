@@ -18,7 +18,7 @@ import { AdminGuard } from 'src/common/guards/administrator.guard';
 import { PaginateSyslog, Syslog } from './schemas/syslog.schema';
 import { SyslogsService } from './syslogs.service';
 
-@ApiTags('System Logs')
+@ApiTags('Системні журнали')
 @Controller('syslogs')
 @ApiBearerAuth('JWT Guard')
 @UseGuards(AccessTokenGuard, AdminGuard)
@@ -28,11 +28,11 @@ export class SyslogsController {
   @Get()
   @AdminRequired()
   @ApiOperation({
-    summary: 'Get all records',
-    description: 'Required admin'
+    summary: 'Отримати всі записи',
+    description: 'Потрібені права адміністратора'
   })
-  @ApiOkResponse({ description: 'Success', type: PaginateSyslog })
-  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiOkResponse({ description: 'Успіх', type: PaginateSyslog })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
   async findAll(@Query() query: PaginateQueryDto): Promise<PaginateResult<Syslog>> {
     return await this.syslogService.findAll(query);
   }
@@ -40,11 +40,11 @@ export class SyslogsController {
   @Delete()
   @AdminRequired()
   @ApiOperation({
-    summary: 'Delete all records',
-    description: 'Required admin'
+    summary: 'Видалити всі записи',
+    description: 'Потрібені права адміністратора'
   })
-  @ApiOkResponse({ description: 'Success', type: String })
-  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiOkResponse({ description: 'Успіх', type: String })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
   async removeAll(): Promise<string> {
     return await this.syslogService.removeAll();
   }
@@ -52,13 +52,13 @@ export class SyslogsController {
   @Get(':id')
   @AdminRequired()
   @ApiOperation({
-    summary: 'Get record by ID',
-    description: 'Required admin'
+    summary: 'Отримати запис за ID',
+    description: 'Потрібені права адміністратора'
   })
-  @ApiOkResponse({ description: 'Success', type: Syslog })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Syslog })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async findOneById(@Param('id') id: string): Promise<Syslog> {
     return await this.syslogService.findOneById(id);
   }
@@ -66,13 +66,13 @@ export class SyslogsController {
   @Delete(':id')
   @AdminRequired()
   @ApiOperation({
-    summary: 'Delete record by ID',
-    description: 'Required admin'
+    summary: 'Видалити запис за ID',
+    description: 'Потрібені права адміністратора'
   })
-  @ApiOkResponse({ description: 'Success', type: Syslog })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Syslog })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async removeOneById(@Param('id') id: string): Promise<Syslog> {
     return await this.syslogService.removeOneById(id);
   }

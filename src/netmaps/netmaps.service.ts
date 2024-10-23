@@ -10,7 +10,7 @@ export class NetmapsService {
 
   async networkMap(id: string) {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     const records = await this.ipaddressModel
       .find({ location: new Types.ObjectId(id) }, null, {

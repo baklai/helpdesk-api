@@ -3,14 +3,14 @@ import { IsOptional, IsString } from 'class-validator';
 
 export class CreateOrganizationDto {
   @ApiProperty({
-    description: 'The name of the organization (must be unique)',
+    description: 'Назва організації (має бути унікальною)',
     example: 'ABC Corporation'
   })
   @IsString()
   readonly name: string;
 
   @ApiPropertyOptional({
-    description: 'The address of the organization',
+    description: 'Адреса організації',
     example: '456 Business Avenue, Townsville'
   })
   @IsString()
@@ -18,8 +18,8 @@ export class CreateOrganizationDto {
   readonly address: string;
 
   @ApiPropertyOptional({
-    description: 'A description about the organization',
-    example: 'A leading provider of innovative solutions.'
+    description: 'Опис організації',
+    example: 'Провідний постачальник інноваційних рішень'
   })
   @IsString()
   @IsOptional()

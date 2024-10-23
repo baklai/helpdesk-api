@@ -3,43 +3,46 @@ import { IsDate, IsMongoId, IsOptional, IsString } from 'class-validator';
 
 export class CreateMailboxDto {
   @ApiProperty({
-    description: 'Incoming letter number',
-    example: 'Letter number №548925 from 12/12/2023'
+    description: 'Номер вхідного листа',
+    example: 'Номер вхідного листа №548925 від 12/12/2023'
   })
   @IsString()
   readonly reqnum: string;
 
-  @ApiProperty({ description: 'E-Mail login', example: 'john.doe1985' })
+  @ApiProperty({ description: 'Логін електронної пошти', example: 'john.doe1985' })
   @IsString()
   readonly login: string;
 
-  @ApiProperty({ description: 'Fullname of email owner', example: 'John Doe' })
+  @ApiProperty({ description: "Повне ім'я власника електронної пошти", example: 'John Doe' })
   @IsString()
   readonly fullname: string;
 
-  @ApiProperty({ description: 'Client phone number', example: '1234-56-78' })
+  @ApiProperty({ description: 'Номер телефону власника електронної пошти', example: '1234-56-78' })
   @IsString()
   readonly phone: string;
 
-  @ApiProperty({ description: 'Date when email was opened', example: new Date() })
+  @ApiProperty({ description: 'Дата відкриття електронної пошти', example: new Date() })
   @IsDate()
   readonly dateOpen: Date;
 
-  @ApiPropertyOptional({ description: 'Date when email was closed', example: new Date() })
+  @ApiPropertyOptional({
+    description: 'Дата, коли електронна пошта була закрита',
+    example: new Date()
+  })
   @IsDate()
   @IsOptional()
   readonly dateClose: Date;
 
   @ApiPropertyOptional({
-    description: 'Comment about email',
-    example: 'This profile has several mailboxes'
+    description: 'Коментар про електронну пошту',
+    example: 'Цей профіль має кілька поштових скриньок'
   })
   @IsString()
   @IsOptional()
   readonly comment: string;
 
   @ApiPropertyOptional({
-    description: 'ID of the associated Location',
+    description: 'ID пов’язаного розташування',
     example: '6299b5cebf44864bfcea39da'
   })
   @IsString()
@@ -48,7 +51,7 @@ export class CreateMailboxDto {
   readonly location: string;
 
   @ApiPropertyOptional({
-    description: 'ID of the associated Organization',
+    description: 'ID асоційованої організації',
     example: '6299b5cfbf44864bfcea3b0e'
   })
   @IsString()
@@ -57,7 +60,7 @@ export class CreateMailboxDto {
   readonly organization: string;
 
   @ApiPropertyOptional({
-    description: 'ID of the associated Subdivision',
+    description: "Ідентифікатор пов'язаного підрозділу",
     example: '6299b5cebf44864bfcea36d2'
   })
   @IsString()
@@ -66,7 +69,7 @@ export class CreateMailboxDto {
   readonly subdivision: string;
 
   @ApiPropertyOptional({
-    description: 'ID of the associated Department',
+    description: "Ідентифікатор пов'язаного відділу",
     example: '6299b5cebf44864bfcea3772'
   })
   @IsString()
@@ -75,7 +78,7 @@ export class CreateMailboxDto {
   readonly department: string;
 
   @ApiPropertyOptional({
-    description: 'ID of the associated Position',
+    description: "Ідентифікатор пов'язаної посади",
     example: '6299b5cebf44864bfcea391a'
   })
   @IsString()

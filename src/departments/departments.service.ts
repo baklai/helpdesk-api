@@ -29,7 +29,7 @@ export class DepartmentsService {
       return await this.departmentModel.create(createDepartmentDto);
     } catch (error) {
       if (error.code === 11000 && error?.keyPattern && error?.keyPattern.name) {
-        throw new ConflictException('A record with the same name already exists');
+        throw new ConflictException('Запис із такою назвою вже існує');
       }
       throw error;
     }
@@ -41,30 +41,30 @@ export class DepartmentsService {
 
   async findOneById(id: string): Promise<Department> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     const department = await this.departmentModel.findById(id).exec();
     if (!department) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     return department;
   }
 
   async updateOneById(id: string, updateDepartmentDto: UpdateDepartmentDto): Promise<Department> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     try {
       const updatedDepartment = await this.departmentModel
         .findByIdAndUpdate(id, { $set: updateDepartmentDto }, { new: true })
         .exec();
       if (!updatedDepartment) {
-        throw new NotFoundException('Record not found');
+        throw new NotFoundException('Запис не знайдено');
       }
       return updatedDepartment;
     } catch (error) {
       if (error.code === 11000 && error?.keyPattern && error?.keyPattern.name) {
-        throw new ConflictException('A record with the same name already exists');
+        throw new ConflictException('Запис із такою назвою вже існує');
       }
       throw error;
     }
@@ -72,13 +72,13 @@ export class DepartmentsService {
 
   async removeOneById(id: string): Promise<Department> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
 
     const deletedDepartment = await this.departmentModel.findByIdAndRemove(id).exec();
 
     if (!deletedDepartment) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
 
     await this.ipaddressModel.updateMany(

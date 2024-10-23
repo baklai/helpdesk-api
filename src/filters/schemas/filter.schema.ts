@@ -17,7 +17,7 @@ export enum FilterStatus {
 @Schema()
 export class Filter {
   @ApiProperty({
-    description: 'The ID of the record (unique)',
+    description: 'ID запису (унікальний)',
     example: '6299b5cebf44864bfcea36d4',
     type: String
   })
@@ -26,7 +26,7 @@ export class Filter {
   readonly id: string;
 
   @ApiProperty({
-    description: 'The regex of the filter',
+    description: 'Регулярний вираз фільтра',
     example: 'Warcraft II: Tides of Darkness'
   })
   @IsString()
@@ -37,9 +37,9 @@ export class Filter {
     enum: FilterType,
     enumName: 'FilterType',
     example: FilterType.SOFTWARE,
-    description: 'The type of the filter'
+    description: 'Тип фільтра'
   })
-  @IsEnum(FilterType, { message: 'Invalid filter type' })
+  @IsEnum(FilterType, { message: 'Недійсний тип фільтра' })
   @Prop({ type: String, required: true, enum: Object.values(FilterType), trim: true })
   readonly type: FilterType;
 
@@ -47,15 +47,15 @@ export class Filter {
     enum: FilterStatus,
     enumName: 'FilterStatus',
     example: FilterStatus.DENY,
-    description: 'The status of the filter'
+    description: 'Статус фільтра'
   })
-  @IsEnum(FilterStatus, { message: 'Invalid filter status' })
+  @IsEnum(FilterStatus, { message: 'Недійсний статус фільтра' })
   @Prop({ type: String, required: true, enum: Object.values(FilterStatus), trim: true })
   readonly status: FilterStatus;
 
   @ApiPropertyOptional({
-    description: 'A description about the filter',
-    example: 'This software is unwanted.'
+    description: 'Опис фільтра',
+    example: 'Це програмне забезпечення небажане.'
   })
   @IsString()
   @IsOptional()
@@ -63,7 +63,7 @@ export class Filter {
   readonly description: string;
 
   @ApiPropertyOptional({
-    description: 'The created date of the record',
+    description: 'Дата створення запису',
     example: new Date()
   })
   @IsDate()
@@ -71,7 +71,7 @@ export class Filter {
   readonly createdAt: Date;
 
   @ApiPropertyOptional({
-    description: 'The updated date of the record',
+    description: 'Дата оновлення запису',
     example: new Date()
   })
   @IsDate()

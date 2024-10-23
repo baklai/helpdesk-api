@@ -29,7 +29,7 @@ export class PositionsService {
       return await this.positionModel.create(createPositionDto);
     } catch (error) {
       if (error.code === 11000 && error?.keyPattern && error?.keyPattern.name) {
-        throw new ConflictException('A position with the same name already exists');
+        throw new ConflictException('Посада з такою назвою вже існує');
       }
       throw error;
     }
@@ -41,30 +41,30 @@ export class PositionsService {
 
   async findOneById(id: string): Promise<Position> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     const position = await this.positionModel.findById(id).exec();
     if (!position) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     return position;
   }
 
   async updateOneById(id: string, updatePositionDto: UpdatePositionDto): Promise<Position> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     try {
       const updatedPosition = await this.positionModel
         .findByIdAndUpdate(id, { $set: updatePositionDto }, { new: true })
         .exec();
       if (!updatedPosition) {
-        throw new NotFoundException('Record not found');
+        throw new NotFoundException('Запис не знайдено');
       }
       return updatedPosition;
     } catch (error) {
       if (error.code === 11000 && error?.keyPattern && error?.keyPattern.name) {
-        throw new ConflictException('A position with the same name already exists');
+        throw new ConflictException('Посада з такою назвою вже існує');
       }
       throw error;
     }
@@ -72,13 +72,13 @@ export class PositionsService {
 
   async removeOneById(id: string): Promise<Position> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
 
     const deletedPosition = await this.positionModel.findByIdAndRemove(id).exec();
 
     if (!deletedPosition) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
 
     await this.ipaddressModel.updateMany(

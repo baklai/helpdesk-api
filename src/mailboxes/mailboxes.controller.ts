@@ -23,7 +23,7 @@ import { Scope } from 'src/common/enums/scope.enum';
 import { Mailbox, PaginateMailbox } from './schemas/mailbox.schema';
 import { PaginateQueryDto } from 'src/common/dto/paginate-query.dto';
 
-@ApiTags('Mail boxes')
+@ApiTags('Поштові скриньки')
 @Controller('mailboxes')
 @ApiBearerAuth('JWT Guard')
 @UseGuards(AccessTokenGuard, ScopesGuard)
@@ -33,12 +33,12 @@ export class MailboxesController {
   @Post()
   @Scopes(Scope.MailboxCreate)
   @ApiOperation({
-    summary: 'Create new record',
-    description: 'Required scopes: [' + [Scope.MailboxCreate].join(',') + ']'
+    summary: 'Створити новий запис',
+    description: 'Необхідні дозволи: [' + [Scope.MailboxCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Success', type: Mailbox })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiBody({ description: 'Request body object', type: CreateMailboxDto })
+  @ApiCreatedResponse({ description: 'Успіх', type: Mailbox })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: CreateMailboxDto })
   async create(@Body() createMailboxDto: CreateMailboxDto): Promise<Mailbox> {
     return await this.mailboxesService.create(createMailboxDto);
   }
@@ -46,11 +46,11 @@ export class MailboxesController {
   @Get()
   @Scopes(Scope.MailboxRead)
   @ApiOperation({
-    summary: 'Get all records',
-    description: 'Required scopes: [' + [Scope.MailboxRead].join(',') + ']'
+    summary: 'Отримати всі записи',
+    description: 'Необхідні дозволи: [' + [Scope.MailboxRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: PaginateMailbox })
-  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiOkResponse({ description: 'Успіх', type: PaginateMailbox })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
   async findAll(@Query() query: PaginateQueryDto): Promise<PaginateResult<Mailbox>> {
     return await this.mailboxesService.findAll(query);
   }
@@ -58,14 +58,14 @@ export class MailboxesController {
   @Get(':id')
   @Scopes(Scope.MailboxRead)
   @ApiOperation({
-    summary: 'Get record by ID',
-    description: 'Required scopes: [' + [Scope.MailboxRead].join(',') + ']'
+    summary: 'Отримати запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.MailboxRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Mailbox })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
-  @ApiQuery({ name: 'populate', description: 'The populate records', type: Boolean })
+  @ApiOkResponse({ description: 'Успіх', type: Mailbox })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
+  @ApiQuery({ name: 'populate', description: "Отримати пов'язані записи", type: Boolean })
   async findOneById(
     @Param('id') id: string,
     @Query('populate') populate: boolean
@@ -76,14 +76,14 @@ export class MailboxesController {
   @Put(':id')
   @Scopes(Scope.MailboxUpdate)
   @ApiOperation({
-    summary: 'Update record by ID',
-    description: 'Required scopes: [' + [Scope.MailboxUpdate].join(',') + ']'
+    summary: 'Оновити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.MailboxUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Mailbox })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
-  @ApiBody({ description: 'Request body object', type: UpdateMailboxDto })
+  @ApiOkResponse({ description: 'Успіх', type: Mailbox })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: UpdateMailboxDto })
   async updateOneById(
     @Param('id') id: string,
     @Body() updateMailboxDto: UpdateMailboxDto
@@ -94,13 +94,13 @@ export class MailboxesController {
   @Delete(':id')
   @Scopes(Scope.MailboxDelete)
   @ApiOperation({
-    summary: 'Delete record by ID',
-    description: 'Required scopes: [' + [Scope.MailboxDelete].join(',') + ']'
+    summary: 'Видалити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.MailboxDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Mailbox })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Mailbox })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async removeOneById(@Param('id') id: string): Promise<Mailbox> {
     return await this.mailboxesService.removeOneById(id);
   }

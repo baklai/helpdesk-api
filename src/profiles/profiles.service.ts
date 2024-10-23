@@ -59,13 +59,13 @@ export class ProfilesService {
 
   async findOneById(id: string): Promise<Profile> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
 
     const profile = await this.profileModel.findById(id).exec();
 
     if (!profile) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
 
     return profile;
@@ -75,7 +75,7 @@ export class ProfilesService {
     const profile = await this.profileModel.findOne({ email }).exec();
 
     if (!profile) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
 
     return profile;
@@ -83,7 +83,7 @@ export class ProfilesService {
 
   async updateOneById(id: string, updateUserDto: UpdateProfileDto): Promise<Profile> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
 
     try {
@@ -106,7 +106,7 @@ export class ProfilesService {
         .exec();
 
       if (!updatedUser) {
-        throw new NotFoundException('Record not found');
+        throw new NotFoundException('Запис не знайдено');
       }
 
       return updatedUser;
@@ -117,13 +117,13 @@ export class ProfilesService {
 
   async removeOneById(id: string): Promise<Profile> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
 
     const deletedUser = await this.profileModel.findByIdAndRemove(id).exec();
 
     if (!deletedUser) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
 
     await this.requestModel.deleteMany({

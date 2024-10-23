@@ -37,13 +37,13 @@ export class AuthService {
 
   async me(id: string): Promise<Profile> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid profile ID');
+      throw new BadRequestException('Недійсний ідентифікатор профілю');
     }
 
     const profile = await this.profileModel.findById(id).exec();
 
     if (!profile) {
-      throw new NotFoundException('Profile not found');
+      throw new NotFoundException('Профіль не знайдено');
     }
 
     return profile;
@@ -53,17 +53,17 @@ export class AuthService {
     const profile = await this.profileModel.findOne({ email }, '+password').exec();
 
     if (!profile) {
-      throw new BadRequestException('Profile does not exist');
+      throw new BadRequestException('Профіль не існує');
     }
 
     if (!profile?.isActivated) {
-      throw new UnauthorizedException('Profile account is disabled');
+      throw new UnauthorizedException('Обліковий запис профілю вимкнено');
     }
 
     const passwordMatches = await bcrypt.compare(password, profile.password);
 
     if (!passwordMatches) {
-      throw new BadRequestException('The password is incorrect');
+      throw new BadRequestException('Пароль неправильний');
     }
 
     const tokens = await this.generateTokens(
@@ -84,7 +84,7 @@ export class AuthService {
     const profileExists = await this.profileModel.findOne({ email: signupAuthDto.email }).exec();
 
     if (profileExists) {
-      throw new ConflictException('Profile already exists');
+      throw new ConflictException('Профіль вже існує');
     }
 
     const password = generatePassword(8, {
@@ -132,11 +132,11 @@ export class AuthService {
     const profile = await this.profileModel.findOne({ email: resetAuthDto.email }).exec();
 
     if (!profile) {
-      throw new BadRequestException('Profile does not exist');
+      throw new BadRequestException('Профіль не існує');
     }
 
     if (!profile?.isActivated) {
-      throw new UnauthorizedException('Profile account is disabled');
+      throw new UnauthorizedException('Обліковий запис профілю вимкнено');
     }
 
     const password = generatePassword(8, {

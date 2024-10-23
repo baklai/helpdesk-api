@@ -17,7 +17,7 @@ import {
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { StorageService } from './storage.service';
 
-@ApiTags('File Storage')
+@ApiTags('Файлове сховище')
 @Controller('storage')
 @ApiExcludeController()
 export class StorageController {
@@ -43,7 +43,7 @@ export class StorageController {
       res.setHeader('Content-Disposition', `attachment; filename="${encodedFilename}"`);
       fileStream.pipe(res);
     } catch (err) {
-      res.status(404).send('File not found');
+      res.status(404).send('Файл не знайдено');
     }
   }
 

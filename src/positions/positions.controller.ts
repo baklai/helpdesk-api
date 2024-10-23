@@ -21,7 +21,7 @@ import { Position } from './schemas/position.schema';
 import { CreatePositionDto } from './dto/create-position.dto';
 import { UpdatePositionDto } from './dto/update-position.dto';
 
-@ApiTags('Positions')
+@ApiTags('Посади')
 @Controller('positions')
 @ApiBearerAuth('JWT Guard')
 @UseGuards(AccessTokenGuard, ScopesGuard)
@@ -31,13 +31,13 @@ export class PositionsController {
   @Post()
   @Scopes(Scope.PositionCreate)
   @ApiOperation({
-    summary: 'Create new record',
-    description: 'Required scopes: [' + [Scope.PositionCreate].join(',') + ']'
+    summary: 'Створити новий запис',
+    description: 'Необхідні дозволи: [' + [Scope.PositionCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Success', type: Position })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiConflictResponse({ description: 'Conflict' })
-  @ApiBody({ description: 'Request body object', type: CreatePositionDto })
+  @ApiCreatedResponse({ description: 'Успіх', type: Position })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiConflictResponse({ description: 'Конфлікт даних' })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: CreatePositionDto })
   async create(@Body() createPositionDto: CreatePositionDto): Promise<Position> {
     return await this.positionsService.create(createPositionDto);
   }
@@ -45,11 +45,11 @@ export class PositionsController {
   @Get()
   @Scopes(Scope.PositionRead)
   @ApiOperation({
-    summary: 'Get all records',
-    description: 'Required scopes: [' + [Scope.PositionRead].join(',') + ']'
+    summary: 'Отримати всі записи',
+    description: 'Необхідні дозволи: [' + [Scope.PositionRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: [Position] })
-  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiOkResponse({ description: 'Успіх', type: [Position] })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
   async findAll(): Promise<Position[]> {
     return await this.positionsService.findAll();
   }
@@ -57,13 +57,13 @@ export class PositionsController {
   @Get(':id')
   @Scopes(Scope.PositionRead)
   @ApiOperation({
-    summary: 'Get record by ID',
-    description: 'Required scopes: [' + [Scope.PositionRead].join(',') + ']'
+    summary: 'Отримати запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.PositionRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Position })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Position })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async findOneById(@Param('id') id: string): Promise<Position> {
     return await this.positionsService.findOneById(id);
   }
@@ -71,15 +71,15 @@ export class PositionsController {
   @Put(':id')
   @Scopes(Scope.PositionUpdate)
   @ApiOperation({
-    summary: 'Update record by ID',
-    description: 'Required scopes: [' + [Scope.PositionUpdate].join(',') + ']'
+    summary: 'Оновити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.PositionUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Position })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiConflictResponse({ description: 'Conflict' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
-  @ApiBody({ description: 'Request body object', type: UpdatePositionDto })
+  @ApiOkResponse({ description: 'Успіх', type: Position })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiConflictResponse({ description: 'Конфлікт даних' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: UpdatePositionDto })
   async updateOneById(
     @Param('id') id: string,
     @Body() updatePositionDto: UpdatePositionDto
@@ -90,13 +90,13 @@ export class PositionsController {
   @Delete(':id')
   @Scopes(Scope.PositionDelete)
   @ApiOperation({
-    summary: 'Delete record by ID',
-    description: 'Required scopes: [' + [Scope.PositionDelete].join(',') + ']'
+    summary: 'Видалити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.PositionDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Position })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Position })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async removeOneById(@Param('id') id: string): Promise<Position> {
     return await this.positionsService.removeOneById(id);
   }

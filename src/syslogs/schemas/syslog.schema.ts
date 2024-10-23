@@ -7,7 +7,7 @@ import { PaginateResponseDto } from 'src/common/dto/paginate-response.dto';
 @Schema()
 export class Syslog {
   @ApiProperty({
-    description: 'The ID of the record (unique)',
+    description: 'ID запису (унікальний)',
     example: '6299b5cebf44864bfcea36d4',
     type: String
   })
@@ -16,7 +16,7 @@ export class Syslog {
   readonly id: string;
 
   @ApiProperty({
-    description: 'The ID of the record (unique)',
+    description: 'ID запису (унікальний)',
     example: '6299b5cebf44864bfcea36d4'
   })
   @IsString()
@@ -25,7 +25,7 @@ export class Syslog {
   readonly host: string;
 
   @ApiPropertyOptional({
-    description: 'The ID of Profile',
+    description: 'ID профілю',
     example: '6299b5cebf44864bfcea36d4'
   })
   @IsString()
@@ -34,7 +34,7 @@ export class Syslog {
   readonly profile: string;
 
   @ApiPropertyOptional({
-    description: 'The method of request',
+    description: 'Спосіб запиту',
     example: 'POST'
   })
   @IsString()
@@ -43,7 +43,7 @@ export class Syslog {
   readonly method: string;
 
   @ApiPropertyOptional({
-    description: 'The base url of request',
+    description: 'Базовий url запиту',
     example: '/units?limit=10&offset=50'
   })
   @IsString()
@@ -52,7 +52,7 @@ export class Syslog {
   readonly baseUrl: string;
 
   @ApiPropertyOptional({
-    description: 'The params of request',
+    description: 'Параметри запиту',
     example: '{"0":"profiles"}'
   })
   @IsString()
@@ -61,7 +61,7 @@ export class Syslog {
   readonly params: string;
 
   @ApiPropertyOptional({
-    description: 'The query of request',
+    description: 'Параметри запиту',
     example: '{"limit":"10","offset":"50"}'
   })
   @IsString()
@@ -70,7 +70,7 @@ export class Syslog {
   readonly query: string;
 
   @ApiPropertyOptional({
-    description: 'The body of request',
+    description: 'Тіло запиту',
     example: '{"name":"Cisco unit"}'
   })
   @IsString()
@@ -79,7 +79,7 @@ export class Syslog {
   readonly body: string;
 
   @ApiPropertyOptional({
-    description: 'The status of request',
+    description: 'Статус запиту',
     example: 200
   })
   @IsNumber()
@@ -88,7 +88,7 @@ export class Syslog {
   readonly status: number;
 
   @ApiPropertyOptional({
-    description: 'The user-agent of request',
+    description: 'Агент користувача',
     example: 200
   })
   @IsString()
@@ -97,7 +97,7 @@ export class Syslog {
   readonly userAgent: string;
 
   @ApiPropertyOptional({
-    description: 'The created date of the record',
+    description: 'Дата створення запису',
     example: new Date()
   })
   @IsDate()
@@ -105,7 +105,7 @@ export class Syslog {
   readonly createdAt: Date;
 
   @ApiPropertyOptional({
-    description: 'The updated date of the record',
+    description: 'Дата оновлення запису',
     example: new Date()
   })
   @IsDate()
@@ -114,7 +114,7 @@ export class Syslog {
 }
 
 export class PaginateSyslog extends PaginateResponseDto {
-  @ApiPropertyOptional({ type: [Syslog], description: 'Array of documents' })
+  @ApiPropertyOptional({ type: [Syslog], description: 'Масив документів' })
   @IsArray()
   @IsOptional()
   docs: Syslog[];

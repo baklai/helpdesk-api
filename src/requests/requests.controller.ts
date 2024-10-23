@@ -23,7 +23,7 @@ import { PaginateRequest, Request } from './schemas/request.schema';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
 
-@ApiTags('Helpdesk requests')
+@ApiTags('Запити в службу підтримки')
 @Controller('requests')
 @ApiBearerAuth('JWT Guard')
 @UseGuards(AccessTokenGuard, ScopesGuard)
@@ -33,12 +33,12 @@ export class RequestsController {
   @Post()
   @Scopes(Scope.RequestCreate)
   @ApiOperation({
-    summary: 'Create new record',
-    description: 'Required scopes: [' + [Scope.RequestCreate].join(',') + ']'
+    summary: 'Створити новий запис',
+    description: 'Необхідні дозволи: [' + [Scope.RequestCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Success', type: Request })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiBody({ description: 'Request body object', type: CreateRequestDto })
+  @ApiCreatedResponse({ description: 'Успіх', type: Request })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: CreateRequestDto })
   async create(@Body() createRequestDto: CreateRequestDto): Promise<Request> {
     return await this.requestsService.create(createRequestDto);
   }
@@ -46,11 +46,11 @@ export class RequestsController {
   @Get()
   @Scopes(Scope.RequestRead)
   @ApiOperation({
-    summary: 'Get all records',
-    description: 'Required scopes: [' + [Scope.RequestRead].join(',') + ']'
+    summary: 'Отримати всі записи',
+    description: 'Необхідні дозволи: [' + [Scope.RequestRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: PaginateRequest })
-  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiOkResponse({ description: 'Успіх', type: PaginateRequest })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
   async findAll(@Query() query: PaginateQueryDto): Promise<PaginateResult<Request>> {
     return await this.requestsService.findAll(query);
   }
@@ -58,15 +58,15 @@ export class RequestsController {
   @Get(':id')
   @Scopes(Scope.RequestRead)
   @ApiOperation({
-    summary: 'Get record by ID',
-    description: 'Required scopes: [' + [Scope.RequestRead].join(',') + ']'
+    summary: 'Отримати запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.RequestRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Request })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
-  @ApiQuery({ name: 'populate', description: 'The populate records', type: Boolean })
-  @ApiQuery({ name: 'aggregate', description: 'The aggregate records', type: Boolean })
+  @ApiOkResponse({ description: 'Успіх', type: Request })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
+  @ApiQuery({ name: 'populate', description: "Отримати пов'язані записи", type: Boolean })
+  @ApiQuery({ name: 'aggregate', description: 'Сукупні записи', type: Boolean })
   async findOneById(
     @Param('id') id: string,
     @Query('populate') populate: boolean,
@@ -78,14 +78,14 @@ export class RequestsController {
   @Put(':id')
   @Scopes(Scope.RequestUpdate)
   @ApiOperation({
-    summary: 'Update record by ID',
-    description: 'Required scopes: [' + [Scope.RequestUpdate].join(',') + ']'
+    summary: 'Оновити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.RequestUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Request })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
-  @ApiBody({ description: 'Request body object', type: UpdateRequestDto })
+  @ApiOkResponse({ description: 'Успіх', type: Request })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: UpdateRequestDto })
   async updateOneById(
     @Param('id') id: string,
     @Body() updateRequestDto: UpdateRequestDto
@@ -96,13 +96,13 @@ export class RequestsController {
   @Delete(':id')
   @Scopes(Scope.RequestDelete)
   @ApiOperation({
-    summary: 'Delete record by ID',
-    description: 'Required profile scopes: [' + [Scope.RequestDelete].join(',') + ']'
+    summary: 'Видалити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.RequestDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Request })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Request })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async removeOneById(@Param('id') id: string): Promise<Request> {
     return await this.requestsService.removeOneById(id);
   }

@@ -306,11 +306,11 @@ export class InspectorsService {
     aggregate: boolean = false
   ): Promise<Inspector | any> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     const inspector = await this.inspectorModel.findById(id).exec();
     if (!inspector) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     if (!aggregate) return inspector;
     const ipaddress = await this.ipaddressModel
@@ -327,11 +327,11 @@ export class InspectorsService {
     aggregate: boolean = false
   ): Promise<Inspector | any> {
     if (!isIP(host)) {
-      throw new BadRequestException('Invalid field value');
+      throw new BadRequestException('Недійсне значення поля');
     }
     const inspector = await this.inspectorModel.findOne({ host }).exec();
     if (!inspector) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     if (!aggregate) return inspector;
     const ipaddress = await this.ipaddressModel
@@ -344,11 +344,11 @@ export class InspectorsService {
 
   async removeOneById(id: string): Promise<Inspector> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     const deletedInspector = await this.inspectorModel.findByIdAndRemove(id).exec();
     if (!deletedInspector) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     return deletedInspector;
   }

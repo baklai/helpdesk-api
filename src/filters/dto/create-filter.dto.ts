@@ -5,7 +5,7 @@ import { FilterStatus, FilterType } from '../schemas/filter.schema';
 
 export class CreateFilterDto {
   @ApiProperty({
-    description: 'The regex of the filter',
+    description: 'Регулярний вираз фільтра',
     example: 'Warcraft II: Tides of Darkness'
   })
   @IsString()
@@ -15,23 +15,23 @@ export class CreateFilterDto {
     enum: FilterType,
     enumName: 'FilterType',
     example: FilterType.SOFTWARE,
-    description: 'The type of the filter'
+    description: 'Тип фільтра'
   })
-  @IsEnum(FilterType, { message: 'Invalid filter type' })
+  @IsEnum(FilterType, { message: 'Недійсний тип фільтра' })
   readonly type: FilterType;
 
   @ApiProperty({
     enum: FilterStatus,
     enumName: 'FilterStatus',
     example: FilterStatus.DENY,
-    description: 'The status of the filter'
+    description: 'Статус фільтра'
   })
-  @IsEnum(FilterStatus, { message: 'Invalid filter status' })
+  @IsEnum(FilterStatus, { message: 'Недійсний статус фільтра' })
   readonly status: FilterStatus;
 
   @ApiPropertyOptional({
-    description: 'A description about the filter',
-    example: 'This software is unwanted.'
+    description: 'Опис фільтра',
+    example: 'Це програмне забезпечення небажане.'
   })
   @IsString()
   @IsOptional()

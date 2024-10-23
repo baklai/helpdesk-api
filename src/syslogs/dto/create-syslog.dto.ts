@@ -3,7 +3,7 @@ import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateSyslogDto {
   @ApiPropertyOptional({
-    description: 'The IP of request',
+    description: 'IP-адреса запиту',
     example: '127.0.0.1'
   })
   @IsString()
@@ -11,7 +11,7 @@ export class CreateSyslogDto {
   readonly host: string;
 
   @ApiPropertyOptional({
-    description: 'The ID of Profile',
+    description: 'ID профілю',
     example: '6299b5cebf44864bfcea36d4'
   })
   @IsString()
@@ -19,7 +19,7 @@ export class CreateSyslogDto {
   readonly profile: string;
 
   @ApiPropertyOptional({
-    description: 'The params of request',
+    description: 'Параметри запиту',
     example: '{"0":"profiles"}'
   })
   @IsString()
@@ -27,7 +27,7 @@ export class CreateSyslogDto {
   readonly params: string;
 
   @ApiPropertyOptional({
-    description: 'The query of request',
+    description: 'Параметри запиту',
     example: '{"limit":"10","offset":"50"}'
   })
   @IsString()
@@ -35,7 +35,7 @@ export class CreateSyslogDto {
   readonly query: string;
 
   @ApiPropertyOptional({
-    description: 'The body of request',
+    description: 'Тіло запиту',
     example: '{"name":"Cisco unit"}'
   })
   @IsString()
@@ -43,7 +43,7 @@ export class CreateSyslogDto {
   readonly body: string;
 
   @ApiPropertyOptional({
-    description: 'The method of request',
+    description: 'Спосіб запиту',
     example: 'POST'
   })
   @IsString()
@@ -51,7 +51,7 @@ export class CreateSyslogDto {
   readonly method: string;
 
   @ApiPropertyOptional({
-    description: 'The base url of request',
+    description: 'Базовий url запиту',
     example: '/units?limit=10&offset=50'
   })
   @IsString()
@@ -59,7 +59,7 @@ export class CreateSyslogDto {
   readonly baseUrl: string;
 
   @ApiPropertyOptional({
-    description: 'The status of request',
+    description: 'Статус запиту',
     example: 200
   })
   @IsNumber()
@@ -67,7 +67,7 @@ export class CreateSyslogDto {
   readonly status: number;
 
   @ApiPropertyOptional({
-    description: 'The user-agent of request',
+    description: 'Агент користувача',
     example: 200
   })
   @IsString()

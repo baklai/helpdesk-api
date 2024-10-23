@@ -15,7 +15,7 @@ import { ScopesGuard } from 'src/common/guards/scopes.guard';
 import { Scopes } from 'src/common/decorators/scopes.decorator';
 import { Scope } from 'src/common/enums/scope.enum';
 
-@ApiTags('Network maps')
+@ApiTags('Карти мережі')
 @Controller('netmaps')
 @ApiBearerAuth('JWT Guard')
 @UseGuards(AccessTokenGuard, ScopesGuard)
@@ -25,13 +25,13 @@ export class NetmapsController {
   @Get(':id')
   @Scopes(Scope.NetmapRead)
   @ApiOperation({
-    summary: 'Get record by ID',
-    description: 'Required scopes: [' + [Scope.NetmapRead].join(',') + ']'
+    summary: 'Отримати запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.NetmapRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Object })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Object })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async networkMap(@Param('id') id: string) {
     return this.netmapsService.networkMap(id);
   }

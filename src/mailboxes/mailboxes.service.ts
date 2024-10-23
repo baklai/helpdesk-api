@@ -24,7 +24,7 @@ export class MailboxesService {
 
     const emails = await this.profilesService.findEmailsIsNotice(Scope.MailboxNotice);
 
-    this.mailerService.sendMailbox(emails, mailbox, 'Adding Email');
+    this.mailerService.sendMailbox(emails, mailbox, 'Додавання електронної пошти');
 
     return mailbox;
   }
@@ -62,7 +62,7 @@ export class MailboxesService {
 
   async findOneById(id: string, populate: boolean = false): Promise<Mailbox> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid mailbox ID');
+      throw new BadRequestException('Недійсний ідентифікатор поштової скриньки');
     }
     const mailbox = await this.mailboxModel
       .findById(id, null, {
@@ -70,27 +70,27 @@ export class MailboxesService {
       })
       .exec();
     if (!mailbox) {
-      throw new NotFoundException('Mailbox not found');
+      throw new NotFoundException('Поштова скринька не знайдена');
     }
     return mailbox;
   }
 
   async updateOneById(id: string, updateMailboxDto: UpdateMailboxDto): Promise<Mailbox> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid mailbox ID');
+      throw new BadRequestException('Недійсний ідентифікатор поштової скриньки');
     }
     const updatedMailbox = await this.mailboxModel
       .findByIdAndUpdate(id, { $set: updateMailboxDto }, { new: true })
       .exec();
     if (!updatedMailbox) {
-      throw new NotFoundException('Channel not found');
+      throw new NotFoundException('Канал не знайдено');
     }
     return updatedMailbox;
   }
 
   async removeOneById(id: string): Promise<Mailbox> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid mailbox ID');
+      throw new BadRequestException('Недійсний ідентифікатор поштової скриньки');
     }
 
     const mailbox = await this.mailboxModel.findById(id);
@@ -98,12 +98,12 @@ export class MailboxesService {
     const deletedMailbox = await this.mailboxModel.findByIdAndRemove(id).exec();
 
     if (!deletedMailbox) {
-      throw new NotFoundException('Mailbox not found');
+      throw new NotFoundException('Поштова скринька не знайдена');
     }
 
     const emails = await this.profilesService.findEmailsIsNotice(Scope.MailboxNotice);
 
-    this.mailerService.sendMailbox(emails, mailbox, 'Deleting Email');
+    this.mailerService.sendMailbox(emails, mailbox, 'Видалення електронної пошти');
 
     return deletedMailbox;
   }

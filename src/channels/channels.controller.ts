@@ -22,7 +22,7 @@ import { Channel, PaginateChannel } from './schemas/channel.schema';
 import { CreateChannelDto } from './dto/create-channel.dto';
 import { UpdateChannelDto } from './dto/update-channel.dto';
 
-@ApiTags('Channels')
+@ApiTags('Канали')
 @Controller('channels')
 @ApiBearerAuth('JWT Guard')
 @UseGuards(AccessTokenGuard, ScopesGuard)
@@ -32,12 +32,12 @@ export class ChannelsController {
   @Post()
   @Scopes(Scope.ChannelCreate)
   @ApiOperation({
-    summary: 'Create new record',
-    description: 'Required scopes: [' + [Scope.ChannelCreate].join(',') + ']'
+    summary: 'Створити новий запис',
+    description: 'Необхідні дозволи: [' + [Scope.ChannelCreate].join(',') + ']'
   })
-  @ApiCreatedResponse({ description: 'Success', type: Channel })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiBody({ description: 'Request body object', type: CreateChannelDto })
+  @ApiCreatedResponse({ description: 'Успіх', type: Channel })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: CreateChannelDto })
   async create(@Body() createChannelDto: CreateChannelDto): Promise<Channel> {
     return await this.channelService.create(createChannelDto);
   }
@@ -45,11 +45,11 @@ export class ChannelsController {
   @Get()
   @Scopes(Scope.ChannelRead)
   @ApiOperation({
-    summary: 'Get all records',
-    description: 'Required scopes: [' + [Scope.ChannelRead].join(',') + ']'
+    summary: 'Отримати всі записи',
+    description: 'Необхідні дозволи: [' + [Scope.ChannelRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: PaginateChannel })
-  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiOkResponse({ description: 'Успіх', type: PaginateChannel })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
   async findAll(@Query() query: PaginateQueryDto): Promise<PaginateResult<Channel>> {
     return await this.channelService.findAll(query);
   }
@@ -57,13 +57,13 @@ export class ChannelsController {
   @Get(':id')
   @Scopes(Scope.ChannelRead)
   @ApiOperation({
-    summary: 'Get record by ID',
-    description: 'Required scopes: [' + [Scope.ChannelRead].join(',') + ']'
+    summary: 'Отримати запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.ChannelRead].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Channel })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Channel })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async findOneById(@Param('id') id: string): Promise<Channel> {
     return await this.channelService.findOneById(id);
   }
@@ -71,14 +71,14 @@ export class ChannelsController {
   @Put(':id')
   @Scopes(Scope.ChannelUpdate)
   @ApiOperation({
-    summary: 'Update record by ID',
-    description: 'Required scopes: [' + [Scope.ChannelUpdate].join(',') + ']'
+    summary: 'Оновити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.ChannelUpdate].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Channel })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
-  @ApiBody({ description: 'Request body object', type: UpdateChannelDto })
+  @ApiOkResponse({ description: 'Успіх', type: Channel })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
+  @ApiBody({ description: "Об'єкт тіла запиту", type: UpdateChannelDto })
   async updateOneById(
     @Param('id') id: string,
     @Body() updateChannelDto: UpdateChannelDto
@@ -89,13 +89,13 @@ export class ChannelsController {
   @Delete(':id')
   @Scopes(Scope.ChannelDelete)
   @ApiOperation({
-    summary: 'Delete record by ID',
-    description: 'Required scopes: [' + [Scope.ChannelDelete].join(',') + ']'
+    summary: 'Видалити запис за ID',
+    description: 'Необхідні дозволи: [' + [Scope.ChannelDelete].join(',') + ']'
   })
-  @ApiOkResponse({ description: 'Success', type: Channel })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'Not found' })
-  @ApiParam({ name: 'id', description: 'The ID of the record', type: String })
+  @ApiOkResponse({ description: 'Успіх', type: Channel })
+  @ApiBadRequestResponse({ description: 'Поганий запит' })
+  @ApiNotFoundResponse({ description: 'Не знайдено' })
+  @ApiParam({ name: 'id', description: 'ID Ідентифікатор запису', type: String })
   async removeOneById(@Param('id') id: string): Promise<Channel> {
     return await this.channelService.removeOneById(id);
   }

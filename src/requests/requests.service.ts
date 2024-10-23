@@ -56,7 +56,7 @@ export class RequestsService {
     aggregate: boolean = false
   ): Promise<Request | any> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     const request = await this.requestModel
       .findById(id, null, {
@@ -64,7 +64,7 @@ export class RequestsService {
       })
       .exec();
     if (!request) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     if (!aggregate) return request;
     const ipaddress = await this.ipaddressModel
@@ -82,25 +82,25 @@ export class RequestsService {
 
   async updateOneById(id: string, updateRequestDto: UpdateRequestDto): Promise<Request> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
 
     const updatedRequest = await this.requestModel
       .findByIdAndUpdate(id, { $set: updateRequestDto }, { new: true })
       .exec();
     if (!updatedRequest) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     return updatedRequest;
   }
 
   async removeOneById(id: string): Promise<Request> {
     if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid record ID');
+      throw new BadRequestException('Недійсний ідентифікатор запису');
     }
     const deletedRequest = await this.requestModel.findByIdAndRemove(id).exec();
     if (!deletedRequest) {
-      throw new NotFoundException('Record not found');
+      throw new NotFoundException('Запис не знайдено');
     }
     return deletedRequest;
   }
