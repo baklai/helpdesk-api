@@ -12,7 +12,7 @@ const SWAGGER_API_DESCRIPTION = 'Документація API служби пі�
 const SWAGGER_API_VERSION = '1.0';
 const SWAGGER_API_PATH = '/api';
 
-const GLOBAL_PREFIX = '/api/v1';
+const GLOBAL_PREFIX = '/api/';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {

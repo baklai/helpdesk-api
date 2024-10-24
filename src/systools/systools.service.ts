@@ -10,7 +10,7 @@ export class SystoolsService {
   constructor(private readonly configService: ConfigService) {}
 
   scriptInspector(protocol: string, host: string): Buffer {
-    const apiInspector = `${protocol}://${host}/api/v1/inspectors`;
+    const apiInspector = `${protocol}://${host}/api/inspectors`;
     const publicToken = this.configService.get<string>('PUBLIC_TOKEN');
     const vbs = inspectorVBS(apiInspector, publicToken);
     return Buffer.from(vbs);
