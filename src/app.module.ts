@@ -58,7 +58,7 @@ function createStaticModule(directory: string, serveRoot: string) {
     : [];
 }
 
-const AppStaticModule = createStaticModule('/', '/app');
+const AppStaticModule = createStaticModule('app', '/');
 const DocsStaticModule = createStaticModule('docs', '/docs');
 
 const mailerTemplatesPath = join(__dirname, 'mailer');
