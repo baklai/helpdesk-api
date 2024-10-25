@@ -58,7 +58,7 @@ function createStaticModule(directory: string, serveRoot: string, exclude = ['/a
     : [];
 }
 
-const AppStaticModule = createStaticModule('app', '/', ['/docs/(.*)', '/api/(.*)']);
+const AppStaticModule = createStaticModule('app', '/', ['/api/(.*)']);
 const DocsStaticModule = createStaticModule('docs', '/docs', ['/api/(.*)']);
 
 const mailerTemplatesPath = join(__dirname, 'mailer');
