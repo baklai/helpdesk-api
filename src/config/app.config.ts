@@ -16,8 +16,6 @@ const SMTP_USERNAME = null;
 const SMTP_PASSWORD = null;
 const SMTP_SENDER = null;
 
-console.log('process.env.SMTP_PORT', process?.env?.SMTP_PORT);
-
 export default () => ({
   HOST: process.env.HOST || HOST,
   PORT: parseInt(process.env.PORT, 10) || PORT,

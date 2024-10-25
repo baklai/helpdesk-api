@@ -69,6 +69,8 @@ async function bootstrap() {
   const port = configService.get<number>('PORT');
   const host = configService.get<string>('HOST');
 
+  console.log('process.env', process.env);
+
   await app.listen(port, host, async () => {
     console.info(`Application is running on: ${await app.getUrl()}/api`);
   });
