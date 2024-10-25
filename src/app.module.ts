@@ -42,7 +42,7 @@ import { MailerModule } from './mailer/mailer.module';
 
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 
-function createStaticModule(directory: string, serveRoot: string) {
+function createStaticModule(directory: string, serveRoot: string, exclude = ['/api/(.*)']) {
   if (!directory || !serveRoot) return [];
 
   const filePath = join(__dirname, '..', directory, 'index.html');
@@ -52,14 +52,14 @@ function createStaticModule(directory: string, serveRoot: string) {
         ServeStaticModule.forRoot({
           rootPath: join(__dirname, '..', directory),
           serveRoot,
-          exclude: ['/api/(.*)']
+          exclude
         })
       ]
     : [];
 }
 
-const AppStaticModule = createStaticModule('app', '/');
-const DocsStaticModule = createStaticModule('docs', '/docs');
+const AppStaticModule = createStaticModule('app', '/', ['/docs/(.*)', '/api/(.*)']);
+const DocsStaticModule = createStaticModule('docs', '/docs', ['/api/(.*)']);
 
 const mailerTemplatesPath = join(__dirname, 'mailer');
 
