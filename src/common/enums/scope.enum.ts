@@ -33,17 +33,23 @@ export enum Scope {
 
   InspectorRead = 'inspector:read',
 
-  ReportCreate = 'report:create',
-  ReportRead = 'report:read',
-  ReportUpdate = 'report:update',
-  ReportDelete = 'report:delete',
-  ReportNotice = 'report:notice',
+  OnmapCreate = 'onmap:create',
+  OnmapRead = 'onmap:read',
+  OnmapUpdate = 'onmap:update',
+  OnmapDelete = 'onmap:delete',
+  OnmapNotice = 'onmap:notice',
 
   PingCreate = 'ping:create',
   PingRead = 'ping:read',
   PingUpdate = 'ping:update',
   PingDelete = 'ping:delete',
   PingNotice = 'ping:notice',
+
+  ReportCreate = 'report:create',
+  ReportRead = 'report:read',
+  ReportUpdate = 'report:update',
+  ReportDelete = 'report:delete',
+  ReportNotice = 'report:notice',
 
   OrganizationCreate = 'organization:create',
   OrganizationRead = 'organization:read',
