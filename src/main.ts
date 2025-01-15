@@ -1,11 +1,12 @@
-import { NestFactory } from '@nestjs/core';
-import type { NestExpressApplication } from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { NestFactory } from '@nestjs/core';
+import type { NestExpressApplication } from '@nestjs/platform-express';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { json, urlencoded } from 'express';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
+import { HelpdeskLogger } from './common/services/logger.service';
 
 const SWAGGER_API_TITLE = 'API Helpdesk';
 const SWAGGER_API_DESCRIPTION = 'Документація API служби підтримки';
@@ -22,6 +23,10 @@ async function bootstrap() {
   });
 
   const configService = app.get(ConfigService);
+
+  const helpdeskLogger = new HelpdeskLogger('HELPDESK');
+
+  app.useLogger(helpdeskLogger);
 
   app.use(json({ limit: '10mb' }));
   app.use(urlencoded({ limit: '10mb', extended: false }));
