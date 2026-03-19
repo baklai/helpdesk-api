@@ -92,7 +92,7 @@ import { UsersModule } from './users/users.module';
       debug: process.env.NODE_ENV !== 'production',
       introspection: process.env.NODE_ENV !== 'production',
       graphiql: process.env.NODE_ENV !== 'production',
-      path: '/api',
+      path: '/',
       subscriptions: {
         'graphql-ws': true
       },

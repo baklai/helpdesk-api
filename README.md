@@ -42,12 +42,12 @@ services:
     environment:
       - NODE_ENV=production
       - MONGO_URI=mongodb://localhost:27017/helpdesk?authSource=admin
+      - CORS_ORIGIN=*
       - BCRYPT_SALT=10
       - JWT_ACCESS_SECRET=EXAMPLE-JWT-ACCESS-SECRET
       - JWT_ACCESS_EXPIRES_IN=15m
       - JWT_REFRESH_SECRET=EXAMPLE-JWT-REFRESH-SECRET
       - JWT_REFRESH_EXPIRES_IN=7d
-      - CORS_ORIGIN=*
     ports:
       - '3000:3000'
     restart: unless-stopped

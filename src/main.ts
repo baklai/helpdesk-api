@@ -22,8 +22,6 @@ async function bootstrap() {
     })
   });
 
-  app.setGlobalPrefix('api');
-
   app.set('trust proxy', true);
 
   const configService = app.get(ConfigService);
@@ -69,8 +67,11 @@ async function bootstrap() {
   const port = configService.getOrThrow<number>('PORT');
   const host = configService.getOrThrow<string>('HOST');
 
-  await app.listen(port, host, async () => {
-    console.info(`Application is running on: ${await app.getUrl()}/api`);
+  await app.listen(port, host, () => {
+    void (async () => {
+      const url = await app.getUrl();
+      console.info(`Application is running on: ${url}`);
+    })();
   });
 }
 
