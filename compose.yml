@@ -1,0 +1,6 @@
+services:
+  helpdesk:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: baklai/helpdesk-api:latest
