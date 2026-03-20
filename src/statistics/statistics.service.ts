@@ -302,8 +302,8 @@ export class StatisticsService {
         this.deviceModel.countDocuments()
       ]);
 
-    const closed = await this.requestModel.countDocuments({ closedAt: { $ne: null } });
-    const opened = await this.requestModel.countDocuments({ closedAt: { $eq: null } });
+    const closed = await this.requestModel.countDocuments({ closed: { $ne: null } });
+    const opened = await this.requestModel.countDocuments({ closed: { $eq: null } });
 
     const yearchar = await this.requestModel.aggregate([
       {

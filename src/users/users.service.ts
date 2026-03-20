@@ -125,8 +125,8 @@ export class UsersService extends BaseCrudService<
   override async removeOneById(id: string): Promise<UserEntity> {
     const result = await super.removeOneById(id);
 
-    await this.requestModel.deleteMany({ workerOpen: result.id });
-    await this.requestModel.deleteMany({ workerClose: result.id });
+    await this.requestModel.updateMany({ opened: result.id }, { $set: { opened: null } });
+    await this.requestModel.updateMany({ closed: result.id }, { $set: { closed: null } });
     await this.noticeModel.deleteMany({ user: result.id });
 
     return result;

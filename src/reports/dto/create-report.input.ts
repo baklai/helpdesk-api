@@ -6,7 +6,7 @@ import GraphQLJSON from 'graphql-type-json';
 export class CreateReportInput {
   @Field(() => String, { description: 'Назва звіту' })
   @IsString({ message: 'Назва звіту має бути рядком' })
-  @IsNotEmpty({ message: "Назва звіту є обов'язковою" })
+  @IsNotEmpty({ message: 'Назва звіту є обов’язковою' })
   readonly name: string;
 
   @Field(() => String, { nullable: true, description: 'Опис звіту' })
@@ -21,7 +21,7 @@ export class CreateReportInput {
 
   @Field(() => String, { description: 'Назва колекції' })
   @IsString({ message: 'Назва колекції має бути рядком' })
-  @IsNotEmpty({ message: "Колекція є обов'язковою" })
+  @IsNotEmpty({ message: 'Колекція є обов’язковою' })
   readonly datacollection: string;
 
   @Field(() => GraphQLJSON, {

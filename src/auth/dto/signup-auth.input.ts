@@ -14,8 +14,8 @@ export class SignupAuthInput {
   readonly email: string;
 
   @Field(() => String, { description: 'Номер телефону' })
-  @IsPhoneNumber('UA', { message: 'Некоректний формат номера телефону' })
-  @IsNotEmpty({ message: 'Номер телефону не може бути порожнім' })
+  @IsPhoneNumber(undefined, { message: 'Некоректний формат номера телефону' })
+  @IsNotEmpty({ message: 'Номер телефону є обов’язковим' })
   readonly phone: string;
 
   @Field(() => String, { description: 'Пароль' })

@@ -16,22 +16,22 @@ import { UserStatus } from 'src/common/enums/user-status.enum';
 export class CreateUserInput {
   @Field(() => String, { description: 'Електронна пошта' })
   @IsEmail({}, { message: 'Некоректний формат електронної пошти' })
-  @IsNotEmpty({ message: "Електронна пошта є обов'язковою" })
+  @IsNotEmpty({ message: 'Електронна пошта є обов’язковою' })
   readonly email: string;
 
   @Field(() => String, { description: 'Пароль (мінімум 8 символів)' })
-  @IsNotEmpty({ message: "Пароль є обов'язковим" })
+  @IsNotEmpty({ message: 'Пароль є обов’язковим' })
   @IsString()
   readonly password: string;
 
   @Field(() => String, { description: "Прізвище та ім'я" })
-  @IsNotEmpty({ message: "Прізвище та ім'я є обов'язковими" })
+  @IsNotEmpty({ message: "Прізвище та ім'я є обов’язковими" })
   @IsString({ message: "Прізвище та ім'я мають бути рядком" })
   readonly fullname: string;
 
-  @Field(() => String, { description: 'Номер телефону (UA)' })
+  @Field(() => String, { description: 'Номер телефону' })
   @IsPhoneNumber(undefined, { message: 'Некоректний формат номера телефону' })
-  @IsNotEmpty({ message: "Номер телефону є обов'язковим" })
+  @IsNotEmpty({ message: 'Номер телефону є обов’язковим' })
   readonly phone: string;
 
   @Field(() => UserStatus, {

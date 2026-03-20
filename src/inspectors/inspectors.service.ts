@@ -10,6 +10,7 @@ import type { AggregatePaginateModel, AggregatePaginateResult } from 'mongoose';
 import { Types } from 'mongoose';
 
 import { PaginateArgs } from 'src/common/dto/paginate.args';
+import { sanitizeMongoFilters } from 'src/common/utils/lib.util';
 
 import { CreateInspectorInput } from './dto/create-inspector.input';
 import { InspectorEntity } from './entities/inspector.entity';
@@ -47,8 +48,10 @@ export class InspectorsService {
   async findAll(args: PaginateArgs): Promise<AggregatePaginateResult<InspectorEntity>> {
     const { offset = 0, limit = 5, sort = { updatedAt: -1 }, filters = {} } = args;
 
+    const safeFilters = sanitizeMongoFilters(filters);
+
     const aggregation = [
-      { $match: filters },
+      { $match: safeFilters },
 
       {
         $lookup: {

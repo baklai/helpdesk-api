@@ -9,6 +9,7 @@ import type { PaginateModel, PaginateResult } from 'mongoose';
 import { Types } from 'mongoose';
 
 import { PaginateArgs } from 'src/common/dto/paginate.args';
+import { sanitizeMongoFilters } from 'src/common/utils/lib.util';
 
 import { CreateSysLogInput } from './dto/create-syslog.input';
 import { SysLogEntity } from './entities/syslog.entity';
@@ -33,7 +34,7 @@ export class SysLogsService {
     const { offset = 0, limit = 5, sort = { createdAt: -1 }, filters = {} } = args;
 
     const result = await this.sysLogModel.paginate(
-      { ...filters },
+      { ...sanitizeMongoFilters(filters) },
       {
         sort,
         offset,
