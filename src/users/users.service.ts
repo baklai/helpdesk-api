@@ -89,7 +89,7 @@ export class UsersService extends BaseCrudService<
     }) as unknown as UserEntity[];
   }
 
-  async updateOneById(id: string, input: UpdateUserInput): Promise<UserEntity> {
+  override async updateOneById(id: string, input: UpdateUserInput): Promise<UserEntity> {
     if (!Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Недійсний ідентифікатор користувача');
     }

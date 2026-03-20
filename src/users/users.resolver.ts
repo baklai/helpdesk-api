@@ -69,13 +69,13 @@ export class UsersResolver {
     return this.usersService.updateOneById(id, input);
   }
 
-  @Mutation(() => UserShortEntity, {
+  @Mutation(() => UserEntity, {
     name: 'removeOneUserById',
     description: 'Видалити користувача за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN)
   @Scope(USER.DELETE)
-  async removeOneById(@Args('id', { type: () => ID }) id: string): Promise<UserShortEntity> {
+  async removeOneById(@Args('id', { type: () => ID }) id: string): Promise<UserEntity> {
     return this.usersService.removeOneById(id);
   }
 }
