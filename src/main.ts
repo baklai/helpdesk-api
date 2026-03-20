@@ -1,4 +1,5 @@
 import { ConsoleLogger, ValidationPipe } from '@nestjs/common';
+import type { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
@@ -8,6 +9,13 @@ import { json, urlencoded } from 'express';
 import helmet from 'helmet';
 
 import { AppModule } from './app.module';
+
+function resolveCorsOrigin(origin: string): CorsOptions['origin'] {
+  if (origin === '*') {
+    return (_origin, cb) => cb(null, true);
+  }
+  return origin;
+}
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -47,7 +55,7 @@ async function bootstrap() {
   );
 
   app.enableCors({
-    origin: configService.get<string>('CORS_ORIGIN'),
+    origin: resolveCorsOrigin(configService.getOrThrow<string>('CORS_ORIGIN')),
     credentials: true,
     methods: 'POST,OPTIONS'
   });
