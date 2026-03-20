@@ -49,9 +49,7 @@ export class UserRoleGuard implements CanActivate {
     const hasRole = allowedRoles.includes(currentUserRole);
 
     if (!hasRole) {
-      throw new ForbiddenException(
-        `Недостатньо прав. Доступні ролі: ${allowedRoles.join(', ')}. Ваша роль: ${currentUserRole}`
-      );
+      throw new ForbiddenException('Недостатньо прав');
     }
 
     return true;
