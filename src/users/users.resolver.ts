@@ -21,7 +21,7 @@ export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
   @Mutation(() => UserEntity, { name: 'createOneUser', description: 'Створити нового користувача' })
-  @Role(UserRole.ADMIN, UserRole.MANAGER)
+  @Role(UserRole.ADMIN)
   @Scope(USER.CREATE)
   async create(@Args('input') input: CreateUserInput): Promise<UserEntity> {
     return this.usersService.create(input);
@@ -50,7 +50,7 @@ export class UsersResolver {
     name: 'findOneUserById',
     description: 'Отримати користувача за ідентифікатором запису'
   })
-  @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
+  @Role(UserRole.ADMIN)
   @Scope(USER.READ)
   async findOneById(@Args('id', { type: () => ID }) id: string): Promise<UserEntity> {
     return this.usersService.findOneById(id);
@@ -60,7 +60,7 @@ export class UsersResolver {
     name: 'updateOneUserById',
     description: 'Оновити дані користувача за ідентифікатором запису'
   })
-  @Role(UserRole.ADMIN, UserRole.MANAGER)
+  @Role(UserRole.ADMIN)
   @Scope(USER.UPDATE)
   async updateOneById(
     @Args('id', { type: () => ID }) id: string,

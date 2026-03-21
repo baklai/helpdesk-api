@@ -19,7 +19,7 @@ export class StatisticsResolver {
     name: 'getNetworkStatistic',
     description: 'Отримати зведену статистику мережевих ресурсів'
   })
-  @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
+  @Role(UserRole.ADMIN, UserRole.MANAGER)
   async network(): Promise<Record<string, any>> {
     return await this.statisticsService.network();
   }
@@ -28,7 +28,7 @@ export class StatisticsResolver {
     name: 'getMailboxStatistic',
     description: 'Отримати зведену статистику електронної пошти'
   })
-  @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
+  @Role(UserRole.ADMIN, UserRole.MANAGER)
   async mailbox(): Promise<Record<string, any>> {
     return await this.statisticsService.mailbox();
   }
@@ -37,7 +37,7 @@ export class StatisticsResolver {
     name: 'getRequestStatistic',
     description: 'Отримати статистику за заявками та зверненнями'
   })
-  @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
+  @Role(UserRole.ADMIN, UserRole.MANAGER)
   async request(): Promise<Record<string, any>> {
     return await this.statisticsService.request();
   }
@@ -46,7 +46,7 @@ export class StatisticsResolver {
     name: 'getInspectorStatistic',
     description: 'Отримати статистику за звітами SysInspector'
   })
-  @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
+  @Role(UserRole.ADMIN, UserRole.MANAGER)
   async inspector(): Promise<Record<string, any>> {
     return await this.statisticsService.inspector();
   }

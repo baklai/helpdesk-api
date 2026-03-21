@@ -64,7 +64,7 @@ export class ReportsResolver {
     name: 'findAllReports',
     description: 'Отримати список усіх звітів'
   })
-  @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
+  @Role(UserRole.ADMIN, UserRole.MANAGER)
   @Scope(REPORT.READ)
   async findAll(): Promise<ReportEntity[]> {
     return this.reportsService.findAll();
@@ -74,7 +74,7 @@ export class ReportsResolver {
     name: 'findOneReportById',
     description: 'Отримати звіт за ідентифікатором'
   })
-  @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
+  @Role(UserRole.ADMIN, UserRole.MANAGER)
   @Scope(REPORT.READ)
   async findOneById(@Args('id', { type: () => ID }) id: string): Promise<ReportEntity> {
     return this.reportsService.findOneById(id);
@@ -94,7 +94,7 @@ export class ReportsResolver {
     name: 'getReportCollections',
     description: 'Отримати список доступних колекцій та їхніх полів для конструктора звітів'
   })
-  @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
+  @Role(UserRole.ADMIN, UserRole.MANAGER)
   @Scope(REPORT.READ)
   getAvailableCollections(): ReportCollectionField[] {
     return this.reportsService.getAvailableCollections();
@@ -126,7 +126,7 @@ export class ReportsResolver {
 
   @ResolveField(() => UserShortEntity, { nullable: true })
   async creator(@Parent() report: ReportEntity) {
-    const userId = report.creator;
+    const userId = report?.creator?.id || null;
     if (!userId || !Types.ObjectId.isValid(userId.toString())) return null;
     return this.usersService.load(userId.toString());
   }
