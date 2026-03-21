@@ -28,6 +28,7 @@ import { UsersService } from 'src/users/users.service';
 import { CreateRequestInput } from './dto/create-request.input';
 import { UpdateRequestInput } from './dto/update-request.input';
 import { RequestEntity, RequestPaginated } from './entities/request.entity';
+import { Request } from './models/request.schema';
 import { RequestsService } from './requests.service';
 
 @Resolver(() => RequestEntity)
@@ -101,50 +102,50 @@ export class RequestsResolver {
   }
 
   @ResolveField(() => UserShortEntity, { nullable: true })
-  async opened(@Parent() request: RequestEntity) {
-    const userId = request?.opened?.id || null;
+  async opened(@Parent() request: Request) {
+    const userId = request?.opened || null;
     if (!userId || !Types.ObjectId.isValid(userId.toString())) return null;
     return this.usersService.load(userId.toString());
   }
 
   @ResolveField(() => UserShortEntity, { nullable: true })
-  async closed(@Parent() request: RequestEntity) {
-    const userId = request?.closed?.id || null;
+  async closed(@Parent() request: Request) {
+    const userId = request?.closed || null;
     if (!userId || !Types.ObjectId.isValid(userId.toString())) return null;
     return this.usersService.load(userId.toString());
   }
 
   @ResolveField(() => LocationEntity, { nullable: true })
-  async location(@Parent() request: RequestEntity) {
-    const locationId = request?.location?.id || null;
+  async location(@Parent() request: Request) {
+    const locationId = request?.location || null;
     if (!locationId || !Types.ObjectId.isValid(locationId.toString())) return null;
     return this.locationsService.load(locationId.toString());
   }
 
   @ResolveField(() => OrganizationEntity, { nullable: true })
-  async organization(@Parent() request: RequestEntity) {
-    const organizationId = request?.organization?.id || null;
+  async organization(@Parent() request: Request) {
+    const organizationId = request?.organization || null;
     if (!organizationId || !Types.ObjectId.isValid(organizationId.toString())) return null;
     return this.organizationsService.load(organizationId.toString());
   }
 
   @ResolveField(() => SubdivisionEntity, { nullable: true })
-  async subdivision(@Parent() request: RequestEntity) {
-    const subdivisionId = request?.subdivision?.id || null;
+  async subdivision(@Parent() request: Request) {
+    const subdivisionId = request?.subdivision || null;
     if (!subdivisionId || !Types.ObjectId.isValid(subdivisionId.toString())) return null;
     return this.subdivisionsService.load(subdivisionId.toString());
   }
 
   @ResolveField(() => DepartmentEntity, { nullable: true })
-  async department(@Parent() request: RequestEntity) {
-    const departmentId = request?.department?.id || null;
+  async department(@Parent() request: Request) {
+    const departmentId = request?.department || null;
     if (!departmentId || !Types.ObjectId.isValid(departmentId.toString())) return null;
     return this.departmentsService.load(departmentId.toString());
   }
 
   @ResolveField(() => PositionEntity, { nullable: true })
-  async position(@Parent() request: RequestEntity) {
-    const positiontId = request?.position?.id || null;
+  async position(@Parent() request: Request) {
+    const positiontId = request?.position || null;
     if (!positiontId || !Types.ObjectId.isValid(positiontId.toString())) return null;
     return this.positionsService.load(positiontId.toString());
   }

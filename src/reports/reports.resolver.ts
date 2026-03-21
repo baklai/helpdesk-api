@@ -28,6 +28,7 @@ import { UsersService } from 'src/users/users.service';
 import { CreateReportInput } from './dto/create-report.input';
 import { UpdateReportInput } from './dto/update-report.input';
 import { ReportEntity } from './entities/report.entity';
+import { Report } from './models/report.schema';
 import { ReportsService } from './reports.service';
 
 @ObjectType()
@@ -125,8 +126,8 @@ export class ReportsResolver {
   }
 
   @ResolveField(() => UserShortEntity, { nullable: true })
-  async creator(@Parent() report: ReportEntity) {
-    const userId = report?.creator?.id || null;
+  async creator(@Parent() report: Report) {
+    const userId = report?.creator || null;
     if (!userId || !Types.ObjectId.isValid(userId.toString())) return null;
     return this.usersService.load(userId.toString());
   }

@@ -12,7 +12,6 @@ import { UserStatusGuard } from 'src/common/guards/user-status.guard';
 import { MAILBOX } from 'src/common/scope/user.scope';
 import { DepartmentsService } from 'src/departments/departments.service';
 import { DepartmentEntity } from 'src/departments/entities/department.entity';
-import { IpaddressEntity } from 'src/ipaddresses/entities/ipaddress.entity';
 import { OrganizationEntity } from 'src/organizations/entities/organization.entity';
 import { OrganizationsService } from 'src/organizations/organizations.service';
 import { PositionEntity } from 'src/positions/entities/position.entity';
@@ -24,6 +23,7 @@ import { CreateMailboxInput } from './dto/create-mailbox.input';
 import { UpdateMailboxInput } from './dto/update-mailbox.input';
 import { MailboxEntity, MailboxPaginated } from './entities/mailbox.entity';
 import { MailboxesService } from './mailboxes.service';
+import { Mailbox } from './models/mailbox.schema';
 
 @Resolver(() => MailboxEntity)
 @UseGuards(AccessTokenGuard, UserStatusGuard, UserRoleGuard)
@@ -90,29 +90,30 @@ export class MailboxesResolver {
   }
 
   @ResolveField(() => OrganizationEntity, { nullable: true })
-  async organization(@Parent() ipaddress: IpaddressEntity) {
-    const organizationId = ipaddress?.organization?.id || null;
+  async organization(@Parent() mailbox: Mailbox) {
+    console.log('mailbox', mailbox);
+    const organizationId = mailbox?.organization || null;
     if (!organizationId || !Types.ObjectId.isValid(organizationId.toString())) return null;
     return this.organizationsService.load(organizationId.toString());
   }
 
   @ResolveField(() => SubdivisionEntity, { nullable: true })
-  async subdivision(@Parent() ipaddress: IpaddressEntity) {
-    const subdivisionId = ipaddress?.subdivision?.id || null;
+  async subdivision(@Parent() mailbox: Mailbox) {
+    const subdivisionId = mailbox?.subdivision || null;
     if (!subdivisionId || !Types.ObjectId.isValid(subdivisionId.toString())) return null;
     return this.subdivisionsService.load(subdivisionId.toString());
   }
 
   @ResolveField(() => DepartmentEntity, { nullable: true })
-  async department(@Parent() ipaddress: IpaddressEntity) {
-    const departmentId = ipaddress?.department?.id || null;
+  async department(@Parent() mailbox: Mailbox) {
+    const departmentId = mailbox?.department || null;
     if (!departmentId || !Types.ObjectId.isValid(departmentId.toString())) return null;
     return this.departmentsService.load(departmentId.toString());
   }
 
   @ResolveField(() => PositionEntity, { nullable: true })
-  async position(@Parent() ipaddress: IpaddressEntity) {
-    const positiontId = ipaddress?.position?.id || null;
+  async position(@Parent() mailbox: Mailbox) {
+    const positiontId = mailbox?.position || null;
     if (!positiontId || !Types.ObjectId.isValid(positiontId.toString())) return null;
     return this.positionsService.load(positiontId.toString());
   }

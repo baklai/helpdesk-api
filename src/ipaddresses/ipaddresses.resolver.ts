@@ -27,6 +27,7 @@ import { CreateIpaddressInput } from './dto/create-ipaddress.input';
 import { UpdateIpaddressInput } from './dto/update-ipaddress.input';
 import { IpaddressEntity, IpaddressPaginated } from './entities/ipaddress.entity';
 import { IpaddressesService } from './ipaddresses.service';
+import { Ipaddress } from './models/ipaddress.schema';
 
 @Resolver(() => IpaddressEntity)
 @UseGuards(AccessTokenGuard, UserStatusGuard, UserRoleGuard)
@@ -105,43 +106,43 @@ export class IpaddressesResolver {
   }
 
   @ResolveField(() => DeviceEntity, { nullable: true })
-  async device(@Parent() ipaddress: IpaddressEntity) {
-    const deviceId = ipaddress?.device?.id || null;
+  async device(@Parent() ipaddress: Ipaddress) {
+    const deviceId = ipaddress?.device || null;
     if (!deviceId || !Types.ObjectId.isValid(deviceId.toString())) return null;
     return this.devicesService.load(deviceId.toString());
   }
 
   @ResolveField(() => LocationEntity, { nullable: true })
-  async location(@Parent() ipaddress: IpaddressEntity) {
-    const locationId = ipaddress?.location?.id || null;
+  async location(@Parent() ipaddress: Ipaddress) {
+    const locationId = ipaddress?.location || null;
     if (!locationId || !Types.ObjectId.isValid(locationId.toString())) return null;
     return this.locationsService.load(locationId.toString());
   }
 
   @ResolveField(() => OrganizationEntity, { nullable: true })
-  async organization(@Parent() ipaddress: IpaddressEntity) {
-    const organizationId = ipaddress?.organization?.id || null;
+  async organization(@Parent() ipaddress: Ipaddress) {
+    const organizationId = ipaddress?.organization || null;
     if (!organizationId || !Types.ObjectId.isValid(organizationId.toString())) return null;
     return this.organizationsService.load(organizationId.toString());
   }
 
   @ResolveField(() => SubdivisionEntity, { nullable: true })
-  async subdivision(@Parent() ipaddress: IpaddressEntity) {
-    const subdivisionId = ipaddress?.subdivision?.id || null;
+  async subdivision(@Parent() ipaddress: Ipaddress) {
+    const subdivisionId = ipaddress?.subdivision || null;
     if (!subdivisionId || !Types.ObjectId.isValid(subdivisionId.toString())) return null;
     return this.subdivisionsService.load(subdivisionId.toString());
   }
 
   @ResolveField(() => DepartmentEntity, { nullable: true })
-  async department(@Parent() ipaddress: IpaddressEntity) {
-    const departmentId = ipaddress?.department?.id || null;
+  async department(@Parent() ipaddress: Ipaddress) {
+    const departmentId = ipaddress?.department || null;
     if (!departmentId || !Types.ObjectId.isValid(departmentId.toString())) return null;
     return this.departmentsService.load(departmentId.toString());
   }
 
   @ResolveField(() => PositionEntity, { nullable: true })
-  async position(@Parent() ipaddress: IpaddressEntity) {
-    const positiontId = ipaddress?.position?.id || null;
+  async position(@Parent() ipaddress: Ipaddress) {
+    const positiontId = ipaddress?.position || null;
     if (!positiontId || !Types.ObjectId.isValid(positiontId.toString())) return null;
     return this.positionsService.load(positiontId.toString());
   }
