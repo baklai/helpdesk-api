@@ -16,7 +16,7 @@ export class MailboxEntity {
   @Field(() => String, { description: 'Номер розпорядження/заявки' })
   readonly reqnum: string;
 
-  @Field(() => String, { description: 'Електронна адреса' })
+  @Field(() => String, { description: 'Електронна пошта' })
   readonly email: string;
 
   @Field(() => String, { nullable: true, description: 'Прізвище та ім’я власника' })
