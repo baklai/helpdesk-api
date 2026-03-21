@@ -24,7 +24,7 @@ export class Ipaddress {
     type: Number,
     index: true,
     default: function (this: Ipaddress) {
-      return this.ipaddress ? new Netmask(this.ipaddress as string).netLong : null;
+      return this.ipaddress ? new Netmask(this.ipaddress).netLong : null;
     }
   })
   readonly indexip: number;

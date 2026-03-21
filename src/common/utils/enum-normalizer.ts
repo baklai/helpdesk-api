@@ -38,7 +38,7 @@ export function normalizeEnumFilters(obj: FilterObject): FilterObject {
       }
 
       if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-        return [key, normalizeEnumFilters(value as FilterObject)];
+        return [key, normalizeEnumFilters(value)];
       }
 
       if (Array.isArray(value)) {
@@ -46,7 +46,7 @@ export function normalizeEnumFilters(obj: FilterObject): FilterObject {
           key,
           value.map(item =>
             typeof item === 'object' && item !== null && !Array.isArray(item)
-              ? normalizeEnumFilters(item as FilterObject)
+              ? normalizeEnumFilters(item)
               : normalizeEnumValue(item)
           )
         ];

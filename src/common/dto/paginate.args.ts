@@ -9,9 +9,7 @@ const transformEmptyToUndefined = ({ value }: { value: unknown }): unknown => {
   if (
     value === null ||
     value === undefined ||
-    (typeof value === 'object' &&
-      !Array.isArray(value) &&
-      Object.keys(value as object).length === 0)
+    (typeof value === 'object' && !Array.isArray(value) && Object.keys(value).length === 0)
   ) {
     return undefined;
   }

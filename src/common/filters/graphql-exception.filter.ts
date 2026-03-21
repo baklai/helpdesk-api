@@ -14,7 +14,10 @@ export class HttpExceptionFilter implements GqlExceptionFilter {
 
     const response = exception.getResponse();
     const message =
-      typeof response === 'string' ? response : ((response as any)?.message ?? exception.message);
+      typeof response === 'string'
+        ? response
+        : (((response as Record<string, unknown>)?.message as string | string[] | undefined) ??
+          exception.message);
 
     return new GraphQLError(Array.isArray(message) ? message.join('; ') : message, {
       extensions: { code: exception.getStatus() }

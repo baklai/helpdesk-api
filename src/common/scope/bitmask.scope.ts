@@ -53,7 +53,7 @@ export function decodeScopeMask(mask: bigint): ScopeInput {
     if ((mask & bit) === bit) {
       const [resource, action] = key.split(':') as [ScopeResource, ScopeAction];
       if (!result[resource]) result[resource] = [];
-      result[resource]!.push(action);
+      result[resource].push(action);
     }
   }
   return result;

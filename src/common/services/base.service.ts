@@ -53,14 +53,6 @@ export abstract class BaseCrudService<
     );
   }
 
-  /**
-   * Захищає від NoSQL-ін'єкцій: забороняє небезпечні MongoDB-оператори,
-   * обробляє масиви та нормалізує GraphQL UPPERCASE enum-значення → DB lowercase.
-   *
-   * Порядок обробки:
-   * 1. normalizeEnumFilters — перетворює enum-ключі у DB-значення
-   * 2. sanitize             — рекурсивно видаляє заборонені оператори
-   */
   private sanitizeFilters(filters: Record<string, unknown>): FilterObject {
     const sanitize = (obj: FilterValue): FilterValue => {
       if (Array.isArray(obj)) {
@@ -69,7 +61,7 @@ export abstract class BaseCrudService<
 
       if (typeof obj === 'object' && obj !== null) {
         return Object.fromEntries(
-          Object.entries(obj as FilterObject)
+          Object.entries(obj)
             .filter(([k]) => !k.startsWith('$') || ALLOWED_OPERATORS.has(k))
             .map(([k, v]) => [k, sanitize(v)])
         );

@@ -87,7 +87,7 @@ export class ReportsService {
   }
 
   private mapDocumentFields(
-    item: Record<string, any>,
+    item: Record<string, unknown>,
     fields: Record<string, string>
   ): Record<string, string> {
     const result: Record<string, string> = {};
@@ -221,7 +221,9 @@ export class ReportsService {
     const docs = await query.exec();
 
     return docs.map((doc, index) => {
-      const plain = doc.toObject ? doc.toObject({ virtuals: true }) : doc;
+      const plain: Record<string, unknown> = doc.toObject
+        ? (doc.toObject({ virtuals: true }) as Record<string, unknown>)
+        : (doc as unknown as Record<string, unknown>);
       return {
         '№': index + 1,
         ...this.mapDocumentFields(plain, fieldMap)

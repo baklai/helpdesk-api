@@ -10,11 +10,12 @@ export class GqlThrottlerGuard extends ThrottlerGuard {
     return { req, res };
   }
 
-  protected async getTracker(req: Record<string, any>): Promise<string> {
-    const forwardedFor = req?.headers?.['x-forwarded-for'];
+  protected override getTracker(req: Record<string, unknown>): Promise<string> {
+    const headers = req?.headers as Record<string, string | string[] | undefined> | undefined;
+    const forwardedFor = headers?.['x-forwarded-for'];
     const rawIp = Array.isArray(forwardedFor)
       ? forwardedFor[0]
       : forwardedFor?.split(',')[0]?.trim();
-    return req?.ip || rawIp || '127.0.0.1';
+    return Promise.resolve((req?.ip as string | undefined) ?? rawIp ?? '127.0.0.1');
   }
 }
