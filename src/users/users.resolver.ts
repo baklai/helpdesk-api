@@ -42,7 +42,6 @@ export class UsersResolver {
     description: 'Отримати список профілів для сповіщень'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER)
-  @Scope(USER.READ)
   async findAllActive(): Promise<UserShortEntity[]> {
     return this.usersService.findAllActive();
   }
