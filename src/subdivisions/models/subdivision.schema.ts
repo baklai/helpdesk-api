@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 
 @Schema()
 export class Subdivision {
@@ -14,9 +14,6 @@ export class Subdivision {
 
   @Prop({ type: String, trim: true, default: null })
   readonly description?: string;
-
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Organization', required: true })
-  readonly organization: mongoose.Types.ObjectId;
 }
 
 export type SubdivisionDocument = HydratedDocument<Subdivision>;

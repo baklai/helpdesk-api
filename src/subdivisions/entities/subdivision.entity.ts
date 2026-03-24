@@ -2,7 +2,6 @@ import { Field, ID, ObjectType } from '@nestjs/graphql';
 
 import type { PaginatedDocs } from 'src/common/types/paginated.type';
 import { PaginatedBase } from 'src/common/types/paginated.type';
-import { OrganizationEntity } from 'src/organizations/entities/organization.entity';
 
 @ObjectType('Subdivision', { description: 'Підрозділ' })
 export class SubdivisionEntity {
@@ -20,9 +19,6 @@ export class SubdivisionEntity {
 
   @Field(() => String, { nullable: true, description: 'Додаткова інформація' })
   readonly description?: string;
-
-  @Field(() => OrganizationEntity, { description: 'Ідентифікатор асоційованої організації' })
-  readonly organization: OrganizationEntity;
 
   @Field(() => Date, { nullable: true, description: 'Дата створення запису' })
   readonly createdAt?: Date;

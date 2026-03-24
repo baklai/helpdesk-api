@@ -1,5 +1,5 @@
-import { Field, ID, InputType } from '@nestjs/graphql';
-import { IsMongoId, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { Field, InputType } from '@nestjs/graphql';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 @InputType({ description: 'Створення підрозділу' })
 export class CreateSubdivisionInput {
@@ -22,9 +22,4 @@ export class CreateSubdivisionInput {
   @IsOptional()
   @IsString({ message: 'Опис підрозділу має бути рядком' })
   readonly description?: string;
-
-  @Field(() => ID, { description: 'Ідентифікатор організації' })
-  @IsMongoId({ message: 'Ідентифікатор організації має бути дійсним ідентифікатором' })
-  @IsNotEmpty({ message: 'Організація є обов’язковою для прив’язки підрозділу' })
-  readonly organization: string;
 }
