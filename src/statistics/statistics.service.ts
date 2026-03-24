@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import { Channel, ChannelDocument } from 'src/channels/models/channel.schema';
-import { MailboxStatusType } from 'src/common/enums/status.enum';
+import { InternetStatusType, MailboxStatusType } from 'src/common/enums/status.enum';
 import { Department, DepartmentDocument } from 'src/departments/models/department.schema';
 import { Device, DeviceDocument } from 'src/devices/models/device.schema';
 import { Inspector, InspectorDocument } from 'src/inspectors/models/inspector.schema';
@@ -82,8 +82,7 @@ export class StatisticsService {
           {
             $match: {
               'internet.reqnum': { $ne: null },
-              'internet.dateOpen': { $ne: null },
-              'internet.dateClose': null
+              'internet.status': InternetStatusType.ACTIVE
             }
           },
           {
