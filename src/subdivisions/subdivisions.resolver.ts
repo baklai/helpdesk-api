@@ -1,5 +1,6 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, ID, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { Types } from 'mongoose';
 
 import { Role } from 'src/common/decorators/user-role.decorator';
 import { Scope } from 'src/common/decorators/user-scope.decorator';
@@ -8,16 +9,22 @@ import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
 import { UserRoleGuard } from 'src/common/guards/user-role.guard';
 import { UserStatusGuard } from 'src/common/guards/user-status.guard';
 import { SUBDIVISION } from 'src/common/scope/user.scope';
+import { OrganizationEntity } from 'src/organizations/entities/organization.entity';
+import { OrganizationsService } from 'src/organizations/organizations.service';
 
 import { CreateSubdivisionInput } from './dto/create-subdivision.input';
 import { UpdateSubdivisionInput } from './dto/update-subdivision.input';
 import { SubdivisionEntity } from './entities/subdivision.entity';
+import { Subdivision } from './models/subdivision.schema';
 import { SubdivisionsService } from './subdivisions.service';
 
 @Resolver('Підрозділи')
 @UseGuards(AccessTokenGuard, UserStatusGuard, UserRoleGuard)
 export class SubdivisionsResolver {
-  constructor(private readonly subdivisionsService: SubdivisionsService) {}
+  constructor(
+    private readonly subdivisionsService: SubdivisionsService,
+    private readonly organizationsService: OrganizationsService
+  ) {}
 
   @Mutation(() => SubdivisionEntity, {
     name: 'createOneSubdivision',
@@ -37,6 +44,18 @@ export class SubdivisionsResolver {
   @Scope(SUBDIVISION.READ)
   async findAll(): Promise<SubdivisionEntity[]> {
     return this.subdivisionsService.findAll();
+  }
+
+  @Query(() => [SubdivisionEntity], {
+    name: 'findAllSubdivisionsByOrganizationId',
+    description: 'Отримати список усіх підрозділів організації'
+  })
+  @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
+  @Scope(SUBDIVISION.READ)
+  async findAllByOrganizationId(
+    @Args('id', { type: () => ID }) id: string
+  ): Promise<SubdivisionEntity[]> {
+    return this.subdivisionsService.findAllByOrganizationId(id);
   }
 
   @Query(() => SubdivisionEntity, {
@@ -70,5 +89,12 @@ export class SubdivisionsResolver {
   @Scope(SUBDIVISION.DELETE)
   async removeOneById(@Args('id', { type: () => ID }) id: string): Promise<SubdivisionEntity> {
     return this.subdivisionsService.removeOneById(id);
+  }
+
+  @ResolveField(() => OrganizationEntity, { nullable: true })
+  async organization(@Parent() subdivision: Subdivision) {
+    const organizationId = subdivision?.organization || null;
+    if (!organizationId || !Types.ObjectId.isValid(organizationId.toString())) return null;
+    return this.organizationsService.load(organizationId.toString());
   }
 }

@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 
 import { BaseCrudService } from 'src/common/services/base.service';
 import { Ipaddress, IpaddressDocument } from 'src/ipaddresses/models/ipaddress.schema';
@@ -26,6 +26,20 @@ export class SubdivisionsService extends BaseCrudService<
     @InjectModel(Request.name) private readonly requestModel: Model<RequestDocument>
   ) {
     super(subdivisionModel);
+  }
+
+  async findAllByOrganizationId(id: string): Promise<SubdivisionEntity[]> {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('Недійсний ідентифікатор запису');
+    }
+
+    const result = await this.subdivisionModel.find({ organization: id }).exec();
+
+    if (!result) {
+      throw new NotFoundException('Записи не знайдено');
+    }
+
+    return result as unknown as SubdivisionEntity[];
   }
 
   override async removeOneById(id: string): Promise<SubdivisionEntity> {
