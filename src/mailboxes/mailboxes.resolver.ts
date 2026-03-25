@@ -91,7 +91,6 @@ export class MailboxesResolver {
 
   @ResolveField(() => OrganizationEntity, { nullable: true })
   async organization(@Parent() mailbox: Mailbox) {
-    console.log('mailbox', mailbox);
     const organizationId = mailbox?.organization || null;
     if (!organizationId || !Types.ObjectId.isValid(organizationId.toString())) return null;
     return this.organizationsService.load(organizationId.toString());
