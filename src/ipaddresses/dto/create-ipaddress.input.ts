@@ -90,6 +90,7 @@ export class CreateIpaddressInput {
   readonly internet?: CreateInternetInput;
 
   @Field(() => String, { nullable: true, description: 'Інвентарний номер' })
+  @IsOptional()
   @IsString({ message: 'Інвентарний номер має бути рядком' })
   readonly inventory?: string;
 
