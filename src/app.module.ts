@@ -85,30 +85,54 @@ import { UsersModule } from './users/users.module';
     ThrottlerModule.forRoot({
       throttlers: [{ ttl: 60000, limit: 50 }]
     }),
-    GraphQLModule.forRoot<ApolloDriverConfig>({
+    GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: true,
-      sortSchema: false,
-      debug: process.env.NODE_ENV !== 'production',
-      introspection: process.env.NODE_ENV !== 'production',
-      graphiql: process.env.NODE_ENV !== 'production',
-      path: '/',
-      subscriptions: {
-        'graphql-ws': true
-      },
-      context: ({ req, res }) => ({ req, res }),
-      formatError: (error: any) => {
-        if (process.env.NODE_ENV === 'production') {
-          const { message, extensions } = error;
-          return {
-            message,
-            extensions: {
-              code: extensions?.code ?? 'INTERNAL_SERVER_ERROR'
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        autoSchemaFile: true,
+        sortSchema: false,
+        debug: configService.get<string>('NODE_ENV') !== 'production',
+        introspection: configService.get<string>('NODE_ENV') !== 'production',
+        graphiql: configService.get<string>('NODE_ENV') !== 'production',
+        path: '/',
+        subscriptions: {
+          'graphql-ws': {
+            onConnect: ({ connectionParams, extra }) => {
+              (extra as Record<string, any>).rawHeaders = {
+                authorization: connectionParams?.Authorization || connectionParams?.authorization
+              };
+
+              return true;
             }
-          };
+          }
+        },
+        context: ({ req, res, extra }) => {
+          if (extra) {
+            return {
+              req: {
+                headers: extra?.rawHeaders || {},
+                header: (name: string) => extra?.rawHeaders?.[name.toLowerCase()]
+              },
+              res,
+              extra
+            };
+          }
+
+          return { req, res };
+        },
+        formatError: (error: any) => {
+          if (configService.get<string>('NODE_ENV') === 'production') {
+            const { message, extensions } = error;
+            return {
+              message,
+              extensions: {
+                code: extensions?.code ?? 'INTERNAL_SERVER_ERROR'
+              }
+            };
+          }
+          return error;
         }
-        return error;
-      }
+      })
     }),
     AuthModule,
     UsersModule,

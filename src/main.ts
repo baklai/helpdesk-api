@@ -1,5 +1,4 @@
 import { ConsoleLogger, ValidationPipe } from '@nestjs/common';
-import type { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
@@ -9,13 +8,6 @@ import { json, urlencoded } from 'express';
 import helmet from 'helmet';
 
 import { AppModule } from './app.module';
-
-function resolveCorsOrigin(origin: string): CorsOptions['origin'] {
-  if (origin === '*') {
-    return (_origin, cb) => cb(null, true);
-  }
-  return origin;
-}
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -30,7 +22,7 @@ async function bootstrap() {
     })
   });
 
-  app.set('trust proxy', true);
+  app.set('trust proxy', 1);
 
   const configService = app.get(ConfigService);
 
@@ -44,7 +36,7 @@ async function bootstrap() {
       contentSecurityPolicy: {
         directives: {
           defaultSrc: ["'self'", 'http:', 'https:'],
-          scriptSrc: ["'self'", 'http:', 'https:', "'unsafe-inline'"],
+          scriptSrc: ["'self'", 'http:', 'https:', "'unsafe-inline'", "'unsafe-eval'"],
           styleSrc: ["'self'", 'http:', 'https:', "'unsafe-inline'"],
           imgSrc: ["'self'", 'data:', 'apollo-server-landing-page.cdn.apollographql.com'],
           frameSrc: ["'self'", 'sandbox.embed.apollographql.com'],
@@ -55,15 +47,16 @@ async function bootstrap() {
   );
 
   app.enableCors({
-    origin: resolveCorsOrigin(configService.getOrThrow<string>('CORS_ORIGIN')),
+    origin: configService.getOrThrow<string>('CORS_ORIGIN'),
     credentials: true,
-    methods: 'POST,OPTIONS'
+    methods: 'GET,POST,OPTIONS'
   });
 
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
       whitelist: true,
+      forbidUnknownValues: true,
       forbidNonWhitelisted: true,
       transformOptions: {
         enableImplicitConversion: true

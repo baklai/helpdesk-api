@@ -1,18 +1,21 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   NotFoundException,
   UnprocessableEntityException
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { PubSub } from 'graphql-subscriptions';
 import { Model, Types } from 'mongoose';
 
 import { NoticeStatusType } from 'src/common/enums/status.enum';
 import { UserStatus } from 'src/common/enums/user-status.enum';
-
 import { type ScopeResource, UserScope } from 'src/common/scope/user.scope';
+import { PUB_SUB } from 'src/common/subscriptions/pubsub.provider';
 import { JwtPayload } from 'src/common/types/jwt-payload.type';
 import { User, UserDocument } from 'src/users/models/user.schema';
+
 import { CreateNoticeInput } from './dto/create-notice.input';
 import { NoticeEntity } from './entities/notice.entity';
 import { Notice, NoticeDocument } from './models/notice.schema';
@@ -21,7 +24,8 @@ import { Notice, NoticeDocument } from './models/notice.schema';
 export class NoticesService {
   constructor(
     @InjectModel(Notice.name) private readonly noticeModel: Model<NoticeDocument>,
-    @InjectModel(User.name) private readonly userModel: Model<UserDocument>
+    @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
+    @Inject(PUB_SUB) private readonly pubSub: PubSub
   ) {}
 
   async create(input: CreateNoticeInput): Promise<boolean> {
@@ -38,6 +42,12 @@ export class NoticesService {
       }));
 
       await this.noticeModel.create(noticesData);
+
+      // for (const notice of created) {
+      //   await this.pubSub.publish('notice', {
+      //     ['notice']: notice.toObject({ virtuals: true })
+      //   });
+      // }
 
       return true;
     } catch {

@@ -1,5 +1,6 @@
-import { UseGuards } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Inject, UseGuards } from '@nestjs/common';
+import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
+import { PubSub } from 'graphql-subscriptions';
 
 import { JwtProfile } from 'src/common/decorators/user-jwt.decorator';
 import { Role } from 'src/common/decorators/user-role.decorator';
@@ -7,6 +8,7 @@ import { UserRole } from 'src/common/enums/user-role.enum';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
 import { UserRoleGuard } from 'src/common/guards/user-role.guard';
 import { UserStatusGuard } from 'src/common/guards/user-status.guard';
+import { PUB_SUB } from 'src/common/subscriptions/pubsub.provider';
 import type { JwtPayload } from 'src/common/types/jwt-payload.type';
 
 import { CreateNoticeInput } from './dto/create-notice.input';
@@ -16,7 +18,10 @@ import { NoticesService } from './notices.service';
 @Resolver(() => NoticeEntity)
 @UseGuards(AccessTokenGuard, UserStatusGuard, UserRoleGuard)
 export class NoticesResolver {
-  constructor(private readonly noticesService: NoticesService) {}
+  constructor(
+    private readonly noticesService: NoticesService,
+    @Inject(PUB_SUB) private readonly pubSub: PubSub
+  ) {}
 
   @Mutation(() => Boolean, {
     name: 'createOneNotice',
@@ -46,5 +51,10 @@ export class NoticesResolver {
     @Args('id') id: string
   ): Promise<NoticeEntity> {
     return this.noticesService.removeOneById(id, user);
+  }
+
+  @Subscription(() => NoticeEntity, { name: 'notice' })
+  notice() {
+    return this.pubSub.asyncIterableIterator('notice');
   }
 }
