@@ -5,29 +5,8 @@ import { ThrottlerGuard } from '@nestjs/throttler';
 @Injectable()
 export class GqlThrottlerGuard extends ThrottlerGuard {
   protected override getRequestResponse(context: ExecutionContext) {
-    const gqlCtx = GqlExecutionContext.create(context);
-    const ctx = gqlCtx.getContext();
-
-    const req = ctx.req || ctx.extra?.request || {};
-    const res = ctx.res || ctx.extra?.res || {};
-
-    if (typeof req.header !== 'function') {
-      req.header = (name: string) => {
-        const headers = req.headers || ctx.extra?.connectionParams || {};
-        return headers[name.toLowerCase()];
-      };
-    }
-
-    if (typeof res.header !== 'function') {
-      res.header = function () {
-        return this;
-      };
-    }
-    if (typeof res.set !== 'function') {
-      res.set = function () {
-        return this;
-      };
-    }
+    const ctx = GqlExecutionContext.create(context);
+    const { req, res } = ctx.getContext();
 
     return { req, res };
   }

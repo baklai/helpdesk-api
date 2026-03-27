@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { PubSubProvider } from 'src/common/subscriptions/pubsub.provider';
 import { User, UserSchema } from 'src/users/models/user.schema';
 
 import { Notice, NoticeSchema } from './models/notice.schema';
@@ -15,7 +14,7 @@ import { NoticesService } from './notices.service';
       { name: User.name, schema: UserSchema }
     ])
   ],
-  providers: [NoticesResolver, NoticesService, PubSubProvider],
+  providers: [NoticesResolver, NoticesService],
   exports: [NoticesService]
 })
 export class NoticesModule {}

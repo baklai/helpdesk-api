@@ -87,39 +87,17 @@ import { UsersModule } from './users/users.module';
     }),
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
+      imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         autoSchemaFile: true,
         sortSchema: false,
+        playground: false,
+        path: '/',
         debug: configService.get<string>('NODE_ENV') !== 'production',
         introspection: configService.get<string>('NODE_ENV') !== 'production',
         graphiql: configService.get<string>('NODE_ENV') !== 'production',
-        path: '/',
-        subscriptions: {
-          'graphql-ws': {
-            onConnect: ({ connectionParams, extra }) => {
-              (extra as Record<string, any>).rawHeaders = {
-                authorization: connectionParams?.Authorization || connectionParams?.authorization
-              };
-
-              return true;
-            }
-          }
-        },
-        context: ({ req, res, extra }) => {
-          if (extra) {
-            return {
-              req: {
-                headers: extra?.rawHeaders || {},
-                header: (name: string) => extra?.rawHeaders?.[name.toLowerCase()]
-              },
-              res,
-              extra
-            };
-          }
-
-          return { req, res };
-        },
+        context: ({ req, res }) => ({ req, res }),
         formatError: (error: any) => {
           if (configService.get<string>('NODE_ENV') === 'production') {
             const { message, extensions } = error;
